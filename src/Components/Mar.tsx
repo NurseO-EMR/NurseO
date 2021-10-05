@@ -23,7 +23,7 @@ export default class Mar extends React.Component<React.HTMLAttributes<HTMLDivEle
                         this.numbers.map(n=>{
                             return (
                                 <tr className="odd:bg-gray-100 even:bg-gray-300">
-                                    <td className="w-80 pl-3 font-semibold">Acetaminophen (0.15mg/kg) 6HR PRN temp {">"} 39.5  or discomfort</td>
+                                    <td className="w-80 pl-16 font-semibold">Acetaminophen (0.15mg/kg) 6HR PRN temp {">"} 39.5  or discomfort</td>
                                     <th>-</th>
                                     <th>-</th>
                                     <th>-</th>

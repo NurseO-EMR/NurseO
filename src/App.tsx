@@ -7,12 +7,12 @@ import Login from './Pages/Login';
 export default class App extends React.Component {
   render() {
     return (
-      <Login></Login>
-      // <div className="grid grid-areas-main h-full grid-cols-maxContent">
-      //   <TopNav className="grid-in-topNav"></TopNav>
-      //   <SideNav className="grid-in-sideBar"></SideNav>
-      //   <Mar className="grid-in-main"/>
-      // </div>
+      // <Login></Login>
+      <div className="grid grid-areas-main h-full grid-cols-maxContent">
+        <TopNav className="grid-in-topNav"></TopNav>
+        <SideNav className="grid-in-sideBar"></SideNav>
+        <Mar className="grid-in-main"/>
+      </div>
     )
   }
 }

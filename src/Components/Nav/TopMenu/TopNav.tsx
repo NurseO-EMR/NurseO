@@ -6,11 +6,12 @@ export default class TopNav extends React.Component<React.HTMLAttributes<HTMLDiv
     public render() {
         return (
             <nav className={"bg-white shadow-lg " + this.props.className}>
-                <div className="max-w-6xl mx-auto px-4">
+                <div className="max-w-screen-2xl mx-auto px-4">
                     <div className="flex justify-between">
                         <div>
                             <span className="flex items-center py-4 px-2">
-                                <span className="font-semibold text-lg">SimpleSim EMR</span>
+                                <span className=" font-bold text-lg">SimpleSim&#160;</span>
+                                <span className="font-bold text-lg text-primary">EMR</span>
                             </span>
                         </div>
 
