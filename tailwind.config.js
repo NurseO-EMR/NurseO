@@ -7,9 +7,6 @@ module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
 
   theme: {
-    borderWidth: {
-      DEFAULT: "1px"
-    },
     gridTemplateAreas: {
       "main": [
         "topNav topNav topNav",
@@ -18,8 +15,8 @@ module.exports = {
       ]
     },
     textColor: {
-      'primary': '#000000',
-      'secondary': '#f31010',
+      'primary': '#f43f5e',
+      'secondary': '#000000',
       'danger': '#e3342f',
       'white': "#ffffff"
     },

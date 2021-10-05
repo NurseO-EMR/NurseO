@@ -1,7 +1,7 @@
 import React from 'react';
 import Mar from './Components/Mar';
-import SideNav from './Components/Nav/SideNav';
-import TopNav from './Components/Nav/TopNav';
+import SideNav from './Components/Nav/SideBar/SideNav';
+import TopNav from './Components/Nav/TopMenu/TopNav';
 
 export default class App extends React.Component {
   render() {
