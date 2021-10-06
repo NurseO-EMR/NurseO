@@ -8,8 +8,8 @@ export default class SideNav extends React.Component<React.HTMLAttributes<HTMLDi
     
     public render() {
         return (
-            <div className={"shadow-lg h-screen w-80 pt-1 " + this.props.className }>
-                {/* <img className="rounded mb-3" src={DiceBear.getAvatarURL("male","sad")} alt="" /> */}
+            <div className={"shadow-lg h-screen pt-1 " + this.props.className }>
+                {/* <img className="rounded mb-3" src={DiceBear.getAvatarURL("male","sad")} alt="" />
                 <Section title="Basic Info">
                     <SectionNamedInfo name="Name">James Thompson</SectionNamedInfo>
                     <SectionNamedInfo name="DOB">March 4th, 1968</SectionNamedInfo>
@@ -21,7 +21,7 @@ export default class SideNav extends React.Component<React.HTMLAttributes<HTMLDi
                     <SectionItem>{"Acetaminophen (0.15mg/kg) 6HR PRN temp > 39.5 or discomfort"}</SectionItem>
                     <SectionItem>{"Acetaminophen (0.15mg/kg) 6HR PRN temp > 39.5 or discomfort"}</SectionItem>
                     <SectionItem>{"Acetaminophen (0.15mg/kg) 6HR PRN temp > 39.5 or discomfort"}</SectionItem>
-                </Section>
+                </Section> */}
             </div>
 
         );

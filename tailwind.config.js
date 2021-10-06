@@ -9,9 +9,14 @@ module.exports = {
   theme: {
     gridTemplateAreas: {
       "main": [
-        "topNav topNav topNav",
-        "sideBar main main",
-        "sideBar main main"
+        "topNav topNav",
+        "sideBar armBand",
+        "sideBar main",
+        "sideBar main",
+        "sideBar main",
+        "sideBar main",
+        "sideBar main",
+        "sideBar main",
       ]
     },
     textColor: {
@@ -40,8 +45,8 @@ module.exports = {
         '4xl': '2rem',
       },
       gridTemplateColumns: {
-        "maxContent": "max-content"
-      }
+        "twoSections": "1fr 7fr"
+      },
     }
   },
   variants: {
