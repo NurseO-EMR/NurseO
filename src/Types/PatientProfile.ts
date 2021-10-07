@@ -8,10 +8,11 @@ export type PatientChart = {
     weight: number,
     allergies: string[],
     medicalIssues: MedicalIssue[],
+    medications: Medication[],
     flags: Flag[],
     immunizations: string[],
 
-}
+} | null;
 
 
 export type MedicalIssue = {
@@ -26,4 +27,20 @@ export type Assessment = {
 }
 
 export type Flag = "DNR" | "NPO";
+
+export type Medication = {
+    name:string,
+    concentration:string, 
+    route: string,
+    frequency: string,
+    routine: string,
+    PRNNote: string | null,
+    notes: string
+    mar: Time[],
+    
+}
+
+export type Time = Array<number>;
+
+
 

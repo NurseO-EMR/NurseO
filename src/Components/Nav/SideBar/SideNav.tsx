@@ -1,27 +1,27 @@
 import React from 'react';
-import DiceBear from '../../../Services/DiceBear';
-import Section from './Section/Section';
-import SectionItem from './Section/SectionItem';
-import SectionNamedInfo from './Section/SectionNamedInfo';
+
 
 export default class SideNav extends React.Component<React.HTMLAttributes<HTMLDivElement>> {
     
     public render() {
         return (
             <div className={"shadow-lg h-screen pt-1 " + this.props.className }>
-                {/* <img className="rounded mb-3" src={DiceBear.getAvatarURL("male","sad")} alt="" />
-                <Section title="Basic Info">
-                    <SectionNamedInfo name="Name">James Thompson</SectionNamedInfo>
-                    <SectionNamedInfo name="DOB">March 4th, 1968</SectionNamedInfo>
-                    <SectionNamedInfo name="Age">12 Years old</SectionNamedInfo>
-                    <SectionNamedInfo name="Allergy">Pineapple</SectionNamedInfo>
-                </Section>
-                <Section title="Medications">
-                    <SectionItem>{"Acetaminophen (0.15mg/kg) 6HR PRN temp > 39.5 or discomfort"}</SectionItem>
-                    <SectionItem>{"Acetaminophen (0.15mg/kg) 6HR PRN temp > 39.5 or discomfort"}</SectionItem>
-                    <SectionItem>{"Acetaminophen (0.15mg/kg) 6HR PRN temp > 39.5 or discomfort"}</SectionItem>
-                    <SectionItem>{"Acetaminophen (0.15mg/kg) 6HR PRN temp > 39.5 or discomfort"}</SectionItem>
-                </Section> */}
+                <h1>Dashboard</h1>
+                <div>Medications</div>
+                <div>Allergies</div>
+                <div>Flags</div>
+                <h1>Mar</h1>
+                <div>View Mar</div>
+                <div>Administer Medications</div>
+                <h1>Vitals</h1>
+                <div>View Vitals</div>
+                <div>Submit Vitals</div>
+                <div>View Vitals trend</div>
+                <h1>Labs</h1>
+                <div>View Labs</div>
+                <div>View Labs Trend</div>
+                <div>Request Labs</div>
+                
             </div>
 
         );
