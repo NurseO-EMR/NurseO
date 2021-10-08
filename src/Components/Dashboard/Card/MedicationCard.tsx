@@ -25,8 +25,8 @@ export default class MedicationCard extends React.Component<Props> {
                 </thead>
                 <tbody>
                     {this.props.medications ? 
-                        this.props.medications.map(medication => <MedicationEntry medication={medication}></MedicationEntry>): 
-                        <h1>No medications added</h1>
+                        this.props.medications.map((medication,i) => <MedicationEntry key={i} medication={medication}></MedicationEntry>): 
+                        <tr><td><h1>No medications added</h1></td></tr>
                     }
                 </tbody>
             </Card>

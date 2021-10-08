@@ -1,6 +1,11 @@
 import React from 'react';
+import { PatientChart } from '../Types/PatientProfile';
 
-export default class Mar extends React.Component<React.HTMLAttributes<HTMLDivElement>> {
+type Props = React.HTMLAttributes<HTMLDivElement> & {
+    patient: PatientChart
+}
+
+export default class Mar extends React.Component<Props> {
 
     private numbers = [1,2,3,4,5];
 

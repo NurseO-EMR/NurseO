@@ -20,8 +20,8 @@ export default class AllergyCard extends React.Component<Props> {
             </thead>
             <tbody>
                 {this.props.allergies ? 
-                    this.props.allergies.map(allergy => <AllergyEntry allergy={allergy}></AllergyEntry>): 
-                    <h1>No allergies added</h1>
+                    this.props.allergies.map((allergy,i) => <AllergyEntry key={i} allergy={allergy}></AllergyEntry>): 
+                    <tr><td><h1>No allergies found</h1></td></tr>
                 }
             </tbody>
         </Card>

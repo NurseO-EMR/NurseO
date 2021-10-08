@@ -23,8 +23,8 @@ export default class NotesCard extends React.Component<Props> {
                 </thead>
                 <tbody>
                     {this.props.notes ? 
-                        this.props.notes.map(note => <NoteEntry note={note}></NoteEntry>): 
-                        <h1>No allergies added</h1>
+                        this.props.notes.map((note,i) => <NoteEntry key={i} note={note}></NoteEntry>): 
+                        <tr><td><h1>No notes added</h1></td></tr>
                     }
                 </tbody>
         </Card>

@@ -1,47 +1,49 @@
 import React from 'react';
-import ArmBand from './Components/ArmBand/ArmBand';
-import Dashboard from './Components/Dashboard/Dashboard';
-import Mar from './Components/Mar';
-import SideNav from './Components/Nav/SideBar/SideNav';
-import TopNav from './Components/Nav/TopMenu/TopNav';
-import Login from './Pages/Login';
-import { $patient } from './Services/State';
+import {Route, Router, Switch} from "react-router-dom";
+import { createBrowserHistory } from 'history';
+import DashboardPage from './Pages/StudentView/DashboardPage';
 import { PatientChart } from './Types/PatientProfile';
+import {$patient} from "./Services/State";
+import Login from './Pages/Login';
+import MARPage from "./Pages/StudentView/MARPage"
 
 type Props = {}
 type State = {
-  patient: PatientChart,
+    patient: PatientChart,
 }
 export default class App extends React.Component<Props, State> {
 
+  private history;
+
+  
   constructor(props: Props) {
     super(props)
+    this.history = createBrowserHistory();
     this.state = {
-      patient: null
+        patient: null
     }
   }
 
   componentDidMount() {
-    $patient.subscribe((val) => {
-        this.setState({
-          patient: val
-        }); 
-        console.log("hello")
+      $patient.subscribe((val) => {
+          this.setState({
+              patient: val
+          });
       }
-    );
+      );
   }
-
 
   render() {
     return (
-      // <Login></Login>
-      <div className="grid grid-areas-main h-full grid-cols-twoSections">
-        <TopNav className="grid-in-topNav"></TopNav>
-        <ArmBand patient={this.state.patient} className="grid-in-armBand"></ArmBand>
-        <SideNav className="grid-in-sideBar"></SideNav>
-        <Dashboard patient={this.state.patient} className="grid-in-main border-t-8" />
-        {/* <Mar className="grid-in-main"></Mar> */}
-      </div>
+      <Router history={this.history}>
+        <Switch>
+          <Route exact path="/"><Login/></Route>
+          <Route exact path="/studentView/dashboard"><DashboardPage patient={this.state.patient} /></Route>
+          <Route exact path="/studentView/mar"><MARPage patient={this.state.patient} /></Route>
+          <Route exact path="/studentView/vitals"><DashboardPage patient={this.state.patient} /></Route>
+          <Route exact path="/studentView/labs"><DashboardPage patient={this.state.patient} /></Route>
+        </Switch>
+      </Router>
     )
   }
 }
