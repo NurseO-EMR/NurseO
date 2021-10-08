@@ -18,7 +18,12 @@ $patient.next({
         }
     ],
     gender: "male",
-    flags: ["NPO"],
+    flags: [
+        {
+            name: "NPO",
+            reason: "Safety"
+        }
+    ],
     immunizations: [],
     medicalIssues: [],
     height: 185,

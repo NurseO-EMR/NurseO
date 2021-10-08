@@ -25,7 +25,9 @@ export default class ArmBand extends React.Component<Props,State> {
                 <SectionNamedInfo name="Allergies" boldedValue={true}>
                     {this.props.patient?.allergies.map(allergy=>allergy.name+", ")}
                 </SectionNamedInfo>
-                <SectionNamedInfo name="Flags" boldedValue={true}>{this.props.patient?.flags}</SectionNamedInfo>
+                <SectionNamedInfo name="Flags" boldedValue={true}>
+                    {this.props.patient?.flags.map(flag=>flag.name+" ")}
+                </SectionNamedInfo>
                 <SectionNamedInfo name="Height">{this.props.patient?.height}</SectionNamedInfo>
                 <SectionNamedInfo name="Weight">{this.props.patient?.weight}</SectionNamedInfo>
                 <SectionNamedInfo name="Sim Time">{"12:32pm"}</SectionNamedInfo>

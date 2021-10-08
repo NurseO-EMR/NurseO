@@ -26,7 +26,10 @@ export type Assessment = {
     summery: string
 }
 
-export type Flag = "DNR" | "NPO";
+export type Flag = {
+    name: string,
+    reason:string
+}
 
 export type Medication = {
     name:string,
