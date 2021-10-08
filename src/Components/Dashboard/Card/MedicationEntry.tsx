@@ -9,20 +9,15 @@ export default class MedicationEntry extends React.Component<Props> {
 
     public render() {
         return (
-            <table className="border-2 w-full">
-                <tbody>
-                    <tr>
-                        <td className="border-2 p-2">{this.props.medication.name}</td>
-                        <td className="border-2 p-2">{this.props.medication.concentration}</td>
-                        <td className="border-2 p-2">{this.props.medication.route}</td>
-                        <td className="border-2 p-2">{this.props.medication.frequency}</td>
-                        <td className="border-2 p-2">{this.props.medication.routine}</td>
-                        <td className="border-2 p-2">{this.props.medication.PRNNote}</td>
-                        <td className="border-2 p-2">({this.props.medication.notes})</td>
-                    </tr>
-                </tbody>
-            </table>
-
+            <tr>
+                <td className="border-2 p-2">{this.props.medication.name}</td>
+                <td className="border-2 p-2">{this.props.medication.concentration}</td>
+                <td className="border-2 p-2">{this.props.medication.route}</td>
+                <td className="border-2 p-2">{this.props.medication.frequency}</td>
+                <td className="border-2 p-2">{this.props.medication.routine}</td>
+                <td className="border-2 p-2">{this.props.medication.PRNNote}</td>
+                <td className="border-2 p-2">({this.props.medication.notes})</td>
+            </tr>
         );
     }
 }

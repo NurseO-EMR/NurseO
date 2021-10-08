@@ -7,7 +7,16 @@ $patient.next({
     name: "James Smith",
     age: 18,
     dob: new Date(),
-    allergies: ["Bee Sting"],
+    allergies: [
+        {
+            name: "penicillin",
+            reaction: "severe"
+        },
+        {
+            name: "aspirin",
+            reaction: "severe"
+        }
+    ],
     gender: "male",
     flags: ["NPO"],
     immunizations: [],
@@ -26,7 +35,7 @@ $patient.next({
             mar: [[12,2]] 
         },
         {
-            name: "Acetaminophen",
+            name: "Amitriptyline",
             concentration: "15mg/kg",
             route: "PO/PR",
             frequency: "every 4 hr",
@@ -36,7 +45,7 @@ $patient.next({
             mar: [[12,2]] 
         },
         {
-            name: "Acetaminophen",
+            name: "Buprenorphine",
             concentration: "15mg/kg",
             route: "PO/PR",
             frequency: "every 4 hr",
@@ -46,7 +55,7 @@ $patient.next({
             mar: [[12,2]] 
         },
         {
-            name: "Acetaminophen",
+            name: "Ibuprofen",
             concentration: "15mg/kg",
             route: "PO/PR",
             frequency: "every 4 hr",
@@ -55,6 +64,16 @@ $patient.next({
             notes: "do not exceed 5 doses in 24 hours",
             mar: [[12,2]] 
         },
+    ],
+
+    notes: [
+        {
+            date: new Date(),
+            appearance: "normal",
+            visitReason: "headache",
+            vitalsSummery: "he has 130/90 blood pressure", 
+            assessment: "put him to reset for now and reassess later"
+        }
     ]
   })
 

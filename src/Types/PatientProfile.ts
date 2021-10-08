@@ -6,12 +6,12 @@ export type PatientChart = {
     gender: Gender,
     height: number,
     weight: number,
-    allergies: string[],
+    allergies: Allergy[],
     medicalIssues: MedicalIssue[],
     medications: Medication[],
     flags: Flag[],
     immunizations: string[],
-
+    notes: Note[],
 } | null;
 
 
@@ -41,6 +41,16 @@ export type Medication = {
 }
 
 export type Time = Array<number>;
+export type Allergy = {
+    name: string,
+    reaction: string,
+}
 
 
-
+export type Note = {
+    date: Date,
+    visitReason:string,
+    appearance: string, 
+    vitalsSummery: string,
+    assessment: string,
+}
