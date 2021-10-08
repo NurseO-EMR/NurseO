@@ -51,6 +51,7 @@ module.exports = {
   },
   variants: {
     gridTemplateAreas: ['responsive'],
+    fontSize: ['hover', 'focus'],
     extend: {
       borderColor: ['focus-visible'],
       backgroundColor: ["odd", "even"]

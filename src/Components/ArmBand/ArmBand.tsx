@@ -1,6 +1,6 @@
 import React from 'react';
 import { PatientChart } from '../../Types/PatientProfile';
-import SectionNamedInfo from '../Nav/SideBar/Section/SectionNamedInfo';
+import SectionNamedInfo from './SectionNamedInfo';
 import logo from "./../../assets/logo.png"
 
 
