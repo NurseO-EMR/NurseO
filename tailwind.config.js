@@ -22,7 +22,6 @@ module.exports = {
     textColor: {
       'primary': '#f43f5e',
       'secondary': '#000000',
-      'danger': '#e3342f',
       'white': "#ffffff"
     },
     colors: {

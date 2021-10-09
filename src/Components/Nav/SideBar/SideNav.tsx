@@ -7,22 +7,25 @@ export default class SideNav extends React.Component<React.HTMLAttributes<HTMLDi
     
     public render() {
         return (
-            <div className={"shadow-lg h-screen pt-1 " + this.props.className }>
+            <div className={"shadow-lg h-screen pt-1 bg-gray-600 " + this.props.className }>
                 <SideNavHeader href="/studentView/dashboard">Dashboard</SideNavHeader>
-                <SideNavItem>Medications</SideNavItem>
-                <SideNavItem>Allergies</SideNavItem>
-                <SideNavItem>Flags</SideNavItem>
+                <SideNavItem href="/studentView/dashboard/medications">Medications</SideNavItem>
+                <SideNavItem href="/studentView/dashboard/allergies">Allergies</SideNavItem>
+                <SideNavItem href="/studentView/dashboard/flags">Flags</SideNavItem>
+
                 <SideNavHeader href="/studentView/mar">Mar</SideNavHeader>
-                <SideNavItem>View Mar</SideNavItem>
-                <SideNavItem>Administer Medications</SideNavItem>
+                <SideNavItem href="/studentView/mar">View Mar</SideNavItem>
+                <SideNavItem href="/studentView/mar">Administer Medications</SideNavItem>
+                
                 <SideNavHeader href="/studentView/vitals">Vitals</SideNavHeader>
-                <SideNavItem>View Vitals</SideNavItem>
-                <SideNavItem>Submit Vitals</SideNavItem>
-                <SideNavItem>View Vitals trend</SideNavItem>
+                <SideNavItem href="">View Vitals</SideNavItem>
+                <SideNavItem href="">Submit Vitals</SideNavItem>
+                <SideNavItem href="">View Vitals trend</SideNavItem>
+                
                 <SideNavHeader href="/studentView/labs">Labs</SideNavHeader>
-                <SideNavItem>View Labs</SideNavItem>
-                <SideNavItem>View Labs Trend</SideNavItem>
-                <SideNavItem>Request Labs</SideNavItem>
+                <SideNavItem href="">View Labs</SideNavItem>
+                <SideNavItem href="">View Labs Trend</SideNavItem>
+                <SideNavItem href="">Request Labs</SideNavItem>
                 
             </div>
 

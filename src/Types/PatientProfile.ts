@@ -12,6 +12,7 @@ export type PatientChart = {
     flags: Flag[],
     immunizations: string[],
     notes: Note[],
+    
 } | null;
 
 

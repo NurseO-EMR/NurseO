@@ -3,7 +3,7 @@ import { Allergy } from '../../../Types/PatientProfile';
 import AllergyEntry from './AllergyEntry';
 import Card from './Card';
 
-type Props = {
+type Props = React.HTMLAttributes<HTMLDivElement> & {
     allergies: Allergy[] | undefined
 }
 

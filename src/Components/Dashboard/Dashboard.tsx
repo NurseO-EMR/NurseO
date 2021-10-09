@@ -14,7 +14,7 @@ export default class Dashboard extends React.Component<Props> {
     
     public render() {
         return (
-            <div className="grid grid-cols-2 gap-3 mx-4">
+            <div className="grid grid-cols-2 mx-4 gap-3">
                 <MedicationCard medications={this.props.patient?.medications}></MedicationCard>
                 <AllergyCard allergies={this.props.patient?.allergies}></AllergyCard>
                 <NotesCard className="col-span-2" notes={this.props.patient?.notes}></NotesCard>
