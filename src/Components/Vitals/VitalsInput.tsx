@@ -26,7 +26,7 @@ export default class VitalsInput extends React.Component<Props> {
                         {this.props.vital.fieldType === "options" ? 
                             <select className="border-2 w-9/12">
                                 <option></option>
-                                {this.props.vital.VitalsOptions!.map(val=><option title={val.name}>{val.abbreviation}</option>)}
+                                {this.props.vital.VitalsOptions!.map((val,i)=><option key={i} title={val.name}>{val.abbreviation}</option>)}
                             </select>
                         : null}
 

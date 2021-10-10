@@ -10,6 +10,7 @@ import MedicationsPage from './Pages/StudentView/Dashboard/MedicationsPage';
 import AllergiesPage from './Pages/StudentView/Dashboard/AllergiesPage';
 import FlagsPage from './Pages/StudentView/Dashboard/FlagsPage';
 import VitalsPage from './Pages/StudentView/Vitals/VitalsPage';
+// import Database from "./Services/Database";
 
 type Props = {}
 type State = {
@@ -26,6 +27,7 @@ export default class App extends React.Component<Props, State> {
     this.state = {
         patient: null
     }
+    // const db = new Database();
   }
 
   componentDidMount() {

@@ -1,7 +1,9 @@
 import { Gender } from "./Gender"
+import { VitalsSet } from "./Vitals";
 export type PatientChart = {
+    id: number,
     name: string,
-    dob: Date,
+    dob: string,
     age: number,
     gender: Gender,
     height: number,
@@ -12,7 +14,8 @@ export type PatientChart = {
     flags: Flag[],
     immunizations: string[],
     notes: Note[],
-    
+    vitals: VitalsSet[],
+    availableVitalSets: string[],
 } | null;
 
 
@@ -44,7 +47,10 @@ export type Medication = {
     
 }
 
-export type Time = Array<number>;
+export type Time = {
+    hour:number,
+    minutes:number
+}
 export type Allergy = {
     name: string,
     reaction: string,
@@ -52,7 +58,7 @@ export type Allergy = {
 
 
 export type Note = {
-    date: Date,
+    date: string,
     visitReason:string,
     appearance: string, 
     vitalsSummery: string,

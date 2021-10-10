@@ -7,7 +7,7 @@ export default class SideNav extends React.Component<React.HTMLAttributes<HTMLDi
     
     public render() {
         return (
-            <div className={"shadow-lg h-screen pt-1 bg-gray-600 " + this.props.className }>
+            <div className={"shadow-lg h-full pt-1 bg-gray-600 " + this.props.className }>
                 <SideNavHeader href="/studentView/dashboard">Dashboard</SideNavHeader>
                 <SideNavItem href="/studentView/dashboard/medications">Medications</SideNavItem>
                 <SideNavItem href="/studentView/dashboard/allergies">Allergies</SideNavItem>
