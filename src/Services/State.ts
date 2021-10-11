@@ -12,3 +12,4 @@ export const $error = new BehaviorSubject<string | null>(null);
 
 simulatedData();
 
+$error.subscribe(console.log)

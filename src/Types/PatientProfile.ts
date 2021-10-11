@@ -1,5 +1,5 @@
 import { Gender } from "./Gender"
-import { VitalsSet } from "./Vitals";
+import { StudentVitalsReport, VitalsSet } from "./Vitals";
 export type PatientChart = {
     id: number,
     name: string,
@@ -14,7 +14,7 @@ export type PatientChart = {
     flags: Flag[],
     immunizations: string[],
     notes: Note[],
-    vitals: VitalsSet[],
+    studentVitals?: StudentVitalsReport[],
     availableVitalSets: string[],
 } | null;
 

@@ -4,7 +4,7 @@ import { $patient, $vitalsSet, $settings } from "./State"
 
 export function simulatedData() {
 
-    const db = new Database();
+    const db = Database.getInstance();
     db.getPatient(5456464);
 
     // $patient.next({
@@ -167,74 +167,6 @@ export function simulatedData() {
     
     
     $vitalsSet.next([
-        {
-            name: "0-10 Faces/Scales", 
-            vitals: [
-                {
-                    name: "Pain",
-                    fieldType: "T/F",
-                },
-                {
-                    name: "Description",
-                    fieldType: "text",
-                },
-                {
-                    name: "Location",
-                    fieldType: "text",
-                }, 
-                {
-                    name: "duration",
-                    fieldType: "number"
-                },
-                {
-                    name: "Intensity/Score",
-                    fieldType: "number"
-                },
-                {
-                    name: "Medicated",
-                    fieldType: "text",
-                },
-                {
-                    name: "Nursing Measures",
-                    fieldType: "options",
-                    VitalsOptions: nursingMeasuresOptions
-                }
-            ]
-        },
-        {
-            name: "0-10 Faces/Scales", 
-            vitals: [
-                {
-                    name: "Pain",
-                    fieldType: "T/F",
-                },
-                {
-                    name: "Description",
-                    fieldType: "text",
-                },
-                {
-                    name: "Location",
-                    fieldType: "text",
-                }, 
-                {
-                    name: "duration",
-                    fieldType: "number"
-                },
-                {
-                    name: "Intensity/Score",
-                    fieldType: "number"
-                },
-                {
-                    name: "Medicated",
-                    fieldType: "text",
-                },
-                {
-                    name: "Nursing Measures",
-                    fieldType: "options",
-                    VitalsOptions: nursingMeasuresOptions
-                }
-            ]
-        },
         {
             name: "0-10 Faces/Scales", 
             vitals: [

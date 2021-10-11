@@ -1,11 +1,11 @@
 import React, { ChangeEvent } from 'react';
 import { Subscription } from 'rxjs';
 import Database from '../../Services/Database';
-import { $settings, $vitalsSet } from '../../Services/State';
+import { $error, $patient, $settings, $vitalsSet } from '../../Services/State';
 import { PatientChart } from '../../Types/PatientProfile';
 import { Settings } from '../../Types/Settings';
 import { Status } from '../../Types/Status';
-import { VitalsSet } from '../../Types/Vitals';
+import { StudentVitalsReport, VitalsSet } from '../../Types/Vitals';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 import TableHeader from '../TableHeader';
 import VitalsHeaderTimeSlots from './VitalsHeaderTimeSlots';
@@ -73,7 +73,7 @@ export default class VitalsSubmitter extends React.Component<Props, State> {
         this.setState({
             saveButtonText: "Saving..."
         })
-        const db = new Database();
+        const db = Database.getInstance();
         await db.updatePatient();
         this.setState({
             saveButtonText: "Saved"
@@ -85,6 +85,40 @@ export default class VitalsSubmitter extends React.Component<Props, State> {
             subscription.unsubscribe();
         }
         this.subscriptions = [];
+    }
+
+    onInputChangeHandler(filedName: string, timeSlotIndex: number, value: string, vitalSetIndex: number) {
+        const patient = $patient.value;
+        const updatedVitals = {
+            setName: this.state.vitalsSets![vitalSetIndex].name,
+            time: timeSlotIndex.toString(),
+            value: value,
+            vitalName: filedName
+        }
+        if(patient === undefined) $error.next("pease scan patient barcode"); 
+        if(patient!.studentVitals === undefined) patient!.studentVitals = [];
+
+        const vitalsIndex= this.getVitalsIndex(patient!.studentVitals, updatedVitals);
+        if(vitalsIndex>-1) {
+            console.log(vitalsIndex)
+            patient!.studentVitals[vitalsIndex].value=updatedVitals.value;
+        } else {
+            patient?.studentVitals.push(updatedVitals)
+        }
+
+        $patient.next(patient);
+        console.table(patient?.studentVitals)
+    }
+
+    getVitalsIndex(vitalsReport:StudentVitalsReport[], vital: StudentVitalsReport):number {
+        for(let i = 0; i<vitalsReport.length; i++) {
+            const vitalItem = vitalsReport[i];
+            if(vitalItem.setName !== vital.setName) continue;
+            if(vitalItem.vitalName !== vital.vitalName) continue;
+            if(vitalItem.time !== vital.time) continue;
+            return i;
+        }
+        return -1;
     }
 
     public render() {	
@@ -109,7 +143,13 @@ export default class VitalsSubmitter extends React.Component<Props, State> {
                                     </thead>
 
                                     <tbody>
-                                        {val.vitals.map((val, i)=><VitalsInput key={i} numberOfTimeSlots={this.state.settings?.numberOfTimeSlots} vital={val} />)}
+                                        {val.vitals.map((val, j)=>
+                                            <VitalsInput 
+                                                onChange={(name,index,value)=> this.onInputChangeHandler(name,index,value,i)} 
+                                                key={i+j} 
+                                                numberOfTimeSlots={this.state.settings?.numberOfTimeSlots} 
+                                                vital={val} />
+                                        )}
                                     </tbody>
                                 </table>
                             </div>

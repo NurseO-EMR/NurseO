@@ -32,6 +32,7 @@ export default class Database {
     }
 
     async updatePatient() {
+        console.log(this.patientDocRef)
         if(this.patientDocRef === null ){
             $error.next("Please scan the patient barcode")
         } else {
