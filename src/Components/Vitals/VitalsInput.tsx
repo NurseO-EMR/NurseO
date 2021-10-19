@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ChangeEventHandler } from 'react';
+import React, { ChangeEvent } from 'react';
 import { Vital } from '../../Types/Vitals';
 
 type Props = {
@@ -23,7 +23,7 @@ export default class VitalsInput extends React.Component<Props> {
 
     onChangeHandler(value: string, key: number) {
         const vitalName = this.props.vital.name;
-        this.props.onChange(vitalName,key,value);
+        this.props.onChange(vitalName,key-1,value);
     }
 
     public render() {	

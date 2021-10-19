@@ -1,5 +1,5 @@
 import { Gender } from "./Gender"
-import { StudentVitalsReport, VitalsSet } from "./Vitals";
+import { StudentVitalsReport } from "./Vitals";
 export type PatientChart = {
     id: number,
     name: string,

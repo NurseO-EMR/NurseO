@@ -20,7 +20,8 @@ type State = {
     settings: Settings,
     date: string,
     saveButtonText: string,
-    status: Status
+    status: Status,
+    timeSlots: Array<string>,
 }
 
 export default class VitalsSubmitter extends React.Component<Props, State> {
@@ -36,6 +37,7 @@ export default class VitalsSubmitter extends React.Component<Props, State> {
             date: this.getTodaysDate(),
             saveButtonText: "Save",
             status: "completed",
+            timeSlots: [],
         }
 
         this.subscriptions = [];
@@ -88,26 +90,28 @@ export default class VitalsSubmitter extends React.Component<Props, State> {
     }
 
     onInputChangeHandler(filedName: string, timeSlotIndex: number, value: string, vitalSetIndex: number) {
+        
         const patient = $patient.value;
-        const updatedVitals = {
-            setName: this.state.vitalsSets![vitalSetIndex].name,
-            time: timeSlotIndex.toString(),
-            value: value,
-            vitalName: filedName
-        }
         if(patient === undefined) $error.next("pease scan patient barcode"); 
         if(patient!.studentVitals === undefined) patient!.studentVitals = [];
+        
+        const updatedVitals = {
+            setName: this.state.vitalsSets![vitalSetIndex].name,
+            time: this.state.timeSlots[timeSlotIndex],
+            value: value,
+            vitalName: filedName,
+            date: this.state.date
+        }
 
         const vitalsIndex= this.getVitalsIndex(patient!.studentVitals, updatedVitals);
         if(vitalsIndex>-1) {
-            console.log(vitalsIndex)
             patient!.studentVitals[vitalsIndex].value=updatedVitals.value;
         } else {
             patient?.studentVitals.push(updatedVitals)
         }
 
         $patient.next(patient);
-        console.table(patient?.studentVitals)
+        
     }
 
     getVitalsIndex(vitalsReport:StudentVitalsReport[], vital: StudentVitalsReport):number {
@@ -121,6 +125,9 @@ export default class VitalsSubmitter extends React.Component<Props, State> {
         return -1;
     }
 
+    onTimeSlotChanges(timeSlots:Array<string>){
+        this.setState({timeSlots})
+    }
     public render() {	
         return (
             <EmptyCard title="Vitals" className="mx-2 border-l-8 border-r-8">
@@ -137,9 +144,9 @@ export default class VitalsSubmitter extends React.Component<Props, State> {
                         return (
                             <div key={i}>
                                 <TableHeader>{val.name}</TableHeader>
-                                <table>
+                                <table className="w-full">
                                     <thead>
-                                        <VitalsHeaderTimeSlots numberOfTimeSlots={this.state.settings?.numberOfTimeSlots}></VitalsHeaderTimeSlots>
+                                        <VitalsHeaderTimeSlots onChange={this.onTimeSlotChanges.bind(this)} numberOfTimeSlots={this.state.settings?.numberOfTimeSlots}></VitalsHeaderTimeSlots>
                                     </thead>
 
                                     <tbody>

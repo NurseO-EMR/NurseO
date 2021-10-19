@@ -22,6 +22,7 @@ export type StudentVitalsReport = {
     vitalName: string,
     time:string,
     value:string,
+    date: string
 }
     
 

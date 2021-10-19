@@ -10,6 +10,7 @@ import MedicationsPage from './Pages/StudentView/Dashboard/MedicationsPage';
 import AllergiesPage from './Pages/StudentView/Dashboard/AllergiesPage';
 import FlagsPage from './Pages/StudentView/Dashboard/FlagsPage';
 import VitalsPage from './Pages/StudentView/Vitals/VitalsPage';
+import VitalsViewPage from './Pages/StudentView/Vitals/VitalsViewPage';
 // import Database from "./Services/Database";
 
 type Props = {}
@@ -50,7 +51,10 @@ export default class App extends React.Component<Props, State> {
           <Route exact path="/studentView/dashboard/flags"><FlagsPage patient={this.state.patient} /></Route>
 
           <Route exact path="/studentView/mar"><MARPage patient={this.state.patient} /></Route>
+
           <Route exact path="/studentView/vitals"><VitalsPage patient={this.state.patient} /></Route>
+          <Route exact path="/studentView/vitals/view"><VitalsViewPage patient={this.state.patient} /></Route>
+
           <Route exact path="/studentView/labs"><DashboardPage patient={this.state.patient} /></Route>
         </Switch>
       </Router>
