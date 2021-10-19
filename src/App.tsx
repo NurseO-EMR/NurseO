@@ -52,8 +52,9 @@ export default class App extends React.Component<Props, State> {
 
           <Route exact path="/studentView/mar"><MARPage patient={this.state.patient} /></Route>
 
-          <Route exact path="/studentView/vitals"><VitalsPage patient={this.state.patient} /></Route>
+          <Route exact path="/studentView/vitals"><VitalsViewPage patient={this.state.patient} /></Route>
           <Route exact path="/studentView/vitals/view"><VitalsViewPage patient={this.state.patient} /></Route>
+          <Route exact path="/studentView/vitals/submit"><VitalsPage patient={this.state.patient} /></Route>
 
           <Route exact path="/studentView/labs"><DashboardPage patient={this.state.patient} /></Route>
         </Switch>

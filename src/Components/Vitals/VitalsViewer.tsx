@@ -4,6 +4,7 @@ import { StudentVitalsReport } from '../../Types/Vitals';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 import TableHeader from '../TableHeader';
 import { groupBy, filter, sortBy } from "lodash"
+import { $error } from '../../Services/State';
 
 type Props = {
     patient: PatientChart,
@@ -18,7 +19,11 @@ export default class VitalsViewer extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        this.vitals = this.props.patient!.studentVitals!;
+        if(this.props.patient) this.vitals = this.props.patient.studentVitals;
+        else {
+            $error.next("Please Scan patient barcode");
+            this.vitals = [];
+        }
         this.state = {
             date: this.getDates()[0]
         }
@@ -57,8 +62,8 @@ export default class VitalsViewer extends React.Component<Props, State> {
                             <div>
                                 <label className="font-bold">Date: </label>
                                 <select value={this.state.date} onChange={this.onDateChangeHandler.bind(this)} className="border-2 text-center">
-                                    {this.getDates().map(date => (
-                                        <option value={date}>{date}</option>
+                                    {this.getDates().map((date,i) => (
+                                        <option value={date} key={i}>{date}</option>
                                     ))}
                                 </select>
                             </div>

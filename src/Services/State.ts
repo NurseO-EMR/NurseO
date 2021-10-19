@@ -1,7 +1,6 @@
 import { BehaviorSubject } from "rxjs";
 import { PatientChart } from "../Types/PatientProfile";
 import { Settings } from "../Types/Settings";
-import { Status } from "../Types/Status";
 import { VitalsSet } from "../Types/Vitals";
 import {simulatedData} from "./TestData";
 

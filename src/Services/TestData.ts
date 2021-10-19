@@ -1,6 +1,6 @@
 import { VitalsOptions } from "../Types/Vitals"
 import Database from "./Database"
-import { $patient, $vitalsSet, $settings } from "./State"
+import { $vitalsSet, $settings } from "./State"
 
 export function simulatedData() {
 

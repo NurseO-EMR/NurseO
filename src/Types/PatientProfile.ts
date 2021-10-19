@@ -14,7 +14,7 @@ export type PatientChart = {
     flags: Flag[],
     immunizations: string[],
     notes: Note[],
-    studentVitals?: StudentVitalsReport[],
+    studentVitals: StudentVitalsReport[],
     availableVitalSets: string[],
 } | null;
 
