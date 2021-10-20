@@ -1,6 +1,6 @@
-import { VitalsOptions } from "../Types/Vitals"
+import { ReportOptions } from "../Types/Report"
 import Database from "./Database"
-import { $vitalsSet, $settings } from "./State"
+import { $reportSet, $settings } from "./State"
 
 export function simulatedData() {
 
@@ -106,7 +106,7 @@ export function simulatedData() {
     //   })
     
     
-    const nursingMeasuresOptions: VitalsOptions = [
+    const nursingMeasuresOptions: ReportOptions = [
         {
             abbreviation: "des",
             name: "decrease noise/stimuli"
@@ -166,9 +166,10 @@ export function simulatedData() {
     ]
     
     
-    $vitalsSet.next([
+    $reportSet.next([
         {
             name: "0-10 Faces/Scales", 
+            type:"studentVitalsReport",
             vitals: [
                 {
                     name: "Pain",

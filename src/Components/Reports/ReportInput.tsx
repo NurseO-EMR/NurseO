@@ -1,12 +1,12 @@
 import React, { ChangeEvent } from 'react';
-import { Vital } from '../../Types/Vitals';
+import { Report } from '../../Types/Report';
 
 type Props = {
     numberOfTimeSlots: number | undefined,
-    vital: Vital,
+    vital: Report,
     onChange: (filedName: string, timeSlotIndex: number, value: string) => void,
 }
-export default class VitalsInput extends React.Component<Props> {
+export default class ReportInput extends React.Component<Props> {
 
 
     onInputChangeHandler(event:ChangeEvent<HTMLInputElement>) {

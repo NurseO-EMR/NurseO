@@ -8,7 +8,7 @@ type Props = {
 type State = {
     timeSlots:Array<string>;
 }
-export default class VitalsHeaderTimeSlots extends React.Component<Props,State> {
+export default class ReportsHeaderTimeSlots extends React.Component<Props,State> {
 
     constructor(props: Props){
         super(props);

@@ -1,29 +1,21 @@
 import React, { ChangeEvent } from 'react';
-import { PatientChart } from '../../Types/PatientProfile';
-import { StudentVitalsReport } from '../../Types/Vitals';
+import { StudentReport } from '../../Types/Report';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 import TableHeader from '../TableHeader';
 import { groupBy, filter, sortBy } from "lodash"
-import { $error } from '../../Services/State';
 
 type Props = {
-    patient: PatientChart,
+    studentReport: StudentReport[],
     className: string,
 }
 
 type State = {
     date: string
 }
-export default class VitalsViewer extends React.Component<Props, State> {
-    private vitals: StudentVitalsReport[];
+export default class ReportsViewer extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        if(this.props.patient) this.vitals = this.props.patient.studentVitals;
-        else {
-            $error.next("Please Scan patient barcode");
-            this.vitals = [];
-        }
         this.state = {
             date: this.getDates()[0]
         }
@@ -31,18 +23,18 @@ export default class VitalsViewer extends React.Component<Props, State> {
 
 
     getDates(): string[] {
-        const groupedByDate = groupBy(this.vitals, "date");
+        const groupedByDate = groupBy(this.props.studentReport, "date");
         return Object.keys(groupedByDate);
     }
 
     getSets(): string[] {
-        const filtered = filter(this.vitals, { date:this.state.date });
+        const filtered = filter(this.props.studentReport, { date:this.state.date });
         const sets = groupBy(filtered, "setName")
         return Object.keys(sets);
     }
 
     getVitals( setName: string) {
-        const filtered = filter(this.vitals, { date:this.state.date, setName })
+        const filtered = filter(this.props.studentReport, { date:this.state.date, setName })
         const sorted = sortBy(filtered, "time")
         return sorted;
     }

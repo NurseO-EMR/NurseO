@@ -1,11 +1,11 @@
 import { BehaviorSubject } from "rxjs";
 import { PatientChart } from "../Types/PatientProfile";
 import { Settings } from "../Types/Settings";
-import { VitalsSet } from "../Types/Vitals";
+import { ReportSet } from "../Types/Report";
 import {simulatedData} from "./TestData";
 
 export const $patient = new BehaviorSubject<PatientChart>(null);
-export const $vitalsSet = new BehaviorSubject<VitalsSet[]>([]);
+export const $reportSet = new BehaviorSubject<ReportSet[]>([]);
 export const $settings = new BehaviorSubject<Settings>(null);
 export const $error = new BehaviorSubject<string | null>(null);
 

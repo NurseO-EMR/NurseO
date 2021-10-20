@@ -1,22 +1,22 @@
+import { filter } from 'lodash';
 import React, { ChangeEvent } from 'react';
 import { Subscription } from 'rxjs';
 import Database from '../../Services/Database';
-import { $error, $patient, $settings, $vitalsSet } from '../../Services/State';
-import { PatientChart } from '../../Types/PatientProfile';
+import { $error, $patient, $settings, $reportSet } from '../../Services/State';
 import { Settings } from '../../Types/Settings';
 import { Status } from '../../Types/Status';
-import { StudentVitalsReport, VitalsSet } from '../../Types/Vitals';
+import { ReportType, StudentReport, ReportSet } from '../../Types/Report';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 import TableHeader from '../TableHeader';
-import VitalsHeaderTimeSlots from './VitalsHeaderTimeSlots';
-import VitalsInput from './VitalsInput';
+import ReportsHeaderTimeSlots from './ReportsHeaderTimeSlots';
+import ReportInput from './ReportInput';
 
 type Props =  React.HTMLAttributes<HTMLDivElement> &  {
-    patient: PatientChart
+    reportType: ReportType
 }
 
 type State = {
-    vitalsSets: VitalsSet[] | null,
+    ReportSet: ReportSet[] | null,
     settings: Settings,
     date: string,
     saveButtonText: string,
@@ -24,7 +24,7 @@ type State = {
     timeSlots: Array<string>,
 }
 
-export default class VitalsSubmitter extends React.Component<Props, State> {
+export default class ReportsSubmitter extends React.Component<Props, State> {
 
 
     private subscriptions: Subscription[]
@@ -32,7 +32,7 @@ export default class VitalsSubmitter extends React.Component<Props, State> {
     constructor(props:Props) {
         super(props);
         this.state = {
-            vitalsSets: null,
+            ReportSet: null,
             settings: null,
             date: this.getTodaysDate(),
             saveButtonText: "Save",
@@ -44,16 +44,21 @@ export default class VitalsSubmitter extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        const vitalsSubscription =  $vitalsSet.subscribe(vitalsSets=>this.setState({
-            vitalsSets
+        const ReportSetSubscription =  $reportSet.subscribe(ReportSet=>this.setState({
+            ReportSet: filter(ReportSet,{type:this.props.reportType})
         }))
 
         const settingsSubscription = $settings.subscribe(settings=>this.setState({
             settings
         }))
 
-        this.subscriptions.push(vitalsSubscription);
+        this.subscriptions.push(ReportSetSubscription);
         this.subscriptions.push(settingsSubscription);
+        
+        // const patient = $patient.value
+        // patient!.studentReports = [];
+        // $patient.next(patient);
+        // this.saveOnClickHandler();
 
     }
 
@@ -89,37 +94,38 @@ export default class VitalsSubmitter extends React.Component<Props, State> {
         this.subscriptions = [];
     }
 
-    onInputChangeHandler(filedName: string, timeSlotIndex: number, value: string, vitalSetIndex: number) {
+    onInputChangeHandler(filedName: string, timeSlotIndex: number, value: string, reportsSetIndex: number) {
         
         const patient = $patient.value;
         if(patient === undefined) $error.next("pease scan patient barcode"); 
-        if(patient!.studentVitals === undefined) patient!.studentVitals = [];
+        if(patient!.studentReports === undefined) patient!.studentReports = [];
         
-        const updatedVitals = {
-            setName: this.state.vitalsSets![vitalSetIndex].name,
+        const updatedReport:StudentReport = {
+            setName: this.state.ReportSet![reportsSetIndex].name,
             time: this.state.timeSlots[timeSlotIndex],
             value: value,
             vitalName: filedName,
-            date: this.state.date
+            date: this.state.date,
+            reportType: this.props.reportType
         }
 
-        const vitalsIndex= this.getVitalsIndex(patient!.studentVitals, updatedVitals);
-        if(vitalsIndex>-1) {
-            patient!.studentVitals[vitalsIndex].value=updatedVitals.value;
+        const reportSetIndex= this.getReportIndex(patient!.studentReports, updatedReport);
+        if(reportSetIndex>-1) {
+            patient!.studentReports[reportSetIndex].value=updatedReport.value;
         } else {
-            patient?.studentVitals.push(updatedVitals)
+            patient?.studentReports.push(updatedReport)
         }
 
         $patient.next(patient);
         
     }
 
-    getVitalsIndex(vitalsReport:StudentVitalsReport[], vital: StudentVitalsReport):number {
-        for(let i = 0; i<vitalsReport.length; i++) {
-            const vitalItem = vitalsReport[i];
-            if(vitalItem.setName !== vital.setName) continue;
-            if(vitalItem.vitalName !== vital.vitalName) continue;
-            if(vitalItem.time !== vital.time) continue;
+    getReportIndex(reports:StudentReport[], report: StudentReport):number {
+        for(let i = 0; i<reports.length; i++) {
+            const reportItem = reports[i];
+            if(reportItem.setName !== report.setName) continue;
+            if(reportItem.vitalName !== report.vitalName) continue;
+            if(reportItem.time !== report.time) continue;
             return i;
         }
         return -1;
@@ -140,18 +146,18 @@ export default class VitalsSubmitter extends React.Component<Props, State> {
                         <button onClick={this.saveOnClickHandler.bind(this)} className="bg-red-600 text-white rounded-full px-8 py-1">{this.state.saveButtonText}</button>
                     </div>
                     
-                    {this.state.vitalsSets?.map((val,i)=>{
+                    {this.state.ReportSet?.map((val,i)=>{
                         return (
                             <div key={i}>
                                 <TableHeader>{val.name}</TableHeader>
                                 <table className="w-full">
                                     <thead>
-                                        <VitalsHeaderTimeSlots onChange={this.onTimeSlotChanges.bind(this)} numberOfTimeSlots={this.state.settings?.numberOfTimeSlots}></VitalsHeaderTimeSlots>
+                                        <ReportsHeaderTimeSlots onChange={this.onTimeSlotChanges.bind(this)} numberOfTimeSlots={this.state.settings?.numberOfTimeSlots}></ReportsHeaderTimeSlots>
                                     </thead>
 
                                     <tbody>
                                         {val.vitals.map((val, j)=>
-                                            <VitalsInput 
+                                            <ReportInput 
                                                 onChange={(name,index,value)=> this.onInputChangeHandler(name,index,value,i)} 
                                                 key={i+j} 
                                                 numberOfTimeSlots={this.state.settings?.numberOfTimeSlots} 
