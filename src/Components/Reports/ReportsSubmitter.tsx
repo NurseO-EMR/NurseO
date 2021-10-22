@@ -136,7 +136,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
     }
     public render() {	
         return (
-            <EmptyCard title="Vitals" className="mx-2 border-l-8 border-r-8">
+            <EmptyCard title="Vitals">
                 <div className="px-28">
                     <div className="flex justify-between px-8 pt-4">
                         <div>

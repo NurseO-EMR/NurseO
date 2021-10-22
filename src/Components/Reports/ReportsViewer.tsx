@@ -67,7 +67,7 @@ export default class ReportsViewer extends React.Component<Props, State> {
                                 <table className="w-full m-auto">
                                     <thead className="font-bold">
                                         <tr>
-                                            <td>Time</td>
+                                            <td className="pl-8">Time</td>
                                             <td>Vital Name</td>
                                             <td>Vital Value</td>
                                         </tr>
@@ -75,7 +75,7 @@ export default class ReportsViewer extends React.Component<Props, State> {
                                     <tbody>
                                         {this.getVitals(setName).map((vital,j)=>(
                                             <tr key={j}  className="odd:bg-gray-100 even:bg-gray-300 h-10">
-                                                <td>{vital.time}</td>
+                                                <td className="pl-8">{vital.time}</td>
                                                 <td>{vital.vitalName}</td>
                                                 <td>{vital.value}</td>
                                             </tr>

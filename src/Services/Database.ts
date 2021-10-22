@@ -55,4 +55,8 @@ export default class Database {
 
         return Database.instance;
     }
+
+    public static initialize() {
+        this.getInstance();
+    }
 }

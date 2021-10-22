@@ -1,6 +1,6 @@
 import React from 'react';
 import ArmBand from '../../Components/ArmBand/ArmBand';
-import Mar from '../../Components/Mar';
+import Mar from '../../Components/Mar/Mar';
 import SideNav from '../../Components/Nav/SideBar/SideNav';
 import TopNav from '../../Components/Nav/TopMenu/TopNav';
 import { PatientChart } from '../../Types/PatientProfile';
@@ -19,7 +19,7 @@ export default class MARPage extends React.Component<Props> {
                 <TopNav className="grid-in-topNav"></TopNav>
                 <ArmBand patient={this.props.patient} className="grid-in-armBand"></ArmBand>
                 <SideNav className="grid-in-sideBar"></SideNav>
-                <Mar patient={this.props.patient}></Mar>
+                <Mar medications={this.props.patient!.medications}></Mar>
             </div>
         );
     }

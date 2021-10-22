@@ -3,7 +3,7 @@ import {Route, Router, Switch} from "react-router-dom";
 import { createBrowserHistory } from 'history';
 import DashboardPage from './Pages/StudentView/Dashboard/DashboardPage';
 import { PatientChart } from './Types/PatientProfile';
-import {$patient} from "./Services/State";
+import {$error, $patient} from "./Services/State";
 import Login from './Pages/Login';
 import MARPage from "./Pages/StudentView/MARPage"
 import MedicationsPage from './Pages/StudentView/Dashboard/MedicationsPage';
@@ -11,6 +11,7 @@ import AllergiesPage from './Pages/StudentView/Dashboard/AllergiesPage';
 import FlagsPage from './Pages/StudentView/Dashboard/FlagsPage';
 import VitalsPage from './Pages/StudentView/Vitals/VitalsPage';
 import VitalsViewPage from './Pages/StudentView/Vitals/VitalsViewPage';
+import Database from './Services/Database';
 // import Database from "./Services/Database";
 
 type Props = {}
@@ -28,7 +29,10 @@ export default class App extends React.Component<Props, State> {
     this.state = {
         patient: null
     }
-    // const db = new Database();
+    Database.initialize();
+    $error.subscribe(_=>{
+      this.history.replace("/studentView/Dashboard")
+    });
   }
 
   componentDidMount() {
