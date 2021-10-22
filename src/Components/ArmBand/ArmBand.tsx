@@ -30,7 +30,7 @@ export default class ArmBand extends React.Component<Props,State> {
                 </SectionNamedInfo>
                 <SectionNamedInfo name="Height">{this.props.patient?.height}</SectionNamedInfo>
                 <SectionNamedInfo name="Weight">{this.props.patient?.weight}</SectionNamedInfo>
-                <SectionNamedInfo name="Sim Time">{"12:32pm"}</SectionNamedInfo>
+                <SectionNamedInfo name="Sim Time">{new Date().getHours().toString().padStart(2,"0")}:{new Date().getMinutes().toString().padStart(2,"0")}</SectionNamedInfo>
 
             </div>
         );

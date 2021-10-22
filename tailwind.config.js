@@ -17,6 +17,12 @@ module.exports = {
         "sideBar main",
         "sideBar main",
         "sideBar main",
+        "sideBar main",
+        "sideBar main",
+        "sideBar main",
+        "sideBar main",
+        "sideBar main",
+        "sideBar main",
       ]
     },
     textColor: {

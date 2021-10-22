@@ -12,7 +12,7 @@ export default class StudentViewPage extends React.Component<Props> {
 
     public render() {
         return (
-            <div className="grid grid-areas-main h-full grid-cols-twoSections">
+            <div className="grid grid-areas-main min-h-screen grid-cols-twoSections">
                 <TopNav className="grid-in-topNav"></TopNav>
                 <ArmBand patient={this.props.patient} className="grid-in-armBand"></ArmBand>
                 <SideNav className="grid-in-sideBar"></SideNav>

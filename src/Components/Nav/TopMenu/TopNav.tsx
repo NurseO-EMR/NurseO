@@ -1,5 +1,4 @@
 import React from 'react';
-import MenuItem from './MenuItem';
 
 export default class TopNav extends React.Component<React.HTMLAttributes<HTMLDivElement>> {
 
@@ -9,17 +8,14 @@ export default class TopNav extends React.Component<React.HTMLAttributes<HTMLDiv
                 <div className="max-w-screen-2xl mx-auto px-4">
                     <div className="flex justify-between">
                         <div>
-                            <span className="flex items-center py-4 px-2">
-                                <span className=" font-bold text-lg">SimpleSim&#160;</span>
-                                <span className="font-bold text-lg text-primary">EMR</span>
+                            <span className="flex items-center py-4 px-2 font-bold text-2xl ">
+                                <span>SimpleSim&#160;</span>
+                                <span className="text-primary">EMR</span>
                             </span>
                         </div>
 
                         <div className="flex items-center space-x-8">
-                            <MenuItem>Home</MenuItem>
-                            <MenuItem>Mar</MenuItem>
-                            <MenuItem>Vitals</MenuItem>
-                            <MenuItem>Labs</MenuItem>
+                            <input type="text" className="border-2 rounded-full w-144 h-10 text-center" placeholder="Scan Patient BarCode"/>
                         </div>
 
                         <div className="flex items-center space-x-3">

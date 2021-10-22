@@ -11,7 +11,7 @@ export default class NotesCard extends React.Component<Props> {
 
     public render() {
         return (
-            <Card className={this.props.className} title="Allergies">
+            <Card className={this.props.className} title="Nurse Notes">
                 <thead className="font-bold">
                     <tr>
                         <td className="border-2 p-2">Date</td>
