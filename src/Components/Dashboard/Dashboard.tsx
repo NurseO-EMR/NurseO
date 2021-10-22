@@ -14,8 +14,8 @@ export default class Dashboard extends React.Component<Props> {
     
     public render() {
         return (
-            <div className="grid grid-cols-2 mx-4 gap-3">
-                <MedicationCard medications={this.props.patient?.medications}></MedicationCard>
+            <div className="grid grid-cols-4 mx-4 gap-3">
+                <MedicationCard className="col-span-3" medications={this.props.patient?.medications}></MedicationCard>
                 <AllergyCard allergies={this.props.patient?.allergies}></AllergyCard>
                 <NotesCard className="col-span-2" notes={this.props.patient?.notes}></NotesCard>
                 <FlagsCard className="col-span-2" flags={this.props.patient?.flags}></FlagsCard>

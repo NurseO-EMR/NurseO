@@ -17,7 +17,7 @@ export default class MarEntry extends React.Component<Prop> {
                     ({this.props.medication.concentration}){" "}
                     {this.props.medication.route}{" "}
                     {this.props.medication.frequency} {" "}
-                    {this.props.medication.routine} for  {" "}
+                    {this.props.medication.routine}  {" "}
                     {this.props.medication.PRNNote}{" "}
                     {this.props.medication.notes}{" "}
                 </td>

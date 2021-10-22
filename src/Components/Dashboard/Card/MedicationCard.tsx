@@ -11,7 +11,7 @@ export default class MedicationCard extends React.Component<Props> {
 
     public render() {
         return (
-            <Card title="Medications">
+            <Card title="Medications" className={this.props.className}>
                 <thead className="font-bold">
                     <tr>
                         <td className="border-2 p-2">Name</td>
@@ -19,7 +19,6 @@ export default class MedicationCard extends React.Component<Props> {
                         <td className="border-2 p-2">Route</td>
                         <td className="border-2 p-2">Frequency</td>
                         <td className="border-2 p-2">Routine</td>
-                        <td className="border-2 p-2">PRN Note</td>
                         <td className="border-2 p-2">Notes</td>
                     </tr>
                 </thead>
