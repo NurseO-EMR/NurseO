@@ -40,7 +40,7 @@ module.exports = {
         '4xl': '2rem',
       },
       gridTemplateColumns: {
-        "twoSections": "1fr 7fr",
+        "twoSections": "1.2fr 7fr",
       },
       gridTemplateRows: {
         "threeSections": "min-content min-content 1fr"
