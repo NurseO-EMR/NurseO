@@ -28,7 +28,7 @@ export default class VitalsViewPage extends React.Component<Props> {
     public render() {	
         return (
             <StudentViewPage patient={this.props.patient}>
-                <ReportsViewer studentReport={this.vitalsReport} className="grid-in-main" />
+                <ReportsViewer studentReport={this.vitalsReport}/>
             </StudentViewPage>
 
         );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default class TopNav extends React.Component<React.HTMLAttributes<HTMLDivElement>> {
 
@@ -7,10 +8,12 @@ export default class TopNav extends React.Component<React.HTMLAttributes<HTMLDiv
             <nav className={"bg-white shadow-lg " + this.props.className}>
                     <div className="flex justify-around">
                         <div>
-                            <span className="flex items-center py-4 px-2 font-bold text-2xl ">
-                                <span>SimpleSim&#160;</span>
-                                <span className="text-primary">EMR</span>
-                            </span>
+                            <Link to={"/studentView/dashboard"}>
+                                <span className="flex items-center py-4 px-2 font-bold text-2xl ">
+                                    <span>SimpleSim&#160;</span>
+                                    <span className="text-primary">EMR</span>
+                                </span>
+                            </Link>
                         </div>
 
                         <div className="flex items-center space-x-8">

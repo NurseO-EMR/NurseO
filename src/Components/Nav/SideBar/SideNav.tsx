@@ -23,7 +23,7 @@ export default class SideNav extends React.Component<React.HTMLAttributes<HTMLDi
                 <SideNavItem href="">View Vitals trend</SideNavItem>
                 
                 <SideNavHeader href="/studentView/labs">Labs</SideNavHeader>
-                <SideNavItem href="">View Labs</SideNavItem>
+                <SideNavItem href="/studentView/labs/view">View Labs</SideNavItem>
                 <SideNavItem href="">View Labs Trend</SideNavItem>
                 <SideNavItem href="">Request Labs</SideNavItem>
                 

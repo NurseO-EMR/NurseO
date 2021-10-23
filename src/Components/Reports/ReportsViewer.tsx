@@ -6,7 +6,7 @@ import { groupBy, filter, sortBy } from "lodash"
 
 type Props = {
     studentReport: StudentReport[],
-    className: string,
+    className?: string,
 }
 
 type State = {
