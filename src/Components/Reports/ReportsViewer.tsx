@@ -48,7 +48,7 @@ export default class ReportsViewer extends React.Component<Props, State> {
     public render() {
         return (
             <div className={this.props.className}>
-                <EmptyCard title="vitals">
+                <EmptyCard title="Vitals">
                     <div className="px-28">
                         <div className="flex justify-between px-8 pt-4">
                             <div>
