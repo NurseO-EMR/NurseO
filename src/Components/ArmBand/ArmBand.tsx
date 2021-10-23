@@ -12,7 +12,7 @@ export default class ArmBand extends React.Component<Props,State> {
 
     public render() {	
         return (
-            <div className="text-secondary text-xl grid grid-rows-2 grid-cols-5 px-40 w-full justify-center items-center h-28">
+            <div className={`text-secondary text-xl grid grid-rows-2 grid-cols-5 px-40 w-full justify-center items-center gap-y-8 py-4 ${this.props.className}`}>
                 <SectionNamedInfo name="" boldedValue={true}
                 valueClassNames="text-3xl "
                 removeColon={true}

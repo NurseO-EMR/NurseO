@@ -14,7 +14,7 @@ export default class MedicationsPage extends React.Component<Props> {
     public render() {
         return (
             <StudentViewPage patient={this.props.patient}>
-                <MedicationCard medications={this.props.patient?.medications} className="grid-in-main border-t-8" />
+                <MedicationCard medications={this.props.patient?.medications} className="grid-in-main" />
             </StudentViewPage>
         );
     }

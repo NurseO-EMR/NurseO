@@ -14,7 +14,7 @@ export default class AllergiesPage extends React.Component<Props> {
     public render() {
         return (
             <StudentViewPage patient={this.props.patient}>
-                <AllergyCard allergies={this.props.patient?.allergies} className="grid-in-main border-t-8" />
+                <AllergyCard allergies={this.props.patient?.allergies} className="grid-in-main" />
             </StudentViewPage>
         );
     }

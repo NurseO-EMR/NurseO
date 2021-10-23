@@ -14,7 +14,7 @@ export default class DashboardPage extends React.Component<Props> {
     public render() {
         return (
             <StudentViewPage patient={this.props.patient}>
-                <Dashboard patient={this.props.patient} className="grid-in-main border-t-8" />
+                <Dashboard patient={this.props.patient} className="grid-in-main" />
             </StudentViewPage>
         );
     }

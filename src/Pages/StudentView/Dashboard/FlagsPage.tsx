@@ -14,7 +14,7 @@ export default class FlagsPage extends React.Component<Props> {
     public render() {
         return (
             <StudentViewPage patient={this.props.patient}>
-                <FlagsCard flags={this.props.patient?.flags} className="grid-in-main border-t-8" />
+                <FlagsCard flags={this.props.patient?.flags} className="grid-in-main" />
             </StudentViewPage>
         );
     }

@@ -12,17 +12,7 @@ module.exports = {
         "topNav topNav",
         "sideBar armBand",
         "sideBar main",
-        "sideBar main",
-        "sideBar main",
-        "sideBar main",
-        "sideBar main",
-        "sideBar main",
-        "sideBar main",
-        "sideBar main",
-        "sideBar main",
-        "sideBar main",
-        "sideBar main",
-        "sideBar main",
+        
       ]
     },
     textColor: {
@@ -50,8 +40,11 @@ module.exports = {
         '4xl': '2rem',
       },
       gridTemplateColumns: {
-        "twoSections": "1fr 7fr"
+        "twoSections": "1fr 7fr",
       },
+      gridTemplateRows: {
+        "threeSections": "min-content min-content 1fr"
+      }
     }
   },
   variants: {
