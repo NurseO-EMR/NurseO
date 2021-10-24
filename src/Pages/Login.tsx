@@ -1,9 +1,15 @@
-import React from 'react';
-import { FirebaseApp, initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, Auth } from "firebase/auth";
+import React, { ChangeEvent } from 'react';
+import { FirebaseApp, FirebaseError, initializeApp } from "firebase/app";
+import { getAuth, Auth, signInWithEmailAndPassword, browserLocalPersistence, setPersistence } from "firebase/auth";
+// import {inMemoryPersistence} from "firebase/auth"
 import firebaseConfig from "./../firebaseConfig.json";
+import Logo from '../Components/Nav/TopMenu/Logo';
+import { $history } from '../Services/State';
 type Props = {}
-type State = {}
+type State = {
+    badgeNumber: string,
+    error: string,
+}
 
 export default class Login extends React.Component<Props,State> {
 
@@ -14,22 +20,44 @@ export default class Login extends React.Component<Props,State> {
         super(props);
         this.app = initializeApp(firebaseConfig);
         this.auth = getAuth(this.app);
+        console.log(this.auth.currentUser)
+        this.state = {
+            badgeNumber: "",
+            error: ""
+        }
     }
 
-    onClickHandler() {
-        createUserWithEmailAndPassword(this.auth, "aspasp1998@gmail.com", "password").then((userCred)=>{
-            console.log(userCred.user)
-        }).catch((error)=>{
-            console.log(error.message);
-        })
+    async onClickHandler() {
+            try {
+                await setPersistence(this.auth, browserLocalPersistence)
+                await signInWithEmailAndPassword(this.auth, `${this.state.badgeNumber}@simpleemr.com`, this.state.badgeNumber )
+                if(this.auth.currentUser) $history.value.push("/studentView/selectPatient");
+            } catch(e) {
+                const error = e as FirebaseError; 
+                this.setState({
+                    error: error.message
+                })
+            }
+    }
+
+    onBadgeNumberChange(event:ChangeEvent<HTMLInputElement>) {
+        this.setState({badgeNumber:event.target.value})
     }
 
     public render() {	
         return (
-            <div>
-                <input type="text" placeholder="email" />
-                <input type="password" placeholder="password" />
-                <button onClick={this.onClickHandler.bind(this)}>Login</button>
+            <div className="grid justify-center h-screen w-screen content-center text-center bg-red-700">
+                <div className="bg-white p-40 rounded-4xl">
+                    <Logo className="text-6xl mb-10" />
+                    <h1 className="text-xl font-bold">Please Scan Your Badge</h1>
+                    <input type="password" 
+                        className="my-5 border-2 rounded-full text-center p-4 border-red-700 w-full" 
+                        placeholder="Or type your badge number here" 
+                        onChange={this.onBadgeNumberChange.bind(this)}
+                        /><br />
+                    <button onClick={this.onClickHandler.bind(this)} className="rounded-full bg-red-700 text-white p-4 font-bold tracking-wider w-full">Sign in</button>
+                    <div>{this.state.error}</div>
+                </div>
             </div>
         );
     }	

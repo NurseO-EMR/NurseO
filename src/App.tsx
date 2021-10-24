@@ -1,9 +1,8 @@
 import React from 'react';
 import {Route, Router, Switch} from "react-router-dom";
-import { createBrowserHistory } from 'history';
 import DashboardPage from './Pages/StudentView/Dashboard/DashboardPage';
 import { PatientChart } from './Types/PatientProfile';
-import {$error, $patient} from "./Services/State";
+import {$error, $history, $patient} from "./Services/State";
 import Login from './Pages/Login';
 import MARPage from "./Pages/StudentView/MARPage"
 import MedicationsPage from './Pages/StudentView/Dashboard/MedicationsPage';
@@ -14,7 +13,7 @@ import VitalsViewPage from './Pages/StudentView/Vitals/VitalsViewPage';
 import Database from './Services/Database';
 import LabsViewer from './Pages/StudentView/Labs/LabsViewer';
 import { PatientNotFoundError } from './Types/ErrorCodes';
-// import Database from "./Services/Database";
+import SelectPatient from './Pages/SelectPatient';
 
 type Props = {}
 type State = {
@@ -27,7 +26,7 @@ export default class App extends React.Component<Props, State> {
   
   constructor(props: Props) {
     super(props)
-    this.history = createBrowserHistory();
+    this.history = $history.value
     this.state = {
         patient: null
     }
@@ -51,6 +50,8 @@ export default class App extends React.Component<Props, State> {
       <Router history={this.history}>
         <Switch>
           <Route exact path="/"><Login/></Route>
+
+          <Route exact path="/studentView/selectPatient"><SelectPatient/></Route>
 
           <Route exact path="/studentView/dashboard"><DashboardPage patient={this.state.patient} /></Route>
           <Route exact path="/studentView/dashboard/medications"><MedicationsPage patient={this.state.patient} /></Route>

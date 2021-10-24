@@ -2,6 +2,7 @@ import React from 'react';
 import ArmBand from '../../Components/ArmBand/ArmBand';
 import SideNav from '../../Components/Nav/SideBar/SideNav';
 import TopNav from '../../Components/Nav/TopMenu/TopNav';
+import { $history, $patient } from '../../Services/State';
 import { PatientChart } from '../../Types/PatientProfile';
 
 type Props = {
@@ -9,6 +10,10 @@ type Props = {
 }
 
 export default class StudentViewPage extends React.Component<Props> {
+
+    componentDidMount() {
+        if(!$patient.value) $history.value.push("/studentView/selectPatient")
+    }
 
     public render() {
         return (

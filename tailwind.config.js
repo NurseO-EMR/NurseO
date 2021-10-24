@@ -16,15 +16,20 @@ module.exports = {
       ]
     },
     textColor: {
+      red: colors.rose,
       'primary': '#f43f5e',
       'secondary': '#000000',
       'white': "#ffffff"
     },
     colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      black: colors.black,
+      white: colors.white,
       gray: colors.coolGray,
-      blue: colors.sky,
+      indigo: colors.indigo,
       red: colors.rose,
-      pink: colors.fuchsia,
+      yellow: colors.amber,
 
     },
     fontFamily: {

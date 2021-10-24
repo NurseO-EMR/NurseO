@@ -20,16 +20,18 @@ export default class Database {
         this.currentPatientID = null;
     }
 
-    async getPatient(id: number): Promise<void> {
-        if(this.currentPatientID === $patient.value?.id) return;
-
+    async getPatient(id: string): Promise<boolean> {
+        if(this.currentPatientID === $patient.value?.id) return true;
         console.log("getting patient info from db")
         const q = query(collection(this.db,"patients"), where("id","==",id), limit(1))
         const doc = (await getDocs(q)).docs[0]
+        console.log(doc)
+        if(!doc) return false;
         const patientChart = doc.data() as PatientChart;
         this.patientDocRef = doc.ref;
         this.currentPatientID = patientChart?.id;
         $patient.next(patientChart)
+        return true;
     }
 
     async updatePatient() {

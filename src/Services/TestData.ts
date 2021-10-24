@@ -1,11 +1,11 @@
 import { ReportOptions } from "../Types/Report"
-import Database from "./Database"
+// import Database from "./Database"
 import { $reportSet, $settings } from "./State"
 
 export function simulatedData() {
 
-    const db = Database.getInstance();
-    db.getPatient(5456464);
+    // const db = Database.getInstance();
+    // db.getPatient(5456464);
 
     // $patient.next({
     //     id: 5456464,
