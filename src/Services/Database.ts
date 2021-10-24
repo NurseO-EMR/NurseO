@@ -3,6 +3,7 @@ import { addDoc, collection, DocumentReference, getDocs, getFirestore, limit, qu
 import { $error, $patient } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";
 import { PatientChart } from "../Types/PatientProfile";
+import { PatientNotFoundError } from "../Types/ErrorCodes";
 
 export default class Database {
     private static instance: Database;
@@ -34,7 +35,7 @@ export default class Database {
     async updatePatient() {
         console.log(this.patientDocRef)
         if(this.patientDocRef === null ){
-            $error.next("Please scan the patient barcode")
+            $error.next(new PatientNotFoundError())
         } else {
             await updateDoc(this.patientDocRef, $patient.value);
         }

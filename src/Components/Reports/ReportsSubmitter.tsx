@@ -10,6 +10,7 @@ import EmptyCard from '../Dashboard/Card/EmptyCard';
 import TableHeader from '../TableHeader';
 import ReportsHeaderTimeSlots from './ReportsHeaderTimeSlots';
 import ReportInput from './ReportInput';
+import { PatientNotFoundError } from '../../Types/ErrorCodes';
 
 type Props =  React.HTMLAttributes<HTMLDivElement> &  {
     reportType: ReportType
@@ -97,7 +98,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
     onInputChangeHandler(filedName: string, timeSlotIndex: number, value: string, reportsSetIndex: number) {
         
         const patient = $patient.value;
-        if(patient === undefined) $error.next("pease scan patient barcode"); 
+        if(patient === undefined) $error.next(new PatientNotFoundError()); 
         if(patient!.studentReports === undefined) patient!.studentReports = [];
         
         const updatedReport:StudentReport = {

@@ -13,6 +13,7 @@ import VitalsPage from './Pages/StudentView/Vitals/VitalsPage';
 import VitalsViewPage from './Pages/StudentView/Vitals/VitalsViewPage';
 import Database from './Services/Database';
 import LabsViewer from './Pages/StudentView/Labs/LabsViewer';
+import { PatientNotFoundError } from './Types/ErrorCodes';
 // import Database from "./Services/Database";
 
 type Props = {}
@@ -31,8 +32,8 @@ export default class App extends React.Component<Props, State> {
         patient: null
     }
     Database.initialize();
-    $error.subscribe(_=>{
-      this.history.replace("/studentView/Dashboard")
+    $error.subscribe(error=>{
+      if(error instanceof PatientNotFoundError) this.history.replace("/studentView/Dashboard");
     });
   }
 
@@ -50,6 +51,7 @@ export default class App extends React.Component<Props, State> {
       <Router history={this.history}>
         <Switch>
           <Route exact path="/"><Login/></Route>
+
           <Route exact path="/studentView/dashboard"><DashboardPage patient={this.state.patient} /></Route>
           <Route exact path="/studentView/dashboard/medications"><MedicationsPage patient={this.state.patient} /></Route>
           <Route exact path="/studentView/dashboard/allergies"><AllergiesPage patient={this.state.patient} /></Route>

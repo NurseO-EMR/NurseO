@@ -2,6 +2,7 @@ import { filter } from 'lodash';
 import React from 'react';
 import ReportsViewer from '../../../Components/Reports/ReportsViewer';
 import { $error } from '../../../Services/State';
+import { PatientNotFoundError } from '../../../Types/ErrorCodes';
 import { PatientChart } from '../../../Types/PatientProfile';
 import { StudentReport } from '../../../Types/Report';
 import StudentViewPage from '../StudentViewPage';
@@ -21,7 +22,7 @@ export default class VitalsViewPage extends React.Component<Props> {
 
     componentDidMount(){
         if(this.props.patient === null) {
-            $error.next("Please Scan patient barcode")
+            $error.next(new PatientNotFoundError())
         }
     }
 
