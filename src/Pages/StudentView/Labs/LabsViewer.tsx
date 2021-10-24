@@ -20,7 +20,7 @@ export default class LabsViewer extends React.Component<Props> {
     public render() {	
         return (
             <StudentViewPage patient={this.props.patient}>
-                <ReportsViewer studentReport={this.labsReport}></ReportsViewer>
+                <ReportsViewer title="Labs" studentReport={this.labsReport}></ReportsViewer>
             </StudentViewPage>
 
         );

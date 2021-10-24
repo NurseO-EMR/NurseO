@@ -7,6 +7,7 @@ import { groupBy, filter, sortBy } from "lodash"
 type Props = {
     studentReport: StudentReport[],
     className?: string,
+    title: string
 }
 
 type State = {
@@ -48,7 +49,7 @@ export default class ReportsViewer extends React.Component<Props, State> {
     public render() {
         return (
             <div className={this.props.className}>
-                <EmptyCard title="Vitals">
+                <EmptyCard title={this.props.title}>
                     <div className="px-28">
                         <div className="flex justify-between px-8 pt-4">
                             <div>

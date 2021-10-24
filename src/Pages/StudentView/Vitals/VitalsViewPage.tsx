@@ -29,7 +29,7 @@ export default class VitalsViewPage extends React.Component<Props> {
     public render() {	
         return (
             <StudentViewPage patient={this.props.patient}>
-                <ReportsViewer studentReport={this.vitalsReport}/>
+                <ReportsViewer studentReport={this.vitalsReport} title={"Vitals"}/>
             </StudentViewPage>
 
         );
