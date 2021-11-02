@@ -51,6 +51,10 @@ module.exports = {
       },
       gridTemplateRows: {
         "threeSections": "min-content min-content 1fr"
+      },
+      zIndex: {
+        'background': "-5",
+        'hue': "-4"
       }
     }
   },
