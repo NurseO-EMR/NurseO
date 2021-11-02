@@ -4,7 +4,7 @@ import DashboardPage from './Pages/StudentView/Dashboard/DashboardPage';
 import { PatientChart } from './Types/PatientProfile';
 import {$error, $history, $patient} from "./Services/State";
 import Login from './Pages/Login';
-import MARPage from "./Pages/StudentView/MARPage"
+import MARPage from "./Pages/StudentView/Mar/MARPage"
 import MedicationsPage from './Pages/StudentView/Dashboard/MedicationsPage';
 import AllergiesPage from './Pages/StudentView/Dashboard/AllergiesPage';
 import FlagsPage from './Pages/StudentView/Dashboard/FlagsPage';
