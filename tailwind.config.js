@@ -17,6 +17,7 @@ module.exports = {
     },
     textColor: {
       red: colors.rose,
+      green: colors.green,
       'primary': '#f43f5e',
       'secondary': '#000000',
       'white': "#ffffff"
@@ -35,6 +36,7 @@ module.exports = {
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
+      logo: ['Monoton', 'cursive']
     },
     extend: {
       spacing: {
