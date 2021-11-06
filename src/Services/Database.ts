@@ -4,6 +4,8 @@ import { $error, $patient } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";
 import { PatientChart } from "../Types/PatientProfile";
 import { PatientNotFoundError } from "../Types/ErrorCodes";
+import { Medication } from "../Types/Medications";
+import { findIndex } from "lodash";
 
 export default class Database {
     private static instance: Database;
@@ -11,6 +13,7 @@ export default class Database {
     private db;
     private patientDocRef: DocumentReference | null;
     private currentPatientID: number | null | undefined;
+    private cachedMeds: Medication[]
 
     constructor() {
         initializeApp(firebaseConfig);
@@ -18,6 +21,7 @@ export default class Database {
         this.patient = null;
         this.patientDocRef = null;
         this.currentPatientID = null;
+        this.cachedMeds = [];
     }
 
     async getPatient(id: string): Promise<boolean> {
@@ -46,6 +50,28 @@ export default class Database {
     async addPatient(patient:PatientChart) {
         await addDoc(collection(this.db, "patients"), patient);
     }
+
+    async addMedication(medication: Medication) {
+        await addDoc(collection(this.db, "medications"), medication);
+    }
+
+    async getMedication(medID: string): Promise<Medication|null> {
+        //check if the med is cached 
+        const medIndex = findIndex(this.cachedMeds, {id:medID});
+        if(medIndex>-1) return this.cachedMeds[medIndex];
+
+        console.log("getting medication info from db")
+        const q = query(collection(this.db,"medications"), where("id","==",medID), limit(1))
+        const doc = (await getDocs(q)).docs[0]
+        if(!doc) return null;
+        const medication = doc.data() as Medication;
+        this.cachedMeds.push(medication);
+        return medication;
+    }
+
+
+
+
 
 
 

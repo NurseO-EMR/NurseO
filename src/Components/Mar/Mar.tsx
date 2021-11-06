@@ -1,9 +1,9 @@
 import React from 'react';
-import { Medication } from '../../Types/PatientProfile';
+import { MedicationOrder } from '../../Types/PatientProfile';
 import MarEntry from './MarEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-    medications: Medication[]
+    medications: MedicationOrder[]
 }
 
 export default class Mar extends React.Component<Props> {

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Medication } from '../../../Types/PatientProfile';
+import { MedicationOrder } from '../../../Types/PatientProfile';
 import Card from './Card';
 import MedicationEntry from './MedicationEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> &  {
-    medications: Medication[] | undefined
+    medications: MedicationOrder[] | undefined
 }
 
 export default class MedicationCard extends React.Component<Props> {

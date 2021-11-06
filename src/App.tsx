@@ -14,6 +14,7 @@ import Database from './Services/Database';
 import LabsViewer from './Pages/StudentView/Labs/LabsViewer';
 import { PatientNotFoundError } from './Types/ErrorCodes';
 import SelectPatient from './Pages/SelectPatient';
+import AdministerMedsPage from './Pages/StudentView/Mar/AdministerMedsPage';
 
 type Props = {}
 type State = {
@@ -59,6 +60,7 @@ export default class App extends React.Component<Props, State> {
           <Route exact path="/studentView/dashboard/flags"><FlagsPage patient={this.state.patient} /></Route>
 
           <Route exact path="/studentView/mar"><MARPage patient={this.state.patient} /></Route>
+          <Route exact path="/studentView/mar/administer"><AdministerMedsPage patient={this.state.patient} /></Route>
 
           <Route exact path="/studentView/vitals"><VitalsViewPage patient={this.state.patient} /></Route>
           <Route exact path="/studentView/vitals/view"><VitalsViewPage patient={this.state.patient} /></Route>

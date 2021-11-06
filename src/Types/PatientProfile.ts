@@ -10,7 +10,7 @@ export type PatientChart = {
     weight: number,
     allergies: Allergy[],
     medicalIssues: MedicalIssue[],
-    medications: Medication[],
+    medications: MedicationOrder[],
     flags: Flag[],
     immunizations: string[],
     notes: Note[],
@@ -35,8 +35,8 @@ export type Flag = {
     reason:string
 }
 
-export type Medication = {
-    name:string,
+export type MedicationOrder = {
+    id: string,
     concentration:string, 
     route: string,
     frequency: string,

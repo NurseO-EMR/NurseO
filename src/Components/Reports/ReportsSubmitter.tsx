@@ -57,7 +57,6 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         this.subscriptions.push(settingsSubscription);
         
         // const patient = $patient.value
-        // patient!.studentReports = [];
         // $patient.next(patient);
         // this.saveOnClickHandler();
 
