@@ -2,13 +2,23 @@ import React from 'react';
 import { PatientChart } from '../../Types/PatientProfile';
 import SectionNamedInfo from './SectionNamedInfo';
 import logo from "./../../assets/logo.png"
+import { $patient } from '../../Services/State';
 
 
 type Props=React.HTMLAttributes<HTMLDivElement> & {
     patient: PatientChart
 }
-type State = {}
+type State = {
+    time: string | undefined
+}
 export default class ArmBand extends React.Component<Props,State> {
+
+    constructor(props:Props) {
+        super(props);
+        this.state = {
+            time: $patient.value?.time
+        }
+    }
 
     public render() {	
         return (
@@ -31,7 +41,7 @@ export default class ArmBand extends React.Component<Props,State> {
                     </SectionNamedInfo>
                     <SectionNamedInfo name="Height">{this.props.patient?.height} cm</SectionNamedInfo>
                     <SectionNamedInfo name="Weight">{this.props.patient?.weight} kg</SectionNamedInfo>
-                    <SectionNamedInfo name="Sim Time">{new Date().getHours().toString().padStart(2,"0")}:{new Date().getMinutes().toString().padStart(2,"0")}</SectionNamedInfo>
+                    <SectionNamedInfo name="Sim Time">{this.state.time}</SectionNamedInfo>
 
                 </div>
             </div>

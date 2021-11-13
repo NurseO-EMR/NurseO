@@ -8,6 +8,7 @@ export type PatientChart = {
     gender: Gender,
     height: number,
     weight: number,
+    time: string,
     allergies: Allergy[],
     medicalIssues: MedicalIssue[],
     medications: MedicationOrder[],
