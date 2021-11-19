@@ -15,6 +15,7 @@ import LabsViewer from './Pages/StudentView/Labs/LabsViewer';
 import { PatientNotFoundError } from './Types/ErrorCodes';
 import SelectPatient from './Pages/SelectPatient';
 import AdministerMedsPage from './Pages/StudentView/Mar/AdministerMedsPage';
+import WriteNotePage from './Pages/StudentView/Notes/WriteNotePage';
 
 type Props = {}
 type State = {
@@ -68,6 +69,9 @@ export default class App extends React.Component<Props, State> {
 
           <Route exact path="/studentView/labs"><LabsViewer patient={this.state.patient} /></Route>
           <Route exact path="/studentView/labs/view"><LabsViewer patient={this.state.patient} /></Route>
+
+          <Route exact path="/studentView/notes/write"><WriteNotePage patient={this.state.patient} /></Route>
+
         </Switch>
       </Router>
     )
