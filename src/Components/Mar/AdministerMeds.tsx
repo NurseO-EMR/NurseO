@@ -1,7 +1,6 @@
 import { findIndex } from 'lodash';
 import React, { ChangeEvent } from 'react';
 import PureModal from 'react-pure-modal';
-import 'react-pure-modal/dist/react-pure-modal.min.css';
 import Database from '../../Services/Database';
 import { $patient } from '../../Services/State';
 import { MedicationOrder, PatientChart } from '../../Types/PatientProfile';

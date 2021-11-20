@@ -1,4 +1,5 @@
 import React from 'react';
+import './lib/react-pure-modal.min.css';
 import {Route, Router, Switch} from "react-router-dom";
 import DashboardPage from './Pages/StudentView/Dashboard/DashboardPage';
 import { PatientChart } from './Types/PatientProfile';
