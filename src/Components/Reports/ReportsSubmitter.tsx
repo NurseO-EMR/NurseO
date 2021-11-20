@@ -11,6 +11,7 @@ import TableHeader from '../TableHeader';
 import ReportsHeaderTimeSlots from './ReportsHeaderTimeSlots';
 import ReportInput from './ReportInput';
 import { PatientNotFoundError } from '../../Types/ErrorCodes';
+import { getTodaysDateAsString } from '../../Services/Util';
 
 type Props =  React.HTMLAttributes<HTMLDivElement> &  {
     reportType: ReportType
@@ -35,7 +36,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         this.state = {
             ReportSet: null,
             settings: null,
-            date: this.getTodaysDate(),
+            date: getTodaysDateAsString(),
             saveButtonText: "Save",
             status: "completed",
             timeSlots: [],
@@ -62,13 +63,6 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
     }
 
-    getTodaysDate():string {
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = `${(date.getMonth()+1)}`.padStart(2,"0");
-        const day = `${(date.getDate()+1)}`.padStart(2,"0");
-        return `${year}-${month}-${day}`;
-    }
 
     onDateChangeHandler(date:ChangeEvent<HTMLInputElement>) {
         this.setState({

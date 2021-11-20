@@ -15,10 +15,7 @@ export default class NotesCard extends React.Component<Props> {
                 <thead className="font-bold">
                     <tr>
                         <td className="border-2 p-2">Date</td>
-                        <td className="border-2 p-2">Visit Reason</td>
-                        <td className="border-2 p-2">Appearance</td>
-                        <td className="border-2 p-2">Vitals Summary</td>
-                        <td className="border-2 p-2">Assessment</td>
+                        <td className="border-2 p-2">Title</td>
                     </tr>
                 </thead>
                 <tbody>

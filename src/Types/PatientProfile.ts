@@ -60,8 +60,6 @@ export type Allergy = {
 
 export type Note = {
     date: string,
-    visitReason:string,
-    appearance: string, 
-    vitalsSummery: string,
-    assessment: string,
+    title: string,
+    note: string
 }
