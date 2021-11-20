@@ -10,7 +10,7 @@ export default class OrderEntry extends React.Component<Props> {
 
     public render() {
         return (
-            <tr>
+            <tr className="hover:bg-red-700 hover:text-white transition-all duration-200">
                 <td className="border-2 p-2">{this.props.order.orderType}</td>
                 <td className="border-2 p-2">{this.props.order.doctorName}</td>
                 <td className="border-2 p-2">
