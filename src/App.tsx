@@ -21,6 +21,7 @@ import ViewNotePage from './Pages/StudentView/Notes/ViewNotePage';
 import AdmissionOrdersPage from './Pages/StudentView/Orders/AdmissionOrders';
 import ProviderOrdersPage from './Pages/StudentView/Orders/ProviderOrders';
 import StandingOrdersPage from './Pages/StudentView/Orders/StandingOrders';
+import AllOrders from './Pages/StudentView/Orders/AllOrders';
 
 type Props = {}
 type State = {
@@ -78,6 +79,7 @@ export default class App extends React.Component<Props, State> {
           <Route exact path="/studentView/notes/write"><WriteNotePage patient={this.state.patient} /></Route>
           <Route exact path="/studentView/notes/view"><ViewNotePage patient={this.state.patient} /></Route>
 
+          <Route exact path="/studentView/orders/all"><AllOrders patient={this.state.patient} /></Route>
           <Route exact path="/studentView/orders/admission"><AdmissionOrdersPage patient={this.state.patient} /></Route>
           <Route exact path="/studentView/orders/provider"><ProviderOrdersPage patient={this.state.patient} /></Route>
           <Route exact path="/studentView/orders/standing"><StandingOrdersPage patient={this.state.patient} /></Route>
