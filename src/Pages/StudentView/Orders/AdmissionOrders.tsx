@@ -1,5 +1,5 @@
 import React from 'react';
-import Orders from '../../../Components/Dashboard/Card/Orders/Orders';
+import Orders from '../../../Components/Orders/Orders';
 import { OrderType, PatientChart } from '../../../Types/PatientProfile';
 import StudentViewPage from '../StudentViewPage';
 

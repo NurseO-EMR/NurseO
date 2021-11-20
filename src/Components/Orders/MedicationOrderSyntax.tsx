@@ -1,7 +1,7 @@
 import React from 'react';
-import Database from '../../../../Services/Database';
-import { Medication } from '../../../../Types/Medications';
-import { MedicationOrder } from '../../../../Types/PatientProfile';
+import Database from '../../Services/Database';
+import { Medication } from '../../Types/Medications';
+import { MedicationOrder } from '../../Types/PatientProfile';
 
 type Props = {
     order: MedicationOrder

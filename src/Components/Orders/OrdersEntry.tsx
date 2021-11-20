@@ -1,5 +1,5 @@
 import React from 'react';
-import { MedicationOrder } from '../../../../Types/PatientProfile';
+import { MedicationOrder } from '../../Types/PatientProfile';
 import MedicationOrderSyntax from './MedicationOrderSyntax';
 
 

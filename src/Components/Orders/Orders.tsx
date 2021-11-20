@@ -1,6 +1,6 @@
 import React from 'react';
-import { MedicationOrder, OrderType } from '../../../../Types/PatientProfile';
-import Card from '../Card';
+import { MedicationOrder, OrderType } from '../../Types/PatientProfile';
+import Card from '../Dashboard/Card/Card';
 import OrderEntry from './OrdersEntry';
 
 

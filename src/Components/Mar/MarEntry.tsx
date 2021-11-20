@@ -1,8 +1,6 @@
 import React from 'react';
-import Database from '../../Services/Database';
-import { Medication } from '../../Types/Medications';
 import { MedicationOrder, Time } from '../../Types/PatientProfile';
-import MedicationOrderSyntax from '../Dashboard/Card/Orders/MedicationOrderSyntax';
+import MedicationOrderSyntax from '../Orders/MedicationOrderSyntax';
 
 type Props = {
     order: MedicationOrder,
