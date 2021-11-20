@@ -43,11 +43,11 @@ export default class AdministerMeds extends React.Component<Props,State> {
     async onScanHandler() {
         const db = Database.getInstance();
         const patient = $patient.value;
-        const medIndex = this.getMedIndex(patient!.medications);
+        const medIndex = this.getMedIndex(patient!.medicationOrders);
         if(medIndex>-1) {
-            const med = await db.getMedication(patient!.medications[medIndex].id);
+            const med = await db.getMedication(patient!.medicationOrders[medIndex].id);
             this.setState({
-                scannedMedicationOrder: patient?.medications[medIndex],
+                scannedMedicationOrder: patient?.medicationOrders[medIndex],
                 scannedMedicationName:med!.name
             });
             
@@ -58,11 +58,11 @@ export default class AdministerMeds extends React.Component<Props,State> {
     async onSubmit() {
         const db = Database.getInstance();
         const patient = $patient.value!;
-        const medications = patient.medications;
+        const medications = patient.medicationOrders;
         const medIndex = this.getMedIndex(medications)
         if(medIndex>-1) {
             const time = patient.time.split(":");
-            patient.medications[medIndex].mar.push({
+            patient.medicationOrders[medIndex].mar.push({
                 hour: Number.parseInt(time[0]),
                 minutes: Number.parseInt(time[1])
             })

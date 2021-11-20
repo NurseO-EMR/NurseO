@@ -13,10 +13,10 @@ export default class SideNav extends React.Component<React.HTMLAttributes<HTMLDi
                 <SideNavItem href="/studentView/dashboard/allergies">Allergies</SideNavItem>
                 <SideNavItem href="/studentView/dashboard/flags">Flags</SideNavItem>
 
-                <SideNavHeader href="/studentView/notes/view">Orders</SideNavHeader>
+                <SideNavHeader href="/studentView/orders/admission">Orders</SideNavHeader>
                 <SideNavItem href="/studentView/orders/admission">Admission Orders</SideNavItem>
-                <SideNavItem href="/studentView/notes/standing">Standing Orders</SideNavItem>
-                <SideNavItem href="/studentView/notes/provider">Provider Orders</SideNavItem>
+                <SideNavItem href="/studentView/orders/standing">Standing Orders</SideNavItem>
+                <SideNavItem href="/studentView/orders/provider">Provider Orders</SideNavItem>
 
                 <SideNavHeader href="/studentView/mar">Mar</SideNavHeader>
                 <SideNavItem href="/studentView/mar">View Mar</SideNavItem>

@@ -1,7 +1,7 @@
 import { Gender } from "./Gender"
 import { StudentReport } from "./Report";
 export type PatientChart = {
-    id: number,
+    id: string,
     name: string,
     dob: string,
     age: number,
@@ -11,7 +11,7 @@ export type PatientChart = {
     time: string,
     allergies: Allergy[],
     medicalIssues: MedicalIssue[],
-    medications: MedicationOrder[],
+    medicationOrders: MedicationOrder[],
     flags: Flag[],
     immunizations: string[],
     notes: Note[],
@@ -45,7 +45,8 @@ export type MedicationOrder = {
     PRNNote: string | null,
     notes: string
     mar: Time[],
-    
+    orderType: OrderType,
+    doctorName: string
 }
 
 export type Time = {
@@ -62,4 +63,11 @@ export type Note = {
     date: string,
     title: string,
     note: string
+}
+
+export enum OrderType {
+    admission = "Admission",
+    standing = "Standing",
+    provider = "Provider",
+
 }

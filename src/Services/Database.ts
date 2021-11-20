@@ -12,7 +12,7 @@ export default class Database {
     private patient: PatientChart;
     private db;
     private patientDocRef: DocumentReference | null;
-    private currentPatientID: number | null | undefined;
+    private currentPatientID: string | null | undefined;
     private cachedMeds: Medication[]
 
     constructor() {
@@ -29,7 +29,6 @@ export default class Database {
         console.log("getting patient info from db")
         const q = query(collection(this.db,"patients"), where("id","==",id), limit(1))
         const doc = (await getDocs(q)).docs[0]
-        console.log(doc)
         if(!doc) return false;
         const patientChart = doc.data() as PatientChart;
         this.patientDocRef = doc.ref;

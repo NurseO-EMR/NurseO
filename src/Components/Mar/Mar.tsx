@@ -49,7 +49,7 @@ export default class Mar extends React.Component<Props> {
                 </thead>
                 <tbody>
                     {
-                        this.props.medications.map((medication,i)=><MarEntry timeSlots={this.timeSlots} key={i} medication={medication}></MarEntry>)
+                        this.props.medications.map((medication,i)=><MarEntry timeSlots={this.timeSlots} key={i} order={medication}></MarEntry>)
                     }
                 </tbody>
             </table>
