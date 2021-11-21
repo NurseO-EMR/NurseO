@@ -4,7 +4,8 @@ import { Medication } from '../../Types/Medications';
 import { MedicationOrder } from '../../Types/PatientProfile';
 
 type Props = {
-    order: MedicationOrder
+    order: MedicationOrder,
+    
 }
 type State = {
     medication:Medication|null

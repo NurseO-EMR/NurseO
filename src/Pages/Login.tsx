@@ -54,12 +54,13 @@ export default class Login extends React.Component<Props,State> {
                     <div className="bg-white p-28 rounded-4xl border-red-500 border-8">
                         <Logo className="text-6xl mb-10" />
                         <h1 className="text-xl font-bold">Please Scan Your Badge</h1>
-                        <input type="password" 
+                        <input type="password" autoFocus
                             className="my-5 border-2 rounded-full text-center p-4 border-red-700 w-full" 
                             placeholder="Or type your badge number here" 
                             onChange={this.onBadgeNumberChange.bind(this)}
                             /><br />
-                        <button onClick={this.onClickHandler.bind(this)} className="rounded-full bg-red-700 text-white p-4 font-bold tracking-wider w-full">Sign in</button>
+                        <button onClick={this.onClickHandler.bind(this)} 
+                            className="rounded-full bg-red-700 text-white p-4 font-bold tracking-wider w-full">Sign in</button>
                         <div>{this.state.error}</div>
                     </div>
                 </div>
