@@ -1,5 +1,6 @@
 import { filter } from 'lodash';
 import React from 'react';
+import { $providerOrdersAvailable } from '../../Services/State';
 import { MedicationOrder, OrderType } from '../../Types/PatientProfile';
 import Card from '../Dashboard/Card/Card';
 import OrderEntry from './OrdersEntry';
@@ -18,12 +19,24 @@ export default class Orders extends React.Component<Props, State> {
 
     constructor(props:Props) {
         super(props)
+        let filteredOrders: MedicationOrder[] = [];
+
+        // if the order type prop provided then show only that order type
         if(this.props.orderType) {
-            const filteredOrders = filter(this.props.orders, {orderType: this.props.orderType})
-            this.state = {filteredOrders}
+            filteredOrders = filter(this.props.orders, {orderType: this.props.orderType})
         } else {
-            this.state = {filteredOrders: this.props.orders}
+            // if no order type provided then check if the provider orders are available 
+            if(!$providerOrdersAvailable.value) {
+                //if they are not available then show everything except the provider orders ( used for the orders tab)
+                filteredOrders = filter(this.props.orders, order=> order.orderType !== OrderType.provider)
+            } else {
+                // if they are available then show everything
+                if(this.props.orders) filteredOrders = this.props.orders
+            }
         }
+        // the provider order tab is protected by its own component
+
+        this.state = {filteredOrders}
     }
 
     public render() {	

@@ -13,6 +13,7 @@ export const $reportSet = new BehaviorSubject<ReportSet[]>([]);
 export const $settings = new BehaviorSubject<Settings>(null);
 export const $error = new BehaviorSubject<Error>(new NoErrors());
 export const $history = new BehaviorSubject<History>(createBrowserHistory());
+export const $providerOrdersAvailable = new BehaviorSubject<boolean>(false);
 
 simulatedData();
 
