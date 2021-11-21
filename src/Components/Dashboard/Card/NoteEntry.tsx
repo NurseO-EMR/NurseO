@@ -40,7 +40,7 @@ export default class NoteEntry extends React.Component<Props,State> {
             <PureModal isOpen={!!this.state.shownNote} header="Note"
                  draggable={true} onClose={this.onModalClose.bind(this)} className="" width="60vw">
                      <div>
-                          {this.props.note.note.split("\n").map(n=><p>{n}</p>)}
+                          {this.props.note.note.split("\n").map((n,i)=><p key={i}>{n}</p>)}
                           <button onClick={this.onModalClose.bind(this)}
                             className="block m-auto bg-red-700 text-white py-2 px-6 rounded-full font-bold"
                           >Close</button>
