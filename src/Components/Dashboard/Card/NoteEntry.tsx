@@ -1,6 +1,6 @@
 import React from 'react';
 import PureModal from "react-pure-modal";
-import { Note } from '../../../Types/PatientProfile';
+import { Note, NursingNoteType } from '../../../Types/PatientProfile';
 
 
 export type Props = {
@@ -29,12 +29,17 @@ export default class NoteEntry extends React.Component<Props,State> {
         })
     }
 
+    getNoteTypeValue(type: NursingNoteType) {
+        const index = Object.keys(NursingNoteType).indexOf(type);
+        return Object.values(NursingNoteType)[index];
+    }
+
     public render() {
         return (
             <>
             <tr className="hover:bg-red-700 hover:text-white cursor-pointer transition-all duration-200" onClick={this.onClickHandler.bind(this)}>
                 <td className="border-2 p-2">{this.props.note.date.toString()}</td>
-                <td className="border-2 p-2">{this.props.note.title.toString()}</td>
+                <td className="border-2 p-2">{ this.getNoteTypeValue(this.props.note.type)}</td>
             </tr>
 
             <PureModal isOpen={!!this.state.shownNote} header="Note"

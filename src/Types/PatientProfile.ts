@@ -61,7 +61,7 @@ export type Allergy = {
 
 export type Note = {
     date: string,
-    title: string,
+    type: NursingNoteType,
     note: string
 }
 
@@ -70,4 +70,16 @@ export enum OrderType {
     standing = "Standing",
     provider = "Provider",
 
+}
+
+export enum NursingNoteType {
+    unknown = "",
+    Nursing_Progress_Notes = "Nursing Progress Notes",
+    Narrative_Nursing_Notes = "Narrative Nursing Notes",
+    Problem_Oriented_Nursing_Notes = "Problem Oriented Nursing Notes",
+    Charting_By_Exception_Nursing_Notes = "Charting By Exception Nursing Notes",
+    Nursing_Admission_Assessment = "Nursing Admission Assessment",
+    Nursing_Care_Plans = "Nursing Care Plans",
+    Graphic_Sheets = "Graphic Sheets",
+    Medication_Administration_Records = "Medication Administration Records",
 }
