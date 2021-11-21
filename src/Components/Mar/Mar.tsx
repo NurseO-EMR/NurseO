@@ -1,19 +1,34 @@
+import { filter } from 'lodash';
 import React from 'react';
-import { MedicationOrder } from '../../Types/PatientProfile';
+import { $providerOrdersAvailable } from '../../Services/State';
+import { MedicationOrder, OrderType } from '../../Types/PatientProfile';
 import MarEntry from './MarEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-    medications: MedicationOrder[]
+    orders: MedicationOrder[]
 }
 
-export default class Mar extends React.Component<Props> {
+type State = {
+    filteredOrders: MedicationOrder[]
+}
 
-    private readonly timeSlotsCount = 2;
+export default class Mar extends React.Component<Props, State> {
+
     private timeSlots: number[];
 
     constructor(props:Props) {
         super(props);
         this.timeSlots = this.getTimeSlots();
+
+        if($providerOrdersAvailable.value) {
+            this.state = {
+                filteredOrders: this.props.orders
+            }
+        } else {
+            this.state = {
+                filteredOrders: filter(this.props.orders, order=> order.orderType !== OrderType.provider)
+            }
+        }
     }
 
 
@@ -21,7 +36,7 @@ export default class Mar extends React.Component<Props> {
         let smallest = Number.MAX_VALUE;
         let biggest = 0;
         let output = [];
-        for(const medication of this.props.medications) {
+        for(const medication of this.props.orders) {
             for(const time of medication.mar) {
                 if(time.hour > biggest) biggest=time.hour;
                 if(time.hour < smallest) smallest=time.hour;
@@ -49,7 +64,7 @@ export default class Mar extends React.Component<Props> {
                 </thead>
                 <tbody>
                     {
-                        this.props.medications.map((medication,i)=><MarEntry timeSlots={this.timeSlots} key={i} order={medication}></MarEntry>)
+                        this.state.filteredOrders.map((order,i)=><MarEntry timeSlots={this.timeSlots} key={i} order={order}></MarEntry>)
                     }
                 </tbody>
             </table>

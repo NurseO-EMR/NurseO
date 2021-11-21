@@ -1,9 +1,10 @@
 import { findIndex } from 'lodash';
 import React, { ChangeEvent } from 'react';
 import PureModal from 'react-pure-modal';
+import { filter } from 'lodash';
 import Database from '../../Services/Database';
-import { $patient } from '../../Services/State';
-import { MedicationOrder, PatientChart } from '../../Types/PatientProfile';
+import { $patient, $providerOrdersAvailable } from '../../Services/State';
+import { MedicationOrder, OrderType, PatientChart } from '../../Types/PatientProfile';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 
 type Props = {
@@ -15,6 +16,7 @@ type State = {
     scannedMedicationOrder: MedicationOrder | undefined
     scannedMedicationName: string,
     dose: string,
+    medicationNotFound: boolean,
 }
 export default class AdministerMeds extends React.Component<Props,State> {
 
@@ -24,7 +26,8 @@ export default class AdministerMeds extends React.Component<Props,State> {
             medicationID: "",
             scannedMedicationOrder: undefined,
             scannedMedicationName: "",
-            dose: ""
+            dose: "",
+            medicationNotFound: false
         }
     }
 
@@ -43,14 +46,19 @@ export default class AdministerMeds extends React.Component<Props,State> {
     async onScanHandler() {
         const db = Database.getInstance();
         const patient = $patient.value;
-        const medIndex = this.getMedIndex(patient!.medicationOrders);
+        let medications = patient!.medicationOrders;
+        if(!$providerOrdersAvailable.value) medications = filter(medications, order=> order.orderType !== OrderType.provider)
+        const medIndex = this.getMedIndex(medications);
         if(medIndex>-1) {
             const med = await db.getMedication(patient!.medicationOrders[medIndex].id);
             this.setState({
                 scannedMedicationOrder: patient?.medicationOrders[medIndex],
                 scannedMedicationName:med!.name
             });
-            
+        } else {
+            this.setState({
+                medicationNotFound: true
+            })
         }
         
     }
@@ -80,7 +88,8 @@ export default class AdministerMeds extends React.Component<Props,State> {
     onModalClose() {
         this.setState({
             scannedMedicationOrder: undefined,
-            scannedMedicationName: ""
+            scannedMedicationName: "",
+            medicationNotFound: false
         })
     }
 
@@ -122,6 +131,12 @@ export default class AdministerMeds extends React.Component<Props,State> {
                         <button className="bg-red-700 text-white py-4 px-16 rounded-full font-bold" onClick={this.onSubmit.bind(this)}>Submit</button>
                     </div>
                 </PureModal>
+
+                <PureModal isOpen={this.state.medicationNotFound} header="Medication Not Founded" 
+                    onClose={this.onModalClose.bind(this)} className="text-center" width="60vw">
+                        <h1>The medication was not found please try again or verify that you have the right medication</h1>
+                    </PureModal>
+
             </>
         );
     }
