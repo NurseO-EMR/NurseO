@@ -1,5 +1,7 @@
+import { filter } from 'lodash';
 import React from 'react';
-import { MedicationOrder } from '../../../Types/PatientProfile';
+import { $providerOrdersAvailable } from '../../../Services/State';
+import { MedicationOrder, OrderType } from '../../../Types/PatientProfile';
 import Card from './Card';
 import MedicationEntry from './MedicationEntry';
 
@@ -7,7 +9,28 @@ type Props = React.HTMLAttributes<HTMLDivElement> &  {
     medications: MedicationOrder[] | undefined
 }
 
-export default class MedicationCard extends React.Component<Props> {
+
+type State = {
+    filteredOrders: MedicationOrder[]
+}
+
+export default class MedicationCard extends React.Component<Props, State> {
+
+    
+    constructor(props:Props) {
+        super(props);
+
+        if($providerOrdersAvailable.value) {
+            this.state = {
+                filteredOrders: this.props.medications!
+            }
+        } else {
+            this.state = {
+                filteredOrders: filter(this.props.medications, order=> order.orderType !== OrderType.provider)
+            }
+        }
+    }
+
 
     public render() {
         return (
@@ -23,8 +46,8 @@ export default class MedicationCard extends React.Component<Props> {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.medications ? 
-                        this.props.medications.map((medication,i) => <MedicationEntry key={i} medication={medication}></MedicationEntry>): 
+                    {this.state.filteredOrders ? 
+                        this.state.filteredOrders.map((medication,i) => <MedicationEntry key={i} medication={medication}></MedicationEntry>): 
                         <tr><td><h1>No medications added</h1></td></tr>
                     }
                 </tbody>
