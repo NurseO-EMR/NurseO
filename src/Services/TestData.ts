@@ -314,7 +314,29 @@ export function simulatedData() {
 
     $reportSet.next([
         {
-            name: "0-10 Faces/Scales",
+            name: "Hart",
+            type: "studentVitalsReport",
+            vitals: [
+                {
+                    name: "HR",
+                    fieldType: "text",
+                },
+                {
+                    name: "RR",
+                    fieldType: "text",
+                },
+                {
+                    name: "Temp",
+                    fieldType: "text",
+                },
+                {
+                    name: "BP",
+                    fieldType: "text"
+                },
+            ]
+        },
+        {
+            name: "Skeleton",
             type: "studentVitalsReport",
             vitals: [
                 {

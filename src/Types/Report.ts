@@ -24,7 +24,8 @@ export type StudentReport = {
     time:string,
     value:string,
     date: string,
-    reportType: ReportType
+    reportType: ReportType,
+    note: string
 }
     
 export type ReportType = "studentVitalsReport" | "studentLabReport";
