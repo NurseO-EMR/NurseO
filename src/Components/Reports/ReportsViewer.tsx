@@ -1,91 +1,115 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { StudentReport } from '../../Types/Report';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
-import TableHeader from '../TableHeader';
-import { groupBy, filter, sortBy } from "lodash"
+import { groupBy, times, uniq } from "lodash"
+import ReportTabs from './ReportTabs';
 
 type Props = {
     studentReport: StudentReport[],
     className?: string,
-    title: string
+    title: string,
 }
 
 type State = {
-    date: string
+    selectedTab: number
 }
 export default class ReportsViewer extends React.Component<Props, State> {
+
+    private filteredSets;
 
     constructor(props: Props) {
         super(props);
         this.state = {
-            date: this.getDates()[0]
+            selectedTab: 1
         }
+        this.filteredSets = this.getSets();
+        this.getRows();
     }
 
-
-    getDates(): string[] {
-        const groupedByDate = groupBy(this.props.studentReport, "date");
-        return Object.keys(groupedByDate);
+    onTabSelectionHandler(selectedTab: number) {
+        this.setState({ selectedTab })
     }
 
-    getSets(): string[] {
-        const filtered = filter(this.props.studentReport, { date:this.state.date });
-        const sets = groupBy(filtered, "setName")
-        return Object.keys(sets);
+    getSets() {
+        const sets = groupBy(this.props.studentReport, "setName");
+        return Object.entries(sets);
     }
 
-    getVitals( setName: string) {
-        const filtered = filter(this.props.studentReport, { date:this.state.date, setName })
-        const sorted = sortBy(filtered, "time")
-        return sorted;
+    getVitalNames() {
+        const set = this.filteredSets[this.state.selectedTab];
+        const vitals = set[1];
+        const headers = vitals.map(vital=>vital.vitalName);
+        const uniqueHeaders = uniq(headers);
+        return uniqueHeaders;
     }
 
-    onDateChangeHandler(event: ChangeEvent<HTMLSelectElement>) {
-        this.setState({
-            date: event.target.value
+    //this function is expensive and might require optimization letter
+    getTimes() {
+        const vitals = this.filteredSets[this.state.selectedTab][1];
+        const times = vitals.map(vital=> `${vital.date} ${vital.time}`);
+        return uniq(times.sort());
+    }
+
+    getRows() {
+        const map = this.makeVitalsMap();
+        const rows:JSX.Element[] = [];
+        map.forEach((valuesArray,name)=>{
+            const row = (
+                <tr>
+                    <td>{name}</td>
+                    {valuesArray.map(value=> <td>{value}</td> )}
+                </tr>
+            )
+            rows.push(row);
         })
+        return rows;
     }
+
+
+    makeVitalsMap() {
+        const vitals = this.filteredSets[this.state.selectedTab][1];
+        const times = this.getTimes();
+        let map = new Map<string, string[]>();
+
+        for(const vital of vitals) {
+            const formattedTime = `${vital.date} ${vital.time}`;
+            if(!map.has(vital.vitalName)) {
+                const vitalsArray = new Array<string>(times.length);
+                const index = times.indexOf(formattedTime);
+                vitalsArray[index] = vital.value;
+                map.set(vital.vitalName, vitalsArray);
+            } else {
+                const vitalsArray = map.get(vital.vitalName)!;
+                const index = times.indexOf(formattedTime);
+                vitalsArray[index] = vital.value;
+                map.set(vital.vitalName, vitalsArray);
+            }
+        }
+        return map;
+    }
+
 
     public render() {
         return (
             <div className={this.props.className}>
                 <EmptyCard title={this.props.title}>
-                    <div className="px-28">
-                        <div className="flex justify-between px-8 pt-4">
-                            <div>
-                                <label className="font-bold">Date: </label>
-                                <select value={this.state.date} onChange={this.onDateChangeHandler.bind(this)} className="border-2 text-center">
-                                    {this.getDates().map((date,i) => (
-                                        <option value={date} key={i}>{date}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
+                    <ReportTabs selectedTab={this.state.selectedTab} onTabSelectionHandler={this.onTabSelectionHandler.bind(this)}
+                        reportSets={this.filteredSets.map(set => set[0])} />
 
-                        {this.getSets().map((setName,i)=>(
-                            <div key={i}>
-                                <TableHeader>{setName}</TableHeader>
-                                <table className="w-full m-auto">
-                                    <thead className="font-bold">
-                                        <tr>
-                                            <td className="pl-8">Time</td>
-                                            <td>Vital Name</td>
-                                            <td>Vital Value</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.getVitals(setName).map((vital,j)=>(
-                                            <tr key={j}  className="odd:bg-gray-100 even:bg-gray-300 h-10">
-                                                <td className="pl-8">{vital.time}</td>
-                                                <td>{vital.vitalName}</td>
-                                                <td>{vital.value}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ))}
-                    </div>
+                    <table className="w-full table-auto text-center">
+                        <thead>
+                                <tr>
+                                    <th key={-1}>Vital</th>
+                                    {this.getTimes().map((time, i) =>
+                                        <th key={i}>{time}</th>
+                                    )}
+                                </tr>
+                        </thead>
+                        <tbody>
+                            {this.getRows()}
+                        </tbody>
+                    </table>
+
                 </EmptyCard>
             </div>
 

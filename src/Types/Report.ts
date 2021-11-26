@@ -1,6 +1,6 @@
 export type ReportSet = {
     name: string,
-    vitals: Report[],
+    reportFields: Report[],
     type: ReportType
 };
 

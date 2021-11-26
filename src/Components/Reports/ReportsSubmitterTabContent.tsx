@@ -17,7 +17,7 @@ export default class ReportsSubmitterTabContent extends React.Component<Props> {
             <table className="w-full">
                 <tbody>
                     <ReportsHeaderTimeSlots onChange={this.props.onTimeSlotChanges} numberOfTimeSlots={$settings.value!.numberOfTimeSlots}></ReportsHeaderTimeSlots>
-                    {this.props.reportSet.vitals.map((val, i) =>
+                    {this.props.reportSet.reportFields.map((val, i) =>
                         <ReportInput
                             onChange={(name, index, value) => this.props.onInputChangeHandler(name, index, value)}
                             key={i}

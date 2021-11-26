@@ -316,7 +316,7 @@ export function simulatedData() {
         {
             name: "Hart",
             type: "studentVitalsReport",
-            vitals: [
+            reportFields: [
                 {
                     name: "HR",
                     fieldType: "text",
@@ -338,7 +338,7 @@ export function simulatedData() {
         {
             name: "Skeleton",
             type: "studentVitalsReport",
-            vitals: [
+            reportFields: [
                 {
                     name: "Pain",
                     fieldType: "T/F",

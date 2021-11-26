@@ -10,6 +10,7 @@ import EmptyCard from '../Dashboard/Card/EmptyCard';
 import { PatientNotFoundError } from '../../Types/ErrorCodes';
 import { getTodaysDateAsString } from '../../Services/Util';
 import ReportsSubmitterTabContent from './ReportsSubmitterTabContent';
+import ReportTabs from './ReportTabs';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     reportType: ReportType
@@ -23,7 +24,7 @@ type State = {
     status: Status,
     timeSlots: Array<string>,
     selectedTab: number,
-    note:string
+    note: string
 }
 
 export default class ReportsSubmitter extends React.Component<Props, State> {
@@ -140,9 +141,9 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         this.setState({ selectedTab })
     }
 
-    onNoteChangeHandler(event:ChangeEvent<HTMLTextAreaElement>) {
+    onNoteChangeHandler(event: ChangeEvent<HTMLTextAreaElement>) {
         this.setState({
-            note:event.target.value
+            note: event.target.value
         })
     }
 
@@ -158,29 +159,22 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
                         <button onClick={this.saveOnClickHandler.bind(this)} className="bg-red-600 text-white rounded-full px-8 py-1">{this.state.saveButtonText}</button>
                     </div>
 
-                    <div className="flex gap-3">
-                        {this.state.ReportSets?.map((reportSet, i) => (
-                            <>
-                                <button
-                                    className={this.state.selectedTab === i ? this.tabsButtonClassNames.active : this.tabsButtonClassNames.inactive}
-                                    key={i}
-                                    onClick={() => this.onTabSelectionHandler(i)}
-                                >{reportSet.name}</button>
-                            </>
-                        ))}
-                    </div>
-                    {/* check if value is null */}
-                    {this.state.ReportSets ? 
-                        <ReportsSubmitterTabContent 
-                            onInputChangeHandler={this.onInputChangeHandler.bind(this)} 
-                            reportSet={this.state.ReportSets[this.state.selectedTab]} 
+
+                    <ReportTabs onTabSelectionHandler={this.onTabSelectionHandler.bind(this)} reportSets={this.state.ReportSets?.map(report=>report.name)}
+                        selectedTab={this.state.selectedTab} />
+
+
+                    {this.state.ReportSets ?
+                        <ReportsSubmitterTabContent
+                            onInputChangeHandler={this.onInputChangeHandler.bind(this)}
+                            reportSet={this.state.ReportSets[this.state.selectedTab]}
                             onTimeSlotChanges={this.onTimeSlotChanges.bind(this)}
-                            /> 
-                    : null}
+                        />
+                        : null}
 
                     <div>
                         <h1 className="text-red-700 text-xl font-bold">Nurse Note</h1>
-                        <textarea className="w-full border-2 border-red-700 p-4" rows={5} 
+                        <textarea className="w-full border-2 border-red-700 p-4" rows={5}
                             onChange={this.onNoteChangeHandler.bind(this)} value={this.state.note}></textarea>
                     </div>
 
