@@ -1,7 +1,7 @@
 import React from 'react';
 import { StudentReport } from '../../Types/Report';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
-import { groupBy, times, uniq } from "lodash"
+import { filter, groupBy, uniq } from "lodash"
 import ReportTabs from './ReportTabs';
 
 type Props = {
@@ -20,7 +20,7 @@ export default class ReportsViewer extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            selectedTab: 1
+            selectedTab: 0
         }
         this.filteredSets = this.getSets();
         this.getRows();
@@ -45,7 +45,10 @@ export default class ReportsViewer extends React.Component<Props, State> {
 
     //this function is expensive and might require optimization letter
     getTimes() {
+        if(!this.filteredSets[this.state.selectedTab]) return [];
+
         const vitals = this.filteredSets[this.state.selectedTab][1];
+        console.log(filter(vitals, {date:"2021-10-25", time: "22:50"}))
         const times = vitals.map(vital=> `${vital.date} ${vital.time}`);
         return uniq(times.sort());
     }
@@ -56,8 +59,8 @@ export default class ReportsViewer extends React.Component<Props, State> {
         map.forEach((valuesArray,name)=>{
             const row = (
                 <tr>
-                    <td>{name}</td>
-                    {valuesArray.map(value=> <td>{value}</td> )}
+                    <td key={-1}>{name}</td>
+                    {valuesArray.map((value, i)=> <td key={i}>{value}</td> )}
                 </tr>
             )
             rows.push(row);
@@ -67,6 +70,8 @@ export default class ReportsViewer extends React.Component<Props, State> {
 
 
     makeVitalsMap() {
+        if(!this.filteredSets[this.state.selectedTab]) return new Map<string, string[]>();
+
         const vitals = this.filteredSets[this.state.selectedTab][1];
         const times = this.getTimes();
         let map = new Map<string, string[]>();
