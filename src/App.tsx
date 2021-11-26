@@ -14,7 +14,7 @@ import VitalsViewPage from './Pages/StudentView/Vitals/VitalsViewPage';
 import Database from './Services/Database';
 import LabsViewer from './Pages/StudentView/Labs/LabsViewer';
 import { PatientNotFoundError } from './Types/ErrorCodes';
-import SelectPatient from './Pages/SelectPatient';
+import SelectPatient from './Pages/StudentView/SelectPatient';
 import AdministerMedsPage from './Pages/StudentView/Mar/AdministerMedsPage';
 import WriteNotePage from './Pages/StudentView/Notes/WriteNotePage';
 import ViewNotePage from './Pages/StudentView/Notes/ViewNotePage';

@@ -1,8 +1,8 @@
 import React, { ChangeEvent } from 'react';
-import Database from '../Services/Database';
-import { $history, $patient } from '../Services/State';
+import Database from '../../Services/Database';
+import { $history, $patient } from '../../Services/State';
 import {getAuth} from "firebase/auth"
-import Background from '../Components/Background';
+import Background from '../../Components/Background';
 type Props = {}
 type State = {
     patientID: string,
