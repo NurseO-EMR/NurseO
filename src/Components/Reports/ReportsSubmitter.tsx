@@ -2,7 +2,7 @@ import { filter } from 'lodash';
 import React, { ChangeEvent } from 'react';
 import { Subscription } from 'rxjs';
 import Database from '../../Services/Database';
-import { $error, $patient, $settings, $reportSet } from '../../Services/State';
+import { $error, $patient, $settings, $reportSet, $previewColor } from '../../Services/State';
 import { Settings } from '../../Types/Settings';
 import { Status } from '../../Types/Status';
 import { ReportType, StudentReport, ReportSet } from '../../Types/Report';
@@ -13,7 +13,9 @@ import ReportsSubmitterTabContent from './ReportsSubmitterTabContent';
 import ReportTabs from './ReportTabs';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-    reportType: ReportType
+    reportType: ReportType,
+    reportSets?: ReportSet[],
+    preview?: boolean
 }
 
 type State = {
@@ -24,7 +26,8 @@ type State = {
     status: Status,
     timeSlots: Array<string>,
     selectedTab: number,
-    note: string
+    note: string,
+    themeColor: string,
 }
 
 export default class ReportsSubmitter extends React.Component<Props, State> {
@@ -42,7 +45,8 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             status: "completed",
             timeSlots: [],
             selectedTab: 0,
-            note: ""
+            note: "",
+            themeColor: this.props.preview ? $previewColor.value : "red-600"
         }
 
         this.subscriptions = [];
@@ -52,16 +56,30 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         }
     }
 
+    componentDidUpdate(prev: Props) {
+        if(this.props.reportSets !== prev.reportSets && this.props.reportSets)
+        this.setState({
+            ReportSets:this.props.reportSets
+        })
+    }
+
     componentDidMount() {
-        const ReportSetSubscription = $reportSet.subscribe(ReportSets => this.setState({
-            ReportSets: filter(ReportSets, { type: this.props.reportType })
-        }))
+        if(this.props.reportSets) {
+            this.setState({
+                ReportSets: this.props.reportSets
+            })
+        } else {
+            const ReportSetSubscription = $reportSet.subscribe(ReportSets => this.setState({
+                ReportSets: filter(ReportSets, { type: this.props.reportType })
+            }))
+            this.subscriptions.push(ReportSetSubscription);
+        }
+        
 
         const settingsSubscription = $settings.subscribe(settings => this.setState({
             settings
         }))
 
-        this.subscriptions.push(ReportSetSubscription);
         this.subscriptions.push(settingsSubscription);
 
         // const patient = $patient.value
@@ -149,14 +167,17 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
     public render() {
         return (
-            <EmptyCard title="Assessments">
+            <EmptyCard title={this.props.preview ? "Preview" : "Assessments"} preview={this.props.preview}>
                 <div className="px-28">
                     <div className="flex justify-between px-8 pt-4">
                         <div>
                             <label className="font-bold">Date: </label>
                             <input value={this.state.date} onChange={this.onDateChangeHandler.bind(this)} className="border-2 text-center" type="Date" />
                         </div>
-                        <button onClick={this.saveOnClickHandler.bind(this)} className="bg-red-600 text-white rounded-full px-8 py-1">{this.state.saveButtonText}</button>
+                        <button onClick={this.saveOnClickHandler.bind(this)} 
+                        className={`bg-${this.state.themeColor} text-white rounded-full px-8 py-1`}
+                        disabled={this.props.preview}
+                        >{this.state.saveButtonText}</button>
                     </div>
 
 
@@ -164,7 +185,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
                         selectedTab={this.state.selectedTab} />
 
 
-                    {this.state.ReportSets ?
+                    {this.state.ReportSets && this.state.ReportSets[this.state.selectedTab] ?
                         <ReportsSubmitterTabContent
                             onInputChangeHandler={this.onInputChangeHandler.bind(this)}
                             reportSet={this.state.ReportSets[this.state.selectedTab]}
@@ -173,8 +194,8 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
                         : null}
 
                     <div>
-                        <h1 className="text-red-700 text-xl font-bold">Nurse Note</h1>
-                        <textarea className="w-full border-2 border-red-700 p-4" rows={5}
+                        <h1 className={`text-${this.state.themeColor} text-xl font-bold`}>Nurse Note</h1>
+                        <textarea className={`w-full border-2 border-${this.state.themeColor} p-4`} rows={this.props.preview ? 1 : 5 }
                             onChange={this.onNoteChangeHandler.bind(this)} value={this.state.note}></textarea>
                     </div>
 

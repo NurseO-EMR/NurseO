@@ -8,7 +8,7 @@ export type Report = {
     name: string,
     fieldType: "number" | "text" | "T/F" | "options",   
     VitalsOptions?: ReportOptions
-    value?: string,
+    value?: string, //prop can be removed!
 }
 
 export type ReportOptions = Array<ReportOption>

@@ -14,6 +14,7 @@ export const $settings = new BehaviorSubject<Settings>(null);
 export const $error = new BehaviorSubject<Error>(new NoErrors());
 export const $history = new BehaviorSubject<History>(createBrowserHistory());
 export const $providerOrdersAvailable = new BehaviorSubject<boolean>(false);
+export const $previewColor = new BehaviorSubject<string>("gray-900");
 
 simulatedData();
 

@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { FirebaseApp, FirebaseError, initializeApp } from "firebase/app";
-import { getAuth, Auth, signInWithEmailAndPassword, browserLocalPersistence, setPersistence } from "firebase/auth";
-// import {inMemoryPersistence} from "firebase/auth"
+import { getAuth, Auth, signInWithEmailAndPassword, browserLocalPersistence, setPersistence, GoogleAuthProvider, signInWithPopup, inMemoryPersistence } from "firebase/auth";
+import GoogleButton from 'react-google-button';
 import firebaseConfig from "./../firebaseConfig.json";
 import Logo from '../Components/Nav/TopMenu/Logo';
 import { $history } from '../Services/State';
@@ -21,7 +21,6 @@ export default class Login extends React.Component<Props,State> {
         super(props);
         this.app = initializeApp(firebaseConfig);
         this.auth = getAuth(this.app);
-        console.log(this.auth.currentUser)
         this.state = {
             badgeNumber: "",
             error: ""
@@ -30,7 +29,7 @@ export default class Login extends React.Component<Props,State> {
 
     async onClickHandler() {
             try {
-                await setPersistence(this.auth, browserLocalPersistence)
+                await setPersistence(this.auth, inMemoryPersistence)
                 await signInWithEmailAndPassword(this.auth, `${this.state.badgeNumber}@simpleemr.com`, this.state.badgeNumber )
                 if(this.auth.currentUser) $history.value.push("/studentView/selectPatient");
             } catch(e) {
@@ -45,9 +44,22 @@ export default class Login extends React.Component<Props,State> {
         this.setState({badgeNumber:event.target.value})
     }
 
+    async onGoogleSignInClickHandler() {
+        const provider = new GoogleAuthProvider();
+        try {
+            await setPersistence(this.auth, browserLocalPersistence)
+            await signInWithPopup(this.auth,provider);
+            if(this.auth.currentUser) $history.value.push("/admin/dashboard")
+        } catch(e) {
+            const error = e as FirebaseError; 
+            this.setState({
+                error: error.message
+            })
+        }
+    }
+
     public render() {	
         return (
-            
             <div>
                 <Background /> 
                 <div className="grid justify-center h-screen w-screen content-center text-center">
@@ -62,6 +74,10 @@ export default class Login extends React.Component<Props,State> {
                         <button onClick={this.onClickHandler.bind(this)} 
                             className="rounded-full bg-red-700 text-white p-4 font-bold tracking-wider w-full">Sign in</button>
                         <div>{this.state.error}</div>
+
+                        <hr className="w-full my-4 border-red-700"/>
+                        <h1 className="font-bold">For Admins Please Click Below</h1>
+                        <GoogleButton className="block mx-auto" onClick={this.onGoogleSignInClickHandler.bind(this)}/>
                     </div>
                 </div>
             </div>
