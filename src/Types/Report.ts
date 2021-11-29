@@ -6,10 +6,12 @@ export type ReportSet = {
 
 export type Report = {
     name: string,
-    fieldType: "number" | "text" | "T/F" | "options",   
+    fieldType: ReportInputType,   
     VitalsOptions?: ReportOptions
     value?: string, //prop can be removed!
 }
+
+export type ReportInputType = "number" | "text" | "T/F" | "checkbox" | "options"
 
 export type ReportOptions = Array<ReportOption>
 

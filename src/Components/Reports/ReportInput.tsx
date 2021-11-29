@@ -21,6 +21,10 @@ export default class ReportInput extends React.Component<Props> {
         this.onChangeHandler(value,key);
     }
 
+    onCheckboxSelectHandler() {
+
+    }
+
     onChangeHandler(value: string, key: number) {
         const vitalName = this.props.vital.name;
         this.props.onChange(vitalName,key-1,value);
@@ -30,9 +34,9 @@ export default class ReportInput extends React.Component<Props> {
         if(this.props.numberOfTimeSlots === undefined) return null;
 
         return (
-            <tr className=" w-9/12">
+            <tr className="w-9/12">
                 {[...new Array(this.props.numberOfTimeSlots+1)].map((_,i)=>{
-                    if(i === 0) return <td key={i} className="max-w-0">{this.props.vital.name}</td>
+                    if(i === 0) return <td key={i} >{this.props.vital.name}</td>
                     else return <td key={i}>
                         {this.props.vital.fieldType === "text" ? <input name={i.toString()} onChange={this.onInputChangeHandler.bind(this)} className="border-2 w-9/12" type="text" /> : null}
                         {this.props.vital.fieldType === "number" ? <input name={i.toString()}  onChange={this.onInputChangeHandler.bind(this)} className="border-2 w-9/12" type="number" /> : null}
@@ -42,6 +46,16 @@ export default class ReportInput extends React.Component<Props> {
                                 <option>Y</option>
                                 <option>N</option>
                             </select> : null}
+                        {this.props.vital.fieldType === "checkbox" ?
+                            <div className="flex flex-wrap gap-5 w-1/2"> 
+                                {this.props.vital.VitalsOptions?.map((val,j)=>
+                                    <div key={i+j} className="flex items-center gap-2" >
+                                        <input type="checkbox" />
+                                        <label>{val.abbreviation}</label>
+                                    </div>
+                                )}
+                            </div>
+                         : null}
                         {this.props.vital.fieldType === "options" ? 
                             <select  name={i.toString()} onChange={this.onSelectChangeHandler.bind(this)}  className="border-2 w-9/12">
                                 <option></option>
