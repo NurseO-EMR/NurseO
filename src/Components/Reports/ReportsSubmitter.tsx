@@ -28,6 +28,7 @@ type State = {
     selectedTab: number,
     note: string,
     themeColor: string,
+    numberOfTimeSlots: number
 }
 
 export default class ReportsSubmitter extends React.Component<Props, State> {
@@ -46,7 +47,8 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             timeSlots: [],
             selectedTab: 0,
             note: "",
-            themeColor: this.props.preview ? $previewColor.value : "red-600"
+            themeColor: this.props.preview ? $previewColor.value : "red-600",
+            numberOfTimeSlots: this.props.reportType === "studentAssessmentReport" ? 1 : $settings.value!.numberOfTimeSlots
         }
 
         this.subscriptions = [];
@@ -187,6 +189,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
                     {this.state.ReportSets && this.state.ReportSets[this.state.selectedTab] ?
                         <ReportsSubmitterTabContent
+                            numberOfTimeSlots={this.state.numberOfTimeSlots}
                             onInputChangeHandler={this.onInputChangeHandler.bind(this)}
                             reportSet={this.state.ReportSets[this.state.selectedTab]}
                             onTimeSlotChanges={this.onTimeSlotChanges.bind(this)}

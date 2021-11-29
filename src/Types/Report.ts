@@ -28,5 +28,5 @@ export type StudentReport = {
     note: string
 }
     
-export type ReportType = "studentVitalsReport" | "studentLabReport";
+export type ReportType = "studentVitalsReport" | "studentLabReport" | "studentAssessmentReport";
 

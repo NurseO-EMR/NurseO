@@ -8,13 +8,13 @@ type Props =  {
 }
 
 
-export default class VitalsPage extends React.Component<Props> {
+export default class AssessmentSubmitPage extends React.Component<Props> {
 
 
     public render() {
         return (
             <StudentViewPage patient={this.props.patient}>
-                <ReportSubmitter reportType={"studentVitalsReport"} className="grid-in-main" />
+                <ReportSubmitter reportType={"studentAssessmentReport"} className="grid-in-main" />
             </StudentViewPage>
         );
     }

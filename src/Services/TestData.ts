@@ -1,5 +1,4 @@
 import { ReportSet } from './../Types/Report';
-import { ReportOptions } from "../Types/Report"
 import { $reportSet, $settings } from "./State"
 
 export function simulatedData() {
@@ -315,7 +314,7 @@ export function simulatedData() {
     const reportSet:ReportSet[] = [
         {
             name:"Skin",
-            type: "studentVitalsReport",
+            type: "studentAssessmentReport",
             "reportFields": [
                 {
                     name:"Skin Color",
@@ -373,7 +372,7 @@ export function simulatedData() {
         },
         {
             name:"Respiratory",
-            type: "studentVitalsReport",
+            type: "studentAssessmentReport",
             "reportFields": [
                 {
                     name:"Respiratory",
@@ -442,7 +441,7 @@ export function simulatedData() {
         },
         {
             name:"IV Assessment",
-            type: "studentVitalsReport",
+            type: "studentAssessmentReport",
             "reportFields": [
                 {
                     name:"IV",
@@ -508,7 +507,7 @@ export function simulatedData() {
         },
         {
             name: "Cardiovascular",
-            type:"studentVitalsReport",
+            type: "studentAssessmentReport",
             reportFields: [
                 {
                     name: "Pacemaker",
@@ -550,7 +549,7 @@ export function simulatedData() {
         },
         {
             name: "Gastrointestinal",
-            type:"studentVitalsReport",
+            type: "studentAssessmentReport",
             reportFields: [
                 {
                     name: "Abdomen",
