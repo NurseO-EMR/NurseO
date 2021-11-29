@@ -14,7 +14,7 @@ export type Report = {
 export type ReportOptions = Array<ReportOption>
 
 type ReportOption = {
-    name: string,
+    name?: string,
     abbreviation: string,
 }
 

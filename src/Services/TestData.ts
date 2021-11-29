@@ -1,3 +1,4 @@
+import { ReportSet } from './../Types/Report';
 import { ReportOptions } from "../Types/Report"
 import { $reportSet, $settings } from "./State"
 
@@ -252,125 +253,389 @@ export function simulatedData() {
     // $patient.next(patientChart)
     
 
-    const nursingMeasuresOptions: ReportOptions = [
+    // const nursingMeasuresOptions: ReportOptions = [
+    //     {
+    //         abbreviation: "des",
+    //         name: "decrease noise/stimuli"
+    //     },
+    //     {
+    //         abbreviation: "h",
+    //         name: "heat"
+    //     },
+    //     {
+    //         abbreviation: "m",
+    //         name: "massage"
+    //     },
+    //     {
+    //         abbreviation: "pr",
+    //         name: "prayer"
+    //     },
+    //     {
+    //         abbreviation: "r",
+    //         name: "reposition"
+    //     },
+    //     {
+    //         abbreviation: "v",
+    //         name: "visitor"
+    //     },
+    //     {
+    //         abbreviation: "c",
+    //         name: "call MD"
+    //     },
+    //     {
+    //         abbreviation: "g",
+    //         name: "generalized"
+    //     },
+    //     {
+    //         abbreviation: "d",
+    //         name: "diversion"
+    //     },
+    //     {
+    //         abbreviation: "i",
+    //         name: "ice"
+    //     },
+    //     {
+    //         abbreviation: "mt",
+    //         name: "music therapy"
+    //     },
+    //     {
+    //         abbreviation: "re",
+    //         name: "relax/rest"
+    //     },
+    //     {
+    //         abbreviation: "to",
+    //         name: "touch"
+    //     },
+    //     {
+    //         abbreviation: "NN",
+    //         name: "see nursing notes"
+    //     },
+    // ]
+
+    const reportSet:ReportSet[] = [
         {
-            abbreviation: "des",
-            name: "decrease noise/stimuli"
+            name:"Skin",
+            type: "studentVitalsReport",
+            "reportFields": [
+                {
+                    name:"Skin Color",
+                    "fieldType": "options",
+                    "VitalsOptions": [
+                        {abbreviation: "Normal Color"},
+                        {abbreviation: "Flushed"},
+                        {abbreviation: "Flushed"},
+                        {abbreviation: "Jaundiced"},
+                        {abbreviation: "Pale"},
+                        {abbreviation: "Cyanotic"},
+                        {abbreviation: "Mottled"},
+                        {abbreviation: "Ashen"},
+                        {abbreviation: "Other"},
+                    ]
+                },
+                {
+                    name:"Skin Temperature",
+                    "fieldType": "options",
+                    "VitalsOptions": [
+                        {abbreviation: "Warm"},
+                        {abbreviation: "Hot"},
+                        {abbreviation: "Cool"},
+                    ]
+                },
+                {
+                    name:"Skin Moister",
+                    "fieldType": "options",
+                    "VitalsOptions": [
+                        {abbreviation: "Dry"},
+                        {abbreviation: "Moist"},
+                        {abbreviation: "Diaphoretic"},
+                    ]
+                },
+                {
+                    name:"Skin Turgor",
+                    "fieldType": "options",
+                    "VitalsOptions": [
+                        {abbreviation: "Good"},
+                        {abbreviation: "Fair"},
+                        {abbreviation: "Poor"},
+                    ]
+                },
+                {
+                    name:"Mucous Membranes",
+                    "fieldType": "options",
+                    "VitalsOptions": [
+                        {abbreviation: "Pink"},
+                        {abbreviation: "Moist"},
+                        {abbreviation: "Dry"},
+                        {abbreviation: "Other"},
+                    ]
+                },
+            ]
         },
         {
-            abbreviation: "h",
-            name: "heat"
+            name:"Respiratory",
+            type: "studentVitalsReport",
+            "reportFields": [
+                {
+                    name:"Respiratory",
+                    "fieldType": "options",
+                    "VitalsOptions": [
+                        {abbreviation: "Reg."},
+                        {abbreviation: "Irreg."},
+                        {abbreviation: "easy"},
+                        {abbreviation: "SOB/Labored"},
+                    ]
+                },
+                {
+                    name:"Breath Sounds",
+                    "fieldType": "options",
+                    "VitalsOptions": [
+                        {abbreviation: "Clear"},
+                        {abbreviation: "Decreased"},
+                        {abbreviation: "Crackles"},
+                        {abbreviation: "Rub"},
+                        {abbreviation: "Wheezes"},
+                        {abbreviation: "Rhonchi"},
+                        {abbreviation: "Absent"},
+                    ]
+                },
+                {
+                    name:"Location",
+                    "fieldType": "text",
+                },
+                {
+                    name:"Cough/Suction",
+                    "fieldType": "options",
+                    "VitalsOptions": [
+                        {abbreviation: "Non-Prod"},
+                        {abbreviation: "Prod"},
+                    ]
+                },
+                {
+                    name:"Describe",
+                    "fieldType": "text",
+                },
+                {
+                    name:"Incentive Spirometry",
+                    "fieldType": "options",
+                    "VitalsOptions": [
+                        {abbreviation: "Yes"},
+                        {abbreviation: "No"},
+                    ]
+                },
+                {
+                    name:"Volume",
+                    "fieldType": "text",
+                },
+                {
+                    name:"Oxygen",
+                    "fieldType": "text",
+                },
+                {
+                    name:"RA",
+                    "fieldType": "text",
+                },
+                {
+                    name:"Device",
+                    "fieldType": "text",
+                },
+            ]
         },
         {
-            abbreviation: "m",
-            name: "massage"
+            name:"IV Assessment",
+            type: "studentVitalsReport",
+            "reportFields": [
+                {
+                    name:"IV",
+                    "fieldType": "options",
+                    "VitalsOptions": [
+                        {abbreviation: "Peripheral Site"},
+                        {abbreviation: "Port-A-Cath"},
+                    ]
+                },
+                {
+                    name:"Site",
+                    "fieldType": "text",
+                },
+                {
+                    name:"Gauge",
+                    "fieldType": "text",
+                },
+                {
+                    name:"96 hour Date to Chg IV",
+                    "fieldType": "text",
+                },
+                {
+                    name:"Date Dressing Changed",
+                    "fieldType": "text",
+                },
+                {
+                    name:"Redness or swelling",
+                    "fieldType": "T/F",
+                },
+                {
+                    name:"Tubing Changed/Checked",
+                    "fieldType": "T/F",
+                },
+                {
+                    name:"IVF Verified",
+                    "fieldType": "T/F",
+                },
+                {
+                    name:"Dressing Changed/Checked",
+                    "fieldType": "T/F",
+                },
+                {
+                    name:"New/Restart Time",
+                    "fieldType": "text",
+                },
+                {
+                    name:"Reason",
+                    "fieldType": "text",
+                },
+                {
+                    name:"Site",
+                    "fieldType": "text",
+                },
+                {
+                    name:"Gauge",
+                    "fieldType": "text",
+                },
+                {
+                    name:"Attempts",
+                    "fieldType": "text",
+                },
+            ]
         },
         {
-            abbreviation: "pr",
-            name: "prayer"
+            name: "Cardiovascular",
+            type:"studentVitalsReport",
+            reportFields: [
+                {
+                    name: "Pacemaker",
+                    fieldType: "options",
+                    VitalsOptions: [
+                        {abbreviation: "No"},
+                        {abbreviation: "Yes"},
+                    ]
+                },
+                {
+                    name: "Telemetry",
+                    fieldType: "options",
+                    VitalsOptions: [
+                        {abbreviation: "No"},
+                        {abbreviation: "Yes"},
+                    ]
+                },
+                {
+                    name: "Pulse Apical",
+                    fieldType: "options",
+                    VitalsOptions: [
+                        {abbreviation: "Regular"},
+                        {abbreviation: "Irregular"},
+                        {abbreviation: "Strong"},
+                        {abbreviation: "Faint"},
+                    ]
+                },
+                {
+                    name: "Pulse Radial",
+                    fieldType: "options",
+                    VitalsOptions: [
+                        {abbreviation: "Regular"},
+                        {abbreviation: "Irregular"},
+                        {abbreviation: "Strong"},
+                        {abbreviation: "Faint"},
+                    ]
+                },
+            ]
         },
         {
-            abbreviation: "r",
-            name: "reposition"
-        },
-        {
-            abbreviation: "v",
-            name: "visitor"
-        },
-        {
-            abbreviation: "c",
-            name: "call MD"
-        },
-        {
-            abbreviation: "g",
-            name: "generalized"
-        },
-        {
-            abbreviation: "d",
-            name: "diversion"
-        },
-        {
-            abbreviation: "i",
-            name: "ice"
-        },
-        {
-            abbreviation: "mt",
-            name: "music therapy"
-        },
-        {
-            abbreviation: "re",
-            name: "relax/rest"
-        },
-        {
-            abbreviation: "to",
-            name: "touch"
-        },
-        {
-            abbreviation: "NN",
-            name: "see nursing notes"
-        },
+            name: "Gastrointestinal",
+            type:"studentVitalsReport",
+            reportFields: [
+                {
+                    name: "Abdomen",
+                    fieldType: "options",
+                    VitalsOptions: [
+                        {abbreviation: "Soft"},
+                        {abbreviation: "Firm"},
+                        {abbreviation: "Hard"},
+                        {abbreviation: "Obese"},
+                        {abbreviation: "Distended"},
+                        {abbreviation: "Tender"},
+                        {abbreviation: "Guarded"},
+                    ]
+                },
+                {
+                    name: "Comments",
+                    fieldType: "text",
+                },
+                {
+                    name: "Bowel Sounds",
+                    fieldType: "options",
+                    VitalsOptions: [
+                        {abbreviation: "WNL"},
+                        {abbreviation: "Hyperactive"},
+                        {abbreviation: "Hypoactive"},
+                        {abbreviation: "Absent"},
+                        {abbreviation: "Nausea"},
+                        {abbreviation: "Vomiting"},
+                        {abbreviation: "Constipation"},
+                        {abbreviation: "Diarrhea"},
+                    ]
+                },
+                {
+                    name: "Last BM",
+                    fieldType: "options",
+                    VitalsOptions: [
+                        {abbreviation: "Cont"},
+                        {abbreviation: "InCont"},
+                    ]
+                },
+                {
+                    name: "Tube Type",
+                    fieldType: "options",
+                    VitalsOptions: [
+                        {abbreviation: "Placement Verified"},
+                        {abbreviation: "Irrigated"},
+                        {abbreviation: "Suction"},
+                        {abbreviation: "Interm"},
+                        {abbreviation: "Cont"},
+                        {abbreviation: "Gravity"},
+                        {abbreviation: "Clamped"},
+                        {abbreviation: "Other"},
+                    ]
+                },
+                {
+                    name: "Drainage",
+                    fieldType: "text",
+                },
+                {
+                    name: "Ostomy Type(s)",
+                    fieldType: "text",
+                },
+                {
+                    name: "Comments",
+                    fieldType: "text",
+                },
+                {
+                    name: "Stoma",
+                    fieldType: "options",
+                    VitalsOptions: [
+                        {abbreviation: "Pink"},
+                        {abbreviation: "Red"},
+                        {abbreviation: "Gray"},
+                        {abbreviation: "Necrotic"},
+                        {abbreviation: "Moist"},
+                        {abbreviation: "Dry"},
+                        {abbreviation: "Bleeding"},
+                        {abbreviation: "Other"},
+                    ]
+                },
+            ]
+        }
     ]
 
-
-    $reportSet.next([
-        {
-            name: "Hart",
-            type: "studentVitalsReport",
-            reportFields: [
-                {
-                    name: "HR",
-                    fieldType: "text",
-                },
-                {
-                    name: "RR",
-                    fieldType: "text",
-                },
-                {
-                    name: "Temp",
-                    fieldType: "text",
-                },
-                {
-                    name: "BP",
-                    fieldType: "text"
-                },
-            ]
-        },
-        {
-            name: "Skeleton",
-            type: "studentVitalsReport",
-            reportFields: [
-                {
-                    name: "Pain",
-                    fieldType: "T/F",
-                },
-                {
-                    name: "Description",
-                    fieldType: "text",
-                },
-                {
-                    name: "Location",
-                    fieldType: "text",
-                },
-                {
-                    name: "duration",
-                    fieldType: "number"
-                },
-                {
-                    name: "Intensity/Score",
-                    fieldType: "number"
-                },
-                {
-                    name: "Medicated",
-                    fieldType: "text",
-                },
-                {
-                    name: "Nursing Measures",
-                    fieldType: "options",
-                    VitalsOptions: nursingMeasuresOptions
-                }
-            ]
-        },
-    ])
+    $reportSet.next(reportSet)
 
     $settings.next({
         numberOfTimeSlots: 5
