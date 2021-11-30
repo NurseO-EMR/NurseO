@@ -4,7 +4,7 @@ import React from 'react';
 type Props = React.HTMLProps<HTMLInputElement> & {
     id: string,
 };
-export default class NotesInput extends React.Component<Props> {
+export default class Input extends React.Component<Props> {
 
     public render() {	
         return (

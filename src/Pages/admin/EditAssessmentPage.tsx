@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import EmptyCard from '../../Components/Dashboard/Card/EmptyCard';
-import NotesInput from '../../Components/Notes/NotesInput';
+import Input from '../../Components/Input';
 import ReportsSubmitter from '../../Components/Reports/ReportsSubmitter';
 import SelectInput from '../../Components/SelectInput';
 import { $reportSet } from '../../Services/State';
@@ -127,10 +127,10 @@ export default class EditAssessmentPage extends React.Component<Props,State> {
                                 {$reportSet.value.map((reportSet,i)=><option key={i} value={reportSet.name}>{reportSet.name}</option>)}
                                 <option value="new">Create New Set</option>
                             </SelectInput>
-                            {!this.state.reportSet?.name ? <NotesInput id="newSet" onChange={this.onNewSetNameChangeHandler.bind(this)}>New Set Name</NotesInput> : null}
+                            {!this.state.reportSet?.name ? <Input id="newSet" onChange={this.onNewSetNameChangeHandler.bind(this)}>New Set Name</Input> : null}
                             {this.state.reportSet?.name ? 
                             <>
-                                <NotesInput id="AdminAssessmentName" type="text" onChange={this.onFiledNameChangeHandler.bind(this)}>Name</NotesInput>
+                                <Input id="AdminAssessmentName" type="text" onChange={this.onFiledNameChangeHandler.bind(this)}>Name</Input>
                                 <SelectInput label="Input Type" onChange={this.onFiledInputTypeChangeHandler.bind(this)}>
                                     <option value=""></option>
                                     <option value="text">Text</option>
@@ -140,8 +140,8 @@ export default class EditAssessmentPage extends React.Component<Props,State> {
                                 </SelectInput>
                                 {this.state.inputType === "options" ?
                                     <>
-                                     <NotesInput id="optionsName" onChange={this.onOptionsNameChangeHandler.bind(this)}>Options Name</NotesInput>
-                                     <NotesInput id="optionsAbbreviation" onChange={this.onOptionsAbbreviationChangeHandler.bind(this)}>Options Abbreviation</NotesInput>
+                                     <Input id="optionsName" onChange={this.onOptionsNameChangeHandler.bind(this)}>Options Name</Input>
+                                     <Input id="optionsAbbreviation" onChange={this.onOptionsAbbreviationChangeHandler.bind(this)}>Options Abbreviation</Input>
                                     </>
                                 : null}
                             </>

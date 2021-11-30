@@ -318,7 +318,7 @@ export function simulatedData() {
             "reportFields": [
                 {
                     name:"Skin Color",
-                    "fieldType": "checkbox",
+                    "fieldType": "options",
                     "VitalsOptions": [
                         {abbreviation: "Normal Color"},
                         {abbreviation: "Flushed"},
@@ -333,7 +333,7 @@ export function simulatedData() {
                 },
                 {
                     name:"Skin Temperature",
-                    "fieldType": "checkbox",
+                    "fieldType": "options",
                     "VitalsOptions": [
                         {abbreviation: "Warm"},
                         {abbreviation: "Hot"},
