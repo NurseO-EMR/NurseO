@@ -1,5 +1,5 @@
 import React from 'react';
-import { $previewColor } from '../../../Services/State';
+import { $settings } from '../../../Services/State';
 
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -15,8 +15,12 @@ export default class EmptyCard extends React.Component<Props,State> {
     constructor(props:Props){
         super(props);
         this.state = {
-            themeColor: this.props.preview ? $previewColor.value : "red-700"
+            themeColor: this.props.preview ? $settings.value!.previewColor : "red-700"
         }
+    }
+
+    componentDidMount() {
+
     }
 
     public render() {

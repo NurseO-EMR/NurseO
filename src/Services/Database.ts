@@ -1,24 +1,26 @@
 import { initializeApp } from "firebase/app";
-import { addDoc, collection, DocumentReference, getDocs, getFirestore, limit, query, updateDoc, where } from "firebase/firestore/lite";
-import { $error, $patient } from "./State";
+import { addDoc, collection, DocumentReference, getDocs, getFirestore, limit, query, updateDoc, where, setDoc, doc, getDoc } from "firebase/firestore/lite";
+import { $error, $patient, $settings } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";
 import { PatientChart } from "../Types/PatientProfile";
 import { PatientNotFoundError } from "../Types/ErrorCodes";
 import { Medication } from "../Types/Medications";
 import { findIndex } from "lodash";
+import { Settings } from "../Types/Settings";
 
 export default class Database {
     private static instance: Database;
-    private patient: PatientChart;
+    // private patient: PatientChart;
     private db;
     private patientDocRef: DocumentReference | null;
     private currentPatientID: string | null | undefined;
-    private cachedMeds: Medication[]
+    private cachedMeds: Medication[];
+    private cachedSettings: Settings | null;
 
     constructor() {
         initializeApp(firebaseConfig);
         this.db = getFirestore();
-        this.patient = null;
+        this.cachedSettings = null;
         this.patientDocRef = null;
         this.currentPatientID = null;
         this.cachedMeds = [];
@@ -38,7 +40,6 @@ export default class Database {
     }
 
     async updatePatient() {
-        console.log(this.patientDocRef)
         if(this.patientDocRef === null ){
             $error.next(new PatientNotFoundError())
         } else {
@@ -68,6 +69,26 @@ export default class Database {
         return medication;
     }
 
+    async getSettings() {
+        if(this.cachedSettings) return this.cachedSettings;
+        const settingsRef = doc(this.db, "settings", "settings");
+        const document = await getDoc(settingsRef);
+        const data = document.data() as Settings;
+        this.cachedSettings = data;
+        $settings.next(data);
+        return data;
+    }
+
+    async saveSettings(setting: Settings) {
+        const settingsRef = doc(this.db, "settings", "settings");
+        await setDoc(settingsRef, setting);
+    }
+
+    async updateSettings() {
+        const settingsRef = doc(this.db, "settings", "settings");
+        await updateDoc(settingsRef, $settings.value);
+    }
+
 
 
 
@@ -80,7 +101,6 @@ export default class Database {
         if (!Database.instance) {
             Database.instance = new Database();
         }
-
         return Database.instance;
     }
 

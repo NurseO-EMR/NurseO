@@ -2,7 +2,7 @@ import { filter } from 'lodash';
 import React, { ChangeEvent } from 'react';
 import { Subscription } from 'rxjs';
 import Database from '../../Services/Database';
-import { $error, $patient, $settings, $reportSet, $previewColor } from '../../Services/State';
+import { $error, $patient, $settings } from '../../Services/State';
 import { Settings } from '../../Types/Settings';
 import { Status } from '../../Types/Status';
 import { ReportType, StudentReport, ReportSet } from '../../Types/Report';
@@ -47,7 +47,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             timeSlots: [],
             selectedTab: 0,
             note: "",
-            themeColor: this.props.preview ? $previewColor.value : "red-600",
+            themeColor: this.props.preview ? $settings.value!.previewColor : "red-600",
             numberOfTimeSlots: this.props.reportType === "studentAssessmentReport" ? 1 : $settings.value!.numberOfTimeSlots
         }
 
@@ -71,8 +71,8 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
                 ReportSets: this.props.reportSets
             })
         } else {
-            const ReportSetSubscription = $reportSet.subscribe(ReportSets => this.setState({
-                ReportSets: filter(ReportSets, { type: this.props.reportType })
+            const ReportSetSubscription = $settings.subscribe(setting => this.setState({
+                ReportSets: filter(setting?.reportSet, { type: this.props.reportType })
             }))
             this.subscriptions.push(ReportSetSubscription);
         }

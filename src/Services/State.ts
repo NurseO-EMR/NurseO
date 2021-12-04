@@ -2,20 +2,24 @@ import { NoErrors } from './../Types/ErrorCodes';
 import { BehaviorSubject } from "rxjs";
 import { PatientChart } from "../Types/PatientProfile";
 import { Settings } from "../Types/Settings";
-import { ReportSet } from "../Types/Report";
-import {simulatedData} from "./TestData";
 import { Error } from "../Types/ErrorCodes";
 import { createBrowserHistory, History } from 'history';
-
+import Database from './Database';
 
 export const $patient = new BehaviorSubject<PatientChart>(null);
-export const $reportSet = new BehaviorSubject<ReportSet[]>([]);
-export const $settings = new BehaviorSubject<Settings>(null);
 export const $error = new BehaviorSubject<Error>(new NoErrors());
 export const $history = new BehaviorSubject<History>(createBrowserHistory());
 export const $providerOrdersAvailable = new BehaviorSubject<boolean>(false);
-export const $previewColor = new BehaviorSubject<string>("gray-900");
+export const $settings = new BehaviorSubject<Settings>({
+    numberOfTimeSlots: 5,
+    reportSet: [],
+    previewColor: "gray-900"
+});
 
-simulatedData();
+async function initState() {
+    const db = Database.getInstance();
+    await db.getSettings();
+    $error.subscribe(console.log)
+}
 
-$error.subscribe(console.log)
+initState();
