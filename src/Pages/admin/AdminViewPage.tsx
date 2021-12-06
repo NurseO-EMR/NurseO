@@ -23,7 +23,7 @@ export default class AdminViewPage extends React.Component<Props> {
                         <li className={`cursor-pointer ${this.props.selected === "Edit Assessment" ? "font-bold" : null}`}><a href="/admin/assessments/edit">Edit Assessments</a></li>
                     </ul>
                 </TopNav>
-                <div className="px-60 py-10">
+                <div className="px-40 py-1">
                     {this.props.children}
                 </div>
             </div>

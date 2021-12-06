@@ -32,7 +32,9 @@ export default class ArmBand extends React.Component<Props,State> {
                     <SectionNamedInfo name="DOB">{this.props.patient?.dob}</SectionNamedInfo>
                     <SectionNamedInfo name="Age">{this.props.patient?.age} years old</SectionNamedInfo>
                     <SectionNamedInfo name="Gender">{this.props.patient?.gender}</SectionNamedInfo>
-                    <div className="w-1/2 h-6 grid justify-center items-center p-0"><img src={logo} className="h-14" alt="logo" /></div>
+                    <div className="w-1/2 h-6 grid justify-center items-center p-0">
+                        <img src={logo} className="max-h-14" alt="logo" />
+                    </div>
                     <SectionNamedInfo name="Allergies" boldedValue={true}>
                         {this.props.patient?.allergies.map(allergy=>allergy.name+", ")}
                     </SectionNamedInfo>
