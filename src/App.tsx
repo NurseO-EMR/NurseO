@@ -21,7 +21,7 @@ import ProviderOrdersPage from './Pages/StudentView/Orders/ProviderOrders';
 import StandingOrdersPage from './Pages/StudentView/Orders/StandingOrders';
 import AllOrders from './Pages/StudentView/Orders/AllOrders';
 import AdminDashboard from './Pages/admin/AdminDashboard';
-import EditAssessmentPage from './Pages/admin/EditAssessmentPage';
+import EditAssessmentPage from './Pages/admin/EditsAssessment/EditAssessmentPage';
 import AssessmentSubmitPage from './Pages/StudentView/Assessments/AssessmentsSubmitPage';
 
 type Props = {}
