@@ -23,6 +23,7 @@ import AllOrders from './Pages/StudentView/Orders/AllOrders';
 import AdminDashboard from './Pages/admin/AdminDashboard';
 import EditAssessmentPage from './Pages/admin/EditsAssessment/EditAssessmentPage';
 import AssessmentSubmitPage from './Pages/StudentView/Assessments/AssessmentsSubmitPage';
+import CreatePatientPage from './Pages/admin/CreatePatient/CreatePatientPage';
 
 type Props = {}
 type State = {
@@ -88,6 +89,7 @@ export default class App extends React.Component<Props, State> {
 
           <Route exact path="/admin/dashboard"><AdminDashboard /></Route>
           <Route exact path="/admin/assessments/edit"><EditAssessmentPage /></Route>
+          <Route exact path="/admin/patient/create"><CreatePatientPage /></Route>
 
         </Switch>
       </Router>
