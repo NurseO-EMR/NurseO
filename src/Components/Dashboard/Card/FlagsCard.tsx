@@ -4,14 +4,15 @@ import Card from './Card';
 import FlagEntry from './FlagEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-    flags: Flag[] | undefined
+    flags: Flag[] | undefined,
+    preview?: boolean
 }
 
 export default class FlagsCard extends React.Component<Props> {
 
     public render() {
         return (
-            <Card className={this.props.className} title="Flags">
+            <Card className={this.props.className} title="Flags" preview={this.props.preview}>
             <thead className="font-bold">
                 <tr>
                     <td className="border-2 p-2">Flag</td>

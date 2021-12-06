@@ -6,7 +6,8 @@ import Card from './Card';
 import MedicationEntry from './MedicationEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> &  {
-    medications: MedicationOrder[] | undefined
+    medications: MedicationOrder[] | undefined,
+    preview?: boolean
 }
 
 
@@ -34,7 +35,7 @@ export default class MedicationCard extends React.Component<Props, State> {
 
     public render() {
         return (
-            <Card title="Medications" className={this.props.className}>
+            <Card title="Medications" className={this.props.className} preview={this.props.preview}>
                 <thead className="font-bold">
                     <tr>
                         <td className="border-2 p-2">Name</td>

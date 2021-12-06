@@ -4,14 +4,15 @@ import AllergyEntry from './AllergyEntry';
 import Card from './Card';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-    allergies: Allergy[] | undefined
+    allergies: Allergy[] | undefined,
+    preview?: boolean
 }
 
 export default class AllergyCard extends React.Component<Props> {
 
     public render() {
         return (
-            <Card title="Allergies">
+            <Card title="Allergies" preview={this.props.preview}>
             <thead className="font-bold">
                 <tr>
                     <td className="border-2 p-2">Name</td>
