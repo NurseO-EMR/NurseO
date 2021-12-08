@@ -39,7 +39,7 @@ export default class ReportInput extends React.Component<Props> {
                     if(i === 0) return <td key={i} >{this.props.vital.name}</td>
                     else return <td key={i}>
                         {this.props.vital.fieldType === "text" ? <input name={i.toString()} onChange={this.onInputChangeHandler.bind(this)} className="border-2 w-9/12" type="text" /> : null}
-                        {this.props.vital.fieldType === "number" ? <input name={i.toString()}  onChange={this.onInputChangeHandler.bind(this)} className="border-2 w-9/12" type="number" /> : null}
+                        {this.props.vital.fieldType === "number" ? <input name={i.toString()} onChange={this.onInputChangeHandler.bind(this)} className="border-2 w-9/12" type="number" /> : null}
                         {this.props.vital.fieldType === "T/F" ? 
                             <select  name={i.toString()} onChange={this.onSelectChangeHandler.bind(this)} className="border-2 w-9/12">
                                 <option></option>

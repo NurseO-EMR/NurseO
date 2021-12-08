@@ -14,7 +14,7 @@ export default class AssessmentSubmitPage extends React.Component<Props> {
     public render() {
         return (
             <StudentViewPage patient={this.props.patient}>
-                <ReportSubmitter reportType={"studentAssessmentReport"} className="grid-in-main" />
+                <ReportSubmitter reportType={"studentAssessmentReport"} className="grid-in-main" title="Assessment" />
             </StudentViewPage>
         );
     }

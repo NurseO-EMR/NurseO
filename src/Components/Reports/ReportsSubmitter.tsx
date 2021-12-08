@@ -14,6 +14,7 @@ import ReportTabs from './ReportTabs';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     reportType: ReportType,
+    title: string,
     reportSets?: ReportSet[],
     preview?: boolean
 }
@@ -36,6 +37,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
     private subscriptions: Subscription[]
     private readonly tabsButtonClassNames;
+    private title:string;
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -56,6 +58,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             active: "border-b-2 border-red-700 py-2 px-5 my-2 text-red-700 font-bold",
             inactive: "border-b-2 py-2 px-5 my-2"
         }
+        this.title="";
     }
 
     componentDidUpdate(prev: Props) {
@@ -83,10 +86,6 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         }))
 
         this.subscriptions.push(settingsSubscription);
-
-        // const patient = $patient.value
-        // $patient.next(patient);
-        // this.saveOnClickHandler();
 
     }
 
@@ -169,7 +168,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
     public render() {
         return (
-            <EmptyCard title={this.props.preview ? "Preview" : "Assessments"} preview={this.props.preview}>
+            <EmptyCard title={this.props.title} preview={this.props.preview}>
                 <div className="px-28">
                     <div className="flex justify-between px-8 pt-4">
                         <div>

@@ -25,7 +25,7 @@ export default class ReportSetEditor extends React.Component<Props,State> {
                     
                 </div>
     
-                <ReportsSubmitter reportType="studentAssessmentReport" preview reportSets={this.state.reportSets} />
+                <ReportsSubmitter reportType="studentAssessmentReport" preview reportSets={this.state.reportSets} title="Preview" />
 
             </div>
 

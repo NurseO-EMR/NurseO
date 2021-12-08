@@ -14,7 +14,7 @@ export default class VitalsPage extends React.Component<Props> {
     public render() {
         return (
             <StudentViewPage patient={this.props.patient}>
-                <ReportSubmitter reportType={"studentVitalsReport"} className="grid-in-main" />
+                <ReportSubmitter reportType={"studentVitalsReport"} className="grid-in-main" title="Vitals" />
             </StudentViewPage>
         );
     }
