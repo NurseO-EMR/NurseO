@@ -27,8 +27,8 @@ export default class SideNav extends React.Component<React.HTMLAttributes<HTMLDi
                 <SideNavItem href="/studentView/vitals/submit">Submit Vitals</SideNavItem>
 
                 <SideNavHeader href="/studentView/assessment/submit">Assessments</SideNavHeader>
-                <SideNavItem href="/studentView/dashboard">View Vitals</SideNavItem>
-                <SideNavItem href="/studentView/assessment/submit">Submit Vitals</SideNavItem>
+                <SideNavItem href="/studentView/assessment/view">View Assessment</SideNavItem>
+                <SideNavItem href="/studentView/assessment/submit">Submit Assessment</SideNavItem>
                 
                 <SideNavHeader href="/studentView/labs">Labs</SideNavHeader>
                 <SideNavItem href="/studentView/labs/view">View Labs</SideNavItem>
