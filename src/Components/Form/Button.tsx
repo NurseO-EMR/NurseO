@@ -13,7 +13,7 @@ export default class Button extends React.Component<Props> {
 
         return (
             <button onClick={this.onClickHandler.bind(this)} 
-            className={`bg-red-700 text-white rounded-full px-8 py-1 ml-6 text-center col-span-3 ${this.props.className}`}
+            className={`bg-red-700 text-white rounded-full px-8 py-1 ml-6 text-center cursor-pointer ${this.props.className}`}
             >{this.props.children}</button>
 
         );

@@ -7,7 +7,9 @@ type Props = {
     id:string,
     label:string,
     className?: string,
-    onSave?: ()=>void
+    onSave?: ()=>void,
+    editable?: boolean,
+    onEditClick?:()=>void
 }
 
 type State = {
@@ -36,7 +38,12 @@ export default class ExtendableInput extends React.Component<Props,State> {
                 <>
                     <LabelInputWrapper className={this.props.className}>
                         <label htmlFor={this.props.id}>{this.props.label}</label>
-                        <Button id={this.props.id} className="rounded-full" onClick={this.onAddClickedHandler.bind(this)}>+</Button>
+                        {this.props.editable ? 
+                            <Button onClick={this.props.onEditClick} 
+                                className="col-span-2 bg-yellow-600" id={`${this.props.id}_Edit`}>&#9998;</Button> 
+                        : null }
+                        <Button id={this.props.id} className={this.props.editable ? "col-span-1" : "col-span-3"}
+                         onClick={this.onAddClickedHandler.bind(this)}>+</Button>
                     </LabelInputWrapper>
                     <PureModal isOpen={this.state.showModal} width="60vw" header={this.props.label}
                      onClose={this.onModalCloseHandler.bind(this)}>
