@@ -1,12 +1,12 @@
 import React from 'react';
 import { Gender } from '../../../Types/Gender';
-import { PatientChart } from '../../../Types/PatientProfile';
+import { Allergy, Flag, MedicalIssue, PatientChart } from '../../../Types/PatientProfile';
 import ArmBand from '../../ArmBand/ArmBand';
 import EmptyCard from '../../Dashboard/Card/EmptyCard';
 import Button from '../../Form/Button';
 import Input from '../../Form/Input';
 import SelectInput from '../../Form/SelectInput';
-import AllergiesInput from './AllergiesInput';
+import ComplexInput from '../../Form/ComplexInput';
 
 type Props = {
 }
@@ -32,9 +32,7 @@ export default class CreatePatient extends React.Component<Props,State> {
             medicationOrders: [],
             flags: [],
             immunizations: [],
-            notes: [],
             studentReports: [],
-            availableReportSets: [],
             items: "",
         }
     }
@@ -64,7 +62,10 @@ export default class CreatePatient extends React.Component<Props,State> {
                             <Input id="height" onChange={e=>this.setState({height:e.currentTarget.value})}>Height</Input>
                             <Input id="weight" onChange={e=>this.setState({weight:e.currentTarget.value})}>Weight</Input>
                             <Input id="simTime" type="time" onChange={e=>this.setState({time:e.currentTarget.value})}>Sim Time</Input>
-                            <AllergiesInput onUpdate={allergies=>this.setState({allergies})} allergies={this.state.allergies} />
+                            <ComplexInput title="Allergies" onUpdate={allergies=>this.setState({allergies})} data={this.state.allergies} defaultType={new Allergy()}/>
+                            <ComplexInput title="History" onUpdate={medicalIssues=>this.setState({medicalIssues})} data={this.state.medicalIssues} defaultType={new MedicalIssue()}/>
+                            <ComplexInput title="Flags" onUpdate={flags=>this.setState({flags})} data={this.state.flags} defaultType={new Flag()}/>
+                            
                             <Button onClick={this.savePatient.bind(this)}>Save</Button>
                         </form>
                 </EmptyCard>
