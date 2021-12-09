@@ -97,6 +97,15 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
     }
 
     async saveOnClickHandler() {
+        const patient = $patient.value;
+        if (patient === undefined) $error.next(new PatientNotFoundError());
+        if (patient!.notes === undefined) patient!.notes = [];
+
+        patient!.notes.push({
+            date: `${this.state.date} ${$patient.value?.time}`,
+            note: this.state.note           
+        })
+
         this.setState({
             saveButtonText: "Saving..."
         })
@@ -128,7 +137,6 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             vitalName: filedName,
             date: this.state.date,
             reportType: this.props.reportType,
-            note: this.state.note
         }
 
         const reportSetIndex = this.getReportIndex(patient!.studentReports, updatedReport);
@@ -161,9 +169,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
     }
 
     onNoteChangeHandler(event: ChangeEvent<HTMLTextAreaElement>) {
-        this.setState({
-            note: event.target.value
-        })
+        this.setState({note:event.target.value});
     }
 
     public render() {

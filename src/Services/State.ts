@@ -5,7 +5,7 @@ import { Settings } from "../Types/Settings";
 import { Error } from "../Types/ErrorCodes";
 import { createBrowserHistory, History } from 'history';
 import Database from './Database';
-import {ReportSet, Report} from "./../Types/Report"
+// import {ReportSet, Report} from "./../Types/Report"
 
 export const $patient = new BehaviorSubject<PatientChart>(null);
 export const $error = new BehaviorSubject<Error>(new NoErrors());

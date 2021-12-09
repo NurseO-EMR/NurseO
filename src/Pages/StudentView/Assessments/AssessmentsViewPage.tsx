@@ -29,7 +29,7 @@ export default class AssessmentViewPage extends React.Component<Props> {
     public render() {	
         return (
             <StudentViewPage patient={this.props.patient}>
-                <ReportsViewer studentReport={this.report} title={"Assessment"}/>
+                <ReportsViewer studentReport={this.report} title={"Assessment"} showNotes/>
             </StudentViewPage>
 
         );

@@ -15,6 +15,7 @@ export type PatientChart = {
     flags: Flag[],
     immunizations: string[],
     studentReports: StudentReport[],
+    notes: Note[]
 } | null;
 
 
@@ -62,4 +63,9 @@ export type Time = {
 export class Allergy {
     name: string = ""
     reaction: string = ""
+}
+
+export type Note = {
+    date: string,
+    note: string
 }

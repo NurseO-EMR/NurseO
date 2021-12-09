@@ -3,11 +3,14 @@ import { StudentReport } from '../../Types/Report';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 import { filter, groupBy, uniq } from "lodash"
 import ReportTabs from './ReportTabs';
+import { $patient } from '../../Services/State';
+import { Note } from '../../Types/PatientProfile';
 
 type Props = {
     studentReport: StudentReport[],
     className?: string,
     title: string,
+    showNotes?: boolean
 }
 
 type State = {
@@ -16,6 +19,7 @@ type State = {
 export default class ReportsViewer extends React.Component<Props, State> {
 
     private filteredSets;
+    private notes: Note[]
 
     constructor(props: Props) {
         super(props);
@@ -24,6 +28,7 @@ export default class ReportsViewer extends React.Component<Props, State> {
         }
         this.filteredSets = this.getSets();
         this.getRows();
+        this.notes = $patient.value?.notes || [];
     }
 
     onTabSelectionHandler(selectedTab: number) {
@@ -115,13 +120,13 @@ export default class ReportsViewer extends React.Component<Props, State> {
                         </tbody>
                     </table>
 
-                    <div>
-                        {this.props.studentReport.map((report,i)=>
-                            <div>
-                                {report.note}
-                            </div>
-                        )}
+                {this.props.showNotes ?
+                this.notes.map((note,i)=>
+                    <div key={i} className="border-red-700 mx-20 py-6 px-4 border-2 my-3 flex">
+                        <div className="border-r-2 mr-4 pr-4 border-red-700 font-bold w-1/12">{note.date}</div>
+                        <div className="w-11/12">{note.note}</div>
                     </div>
+                ) : null } 
                 </EmptyCard>
             </div>
 

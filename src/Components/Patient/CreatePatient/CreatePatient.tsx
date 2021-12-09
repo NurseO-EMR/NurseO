@@ -34,6 +34,7 @@ export default class CreatePatient extends React.Component<Props,State> {
             immunizations: [],
             studentReports: [],
             items: "",
+            notes: []
         }
     }
 
