@@ -58,7 +58,7 @@ export default class ReportsViewer extends React.Component<Props, State> {
         const rows:JSX.Element[] = [];
         map.forEach((valuesArray,name)=>{
             const row = (
-                <tr>
+                <tr className="odd:bg-gray-100 even:bg-gray-300 h-14">
                     <td key={-1}>{name}</td>
                     {valuesArray.map((value, i)=> <td key={i}>{value}</td> )}
                 </tr>
@@ -103,7 +103,7 @@ export default class ReportsViewer extends React.Component<Props, State> {
 
                     <table className="w-full table-auto text-center">
                         <thead>
-                                <tr>
+                                <tr className="">
                                     <th key={-1}>Vital</th>
                                     {this.getTimes().map((time, i) =>
                                         <th key={i}>{time}</th>
@@ -115,6 +115,13 @@ export default class ReportsViewer extends React.Component<Props, State> {
                         </tbody>
                     </table>
 
+                    <div>
+                        {this.props.studentReport.map((report,i)=>
+                            <div>
+                                {report.note}
+                            </div>
+                        )}
+                    </div>
                 </EmptyCard>
             </div>
 

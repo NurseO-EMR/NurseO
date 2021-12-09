@@ -30,11 +30,11 @@ export default class ReportsHeaderTimeSlots extends React.Component<Props,State>
 
     public render() {	
         return (
-            <tr>
-                <td>Time</td>
+            <tr className="h-14 odd:bg-gray-100 even:bg-gray-300 h-14">
+                <td className="font-bold pl-4">Time</td>
                 {[...new Array(this.props.numberOfTimeSlots)].map( (val,i) =>
                     <td key={i} >
-                        <input className="w-9/12 text-center border-2" type="time" value={this.state.timeSlots[i]} onChange={(value)=>this.inputChangeHandler(value,i)}  />
+                        <input className="w-9/12 max-w-xs border border-black text-center" type="time" value={this.state.timeSlots[i]} onChange={(value)=>this.inputChangeHandler(value,i)}  />
                     </td>
                 )}
             </tr>

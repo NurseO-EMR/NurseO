@@ -8,6 +8,7 @@ type Props = {
 }
 export default class ReportInput extends React.Component<Props> {
 
+    private readonly inputStyle = "w-9/12 max-w-xs border border-black";
 
     onInputChangeHandler(event:ChangeEvent<HTMLInputElement>) {
         const key:number = Number.parseInt(event.target.name);
@@ -34,14 +35,14 @@ export default class ReportInput extends React.Component<Props> {
         if(this.props.numberOfTimeSlots === undefined) return null;
 
         return (
-            <tr className="w-9/12">
+            <tr className="w-9/12 odd:bg-gray-100 even:bg-gray-300 h-14">
                 {[...new Array(this.props.numberOfTimeSlots+1)].map((_,i)=>{
-                    if(i === 0) return <td key={i} >{this.props.vital.name}</td>
+                    if(i === 0) return <td key={i} className="font-bold pl-4 w-3/12">{this.props.vital.name}</td>
                     else return <td key={i}>
-                        {this.props.vital.fieldType === "text" ? <input name={i.toString()} onChange={this.onInputChangeHandler.bind(this)} className="border-2 w-9/12" type="text" /> : null}
-                        {this.props.vital.fieldType === "number" ? <input name={i.toString()} onChange={this.onInputChangeHandler.bind(this)} className="border-2 w-9/12" type="number" /> : null}
+                        {this.props.vital.fieldType === "text" ? <input name={i.toString()} onChange={this.onInputChangeHandler.bind(this)} className={this.inputStyle + " "} type="text" /> : null}
+                        {this.props.vital.fieldType === "number" ? <input name={i.toString()} onChange={this.onInputChangeHandler.bind(this)} className={this.inputStyle} type="number" /> : null}
                         {this.props.vital.fieldType === "T/F" ? 
-                            <select  name={i.toString()} onChange={this.onSelectChangeHandler.bind(this)} className="border-2 w-9/12">
+                            <select  name={i.toString()} onChange={this.onSelectChangeHandler.bind(this)} className={this.inputStyle}>
                                 <option></option>
                                 <option>Y</option>
                                 <option>N</option>
@@ -57,7 +58,7 @@ export default class ReportInput extends React.Component<Props> {
                             </div>
                          : null}
                         {this.props.vital.fieldType === "options" ? 
-                            <select  name={i.toString()} onChange={this.onSelectChangeHandler.bind(this)}  className="border-2 w-9/12">
+                            <select  name={i.toString()} onChange={this.onSelectChangeHandler.bind(this)}  className={this.inputStyle}>
                                 <option></option>
                                 {this.props.vital.VitalsOptions!.map((val,i)=><option key={i} title={val.name}>{val.abbreviation}</option>)}
                             </select>
