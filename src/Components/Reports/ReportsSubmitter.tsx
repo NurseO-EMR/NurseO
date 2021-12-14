@@ -37,7 +37,6 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
     private subscriptions: Subscription[]
     private readonly tabsButtonClassNames;
-    private title:string;
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -58,7 +57,6 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             active: "border-b-2 border-red-700 py-2 px-5 my-2 text-red-700 font-bold",
             inactive: "border-b-2 py-2 px-5 my-2"
         }
-        this.title="";
     }
 
     componentDidUpdate(prev: Props) {

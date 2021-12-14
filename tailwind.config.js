@@ -65,7 +65,8 @@ module.exports = {
     borderWidth: ['hover', 'focus'],
     extend: {
       borderColor: ['focus-visible'],
-      backgroundColor: ["odd", "even"]
+      backgroundColor: ["odd", "even", "disabled"],
+      cursor: ["disabled"]
     }
   }
 }
