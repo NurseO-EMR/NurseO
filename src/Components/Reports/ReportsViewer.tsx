@@ -121,11 +121,15 @@ export default class ReportsViewer extends React.Component<Props, State> {
                     </table>
 
                 {this.props.showNotes ?
-                this.notes.map((note,i)=>
+                this.notes.map((note,i)=>{
+                    if(note.note !== "") return (
                     <div key={i} className="border-red-700 mx-20 py-6 px-4 border-2 my-3 flex">
                         <div className="border-r-2 mr-4 pr-4 border-red-700 font-bold w-1/12">{note.date}</div>
                         <div className="w-11/12">{note.note}</div>
                     </div>
+                    ) 
+                    else return null
+                    }
                 ) : null } 
                 </EmptyCard>
             </div>

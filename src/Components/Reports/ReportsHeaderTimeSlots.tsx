@@ -30,7 +30,7 @@ export default class ReportsHeaderTimeSlots extends React.Component<Props,State>
 
     public render() {	
         return (
-            <tr className="h-14 odd:bg-gray-100 even:bg-gray-300 h-14">
+            <tr className="h-14 odd:bg-gray-100 even:bg-gray-300">
                 <td className="font-bold pl-4">Time</td>
                 {[...new Array(this.props.numberOfTimeSlots)].map( (val,i) =>
                     <td key={i} >
