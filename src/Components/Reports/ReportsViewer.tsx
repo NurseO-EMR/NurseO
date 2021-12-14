@@ -53,13 +53,12 @@ export default class ReportsViewer extends React.Component<Props, State> {
         if(!this.filteredSets[this.state.selectedTab]) return [];
 
         const vitals = this.filteredSets[this.state.selectedTab][1];
-        console.log(filter(vitals, {date:"2021-10-25", time: "22:50"}))
         const times = vitals.map(vital=> `${vital.date} ${vital.time}`);
         return uniq(times.sort());
     }
 
     getRows() {
-        const map = this.makeVitalsMap();
+        const map = this.makeReportsMap();
         const rows:JSX.Element[] = [];
         map.forEach((valuesArray,name)=>{
             const row = (
@@ -73,8 +72,22 @@ export default class ReportsViewer extends React.Component<Props, State> {
         return rows;
     }
 
+    getNotes(selectedTab: number) {
+        if(!$patient.value) return [];
+        const notes = $patient.value.notes;
+        const sets = this.getSets();
+        const filteredNotes = filter(notes, {reportName: sets[selectedTab][1][0].setName})
+        return filteredNotes.map((note,i)=>(
+            <div key={i} className="border-red-700 mx-20 py-6 px-4 border-2 my-3 flex">
+                <div className="border-r-2 mr-4 pr-4 border-red-700 font-bold w-1/12">{note.date}</div>
+                <div className="w-11/12">{note.note}</div>
+            </div>
+        ))
+        
+    }
 
-    makeVitalsMap() {
+
+    makeReportsMap() {
         if(!this.filteredSets[this.state.selectedTab]) return new Map<string, string[]>();
 
         const vitals = this.filteredSets[this.state.selectedTab][1];
@@ -120,17 +133,8 @@ export default class ReportsViewer extends React.Component<Props, State> {
                         </tbody>
                     </table>
 
-                {this.props.showNotes ?
-                this.notes.map((note,i)=>{
-                    if(note.note !== "") return (
-                    <div key={i} className="border-red-700 mx-20 py-6 px-4 border-2 my-3 flex">
-                        <div className="border-r-2 mr-4 pr-4 border-red-700 font-bold w-1/12">{note.date}</div>
-                        <div className="w-11/12">{note.note}</div>
-                    </div>
-                    ) 
-                    else return null
-                    }
-                ) : null } 
+                {this.props.showNotes ? this.getNotes(this.state.selectedTab) : null } 
+
                 </EmptyCard>
             </div>
 

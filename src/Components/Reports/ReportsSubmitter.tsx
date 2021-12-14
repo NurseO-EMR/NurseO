@@ -98,18 +98,20 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
     async saveOnClickHandler() {
         const patient = $patient.value;
+        const reportsSetIndex = this.state.selectedTab;
+        const db = Database.getInstance();
+        this.setState({saveButtonText: "Saving..."});
+        
         if (patient === undefined) $error.next(new PatientNotFoundError());
         if (patient!.notes === undefined) patient!.notes = [];
 
         patient!.notes.push({
-            date: `${this.state.date} ${$patient.value?.time}`,
-            note: this.state.note           
+            date: `${this.state.date}`,
+            note: this.state.note,
+            reportType: this.props.reportType,
+            reportName: this.state.ReportSets![reportsSetIndex].name,
         })
-
-        this.setState({
-            saveButtonText: "Saving..."
-        })
-        const db = Database.getInstance();
+        
         await db.updatePatient();
         this.setState({
             saveButtonText: "Saved"

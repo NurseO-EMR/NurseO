@@ -1,5 +1,5 @@
 import { Gender } from "./Gender"
-import { StudentReport } from "./Report";
+import { ReportType, StudentReport } from "./Report";
 export type PatientChart = {
     id: string,
     name: string,
@@ -67,5 +67,7 @@ export class Allergy {
 
 export type Note = {
     date: string,
-    note: string
+    note: string,
+    reportName: string,
+    reportType: ReportType
 }
