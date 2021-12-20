@@ -7,6 +7,8 @@ import Button from '../../Form/Button';
 import Input from '../../Form/Input';
 import SelectInput from '../../Form/SelectInput';
 import ComplexInput from '../../Form/ComplexInput';
+import OrderInput from './Inputs/OrderInput';
+import SubmitButton from '../../Form/SubmitButton';
 
 type Props = {
 }
@@ -34,6 +36,7 @@ export default class CreatePatient extends React.Component<Props,State> {
             immunizations: [],
             studentReports: [],
             items: "",
+            customOrders: [],
             notes: []
         }
     }
@@ -48,8 +51,8 @@ export default class CreatePatient extends React.Component<Props,State> {
         return (
             <div className="grid">
                 <ArmBand patient={this.state} className=""/>
-                <EmptyCard title="Create Patient" className="">
-                        <form className="mx-28">
+                <EmptyCard title="Create Patient" className="" preview>
+                        <form className="mx-28" onSubmit={this.savePatient.bind(this)}>
                             <Input id="id" onChange={e=>this.setState({id:e.currentTarget.value})}>Barcode ID</Input>
                             <Input id="name" onChange={e=>this.setState({name:e.currentTarget.value})}>Patient Name</Input>
                             <Input id="dob" type="date" onChange={e=>this.setState({dob:e.currentTarget.value})}>Date of Birth</Input>
@@ -66,8 +69,10 @@ export default class CreatePatient extends React.Component<Props,State> {
                             <ComplexInput title="Allergies" onUpdate={allergies=>this.setState({allergies})} data={this.state.allergies} defaultType={new Allergy()}/>
                             <ComplexInput title="History" onUpdate={medicalIssues=>this.setState({medicalIssues})} data={this.state.medicalIssues} defaultType={new MedicalIssue()}/>
                             <ComplexInput title="Flags" onUpdate={flags=>this.setState({flags})} data={this.state.flags} defaultType={new Flag()}/>
-                            
-                            <Button onClick={this.savePatient.bind(this)}>Save</Button>
+                            <OrderInput onUpdate={console.log} medicalOrders={this.state.medicationOrders} customOrders={this.state.customOrders!}>
+
+                            </OrderInput>
+                            <SubmitButton label='Save' />
                         </form>
                 </EmptyCard>
             </div>

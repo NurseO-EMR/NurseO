@@ -61,8 +61,9 @@ export default class ComplexInput<T> extends React.Component<Props<T>, State<T>>
                 <ExtendableInput id={this.removeSpaces(this.props.title)} label={this.props.title} onEditClick={() => this.setState({ showModal: true })}
                     editable={this.props.data.length > 0}
                     onSave={this.onClickHandler.bind(this)}>
-                    {this.keys.map(key=>
-                        <Input className="w-7/12" id={key} onChange={e => this.onInputChangeHandler(key, e.currentTarget.value)}>{this.camelCaseToEnglish(key)}</Input>
+                    {this.keys.map((key,i)=>
+                        <Input className="w-7/12" key={i} id={key} 
+                        onChange={e => this.onInputChangeHandler(key, e.currentTarget.value)}>{this.camelCaseToEnglish(key)}</Input>
                     )}
                     
                 </ExtendableInput>

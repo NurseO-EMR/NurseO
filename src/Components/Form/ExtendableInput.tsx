@@ -9,7 +9,8 @@ type Props = {
     className?: string,
     onSave?: ()=>void,
     editable?: boolean,
-    onEditClick?:()=>void
+    onEditClick?:()=>void,
+    devShow?: boolean
 }
 
 type State = {
@@ -29,9 +30,10 @@ export default class ExtendableInput extends React.Component<Props,State> {
     }
 
     onModalCloseHandler() {
-        this.setState({showModal: false})
         if(this.props.onSave) this.props.onSave()
+        this.setState({showModal: false})
     }
+
 
     public render() {	
             return (
@@ -45,7 +47,7 @@ export default class ExtendableInput extends React.Component<Props,State> {
                         <Button id={this.props.id} className={this.props.editable ? "col-span-1" : "col-span-3"}
                          onClick={this.onAddClickedHandler.bind(this)}>+</Button>
                     </LabelInputWrapper>
-                    <PureModal isOpen={this.state.showModal} width="60vw" header={this.props.label}
+                    <PureModal isOpen={this.props.devShow || this.state.showModal} width="60vw" header={this.props.label}
                      onClose={this.onModalCloseHandler.bind(this)}>
                         <>
                             {this.props.children}
