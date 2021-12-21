@@ -6,6 +6,7 @@ type Props = {
     rows: number,
     id: string,
     label: string,
+    onChange?: React.ChangeEventHandler<HTMLTextAreaElement>
 }
 
 export default class TextArea extends React.Component<Props> {
@@ -15,7 +16,9 @@ export default class TextArea extends React.Component<Props> {
             <LabelInputWrapper>
                 <label htmlFor={this.props.id}>{this.props.label}</label>
                 <textarea className='border-2 border-red-700 rounded-md ml-6 p-4 col-span-3' id={this.props.id}
-                 cols={this.props.cols} rows={this.props.rows}></textarea>
+                 cols={this.props.cols} rows={this.props.rows}
+                 onChange={this.props.onChange}
+                 ></textarea>
             </LabelInputWrapper>
         );
     }	

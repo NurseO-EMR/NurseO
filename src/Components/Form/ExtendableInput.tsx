@@ -30,8 +30,12 @@ export default class ExtendableInput extends React.Component<Props,State> {
     }
 
     onModalCloseHandler() {
-        if(this.props.onSave) this.props.onSave()
         this.setState({showModal: false})
+    }
+
+    onSave() {
+        if(this.props.onSave) this.props.onSave()
+        this.onModalCloseHandler();
     }
 
 
@@ -51,7 +55,7 @@ export default class ExtendableInput extends React.Component<Props,State> {
                      onClose={this.onModalCloseHandler.bind(this)}>
                         <>
                             {this.props.children}
-                            <Button onClick={this.onModalCloseHandler.bind(this)}>Save</Button>
+                            <Button onClick={this.onSave.bind(this)}>Save</Button>
                         </>
 
                     </PureModal>

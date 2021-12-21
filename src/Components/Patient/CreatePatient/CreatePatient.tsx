@@ -1,9 +1,8 @@
 import React from 'react';
 import { Gender } from '../../../Types/Gender';
-import { Allergy, Flag, MedicalIssue, PatientChart } from '../../../Types/PatientProfile';
+import { Allergy, CustomOrder, Flag, MedicalIssue, MedicationOrder, PatientChart } from '../../../Types/PatientProfile';
 import ArmBand from '../../ArmBand/ArmBand';
 import EmptyCard from '../../Dashboard/Card/EmptyCard';
-import Button from '../../Form/Button';
 import Input from '../../Form/Input';
 import SelectInput from '../../Form/SelectInput';
 import ComplexInput from '../../Form/ComplexInput';
@@ -41,6 +40,16 @@ export default class CreatePatient extends React.Component<Props,State> {
         }
     }
 
+    onOrderInput(updatedMedicalOrders: MedicationOrder[], updatedCustomOrders: CustomOrder[]) {
+        this.setState({
+            medicationOrders: updatedMedicalOrders,
+            customOrders: updatedCustomOrders
+        })
+
+        console.log(updatedMedicalOrders)
+        console.log(updatedCustomOrders)
+    }
+
 
     savePatient() {
         const patient = this.state as PatientChart;
@@ -69,9 +78,7 @@ export default class CreatePatient extends React.Component<Props,State> {
                             <ComplexInput title="Allergies" onUpdate={allergies=>this.setState({allergies})} data={this.state.allergies} defaultType={new Allergy()}/>
                             <ComplexInput title="History" onUpdate={medicalIssues=>this.setState({medicalIssues})} data={this.state.medicalIssues} defaultType={new MedicalIssue()}/>
                             <ComplexInput title="Flags" onUpdate={flags=>this.setState({flags})} data={this.state.flags} defaultType={new Flag()}/>
-                            <OrderInput onUpdate={console.log} medicalOrders={this.state.medicationOrders} customOrders={this.state.customOrders!}>
-
-                            </OrderInput>
+                            <OrderInput onUpdate={this.onOrderInput.bind(this)} medicalOrders={this.state.medicationOrders} customOrders={this.state.customOrders!} />
                             <SubmitButton label='Save' />
                         </form>
                 </EmptyCard>

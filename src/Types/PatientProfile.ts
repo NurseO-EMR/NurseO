@@ -12,13 +12,17 @@ export type PatientChart = {
     allergies: Allergy[],
     medicalIssues: MedicalIssue[],
     medicationOrders: MedicationOrder[],
-    customOrders?: [],
+    customOrders?: CustomOrder[],
     flags: Flag[],
     immunizations: string[],
     studentReports: StudentReport[],
     notes: Note[]
 } | null;
 
+export type CustomOrder = {
+    order: string,
+    orderKind: OrderKind
+}
 
 export class MedicalIssue {
     name: string = ""
@@ -39,6 +43,7 @@ export class Flag {
 export enum OrderKind {
     med = "med",
     custom = "custom",
+    NA = "",
 }
 
 
