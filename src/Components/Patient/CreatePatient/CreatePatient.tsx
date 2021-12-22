@@ -45,9 +45,6 @@ export default class CreatePatient extends React.Component<Props,State> {
             medicationOrders: updatedMedicalOrders,
             customOrders: updatedCustomOrders
         })
-
-        console.log(updatedMedicalOrders)
-        console.log(updatedCustomOrders)
     }
 
 

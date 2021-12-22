@@ -1,4 +1,4 @@
-import { uniq } from 'lodash';
+import { groupBy, uniq } from 'lodash';
 import React from 'react';
 import Database from '../../../../Services/Database';
 import { Medication } from '../../../../Types/Medications';
@@ -32,7 +32,7 @@ export default class OrderInput extends React.Component<Props, State> {
     constructor(props:Props) {
         super(props);
         this.state = {
-            showModal: true,
+            showModal: false,
             orderKind: OrderKind.NA,
 
             id: "",
@@ -60,6 +60,14 @@ export default class OrderInput extends React.Component<Props, State> {
         this.setState({
             medList: meds
         })
+    }
+
+    onItemDeletedHandler(data: Object) {
+        const meds = data as MedicationOrder[] | CustomOrder[];
+        const grouped = groupBy(meds, "orderKind");
+        this.customOrders = grouped[OrderKind.custom] as CustomOrder[] || [];
+        this.medicalOrders = grouped[OrderKind.med] as MedicationOrder[] || [];
+        this.props.onUpdate(this.medicalOrders, this.customOrders);
     }
 
 
@@ -144,10 +152,10 @@ export default class OrderInput extends React.Component<Props, State> {
                    
 
                 </ExtendableInput>
-
-                {/* <DataPreviewer onClose={() => this.setState({ showModal: false })}
-                    onItemDeleted={data => this.props.onUpdate(data as MedicationOrder[])}
-                    data={this.props.orders} show={this.state.showModal} /> */}
+                
+                <DataPreviewer onClose={() => this.setState({ showModal: false })}
+                    onItemDeleted={this.onItemDeletedHandler.bind(this)}
+                    data={[...this.props.medicalOrders, ...this.props.customOrders]} show={this.state.showModal} />
             </div>
         );
     }	
