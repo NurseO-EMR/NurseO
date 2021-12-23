@@ -45,7 +45,8 @@ export default class Database {
         if(this.patientDocRef === null ){
             $error.next(new PatientNotFoundError())
         } else {
-            await updateDoc(this.patientDocRef, $patient.value);
+            const patient = {...$patient.value};
+            await updateDoc(this.patientDocRef, patient);
         }
     }
 

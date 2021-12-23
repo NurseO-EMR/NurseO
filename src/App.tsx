@@ -39,7 +39,7 @@ export default class App extends React.Component<Props, State> {
     super(props)
     this.history = $history.value
     this.state = {
-        patient: null
+        patient: new PatientChart()
     }
     Database.initialize();
     $error.subscribe(error=>{

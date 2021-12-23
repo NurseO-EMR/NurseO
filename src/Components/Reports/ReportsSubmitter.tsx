@@ -6,17 +6,18 @@ import { $error, $patient, $settings } from '../../Services/State';
 import { Settings } from '../../Types/Settings';
 import { Status } from '../../Types/Status';
 import { ReportType, StudentReport, ReportSet } from '../../Types/Report';
-import EmptyCard from '../Dashboard/Card/EmptyCard';
 import { PatientNotFoundError } from '../../Types/ErrorCodes';
 import { getTodaysDateAsString } from '../../Services/Util';
 import ReportsSubmitterTabContent from './ReportsSubmitterTabContent';
 import ReportTabs from './ReportTabs';
+import { PatientChart } from '../../Types/PatientProfile';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     reportType: ReportType,
     title: string,
     reportSets?: ReportSet[],
-    preview?: boolean
+    patient?: PatientChart
+    onUpdate?: (updatedPatient: PatientChart) => void
 }
 
 type State = {
@@ -37,6 +38,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
     private subscriptions: Subscription[]
     private readonly tabsButtonClassNames;
+    private patient:PatientChart
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -48,7 +50,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             timeSlots: [],
             selectedTab: 0,
             note: "",
-            themeColor: this.props.preview ? $settings.value!.previewColor : "red-600",
+            themeColor: "red-600",
             numberOfTimeSlots: this.props.reportType === "studentAssessmentReport" ? 1 : $settings.value!.numberOfTimeSlots
         }
 
@@ -57,10 +59,12 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             active: "border-b-2 border-red-700 py-2 px-5 my-2 text-red-700 font-bold",
             inactive: "border-b-2 py-2 px-5 my-2"
         }
+        this.patient = new PatientChart();
     }
 
     componentDidUpdate(prev: Props) {
         if(this.props.reportSets !== prev.reportSets && this.props.reportSets)
+
         this.setState({
             ReportSets:this.props.reportSets
         })
@@ -79,11 +83,19 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         }
         
 
-        const settingsSubscription = $settings.subscribe(settings => this.setState({
-            settings
-        }))
+        if(this.props.patient) {
+            this.patient = this.props.patient;
+        } else {
+            const patientSubscription = $patient.subscribe(p=>this.patient=p);
+            this.subscriptions.push(patientSubscription);
+        }
 
+        
+
+
+        const settingsSubscription = $settings.subscribe(settings => this.setState({settings}))
         this.subscriptions.push(settingsSubscription);
+
 
     }
 
@@ -95,12 +107,13 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
     }
 
     async saveOnClickHandler() {
-        const patient = $patient.value;
+        const patient = this.patient;
         const reportsSetIndex = this.state.selectedTab;
         const db = Database.getInstance();
+
         this.setState({saveButtonText: "Saving..."});
         
-        if (patient === undefined) $error.next(new PatientNotFoundError());
+        if (patient === undefined || patient === null) $error.next(new PatientNotFoundError());
         if (patient!.notes === undefined) patient!.notes = [];
 
         patient!.notes.push({
@@ -110,7 +123,14 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             reportName: this.state.ReportSets![reportsSetIndex].name,
         })
         
-        await db.updatePatient();
+
+        if(this.props.patient) {
+            if(this.props.onUpdate) this.props.onUpdate(this.patient);
+        } else {
+            await db.updatePatient();
+            $patient.next(patient);
+        }
+
         this.setState({
             saveButtonText: "Saved"
         })
@@ -125,7 +145,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
     onInputChangeHandler(filedName: string, timeSlotIndex: number, value: string) {
 
-        const patient = $patient.value;
+        const patient = this.patient;
         const reportsSetIndex = this.state.selectedTab;
         if (patient === undefined) $error.next(new PatientNotFoundError());
         if (patient!.studentReports === undefined) patient!.studentReports = [];
@@ -145,7 +165,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         } else {
             patient?.studentReports.push(updatedReport)
         }
-        $patient.next(patient);
+        this.patient = patient;
 
     }
 
@@ -174,8 +194,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
     public render() {
         return (
-            <EmptyCard title={this.props.title} preview={this.props.preview}>
-                <div className="px-28">
+                <div className="px-3.5">
                     <div className="flex justify-between px-8 pt-4">
                         <div>
                             <label className="font-bold">Date: </label>
@@ -183,7 +202,6 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
                         </div>
                         <button onClick={this.saveOnClickHandler.bind(this)} 
                         className={`bg-${this.state.themeColor} text-white rounded-full px-8 py-1`}
-                        disabled={this.props.preview}
                         >{this.state.saveButtonText}</button>
                     </div>
 
@@ -203,12 +221,11 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
                     <div>
                         <h1 className={`text-${this.state.themeColor} text-xl font-bold`}>Nurse Note</h1>
-                        <textarea className={`w-full border-2 border-${this.state.themeColor} p-4`} rows={this.props.preview ? 1 : 5 }
+                        <textarea className={`w-full border-2 border-${this.state.themeColor} p-4`} rows={5}
                             onChange={this.onNoteChangeHandler.bind(this)} value={this.state.note}></textarea>
                     </div>
 
                 </div>
-            </EmptyCard>
         );
     }
 }

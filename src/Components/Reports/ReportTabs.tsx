@@ -24,19 +24,21 @@ export default class ReportTabs extends React.Component<Props> {
 
     public render() {
         return (
-            <div className="flex gap-3">
-                {this.props.reportSets ?
-                    <>
-                        {this.props.reportSets.map((reportSet, i) => (
-                            <button
-                                className={this.props.selectedTab === i ? this.tabsButtonClassNames.active : this.tabsButtonClassNames.inactive}
-                                key={i}
-                                onClick={() => this.props.onTabSelectionHandler(i)}
-                            >{reportSet}</button>
+            <div className='overflow-x-auto '>
+                <div className="flex gap-3 w-max">
+                    {this.props.reportSets ?
+                        <>
+                            {this.props.reportSets.map((reportSet, i) => (
+                                <button
+                                    className={this.props.selectedTab === i ? this.tabsButtonClassNames.active : this.tabsButtonClassNames.inactive}
+                                    key={i}
+                                    onClick={() => this.props.onTabSelectionHandler(i)}
+                                >{reportSet}</button>
 
-                        ))}
-                    </>
-                    : null}
+                            ))}
+                        </>
+                        : null}
+                </div>
             </div>
         );
     }

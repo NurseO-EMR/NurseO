@@ -1,23 +1,23 @@
 import { Gender } from "./Gender"
 import { ReportType, StudentReport } from "./Report";
-export type PatientChart = {
-    id: string,
-    name: string,
-    dob: string,
-    age: string,
-    gender: Gender,
-    height: string,
-    weight: string,
-    time: string,
-    allergies: Allergy[],
-    medicalIssues: MedicalIssue[],
-    medicationOrders: MedicationOrder[],
-    customOrders?: CustomOrder[],
-    flags: Flag[],
-    immunizations: string[],
-    studentReports: StudentReport[],
-    notes: Note[]
-} | null;
+export class PatientChart {
+    id: string = "";
+    name: string = "";
+    dob: string = "";
+    age: string = "";
+    gender: Gender = "other";
+    height: string = "";
+    weight: string = "";
+    time: string = ""
+    allergies: Allergy[] = [];
+    medicalIssues: MedicalIssue[] = [];
+    medicationOrders: MedicationOrder[] = [];
+    customOrders?: CustomOrder[] = [];
+    flags: Flag[] = [];
+    immunizations: string[] = [];
+    studentReports: StudentReport[] = [];
+    notes: Note[] = [];
+};
 
 export type CustomOrder = {
     order: string,

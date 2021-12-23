@@ -10,6 +10,8 @@ type Props = {
     onSave?: ()=>void,
     editable?: boolean,
     onEditClick?:()=>void,
+    hideSaveButton?: boolean,
+    hideAddButton?: boolean
 }
 
 type State = {
@@ -48,9 +50,13 @@ export default class ExtendableInput extends React.Component<Props,State> {
                             <Button onClick={this.props.onEditClick} 
                                 className="col-span-2 bg-yellow-600" id={`${this.props.id}_Edit`}>&#9998;</Button> 
                         : null }
+
                         {/* add button */}
+                        {!this.props.hideAddButton ? 
                         <Button id={this.props.id} className={this.props.editable ? "col-span-1" : "col-span-3"}
                          onClick={this.onAddClickedHandler.bind(this)}>+</Button>
+                        : null}
+                        
                     </LabelInputWrapper>
 
                     {/* the modal */}
@@ -58,7 +64,7 @@ export default class ExtendableInput extends React.Component<Props,State> {
                      onClose={this.onModalCloseHandler.bind(this)}>
                         <>
                             {this.props.children}
-                            <Button onClick={this.onSave.bind(this)}>Save</Button>
+                            {!this.props.hideSaveButton ? <Button onClick={this.onSave.bind(this)}>Save</Button>: null}
                         </>
 
                     </PureModal>

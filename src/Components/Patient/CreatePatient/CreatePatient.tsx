@@ -1,6 +1,6 @@
 import React from 'react';
 import { Gender } from '../../../Types/Gender';
-import { Allergy, CustomOrder, Flag, MedicalIssue, MedicationOrder, PatientChart } from '../../../Types/PatientProfile';
+import { Allergy, CustomOrder, Flag, MedicalIssue, MedicationOrder, Note, PatientChart } from '../../../Types/PatientProfile';
 import ArmBand from '../../ArmBand/ArmBand';
 import EmptyCard from '../../Dashboard/Card/EmptyCard';
 import Input from '../../Form/Input';
@@ -8,6 +8,9 @@ import SelectInput from '../../Form/SelectInput';
 import ComplexInput from '../../Form/ComplexInput';
 import OrderInput from './Inputs/OrderInput';
 import SubmitButton from '../../Form/SubmitButton';
+import ReportInput from './Inputs/ReportInput';
+import { StudentReport } from '../../../Types/Report';
+import NotesEditor from './Inputs/NotesEditor';
 
 type Props = {
 }
@@ -53,12 +56,16 @@ export default class CreatePatient extends React.Component<Props,State> {
         console.log(patient)
     }
 
+    onReportUpdate(studentReports: StudentReport[], notes: Note[]) {
+        this.setState({studentReports, notes})
+    }
+
     public render() {	
         return (
             <div className="grid">
                 <ArmBand patient={this.state} className=""/>
                 <EmptyCard title="Create Patient" className="" preview>
-                        <form className="mx-28" onSubmit={this.savePatient.bind(this)}>
+                        <form action='#' className="mx-28" onSubmit={this.savePatient.bind(this)}>
                             <Input id="id" onChange={e=>this.setState({id:e.currentTarget.value})}>Barcode ID</Input>
                             <Input id="name" onChange={e=>this.setState({name:e.currentTarget.value})}>Patient Name</Input>
                             <Input id="dob" type="date" onChange={e=>this.setState({dob:e.currentTarget.value})}>Date of Birth</Input>
@@ -76,6 +83,9 @@ export default class CreatePatient extends React.Component<Props,State> {
                             <ComplexInput title="History" onUpdate={medicalIssues=>this.setState({medicalIssues})} data={this.state.medicalIssues} defaultType={new MedicalIssue()}/>
                             <ComplexInput title="Flags" onUpdate={flags=>this.setState({flags})} data={this.state.flags} defaultType={new Flag()}/>
                             <OrderInput onUpdate={this.onOrderInput.bind(this)} medicalOrders={this.state.medicationOrders} customOrders={this.state.customOrders!} />
+                            <ReportInput studentReports={this.state.studentReports} notes={this.state.notes} reportType='studentVitalsReport' label='Vitals' onUpdate={this.onReportUpdate.bind(this)}/> 
+                            <ReportInput studentReports={this.state.studentReports} notes={this.state.notes} reportType='studentAssessmentReport' label='Assessments' onUpdate={this.onReportUpdate.bind(this)}/> 
+                            {this.state.notes.length > 0 ? <NotesEditor notes={this.state.notes} onUpdate={(notes)=>this.setState({notes})} /> : null } 
                             <SubmitButton label='Save' />
                         </form>
                 </EmptyCard>
