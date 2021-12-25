@@ -33,6 +33,9 @@ module.exports = {
       yellow: colors.amber,
       green: colors.green,
 
+
+      primary: "#B91C1C"
+
     },
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],
@@ -56,6 +59,10 @@ module.exports = {
       zIndex: {
         'background': "-5",
         'hue': "-4"
+      },
+
+      width: {
+        "70vw": "70vw"
       }
     }
   },

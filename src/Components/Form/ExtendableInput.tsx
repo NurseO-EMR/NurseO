@@ -48,12 +48,12 @@ export default class ExtendableInput extends React.Component<Props,State> {
                         <label htmlFor={this.props.id}>{this.props.label}</label>
                         {this.props.editable ? 
                             <Button onClick={this.props.onEditClick} 
-                                className="col-span-2 bg-yellow-600" id={`${this.props.id}_Edit`}>&#9998;</Button> 
+                                className="col-span-2 bg-yellow-600 h-9" id={`${this.props.id}_Edit`}>&#9998;</Button> 
                         : null }
 
                         {/* add button */}
                         {!this.props.hideAddButton ? 
-                        <Button id={this.props.id} className={this.props.editable ? "col-span-1" : "col-span-3"}
+                        <Button id={this.props.id} className={this.props.editable ? "col-span-1 h-9" : "col-span-3 h-9"}
                          onClick={this.onAddClickedHandler.bind(this)}>+</Button>
                         : null}
                         

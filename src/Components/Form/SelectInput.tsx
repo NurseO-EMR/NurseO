@@ -11,7 +11,7 @@ export default class SelectInput extends React.Component<Props> {
         return (
             <LabelInputWrapper>
                 <label htmlFor={this.props.id}>{this.props.label}</label>
-                <select onChange={this.props.onChange} className="border-2 border-red-700 rounded-full ml-6 text-center col-span-3 h-7"
+                <select onChange={this.props.onChange} className="border-2 border-red-700 rounded-full ml-6 text-center col-span-3 h-9"
                  id={this.props.id} value={this.props.value}>
                     {this.props.children}     
                 </select> 

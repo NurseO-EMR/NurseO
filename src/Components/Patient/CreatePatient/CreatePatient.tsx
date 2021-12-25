@@ -12,6 +12,7 @@ import ReportInput from './Inputs/ReportInput';
 import { StudentReport } from '../../../Types/Report';
 import NotesEditor from './Inputs/NotesEditor';
 import Database from '../../../Services/Database';
+import Button from '../../Form/Button';
 
 type Props = {
 }
@@ -93,9 +94,9 @@ export default class CreatePatient extends React.Component<Props,State> {
     public render() {	
         return (
             <div className="grid">
-                <ArmBand patient={this.state} className=""/>
-                <EmptyCard title="Create Patient" className="" preview>
-                        <form action='#' className="mx-28" ref={this.formRef} onSubmit={e=>e.preventDefault()}>
+                <ArmBand patient={this.state} className="block m-auto"/>
+                <EmptyCard title="Create Patient" className="block m-auto w-70vw" preview>
+                        <form action='#' className="mx-28 py-5" ref={this.formRef} onSubmit={e=>e.preventDefault()}>
                             <Input id="id" onChange={e=>this.setState({id:e.currentTarget.value})}>Barcode ID</Input>
                             <Input id="name" onChange={e=>this.setState({name:e.currentTarget.value})}>Patient Name</Input>
                             <Input id="dob" type="date" onChange={this.onDateChangeHandler.bind(this)}>Date of Birth</Input>
@@ -116,7 +117,13 @@ export default class CreatePatient extends React.Component<Props,State> {
                             <ReportInput studentReports={this.state.studentReports} notes={this.state.notes} reportType='studentVitalsReport' label='Vitals' onUpdate={this.onReportUpdate.bind(this)}/> 
                             <ReportInput studentReports={this.state.studentReports} notes={this.state.notes} reportType='studentAssessmentReport' label='Assessments' onUpdate={this.onReportUpdate.bind(this)}/> 
                             {this.state.notes.length > 0 ? <NotesEditor notes={this.state.notes} onUpdate={(notes)=>this.setState({notes})} /> : null } 
-                            <SubmitButton label='Save' onClick={this.savePatient.bind(this)}/>
+
+                            <div className='flex justify-center ml-40 mt-10'>
+                                <Button>Clear</Button>
+                                <Button onClick={this.savePatient.bind(this)}>Save</Button>
+                            </div>
+
+                            {/* <SubmitButton label='Save' onClick={this.savePatient.bind(this)}/> */}
                         </form>
                 </EmptyCard>
             </div>
