@@ -2,7 +2,8 @@ import { groupBy, uniq } from 'lodash';
 import React from 'react';
 import Database from '../../../../Services/Database';
 import { Medication } from '../../../../Types/Medications';
-import { CustomOrder, Frequency, MedicationOrder, OrderKind, OrderType, Routine } from '../../../../Types/PatientProfile';
+import { CustomOrder, Frequency, MedicationOrder, OrderKind, OrderType, Routine, Time } from '../../../../Types/PatientProfile';
+import ComplexInput from '../../../Form/ComplexInput';
 import ExtendableInput from '../../../Form/ExtendableInput';
 import Input from '../../../Form/Input';
 import SelectInput from '../../../Form/SelectInput';
@@ -129,6 +130,8 @@ export default class OrderInput extends React.Component<Props, State> {
                                 {[...new Array(12)].map((_,i)=><option key={i+1} value={`q${i}`}>q{i+1} hr(s)</option>)}
                                 <option value="qhs">QHS</option>
                             </SelectInput>
+
+                            <ComplexInput data={this.state.mar} defaultType={new Time()} onUpdate={mar=>this.setState({mar})} title='Mar' />
 
                             {this.state.routine === Routine.PRN ?
                              <Input id='PRNNote' onChange={e=>this.setState({PRNNote: e.currentTarget.value})}>PRN Note</Input> 

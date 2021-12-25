@@ -94,9 +94,9 @@ export type MedicationOrder  = {
     orderType: OrderType;
 }
 
-export type Time = {
-    hour:number,
-    minutes:number
+export class Time {
+    hour:number = 0;
+    minutes:number = 0;
 }
 export class Allergy {
     name: string = ""
