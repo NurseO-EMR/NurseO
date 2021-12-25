@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { Gender } from '../../../Types/Gender';
 import { Allergy, CustomOrder, Flag, MedicalIssue, MedicationOrder, Note, PatientChart } from '../../../Types/PatientProfile';
 import ArmBand from '../../ArmBand/ArmBand';
@@ -11,6 +11,7 @@ import SubmitButton from '../../Form/SubmitButton';
 import ReportInput from './Inputs/ReportInput';
 import { StudentReport } from '../../../Types/Report';
 import NotesEditor from './Inputs/NotesEditor';
+import Database from '../../../Services/Database';
 
 type Props = {
 }
@@ -19,6 +20,8 @@ type State = PatientChart & {
 }
 
 export default class CreatePatient extends React.Component<Props,State> {
+
+    private formRef:  React.RefObject<HTMLFormElement>;
 
     constructor(props:Props) {
         super(props);
@@ -41,6 +44,8 @@ export default class CreatePatient extends React.Component<Props,State> {
             customOrders: [],
             notes: []
         }
+
+        this.formRef = React.createRef();
     }
 
     onOrderInput(updatedMedicalOrders: MedicationOrder[], updatedCustomOrders: CustomOrder[]) {
@@ -52,12 +57,37 @@ export default class CreatePatient extends React.Component<Props,State> {
 
 
     savePatient() {
-        const patient = this.state as PatientChart;
-        console.log(patient)
+        const valid = this.formRef.current?.checkValidity();
+        if(valid) {
+            const {id, name, dob, age, gender, height, weight, time, allergies,
+                medicalIssues, medicationOrders, customOrders, flags, immunizations,
+                studentReports, notes
+            } = this.state;
+
+            const patient = {id, name, dob, age, gender, height, weight, time, allergies,
+                medicalIssues, medicationOrders, customOrders, flags, immunizations,
+                studentReports, notes}
+            
+
+            const db = Database.getInstance();
+            db.addTemplatePatient(patient);
+        } else {
+            this.formRef.current?.reportValidity();
+        }
     }
 
     onReportUpdate(studentReports: StudentReport[], notes: Note[]) {
         this.setState({studentReports, notes})
+    }
+
+    onDateChangeHandler(e: ChangeEvent<HTMLInputElement>) {
+        const date = new Date(e.target.value);
+        const now = new Date();
+        const age = now.getFullYear() - date.getFullYear();
+        this.setState({
+            dob: e.target.value,
+            age: age.toString()
+        })
     }
 
     public render() {	
@@ -65,11 +95,11 @@ export default class CreatePatient extends React.Component<Props,State> {
             <div className="grid">
                 <ArmBand patient={this.state} className=""/>
                 <EmptyCard title="Create Patient" className="" preview>
-                        <form action='#' className="mx-28" onSubmit={this.savePatient.bind(this)}>
+                        <form action='#' className="mx-28" ref={this.formRef} onSubmit={e=>e.preventDefault()}>
                             <Input id="id" onChange={e=>this.setState({id:e.currentTarget.value})}>Barcode ID</Input>
                             <Input id="name" onChange={e=>this.setState({name:e.currentTarget.value})}>Patient Name</Input>
-                            <Input id="dob" type="date" onChange={e=>this.setState({dob:e.currentTarget.value})}>Date of Birth</Input>
-                            <Input id="age" onChange={e=>this.setState({age:e.currentTarget.value})}>Age</Input>
+                            <Input id="dob" type="date" onChange={this.onDateChangeHandler.bind(this)}>Date of Birth</Input>
+                            <Input id="age" onChange={e=>this.setState({age:e.currentTarget.value})} value={this.state.age}>Age</Input>
                             <SelectInput label="Gender" onChange={e=>this.setState({gender:e.currentTarget.value as Gender})}>
                                 <option value=""></option>
                                 <option value="male">Male</option>
@@ -86,7 +116,7 @@ export default class CreatePatient extends React.Component<Props,State> {
                             <ReportInput studentReports={this.state.studentReports} notes={this.state.notes} reportType='studentVitalsReport' label='Vitals' onUpdate={this.onReportUpdate.bind(this)}/> 
                             <ReportInput studentReports={this.state.studentReports} notes={this.state.notes} reportType='studentAssessmentReport' label='Assessments' onUpdate={this.onReportUpdate.bind(this)}/> 
                             {this.state.notes.length > 0 ? <NotesEditor notes={this.state.notes} onUpdate={(notes)=>this.setState({notes})} /> : null } 
-                            <SubmitButton label='Save' />
+                            <SubmitButton label='Save' onClick={this.savePatient.bind(this)}/>
                         </form>
                 </EmptyCard>
             </div>

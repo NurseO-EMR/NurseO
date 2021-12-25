@@ -107,6 +107,10 @@ export default class Database {
         await updateDoc(settingsRef, $settings.value);
     }
 
+    async addTemplatePatient(patient:PatientChart) {
+        await addDoc(collection(this.db, "templatePatients"), patient);
+    }
+
 
 
 
