@@ -14,6 +14,7 @@ type Props = {
     medicalOrders: MedicationOrder[]
     customOrders: CustomOrder[], 
     onUpdate: (updatedMedicalOrders: MedicationOrder[], updatedCustomOrders: CustomOrder[])=>void,
+    admin?: boolean 
 }
 
 type State = MedicationOrder & {
@@ -95,11 +96,12 @@ export default class OrderInput extends React.Component<Props, State> {
         return (
             <div>
                 <ExtendableInput id="orderInput" label="Order" onEditClick={() => this.setState({ showModal: true })}
+                    admin={this.props.admin}
                     editable={this.props.medicalOrders.length > 0 || this.props.customOrders.length > 0}
                     onSave={this.onSave.bind(this)}>
 
 
-                    <SelectInput label="Kind of Order" onChange={e=>this.setState({orderKind: e.currentTarget.value as OrderKind})}>
+                    <SelectInput admin={this.props.admin} label="Kind of Order" onChange={e=>this.setState({orderKind: e.currentTarget.value as OrderKind})}>
                         <option value="">click here to select</option>
                         <option value="med">Medication Order</option>
                         <option value="custom">Custom Order</option>
@@ -107,22 +109,22 @@ export default class OrderInput extends React.Component<Props, State> {
 
                     {this.state.orderKind === OrderKind.med ? 
                         <>
-                            <SelectInput label='Medication Name' id='meds' onChange={e=>this.setState({id: e.currentTarget.value})}>
+                            <SelectInput admin={this.props.admin} label='Medication Name' id='meds' onChange={e=>this.setState({id: e.currentTarget.value})}>
                                 <option></option>
                                 {this.state.medList.map((med,i)=><option key={i} value={med.id}>{med.name}</option>)}
                             </SelectInput>
 
-                            <Input id='concentration' onChange={e=>this.setState({concentration: e.currentTarget.value})}>Concentration</Input>
-                            <Input id='route' onChange={e=>this.setState({route: e.currentTarget.value})}>Route</Input>
+                            <Input admin={this.props.admin} id='concentration' onChange={e=>this.setState({concentration: e.currentTarget.value})}>Concentration</Input>
+                            <Input admin={this.props.admin} id='route' onChange={e=>this.setState({route: e.currentTarget.value})}>Route</Input>
 
-                            <SelectInput label='routine' onChange={e=>this.setState({routine: e.currentTarget.value as Routine})}>
+                            <SelectInput admin={this.props.admin} label='routine' onChange={e=>this.setState({routine: e.currentTarget.value as Routine})}>
                                 <option>click here to select</option>
                                 <option value="prn">PRN</option>
                                 <option value="now">NOW</option>
                                 <option value="scheduled">Scheduled</option>
                             </SelectInput>
 
-                            <SelectInput label='Frequency' onChange={e=>this.setState({frequency: e.currentTarget.value as Frequency})}>
+                            <SelectInput admin={this.props.admin} label='Frequency' onChange={e=>this.setState({frequency: e.currentTarget.value as Frequency})}>
                                 <option>click here to select</option>
                                 <option value="qd">qd</option>
                                 <option value="q15m">q15 Minutes</option>
@@ -131,15 +133,15 @@ export default class OrderInput extends React.Component<Props, State> {
                                 <option value="qhs">QHS</option>
                             </SelectInput>
 
-                            <ComplexInput data={this.state.mar} defaultType={new Time()} onUpdate={mar=>this.setState({mar})} title='Mar' />
+                            <ComplexInput admin={this.props.admin} data={this.state.mar} defaultType={new Time()} onUpdate={mar=>this.setState({mar})} title='Mar' />
 
                             {this.state.routine === Routine.PRN ?
-                             <Input id='PRNNote' onChange={e=>this.setState({PRNNote: e.currentTarget.value})}>PRN Note</Input> 
+                             <Input admin={this.props.admin} id='PRNNote' onChange={e=>this.setState({PRNNote: e.currentTarget.value})}>PRN Note</Input> 
                             : null} 
 
-                            <Input id='notes' onChange={e=>this.setState({notes: e.currentTarget.value})}>Notes</Input>
+                            <Input admin={this.props.admin} id='notes' onChange={e=>this.setState({notes: e.currentTarget.value})}>Notes</Input>
 
-                            <SelectInput label='Order Type' onChange={e=>this.setState({orderType: e.currentTarget.value as OrderType})}>
+                            <SelectInput admin={this.props.admin} label='Order Type' onChange={e=>this.setState({orderType: e.currentTarget.value as OrderType})}>
                                 <option>click here to select</option>
                                 <option value="Admission">Admission</option>
                                 <option value="Standing">Standing</option>

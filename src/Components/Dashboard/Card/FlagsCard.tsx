@@ -12,7 +12,7 @@ export default class FlagsCard extends React.Component<Props> {
 
     public render() {
         return (
-            <Card className={this.props.className} title="Flags" preview={this.props.preview}>
+            <Card className={this.props.className} title="Flags" admin={this.props.preview}>
             <thead className="font-bold">
                 <tr>
                     <td className="border-2 p-2">Flag</td>

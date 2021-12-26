@@ -17,7 +17,8 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
     title: string,
     reportSets?: ReportSet[],
     patient?: PatientChart
-    onUpdate?: (updatedPatient: PatientChart) => void
+    onUpdate?: (updatedPatient: PatientChart) => void,
+    admin?: boolean
 }
 
 type State = {
@@ -50,7 +51,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             timeSlots: [],
             selectedTab: 0,
             note: "",
-            themeColor: "red-600",
+            themeColor: this.props.admin ? "admin" : "primary",
             numberOfTimeSlots: this.props.reportType === "studentAssessmentReport" ? 1 : $settings.value!.numberOfTimeSlots
         }
 
@@ -222,6 +223,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
                     <div>
                         <h1 className={`text-${this.state.themeColor} text-xl font-bold`}>Nurse Note</h1>
                         <textarea className={`w-full border-2 border-${this.state.themeColor} p-4`} rows={5}
+                            spellCheck="true"
                             onChange={this.onNoteChangeHandler.bind(this)} value={this.state.note}></textarea>
                     </div>
 

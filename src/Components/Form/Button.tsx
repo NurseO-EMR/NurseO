@@ -1,6 +1,8 @@
 import React, { HTMLProps } from 'react';
 
-type Props = HTMLProps<HTMLButtonElement>;
+type Props = HTMLProps<HTMLButtonElement> & {
+    admin?: boolean
+};
 
 export default class Button extends React.Component<Props> {
 
@@ -13,7 +15,7 @@ export default class Button extends React.Component<Props> {
 
         return (
             <button onClick={this.onClickHandler.bind(this)} 
-            className={`bg-primary text-white rounded-full px-8 py-2 ml-6 text-center cursor-pointer ${this.props.className}`}
+            className={`text-white rounded-full px-8 py-2 ml-6 text-center cursor-pointer bg-${this.props.admin ? "admin" : "primary"} ${this.props.className}`}
             >{this.props.children}</button>
 
         );

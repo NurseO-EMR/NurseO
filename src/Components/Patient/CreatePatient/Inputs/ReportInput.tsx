@@ -12,11 +12,12 @@ type Props = {
     reportType: ReportType,
     label: string,
     onUpdate?: (studentReports: StudentReport[], notes: Note[]) => void
+    admin?: boolean
 }
 
 type State = {
     showModal: boolean,
-    editable: boolean
+    editable: boolean,
 }
 
 export default class ReportInput extends React.Component<Props, State> {
@@ -60,9 +61,10 @@ export default class ReportInput extends React.Component<Props, State> {
     public render() {
         return (
             <>
-                <ExtendableInput id={this.props.label} label={this.props.label} hideSaveButton editable={this.state.editable} 
+                <ExtendableInput admin={this.props.admin} id={this.props.label} label={this.props.label} hideSaveButton editable={this.state.editable} 
                     onEditClick={() => this.setState({showModal: true})}>
-                    <ReportsSubmitter patient={this.patient} onUpdate={this.onUpdate.bind(this)} reportType={this.props.reportType} title={this.props.label} />
+                    <ReportsSubmitter patient={this.patient} admin={this.props.admin}
+                     onUpdate={this.onUpdate.bind(this)} reportType={this.props.reportType} title={this.props.label} />
                 </ExtendableInput>
 
                 {this.patient ?

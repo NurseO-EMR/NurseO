@@ -1,10 +1,9 @@
 import React from 'react';
-import { $settings } from '../../../Services/State';
 
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     title: string
-    preview?: boolean
+    admin?: boolean
 }
 
 type State = {
@@ -15,7 +14,7 @@ export default class EmptyCard extends React.Component<Props,State> {
     constructor(props:Props){
         super(props);
         this.state = {
-            themeColor: this.props.preview ? $settings.value!.previewColor : "primary"
+            themeColor: this.props.admin ? "admin" : "primary"
         }
     }
 

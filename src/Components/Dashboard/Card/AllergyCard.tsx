@@ -12,7 +12,7 @@ export default class AllergyCard extends React.Component<Props> {
 
     public render() {
         return (
-            <Card title="Allergies" preview={this.props.preview}>
+            <Card title="Allergies" admin={this.props.preview}>
             <thead className="font-bold">
                 <tr>
                     <td className="border-2 p-2">Name</td>

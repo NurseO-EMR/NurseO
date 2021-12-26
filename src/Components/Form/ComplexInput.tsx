@@ -8,7 +8,8 @@ type Props<T> = {
     data: T[],
     onUpdate: (updatedData: T[])=>void,
     defaultType: Object,
-    title: string
+    title: string,
+    admin?: boolean
 }
 type State<T> = {
     data: T | null
@@ -58,11 +59,12 @@ export default class ComplexInput<T> extends React.Component<Props<T>, State<T>>
     public render() {
         return (
             <div>
-                <ExtendableInput id={this.removeSpaces(this.props.title)} label={this.props.title} onEditClick={() => this.setState({ showModal: true })}
+                <ExtendableInput  admin={this.props.admin} id={this.removeSpaces(this.props.title)} label={this.props.title} 
+                    onEditClick={() => this.setState({ showModal: true })}
                     editable={this.props.data.length > 0}
                     onSave={this.onClickHandler.bind(this)}>
                     {this.keys.map((key,i)=>
-                        <Input className="w-7/12" key={i} id={key} 
+                        <Input className="w-7/12" key={i} id={key} admin={this.props.admin}
                         onChange={e => this.onInputChangeHandler(key, e.currentTarget.value)}>{this.camelCaseToEnglish(key)}</Input>
                     )}
                     

@@ -11,7 +11,8 @@ type Props = {
     editable?: boolean,
     onEditClick?:()=>void,
     hideSaveButton?: boolean,
-    hideAddButton?: boolean
+    hideAddButton?: boolean,
+    admin?: boolean
 }
 
 type State = {
@@ -47,13 +48,14 @@ export default class ExtendableInput extends React.Component<Props,State> {
                         {/* edit button */}
                         <label htmlFor={this.props.id}>{this.props.label}</label>
                         {this.props.editable ? 
-                            <Button onClick={this.props.onEditClick} 
+                            <Button onClick={this.props.onEditClick} admin={this.props.admin}
                                 className="col-span-2 bg-yellow-600 h-9" id={`${this.props.id}_Edit`}>&#9998;</Button> 
                         : null }
 
                         {/* add button */}
                         {!this.props.hideAddButton ? 
                         <Button id={this.props.id} className={this.props.editable ? "col-span-1 h-9" : "col-span-3 h-9"}
+                         admin={this.props.admin}    
                          onClick={this.onAddClickedHandler.bind(this)}>+</Button>
                         : null}
                         
@@ -64,7 +66,7 @@ export default class ExtendableInput extends React.Component<Props,State> {
                      onClose={this.onModalCloseHandler.bind(this)}>
                         <>
                             {this.props.children}
-                            {!this.props.hideSaveButton ? <Button onClick={this.onSave.bind(this)}>Save</Button>: null}
+                            {!this.props.hideSaveButton ? <Button  admin={this.props.admin} onClick={this.onSave.bind(this)}>Save</Button>: null}
                         </>
 
                     </PureModal>
