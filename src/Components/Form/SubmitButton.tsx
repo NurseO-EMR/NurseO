@@ -10,7 +10,7 @@ export default class SubmitButton extends React.Component<Props> {
         return (
             <input type={"submit"}
             onClick={this.props.onClick}
-            className={`bg-red-700 text-white rounded-full px-8 py-1 ml-6 text-center cursor-pointer h-9`}
+            className={`bg-primary text-white rounded-full px-8 py-1 ml-6 text-center cursor-pointer h-9`}
             value={this.props.label}
             />
 

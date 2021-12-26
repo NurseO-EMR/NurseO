@@ -104,9 +104,9 @@ export default class AdministerMeds extends React.Component<Props,State> {
                     <h1 className="font-bold p-10 text-4xl">
                         Please scan the medication you wish to administer
                     </h1>
-                    <input type="text" className="border-red-700 border-2 rounded-full w-1/2 h-10 block mx-auto text-center"
+                    <input type="text" className="border-primary border-2 rounded-full w-1/2 h-10 block mx-auto text-center"
                     placeholder="click here to scan the medication barcode" autoFocus onChange={this.onIDChangeHandler.bind(this)} value={this.state.medicationID}/>
-                    <button className="text-white bg-red-700 px-20 py-2 rounded-full mt-5" onClick={this.onScanHandler.bind(this)}>Administer</button>
+                    <button className="text-white bg-primary px-20 py-2 rounded-full mt-5" onClick={this.onScanHandler.bind(this)}>Administer</button>
                 </EmptyCard>
 
                 <PureModal isOpen={!!this.state.scannedMedicationName} header={`Administer ${this.state.scannedMedicationName}`}
@@ -122,13 +122,13 @@ export default class AdministerMeds extends React.Component<Props,State> {
                             {this.state.scannedMedicationOrder?.notes}{" "}
                         </h1>
                         <div>
-                            <label className="block text-red-700 font-bold text-lg tracking-wide pb-4" htmlFor="dose">
+                            <label className="block text-primary font-bold text-lg tracking-wide pb-4" htmlFor="dose">
                                 Please State your dose or rate with unites (ex: 100ml/hr or 20mg)
                             </label>
-                            <input className="border-2 border-red-700 rounded-full text-center h-10 w-1/2 mb-4" onChange={this.onDoseChangeHandler.bind(this)}
+                            <input className="border-2 border-primary rounded-full text-center h-10 w-1/2 mb-4" onChange={this.onDoseChangeHandler.bind(this)}
                              autoFocus type="text" id="dose" placeholder="Dose or Rate" />
                         </div>
-                        <button className="bg-red-700 text-white py-4 px-16 rounded-full font-bold" onClick={this.onSubmit.bind(this)}>Submit</button>
+                        <button className="bg-primary text-white py-4 px-16 rounded-full font-bold" onClick={this.onSubmit.bind(this)}>Submit</button>
                     </div>
                 </PureModal>
 

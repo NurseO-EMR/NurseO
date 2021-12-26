@@ -34,7 +34,8 @@ module.exports = {
       green: colors.green,
 
 
-      primary: "#B91C1C"
+      primary: "#B91C1C",
+      admin: "#334155",
 
     },
     fontFamily: {

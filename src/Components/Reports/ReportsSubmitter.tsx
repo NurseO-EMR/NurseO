@@ -56,7 +56,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
         this.subscriptions = [];
         this.tabsButtonClassNames = {
-            active: "border-b-2 border-red-700 py-2 px-5 my-2 text-red-700 font-bold",
+            active: "border-b-2 border-primary py-2 px-5 my-2 text-primary font-bold",
             inactive: "border-b-2 py-2 px-5 my-2"
         }
         this.patient = new PatientChart();

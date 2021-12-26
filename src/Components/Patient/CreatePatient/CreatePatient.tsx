@@ -95,7 +95,7 @@ export default class CreatePatient extends React.Component<Props,State> {
         return (
             <div className="grid">
                 <ArmBand patient={this.state} className="block m-auto"/>
-                <EmptyCard title="Create Patient" className="block m-auto w-70vw" preview>
+                <EmptyCard title="Create Patient" className="block m-auto w-70vw">
                         <form action='#' className="mx-28 py-5" ref={this.formRef} onSubmit={e=>e.preventDefault()}>
                             <Input id="id" onChange={e=>this.setState({id:e.currentTarget.value})}>Barcode ID</Input>
                             <Input id="name" onChange={e=>this.setState({name:e.currentTarget.value})}>Patient Name</Input>

@@ -33,9 +33,9 @@ export default class ReportEditorSelector extends React.Component<Props, State> 
                 <h1 className="font-bold text-3xl">Which assessment would you like to edit?</h1>
                 <div className="grid grid-cols-4 gap-5 mt-10">
                     {this.state.reportSets.map(reportSet=>
-                            <button className="bg-red-700 text-white p-10 rounded-lg font-bold">{reportSet.name}</button>
+                            <button className="bg-primary text-white p-10 rounded-lg font-bold">{reportSet.name}</button>
                     )}
-                    <button className="bg-red-700 text-white p-10 rounded-lg font-bold">Other</button>
+                    <button className="bg-primary text-white p-10 rounded-lg font-bold">Other</button>
                 </div>
             </div>
 

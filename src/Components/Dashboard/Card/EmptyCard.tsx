@@ -15,7 +15,7 @@ export default class EmptyCard extends React.Component<Props,State> {
     constructor(props:Props){
         super(props);
         this.state = {
-            themeColor: this.props.preview ? $settings.value!.previewColor : "red-700"
+            themeColor: this.props.preview ? $settings.value!.previewColor : "primary"
         }
     }
 

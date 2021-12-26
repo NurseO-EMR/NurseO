@@ -78,8 +78,8 @@ export default class ReportsViewer extends React.Component<Props, State> {
         const sets = this.getSets();
         const filteredNotes = filter(notes, {reportName: sets[selectedTab][1][0].setName})
         return filteredNotes.map((note,i)=>(
-            <div key={i} className="border-red-700 mx-20 py-6 px-4 border-2 my-3 flex">
-                <div className="border-r-2 mr-4 pr-4 border-red-700 font-bold w-1/12">{note.date}</div>
+            <div key={i} className="border-primary mx-20 py-6 px-4 border-2 my-3 flex">
+                <div className="border-r-2 mr-4 pr-4 border-primary font-bold w-1/12">{note.date}</div>
                 <div className="w-11/12">{note.note}</div>
             </div>
         ))
