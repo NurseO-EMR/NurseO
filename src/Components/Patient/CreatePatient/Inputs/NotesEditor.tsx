@@ -5,7 +5,8 @@ import DataPreviewer from '../DataPreviewer';
 
 type Props = {
     notes: Note[],
-    onUpdate?: (updatedNotes: Note[]) => void
+    onUpdate?: (updatedNotes: Note[]) => void,
+    admin?: boolean
 }
 type State = {
     showModal: boolean
@@ -28,10 +29,10 @@ export default class NotesEditor extends React.Component<Props, State> {
     public render() {
         return (
             <>
-                <ExtendableInput id='noteEditor' label='Notes' editable={this.props.notes.length > 0} hideAddButton
+                <ExtendableInput id='noteEditor' label='Notes' admin={this.props.admin} editable={this.props.notes.length > 0} hideAddButton
                  onEditClick={() => this.setState({ showModal: true })} />
 
-                <DataPreviewer onClose={() => this.setState({ showModal: false })}
+                <DataPreviewer  onClose={() => this.setState({ showModal: false })}
                     onItemDeleted={this.onItemDeletedHandler.bind(this)}
                     data={this.props.notes} show={this.state.showModal} />
             </>

@@ -13,10 +13,12 @@ import NotesEditor from './Inputs/NotesEditor';
 import Database from '../../../Services/Database';
 import Button from '../../Form/Button';
 
+
 type Props = {
 }
 type State = PatientChart & {
-    items:string
+    items:string,
+    showPreview: boolean
 }
 
 export default class CreatePatient extends React.Component<Props,State> {
@@ -40,9 +42,10 @@ export default class CreatePatient extends React.Component<Props,State> {
             flags: [],
             immunizations: [],
             studentReports: [],
-            items: "",
             customOrders: [],
-            notes: []
+            notes: [],
+            items: "",
+            showPreview: false
         }
 
         this.formRef = React.createRef();
@@ -90,6 +93,14 @@ export default class CreatePatient extends React.Component<Props,State> {
         })
     }
 
+    onPreviewClickHandler() {
+
+        const {protocol, host} = window.location;
+        const json = encodeURIComponent(JSON.stringify(this.state))
+        const url = `${protocol}//${host}/studentView/Dashboard?preview=${json}`
+        window.open(url)
+    }
+
     public render() {	
         return (
             <div className="grid">
@@ -115,14 +126,13 @@ export default class CreatePatient extends React.Component<Props,State> {
                             <OrderInput admin onUpdate={this.onOrderInput.bind(this)} medicalOrders={this.state.medicationOrders} customOrders={this.state.customOrders!} />
                             <ReportInput admin studentReports={this.state.studentReports} notes={this.state.notes} reportType='studentVitalsReport' label='Vitals' onUpdate={this.onReportUpdate.bind(this)}/> 
                             <ReportInput admin studentReports={this.state.studentReports} notes={this.state.notes} reportType='studentAssessmentReport' label='Assessments' onUpdate={this.onReportUpdate.bind(this)}/> 
-                            {this.state.notes.length > 0 ? <NotesEditor notes={this.state.notes} onUpdate={(notes)=>this.setState({notes})} /> : null } 
+                            {this.state.notes.length > 0 ? <NotesEditor admin notes={this.state.notes} onUpdate={(notes)=>this.setState({notes})} /> : null } 
 
                             <div className='flex justify-center ml-40 mt-10'>
                                 <Button admin>Clear</Button>
+                                <Button admin onClick={this.onPreviewClickHandler.bind(this)}>Preview</Button>
                                 <Button admin onClick={this.savePatient.bind(this)}>Save</Button>
                             </div>
-
-                            {/* <SubmitButton label='Save' onClick={this.savePatient.bind(this)}/> */}
                         </form>
                 </EmptyCard>
             </div>
