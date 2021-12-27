@@ -131,15 +131,23 @@ export default class Database {
     }
 
     async deleteTemplatePatient(patient:PatientChart) {
-        const patientQuery = query(collection(this.db, "templatePatients"), where("id", "==", patient.id), limit(1))
-        const document = (await getDocs(patientQuery)).docs[0];
-        if(document) {
-            await deleteDoc(document.ref);
-            this.patientListCached = false;
-        }
+        const ref = await this.getTemplatePatientRef(patient);
+        await deleteDoc(ref);
+        this.patientListCached = false;
     }
 
+    async updateTemplatePatient(oldPatient:PatientChart, newPatient: PatientChart) {
+        const ref = await this.getTemplatePatientRef(oldPatient);
+        const patient = {...newPatient};
+        this.patientListCached = false;
+        await updateDoc(ref, patient);
+    }
 
+    private async getTemplatePatientRef(patient:PatientChart): Promise<DocumentReference> {
+        const patientQuery = query(collection(this.db, "templatePatients"), where("id", "==", patient.id), limit(1))
+        const document = (await getDocs(patientQuery)).docs[0];
+        return document.ref;
+    }
 
 
 
