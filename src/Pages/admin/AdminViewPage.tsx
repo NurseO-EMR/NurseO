@@ -19,7 +19,7 @@ export default class AdminViewPage extends React.Component<Props> {
                     <ul className="flex gap-10">
                         <li className={`cursor-pointer ${this.props.selected === "Dashboard" ? "font-bold" : null}`}><a href="/admin/dashboard">Dashboard</a></li>
                         <li className={`cursor-pointer ${this.props.selected === "Create Patient" ? "font-bold" : null}`}><a href="/admin/patient/create">Create Patient</a></li>
-                        <li className={`cursor-pointer ${this.props.selected === "View Patients" ? "font-bold" : null}`}><a href="/admin/dashboard">View Patients</a></li>
+                        <li className={`cursor-pointer ${this.props.selected === "View Patients" ? "font-bold" : null}`}><a href="/admin/patient/view">View Patients</a></li>
                         <li className={`cursor-pointer ${this.props.selected === "Edit Assessment" ? "font-bold" : null}`}><a href="/admin/assessments/edit">Edit Assessments</a></li>
                     </ul>
                 </TopNav>

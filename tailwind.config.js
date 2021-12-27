@@ -36,6 +36,7 @@ module.exports = {
 
       primary: "#B91C1C",
       admin: "#334155",
+      edit: "#C2410C",
 
     },
     fontFamily: {

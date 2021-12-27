@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { addDoc, collection, DocumentReference, getDocs, getFirestore, 
-    limit, query, updateDoc, where, setDoc, doc, getDoc, orderBy } from "firebase/firestore/lite";
+    limit, query, updateDoc, where, setDoc, doc, getDoc, orderBy, deleteDoc } from "firebase/firestore/lite";
 import { $error, $patient, $settings } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";
 import { PatientChart } from "../Types/PatientProfile";
@@ -18,6 +18,7 @@ export default class Database {
     private currentPatientID: string | null | undefined;
     private cache: Cache;
     private medListCached: boolean;
+    private patientListCached: boolean;
 
     constructor() {
         initializeApp(firebaseConfig);
@@ -26,6 +27,7 @@ export default class Database {
         this.currentPatientID = null;
         this.cache = new Cache();
         this.medListCached = false;
+        this.patientListCached = false;
     }
 
     async getPatient(id: string): Promise<boolean> {
@@ -55,6 +57,7 @@ export default class Database {
     }
 
     async addMedication(medication: Medication) {
+        this.medListCached = false;
         await addDoc(collection(this.db, "medications"), medication);
     }
 
@@ -108,7 +111,32 @@ export default class Database {
     }
 
     async addTemplatePatient(patient:PatientChart) {
+        this.patientListCached = false;
         await addDoc(collection(this.db, "templatePatients"), patient);
+    }
+
+    async getTemplatePatients(): Promise<PatientChart[]> {
+        if(this.patientListCached) {
+            const patients = this.cache.getPatients();
+            return patients;
+        }
+        console.log("getting template patients from db")
+        const q = query(collection(this.db,"templatePatients"), orderBy("name"));
+        const docs = (await getDocs(q)).docs
+        if(docs.length === 0) return [];
+        const patients = docs.map(doc=>doc.data()) as PatientChart[];
+        this.cache.cacheMultiplePatients(patients);
+        this.patientListCached = true;
+        return patients;
+    }
+
+    async deleteTemplatePatient(patient:PatientChart) {
+        const patientQuery = query(collection(this.db, "templatePatients"), where("id", "==", patient.id), limit(1))
+        const document = (await getDocs(patientQuery)).docs[0];
+        if(document) {
+            await deleteDoc(document.ref);
+            this.patientListCached = false;
+        }
     }
 
 

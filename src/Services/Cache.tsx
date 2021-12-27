@@ -1,14 +1,17 @@
 import { findIndex } from "lodash";
 import { Medication } from "../Types/Medications";
+import { PatientChart } from "../Types/PatientProfile";
 import { Settings } from "../Types/Settings";
 
 export default class Cache {
     private cachedMeds: Medication[];
     private cachedSettings: Settings | null;
+    private patients: PatientChart[];
 
     constructor() {
         this.cachedMeds = [];
         this.cachedSettings = null;
+        this.patients = []
     }
 
     cacheMed(med: Medication) {
@@ -35,4 +38,19 @@ export default class Cache {
     getSettings(): Settings | null{
         return this.cachedSettings;
     }
+
+    cachePatient(patient:PatientChart) {
+        const index = findIndex(this.patients, {id: patient.id});
+        if(index > -1) return;
+        this.patients.push(patient);
+    }
+    cacheMultiplePatients(patients: PatientChart[]) {
+        for(const patient of patients) {
+            this.cachePatient(patient);
+        }
+    }
+    getPatients():PatientChart[] {
+        return this.patients;
+    }
+
 }
