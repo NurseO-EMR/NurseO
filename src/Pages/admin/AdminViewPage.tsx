@@ -1,6 +1,8 @@
 import React from 'react';
 import TopNav from '../../Components/Nav/TopMenu/TopNav';
 import {getAuth} from "firebase/auth"
+import { Link } from 'react-router-dom';
+import { $history } from '../../Services/State';
 // import { $history } from '../../Services/State';
 type Props = {
     selected: "Dashboard" | "Create Patient" | "View Patients" | "Edit Assessment"
@@ -8,8 +10,7 @@ type Props = {
 export default class AdminViewPage extends React.Component<Props> {
 
     componentDidMount() {
-        // if(!getAuth().currentUser) $history.value.push("/")
-        console.log(getAuth().currentUser)
+        if(!getAuth().currentUser) $history.value.push("/")
     }
 
     public render() {	
@@ -17,10 +18,10 @@ export default class AdminViewPage extends React.Component<Props> {
             <div>
                 <TopNav>
                     <ul className="flex gap-10">
-                        <li className={`cursor-pointer ${this.props.selected === "Dashboard" ? "font-bold" : null}`}><a href="/admin/dashboard">Dashboard</a></li>
-                        <li className={`cursor-pointer ${this.props.selected === "Create Patient" ? "font-bold" : null}`}><a href="/admin/patient/create">Create Patient</a></li>
-                        <li className={`cursor-pointer ${this.props.selected === "View Patients" ? "font-bold" : null}`}><a href="/admin/patient/view">View Patients</a></li>
-                        <li className={`cursor-pointer ${this.props.selected === "Edit Assessment" ? "font-bold" : null}`}><a href="/admin/assessments/edit">Edit Assessments</a></li>
+                        <li className={`cursor-pointer ${this.props.selected === "Dashboard" ? "font-bold" : null}`}><Link to="/admin/dashboard">Dashboard</Link></li>
+                        <li className={`cursor-pointer ${this.props.selected === "Create Patient" ? "font-bold" : null}`}><Link to="/admin/patient/create">Create Patient</Link></li>
+                        <li className={`cursor-pointer ${this.props.selected === "View Patients" ? "font-bold" : null}`}><Link to="/admin/patient/view">View Patients</Link></li>
+                        <li className={`cursor-pointer ${this.props.selected === "Edit Assessment" ? "font-bold" : null}`}><Link to="/admin/assessments/edit">Edit Assessments</Link></li>
                     </ul>
                 </TopNav>
                 <div className="px-10 py-1">
