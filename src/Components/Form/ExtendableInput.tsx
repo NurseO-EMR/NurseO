@@ -5,14 +5,14 @@ import LabelInputWrapper from './LabelInputWrapper';
 
 type Props = {
     id:string,
-    label:string,
+    label?:string,
     className?: string,
     onSave?: ()=>void,
     editable?: boolean,
     onEditClick?:()=>void,
     hideSaveButton?: boolean,
     hideAddButton?: boolean,
-    admin?: boolean
+    admin?: boolean,
 }
 
 type State = {
@@ -46,10 +46,10 @@ export default class ExtendableInput extends React.Component<Props,State> {
                 <>
                     <LabelInputWrapper className={this.props.className}>
                         {/* edit button */}
-                        <label htmlFor={this.props.id}>{this.props.label}</label>
+                        {this.props.label === "" ? null :  <label htmlFor={this.props.id}>{this.props.label}</label>}
                         {this.props.editable ? 
                             <Button onClick={this.props.onEditClick} admin={this.props.admin}
-                                className="col-span-2 bg-yellow-600 h-9" id={`${this.props.id}_Edit`}>&#9998;</Button> 
+                                className="col-span-2 bg-edit h-9" id={`${this.props.id}_Edit`}>&#9998;</Button> 
                         : null }
 
                         {/* add button */}
