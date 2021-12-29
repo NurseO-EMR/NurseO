@@ -18,7 +18,7 @@ module.exports = {
     textColor: {
       red: colors.rose,
       green: colors.green,
-      'primary': '#f43f5e',
+      'primary': '#B91C1C',
       'secondary': '#000000',
       'white': "#ffffff"
     },
@@ -36,7 +36,7 @@ module.exports = {
 
       primary: "#B91C1C",
       admin: "#334155",
-      edit: "#C2410C",
+      edit: "#DC2626",
 
     },
     fontFamily: {

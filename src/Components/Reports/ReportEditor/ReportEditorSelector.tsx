@@ -90,14 +90,14 @@ export default class ReportEditorSelector extends React.Component<Props, State> 
                         {this.state.reportSets.map((reportSet, i) =>
                             <tr key={i} className='odd:bg-gray-100 even:bg-gray-300 h-14'>
                                 <td>{reportSet.name}</td>
-                                <td><Button admin className='bg-edit' onClick={() => this.onEditClickHandler(i)}>Edit</Button></td>
-                                <td><Button admin>Delete</Button></td>
+                                <td><Button admin onClick={() => this.onEditClickHandler(i)}>Edit</Button></td>
+                                <td><Button className='bg-primary'>Delete</Button></td>
                             </tr>
                         )}
                     </tbody>
                 </table>
                 <div className='flex justify-end w-10/12 mt-5'>
-                    <Button onClick={this.onSaveClickHandler.bind(this)}>Save</Button>
+                    <Button admin onClick={this.onSaveClickHandler.bind(this)}>Save</Button>
                 </div>
                 {this.state.showEditor ? <ReportSetEditor reportSets={this.state.reportSets} reportToBeEditedIndex={this.state.editIndex}
                     onSave={this.onEditorSave.bind(this)} onClose={this.onEditorClose.bind(this)}

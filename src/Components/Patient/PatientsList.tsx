@@ -77,8 +77,8 @@ export default class PatientList extends React.Component<Props, State> {
                                 <td>{patient.id}</td>
                                 <td>{patient.name}</td>
                                 <td>{patient.dob}</td>
-                                <td><Button className='bg-edit' onClick={() => this.onEditClickHandler(patient)}>Edit</Button></td>
-                                <td><Button onClick={() => this.onDeleteClickHandler(patient)} admin>Delete</Button></td>
+                                <td><Button admin onClick={() => this.onEditClickHandler(patient)}>Edit</Button></td>
+                                <td><Button className='bg-primary' onClick={() => this.onDeleteClickHandler(patient)}>Delete</Button></td>
                             </tr>
 
                         )}
