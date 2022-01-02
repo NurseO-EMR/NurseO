@@ -6,6 +6,7 @@ import Button from '../../Form/Button';
 import ReportSetEditor from './ReportSetEditor';
 import EmptyCard from '../../Dashboard/Card/EmptyCard';
 import { $settings } from '../../../Services/State';
+import SetMaker from './SetMaker';
 
 
 type Props = {
@@ -14,7 +15,8 @@ type Props = {
 type State = {
     reportSets: ReportSet[],
     showEditor: boolean,
-    editIndex: number
+    editIndex: number,
+    showSetMaker: boolean
 }
 export default class ReportEditorSelector extends React.Component<Props, State> {
 
@@ -23,7 +25,8 @@ export default class ReportEditorSelector extends React.Component<Props, State> 
         this.state = {
             reportSets: [],
             showEditor: false,
-            editIndex: -1
+            editIndex: -1,
+            showSetMaker: false
         }
     }
 
@@ -31,7 +34,6 @@ export default class ReportEditorSelector extends React.Component<Props, State> 
         const db = Database.getInstance();
         const settings = await db.getSettings();
         let reportSets = settings?.reportSet;
-        console.log(reportSets)
 
 
         if (reportSets) {
@@ -72,7 +74,15 @@ export default class ReportEditorSelector extends React.Component<Props, State> 
             $settings.next(settings);
             db.updateSettings();
         } 
+    }
 
+    onNewSetAddHandler(set: ReportSet) {
+        const {reportSets} = this.state;
+        reportSets.push(set);
+        this.setState({
+            reportSets,
+            showSetMaker: false
+        })
     }
 
     public render() {
@@ -97,11 +107,15 @@ export default class ReportEditorSelector extends React.Component<Props, State> 
                     </tbody>
                 </table>
                 <div className='flex justify-end w-10/12 mt-5'>
+                    <Button admin onClick={()=>this.setState({showSetMaker: true})}>Add Set</Button>
                     <Button admin onClick={this.onSaveClickHandler.bind(this)}>Save</Button>
                 </div>
                 {this.state.showEditor ? <ReportSetEditor reportSets={this.state.reportSets} reportToBeEditedIndex={this.state.editIndex}
                     onSave={this.onEditorSave.bind(this)} onClose={this.onEditorClose.bind(this)}
                 /> : null}
+
+                {this.state.showSetMaker ? <SetMaker onClose={()=>this.setState({showSetMaker: false})}
+                 setType={this.props.reportType} onSave={this.onNewSetAddHandler.bind(this)} /> : null}
             </EmptyCard>
 
         );

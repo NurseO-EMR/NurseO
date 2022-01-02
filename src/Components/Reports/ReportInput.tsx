@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { Report } from '../../Types/Report';
+import ReportDynamicInput from './ReportDynamicInput';
 
 type Props = {
     numberOfTimeSlots: number | undefined,
@@ -43,48 +44,10 @@ export default class ReportInput extends React.Component<Props> {
                         const disabled = this.props.disabledTimeSlots[i-1];
                         return <td key={i}>
 
-                            {this.props.vital.fieldType === "text" ?
-                                <input name={i.toString()} onChange={this.onInputChangeHandler.bind(this)} className={this.inputStyle + " "}
-                                    type="text" disabled={disabled} /> : null}
-
-
-                            {this.props.vital.fieldType === "number" ?
-                                <input name={i.toString()} onChange={this.onInputChangeHandler.bind(this)} className={this.inputStyle}
-                                    type="number" disabled={disabled} /> : null}
-
-
-                            {this.props.vital.fieldType === "T/F" ?
-                                <select name={i.toString()} onChange={this.onSelectChangeHandler.bind(this)} className={this.inputStyle} disabled={disabled}>
-                                    <option></option>
-                                    <option>Y</option>
-                                    <option>N</option>
-                                </select> : null}
-
-
-                            {this.props.vital.fieldType === "checkbox" ?
-                                <div className="flex flex-wrap gap-5 w-1/2">
-                                    {this.props.vital.VitalsOptions?.map((val, j) =>
-                                        <div key={i + j} className="flex items-center gap-2" >
-                                            <input type="checkbox" disabled={disabled} />
-                                            <label>{val.abbreviation}</label>
-                                        </div>
-                                    )}
-                                </div>
-                                : null}
-
-
-                            {this.props.vital.fieldType === "options" ?
-                                <select name={i.toString()} onChange={this.onSelectChangeHandler.bind(this)} className={this.inputStyle} disabled={disabled}>
-                                    <option></option>
-                                    {this.props.vital.VitalsOptions!.map((val, i) => <option key={i} title={val.name}>{val.abbreviation}</option>)}
-                                </select>
-                                : null}
-
+                            <ReportDynamicInput fieldType={this.props.vital.fieldType} index={i} onChange={this.onChangeHandler.bind(this)} 
+                                disabled={disabled} options={this.props.vital.VitalsOptions}
+                            /> 
                         </td>
-
-
-
-
                     }
                 })}
 

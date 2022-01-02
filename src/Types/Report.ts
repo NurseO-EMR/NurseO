@@ -11,7 +11,7 @@ export type Report = {
     value?: string, //prop can be removed!
 }
 
-export type ReportInputType = "number" | "text" | "T/F" | "checkbox" | "options"
+export type ReportInputType = "number" | "text" | "T/F" | "checkbox" | "options" | "NA"
 
 export type ReportOptions = Array<ReportOption>
 

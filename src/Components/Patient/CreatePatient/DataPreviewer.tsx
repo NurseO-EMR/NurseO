@@ -28,6 +28,21 @@ export default class DataPreviewer extends React.Component<Props> {
         return object.orderKind && object.orderKind === OrderKind.custom;
     }
 
+
+    renderData(row:Object, index: number) {
+        if(this.checkForCustomMed(row)) {
+            return <td colSpan={Object.keys(this.props.data[0]).length} className="border-2 text-left pl-2" key={index}>{Object.entries(row)[0]}</td>
+        } else {
+            return Object.values(row).map((entry, j) => <td className="border-2" key={index + j}>
+
+                {entry instanceof Array ? "Options Editor is under development"
+                
+                : this.capitalize(entry.toString())}
+
+            </td>)
+        }
+    }
+
     public render() {
         return (
             <PureModal isOpen={this.props.show} onClose={this.props.onClose} width="60vw">
@@ -44,14 +59,9 @@ export default class DataPreviewer extends React.Component<Props> {
                         <tbody>
                             {this.props.data.map((row, i) =>
                                 <tr key={i}>
-                                    {this.checkForCustomMed(row) ? 
+                                    
+                                    {this.renderData(row, i)}    
 
-                                        <td colSpan={Object.keys(this.props.data[0]).length}
-                                         className="border-2 text-left pl-2" key={i}>{Object.entries(row)[0]}</td>:
-
-                                        Object.values(row).map((entry, j) => <td className="border-2" key={i + j}>{this.capitalize(entry.toString())}</td>)
-                                    }
-                                 
                                     <td className="border-2 overflow-hidden">
                                         <Button className="my-1" onClick={()=>this.remove(i)}>Remove</Button>
                                     </td>

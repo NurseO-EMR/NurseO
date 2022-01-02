@@ -9,7 +9,7 @@ type Props = {
     className?: string,
     onSave?: ()=>void,
     editable?: boolean,
-    onEditClick?:()=>void,
+    onEditClick?:(forceShowModal: ()=>void)=>void,
     hideSaveButton?: boolean,
     hideAddButton?: boolean,
     admin?: boolean,
@@ -40,6 +40,16 @@ export default class ExtendableInput extends React.Component<Props,State> {
         this.onModalCloseHandler();
     }
 
+    showModal() {
+        this.setState({
+            showModal: true
+        })
+    }
+
+    onEditClickHandler() {
+        if(this.props.onEditClick) this.props.onEditClick(this.showModal.bind(this));
+    }
+
 
     public render() {	
             return (
@@ -48,7 +58,7 @@ export default class ExtendableInput extends React.Component<Props,State> {
                         {/* edit button */}
                         {this.props.label === "" ? null :  <label htmlFor={this.props.id}>{this.props.label}</label>}
                         {this.props.editable ? 
-                            <Button onClick={this.props.onEditClick} admin={this.props.admin}
+                            <Button onClick={this.onEditClickHandler.bind(this)} admin={this.props.admin}
                                 className="col-span-2 bg-edit h-9" id={`${this.props.id}_Edit`}>&#9998;</Button> 
                         : null }
 
@@ -63,7 +73,7 @@ export default class ExtendableInput extends React.Component<Props,State> {
 
                     {/* the modal */}
                     <PureModal isOpen={this.state.showModal} width="60vw" header={this.props.label}
-                     onClose={this.onModalCloseHandler.bind(this)}>
+                     onClose={this.onModalCloseHandler.bind(this)} draggable>
                         <>
                             {this.props.children}
                             {!this.props.hideSaveButton ? <Button  admin={this.props.admin} onClick={this.onSave.bind(this)}>Save</Button>: null}
