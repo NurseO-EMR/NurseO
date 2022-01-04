@@ -1,6 +1,6 @@
 import React from 'react';
 import PureModal from 'react-pure-modal';
-import { OrderKind } from '../../../Types/PatientProfile';
+import { CustomOrder, OrderKind } from '../../../Types/PatientProfile';
 import Button from '../../Form/Button';
 
 type Props = {
@@ -31,7 +31,7 @@ export default class DataPreviewer extends React.Component<Props> {
 
     renderData(row:Object, index: number) {
         if(this.checkForCustomMed(row)) {
-            return <td colSpan={Object.keys(this.props.data[0]).length} className="border-2 text-left pl-2" key={index}>{Object.entries(row)[0]}</td>
+            return <td colSpan={Object.keys(this.props.data[0]).length} className="border-2 text-left pl-2" key={index}>{(row as CustomOrder).order}</td>
         } else {
             return Object.values(row).map((entry, j) => <td className="border-2" key={index + j}>
 
@@ -45,14 +45,14 @@ export default class DataPreviewer extends React.Component<Props> {
 
     public render() {
         return (
-            <PureModal isOpen={this.props.show} onClose={this.props.onClose} width="60vw">
+            <PureModal isOpen={this.props.show} onClose={this.props.onClose} width="80vw">
                 {this.props.data.length > 0 ?
                     <table className="w-full my-8 text-center">
                         <thead>
                             <tr>
                                 {Object.keys(this.props.data[0]).map((key, i) => <th className="border-2"
                                     key={i}>{this.capitalize(key)}</th>)}
-                                <th className="border-2">Delete</th>
+                                <th className="border-2 w-52">Delete</th>
                             </tr>
                         </thead>
                         
