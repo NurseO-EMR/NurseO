@@ -1,7 +1,7 @@
 import { filter } from 'lodash';
 import React from 'react';
 import { $providerOrdersAvailable } from '../../Services/State';
-import { MedicationOrder, OrderType } from '../../Types/PatientProfile';
+import { Order, OrderType } from '../../Types/PatientProfile';
 import Card from '../Dashboard/Card/Card';
 import OrderEntry from './OrdersEntry';
 
@@ -9,17 +9,17 @@ import OrderEntry from './OrdersEntry';
 type Props = {
     className?: string,
     orderType?: OrderType,
-    orders: MedicationOrder[] | undefined,
+    orders: Order[] | undefined,
 }
 
 type State = {
-    filteredOrders: MedicationOrder[] | undefined,
+    filteredOrders: Order[] | undefined,
 }
 export default class Orders extends React.Component<Props, State> {
 
     constructor(props:Props) {
         super(props)
-        let filteredOrders: MedicationOrder[] = [];
+        let filteredOrders: Order[] = [];
 
         // if the order type prop provided then show only that order type
         if(this.props.orderType) {

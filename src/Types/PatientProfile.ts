@@ -12,7 +12,7 @@ export class PatientChart {
     allergies: Allergy[] = [];
     medicalIssues: MedicalIssue[] = [];
     medicationOrders: MedicationOrder[] = [];
-    customOrders?: CustomOrder[] = [];
+    customOrders: CustomOrder[] = [];
     flags: Flag[] = [];
     immunizations: string[] = [];
     studentReports: StudentReport[] = [];
@@ -20,11 +20,27 @@ export class PatientChart {
     studentUID: string = ""
 };
 
-export type CustomOrder = {
-    order: string,
+export type Order = {
     orderKind: OrderKind,
     orderType: OrderType
 }
+
+export type CustomOrder = Order & {
+    order: string,    
+}
+
+
+export type MedicationOrder  = Order & {
+    id: string;
+    concentration:string;
+    route: string;
+    frequency: Frequency;
+    routine: Routine;
+    PRNNote: string | null;
+    notes: string;
+    mar: Time[];
+}
+
 
 export class MedicalIssue {
     name: string = ""
@@ -81,19 +97,6 @@ export enum Frequency {
     q12hr = "q12hr",
     qhs = "qhs",
     NA = "",
-}
-
-export type MedicationOrder  = {
-    orderKind: OrderKind;
-    id: string;
-    concentration:string;
-    route: string;
-    frequency: Frequency;
-    routine: Routine;
-    PRNNote: string | null;
-    notes: string;
-    mar: Time[];
-    orderType: OrderType;
 }
 
 export class Time {

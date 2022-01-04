@@ -1,11 +1,11 @@
 import React from 'react';
 import PureModal from "react-pure-modal";
-import { MedicationOrder } from '../../Types/PatientProfile';
+import { CustomOrder, MedicationOrder, Order, OrderKind } from '../../Types/PatientProfile';
 import MedicationOrderSyntax from './MedicationOrderSyntax';
 
 
 export type Props = {
-    order: MedicationOrder
+    order: Order
 }
 
 export type State = {
@@ -36,13 +36,14 @@ export default class OrderEntry extends React.Component<Props, State> {
                 <td className="border-2 p-2">{this.props.order.orderType}</td>
                 <td className="border-2 p-2">{"Doc Name"}</td>
                 <td className="border-2 p-2">
-                    <MedicationOrderSyntax order={this.props.order}/>
+                    {this.props.order.orderKind === OrderKind.med ? <MedicationOrderSyntax order={this.props.order as MedicationOrder}/>: (this.props.order as CustomOrder).order}
+                    
                 </td>
             </tr>
 
             <PureModal header="Order" width="60vw" className="text-center font-bold" isOpen={this.state.isModalShown} onClose={this.onModalCloseHandler.bind(this)}>
                 <div>
-                    <MedicationOrderSyntax order={this.props.order}/>
+                {this.props.order.orderKind === OrderKind.med ? <MedicationOrderSyntax order={this.props.order as MedicationOrder}/>: null}
                 </div>
             </PureModal>
             </>
