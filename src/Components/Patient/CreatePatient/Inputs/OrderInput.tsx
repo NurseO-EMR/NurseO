@@ -80,8 +80,8 @@ export default class OrderInput extends React.Component<Props, State> {
             this.medicalOrders.push(order);
             this.medicalOrders = uniq(this.medicalOrders);
         } else if(this.state.orderKind === OrderKind.custom){
-            const {orderKind,customOrder} = this.state;
-            const order: CustomOrder = {order: customOrder, orderKind};
+            const {orderKind,customOrder, orderType} = this.state;
+            const order: CustomOrder = {order: customOrder, orderKind, orderType};
             this.customOrders.push(order);
             this.customOrders = uniq(this.customOrders);
         }
@@ -140,13 +140,6 @@ export default class OrderInput extends React.Component<Props, State> {
                             : null} 
 
                             <Input admin={this.props.admin} id='notes' onChange={e=>this.setState({notes: e.currentTarget.value})}>Notes</Input>
-
-                            <SelectInput admin={this.props.admin} label='Order Type' onChange={e=>this.setState({orderType: e.currentTarget.value as OrderType})}>
-                                <option>click here to select</option>
-                                <option value="Admission">Admission</option>
-                                <option value="Standing">Standing</option>
-                                <option value="Provider">Provider</option>
-                            </SelectInput>
                         </>
                     : null}
 
@@ -156,6 +149,12 @@ export default class OrderInput extends React.Component<Props, State> {
                     : null}
                    
 
+                   <SelectInput admin={this.props.admin} label='Order Type' onChange={e=>this.setState({orderType: e.currentTarget.value as OrderType})}>
+                                <option>click here to select</option>
+                                <option value="Admission">Admission</option>
+                                <option value="Standing">Standing</option>
+                                <option value="Provider">Provider</option>
+                            </SelectInput>
                 </ExtendableInput>
                 
                 <DataPreviewer onClose={() => this.setState({ showModal: false })}

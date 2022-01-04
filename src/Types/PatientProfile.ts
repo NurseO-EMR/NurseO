@@ -22,7 +22,8 @@ export class PatientChart {
 
 export type CustomOrder = {
     order: string,
-    orderKind: OrderKind
+    orderKind: OrderKind,
+    orderType: OrderType
 }
 
 export class MedicalIssue {
