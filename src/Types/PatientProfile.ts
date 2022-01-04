@@ -17,6 +17,7 @@ export class PatientChart {
     immunizations: string[] = [];
     studentReports: StudentReport[] = [];
     notes: Note[] = [];
+    studentUID: string = ""
 };
 
 export type CustomOrder = {

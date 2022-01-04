@@ -47,7 +47,8 @@ export default class CreatePatient extends React.Component<Props,State> {
             customOrders: [],
             notes: [],
             items: "",
-            showPreview: false
+            showPreview: false,
+            studentUID: ""
         }
 
         this.formRef = React.createRef();
@@ -74,12 +75,12 @@ export default class CreatePatient extends React.Component<Props,State> {
         if(valid) {
             const {id, name, dob, age, gender, height, weight, time, allergies,
                 medicalIssues, medicationOrders, customOrders, flags, immunizations,
-                studentReports, notes
+                studentReports, notes, studentUID
             } = this.state;
 
             const patient = {id, name, dob, age, gender, height, weight, time, allergies,
                 medicalIssues, medicationOrders, customOrders, flags, immunizations,
-                studentReports, notes}
+                studentReports, notes, studentUID}
             
             if(this.props.patient) {
                 if(this.props.onSave) this.props.onSave(patient);
