@@ -16,17 +16,17 @@ export default class Mar extends React.Component<Props, State> {
 
     private timeSlots: number[];
 
-    constructor(props:Props) {
+    constructor(props: Props) {
         super(props);
         this.timeSlots = this.getTimeSlots();
 
-        if($providerOrdersAvailable.value) {
+        if ($providerOrdersAvailable.value) {
             this.state = {
                 filteredOrders: this.props.orders
             }
         } else {
             this.state = {
-                filteredOrders: filter(this.props.orders, order=> order.orderType !== OrderType.provider)
+                filteredOrders: filter(this.props.orders, order => order.orderType !== OrderType.provider)
             }
         }
     }
@@ -36,20 +36,20 @@ export default class Mar extends React.Component<Props, State> {
         let smallest = Number.MAX_VALUE;
         let biggest = 0;
         let output = [];
-        for(const medication of this.props.orders) {
-            for(const time of medication.mar) {
-                if(time.hour > biggest) biggest=time.hour;
-                if(time.hour < smallest) smallest=time.hour;
+        for (const medication of this.props.orders) {
+            for (const time of medication.mar) {
+                if (time.hour > biggest) biggest = time.hour;
+                if (time.hour < smallest) smallest = time.hour;
             }
         }
 
-        for(let i = smallest; i<=biggest;i++) {
+        for (let i = smallest; i <= biggest; i++) {
             output.push(i);
         }
 
         return output;
-        
-        
+
+
     }
 
 
@@ -59,12 +59,18 @@ export default class Mar extends React.Component<Props, State> {
                 <thead className="w-full h-16">
                     <tr className="bg-primary text-white">
                         <th></th>
-                        {this.timeSlots.map((time,i)=><th key={i}>{time}:00</th>)}
+                        {this.timeSlots.map((time, i) => <th key={i}>{time}:00</th>)}
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        this.state.filteredOrders.map((order,i)=><MarEntry timeSlots={this.timeSlots} key={i} order={order}></MarEntry>)
+                        this.timeSlots.length === 0 ?
+                            <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
+                                <td className="w-80 pl-16 font-semibold">No Mar Records Available</td>
+                            </tr>
+
+
+                            : this.state.filteredOrders.map((order, i) => <MarEntry timeSlots={this.timeSlots} key={i} order={order}></MarEntry>)
                     }
                 </tbody>
             </table>
