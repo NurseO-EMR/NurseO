@@ -8,6 +8,8 @@ type Props = {
 }
 export default class MarEntry extends React.Component<Props> {
 
+    
+
 
     public render() {
         let lastRecord:Time = {

@@ -69,11 +69,8 @@ export default class AdministerMeds extends React.Component<Props,State> {
         const medications = patient.medicationOrders;
         const medIndex = this.getMedIndex(medications)
         if(medIndex>-1) {
-            const time = patient.time.split(":");
-            patient.medicationOrders[medIndex].mar.push({
-                hour: Number.parseInt(time[0]),
-                minutes: Number.parseInt(time[1])
-            })
+            const {hour,minutes} = patient.time;
+            patient.medicationOrders[medIndex].mar.push({hour, minutes})
             $patient.next(patient);
             await db.updatePatient()
             this.setState({

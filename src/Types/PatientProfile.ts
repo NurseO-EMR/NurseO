@@ -1,5 +1,11 @@
 import { Gender } from "./Gender"
 import { ReportType, StudentReport } from "./Report";
+
+
+export class Time {
+    hour:number = 0;
+    minutes:number = 0;
+}
 export class PatientChart {
     id: string = "";
     name: string = "";
@@ -8,7 +14,7 @@ export class PatientChart {
     gender: Gender = "other";
     height: string = "";
     weight: string = "";
-    time: string = ""
+    time: Time = new Time();
     allergies: Allergy[] = [];
     medicalIssues: MedicalIssue[] = [];
     medicationOrders: MedicationOrder[] = [];
@@ -99,10 +105,6 @@ export enum Frequency {
     NA = "",
 }
 
-export class Time {
-    hour:number = 0;
-    minutes:number = 0;
-}
 export class Allergy {
     name: string = ""
     reaction: string = ""

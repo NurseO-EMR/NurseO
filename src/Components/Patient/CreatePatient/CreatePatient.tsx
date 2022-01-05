@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { Gender } from '../../../Types/Gender';
-import { Allergy, CustomOrder, Flag, MedicalIssue, MedicationOrder, Note, PatientChart } from '../../../Types/PatientProfile';
+import { Allergy, CustomOrder, Flag, MedicalIssue, MedicationOrder, Note, PatientChart, Time } from '../../../Types/PatientProfile';
 import ArmBand from '../../ArmBand/ArmBand';
 import EmptyCard from '../../Dashboard/Card/EmptyCard';
 import Input from '../../Form/Input';
@@ -37,7 +37,7 @@ export default class CreatePatient extends React.Component<Props,State> {
             gender: 'other',
             height: "",
             weight: "",
-            time: "",
+            time: new Time(),
             allergies: [],
             medicalIssues: [],
             medicationOrders: [],
@@ -116,6 +116,16 @@ export default class CreatePatient extends React.Component<Props,State> {
         window.open(url)
     }
 
+    onTimeChangeHandler(e:ChangeEvent<HTMLInputElement>) {
+        const value = e.target.value;
+        const splittedValue = value.split(":");
+        const time:Time = {
+            hour: Number.parseInt(splittedValue[0]),
+            minutes: Number.parseInt(splittedValue[1])
+        }
+        this.setState({time});
+    }
+
     public render() {	
         return (
             <div className="grid">
@@ -134,7 +144,7 @@ export default class CreatePatient extends React.Component<Props,State> {
                             </SelectInput>
                             <Input admin id="height" value={this.state.height} onChange={e=>this.setState({height:e.currentTarget.value})}>Height</Input>
                             <Input admin id="weight" value={this.state.weight} onChange={e=>this.setState({weight:e.currentTarget.value})}>Weight</Input>
-                            <Input admin id="simTime" value={this.state.time} type="time" onChange={e=>this.setState({time:e.currentTarget.value})}>Sim Time</Input>
+                            <Input admin id="simTime" value={`${this.state.time.hour}:${this.state.time.minutes}`} type="time" onChange={this.onTimeChangeHandler.bind(this)}>Sim Time</Input>
                             <ComplexInput admin title="Allergies" onUpdate={allergies=>this.setState({allergies})} data={this.state.allergies} defaultType={new Allergy()}/>
                             <ComplexInput admin title="History" onUpdate={medicalIssues=>this.setState({medicalIssues})} data={this.state.medicalIssues} defaultType={new MedicalIssue()}/>
                             <ComplexInput admin title="Flags" onUpdate={flags=>this.setState({flags})} data={this.state.flags} defaultType={new Flag()}/>

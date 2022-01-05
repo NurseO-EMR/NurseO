@@ -1,6 +1,6 @@
 import React from 'react';
 import { startCase } from 'lodash';
-import { PatientChart } from '../../Types/PatientProfile';
+import { PatientChart, Time } from '../../Types/PatientProfile';
 import SectionNamedInfo from './SectionNamedInfo';
 import logo from "./../../assets/logo.png"
 import { $patient } from '../../Services/State';
@@ -11,7 +11,7 @@ type Props=React.HTMLAttributes<HTMLDivElement> & {
     patient: PatientChart
 }
 type State = {
-    time: string | undefined
+    time: Time
 }
 export default class ArmBand extends React.Component<Props,State> {
 
@@ -45,7 +45,7 @@ export default class ArmBand extends React.Component<Props,State> {
                     </SectionNamedInfo>
                     <SectionNamedInfo name="Height">{this.props.patient?.height} cm</SectionNamedInfo>
                     <SectionNamedInfo name="Weight">{this.props.patient?.weight} kg</SectionNamedInfo>
-                    <SectionNamedInfo name="Sim Time">{this.state.time}</SectionNamedInfo>
+                    <SectionNamedInfo name="Sim Time">{this.state.time.hour}:{this.state.time.minutes}</SectionNamedInfo>
 
                 </div>
             </div>

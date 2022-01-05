@@ -14,7 +14,7 @@ export default class MARPage extends React.Component<Props> {
     public render() {
         return (
             <StudentViewPage patient={this.props.patient}>
-                {this.props.patient ? <Mar orders={this.props.patient!.medicationOrders}></Mar>: null }
+                {this.props.patient ? <Mar orders={this.props.patient!.medicationOrders} simTime={this.props.patient!.time}></Mar>: null }
             </StudentViewPage>
         );
     }
