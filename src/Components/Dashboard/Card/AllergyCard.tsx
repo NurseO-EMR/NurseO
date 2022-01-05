@@ -11,6 +11,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 export default class AllergyCard extends React.Component<Props> {
 
     public render() {
+        console.log(this.props.allergies?.length === 0)
         return (
             <Card title="Allergies" admin={this.props.preview}>
             <thead className="font-bold">
@@ -20,9 +21,9 @@ export default class AllergyCard extends React.Component<Props> {
                 </tr>
             </thead>
             <tbody>
-                {this.props.allergies ? 
-                    this.props.allergies.map((allergy,i) => <AllergyEntry key={i} allergy={allergy}></AllergyEntry>): 
-                    <tr><td><h1>No allergies found</h1></td></tr>
+                {this.props.allergies?.length === 0 ? 
+                    <tr><td colSpan={2} className='text-center p-2'><h1>No allergies found</h1></td></tr>: 
+                    this.props.allergies!.map((allergy,i) => <AllergyEntry key={i} allergy={allergy}></AllergyEntry>)
                 }
             </tbody>
         </Card>

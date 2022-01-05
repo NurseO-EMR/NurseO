@@ -20,9 +20,9 @@ export default class FlagsCard extends React.Component<Props> {
                 </tr>
             </thead>
             <tbody>
-                {this.props.flags ? 
-                    this.props.flags.map((flag,i) => <FlagEntry key={i} flag={flag}></FlagEntry>): 
-                    <tr><td><h1>No flags added</h1></td></tr>
+                {this.props.flags?.length === 0 ? 
+                    <tr><td colSpan={2} className='text-center p-2'><h1>No flags found</h1></td></tr>:
+                    this.props.flags!.map((flag,i) => <FlagEntry key={i} flag={flag}></FlagEntry>)
                 }
             </tbody>
         </Card>
