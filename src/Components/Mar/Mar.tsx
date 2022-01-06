@@ -1,4 +1,4 @@
-import { filter } from 'lodash';
+import { filter, uniq } from 'lodash';
 import React from 'react';
 import { $providerOrdersAvailable } from '../../Services/State';
 import { Frequency, MedicationOrder, OrderType, Routine, Time } from '../../Types/PatientProfile';
@@ -39,6 +39,8 @@ export default class Mar extends React.Component<Props, State> {
         output = this.checkForRecordedMarData(output);
         output = this.checkRoutineConditions(output);
         output = this.checkFrequencyConditions(output);
+        output = uniq(output);
+        output = output.sort((a,b) => a - b);
         return output;
     }
 
@@ -61,10 +63,10 @@ export default class Mar extends React.Component<Props, State> {
     checkRoutineConditions(timeSlots: number[]) {
         for(const order of this.props.orders) {
             const currentTime = this.props.simTime.hour;
-            console.log(order.routine === Routine.PRN)
             if(order.routine === Routine.NOW) timeSlots.push(currentTime);
             if(order.routine === Routine.PRN || order.routine === Routine.Scheduled) {
                 const medInterval = this.getMedQInterval(order) || 1;
+                
                 for(let i = currentTime; i < 24; i=i+medInterval) {
                     timeSlots.push(i)
                 }
@@ -121,9 +123,7 @@ export default class Mar extends React.Component<Props, State> {
                             <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
                                 <td className="w-80 pl-16 font-semibold">No Mar Records Available</td>
                             </tr>
-
-
-                            : this.state.filteredOrders.map((order, i) => <MarEntry timeSlots={this.timeSlots} key={i} order={order}></MarEntry>)
+                            : this.state.filteredOrders.map((order, i) => <MarEntry simTime={this.props.simTime} timeSlots={this.timeSlots} key={i} order={order}></MarEntry>)
                     }
                 </tbody>
             </table>

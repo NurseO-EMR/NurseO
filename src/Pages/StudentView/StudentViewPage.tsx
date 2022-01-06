@@ -1,3 +1,4 @@
+import { getAuth } from 'firebase/auth';
 import React from 'react';
 import ArmBand from '../../Components/ArmBand/ArmBand';
 import SideNav from '../../Components/Nav/SideBar/SideNav';
@@ -12,6 +13,7 @@ type Props = {
 export default class StudentViewPage extends React.Component<Props> {
 
     componentDidMount() {
+        if(!getAuth().currentUser) $history.value.push("/")
         if(!$patient.value) $history.value.push("/studentView/selectPatient")
     }
 
