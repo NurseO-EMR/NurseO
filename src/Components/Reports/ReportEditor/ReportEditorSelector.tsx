@@ -7,6 +7,7 @@ import ReportSetEditor from './ReportSetEditor';
 import EmptyCard from '../../Dashboard/Card/EmptyCard';
 import { $settings } from '../../../Services/State';
 import SetMaker from './SetMaker';
+import ButtonWConfirmBox from '../../Form/ButtonWConfirmBox';
 
 
 type Props = {
@@ -90,6 +91,14 @@ export default class ReportEditorSelector extends React.Component<Props, State> 
         })
     }
 
+    onDeleteClickHandler(index:number) {
+        const {reportSets} = this.state;
+        reportSets.splice(index,1);
+        this.setState({
+            reportSets
+        })
+    }
+
     public render() {
         return (
             <EmptyCard title={`${this.props.reportType === 'studentAssessmentReport' ? "Assessment" : "Vitals"} Editor`} admin className='w-70vw block m-auto'>
@@ -106,7 +115,11 @@ export default class ReportEditorSelector extends React.Component<Props, State> 
                             <tr key={i} className='odd:bg-gray-100 even:bg-gray-300 h-14'>
                                 <td>{reportSet.name}</td>
                                 <td><Button admin onClick={() => this.onEditClickHandler(i)}>Edit</Button></td>
-                                <td><Button className='bg-primary'>Delete</Button></td>
+                                <td>
+                                    <ButtonWConfirmBox onConfirm={()=>this.onDeleteClickHandler(i)} className='bg-primary'
+                                        confirmPrompt={`Are you sure you want to delete set ${reportSet.name}?`}
+                                    >Delete</ButtonWConfirmBox>
+                                </td>
                             </tr>
                         )}
                     </tbody>

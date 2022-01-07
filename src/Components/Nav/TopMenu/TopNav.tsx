@@ -23,7 +23,7 @@ export default class TopNav extends React.Component<Props> {
 
                         <div className="flex items-center space-x-3">
                             <span className="font-medium rounded hover:bg-red-500 transition duration-300">
-                                {this.auth.currentUser?.displayName ? "Hi" + this.auth.currentUser.displayName : null}
+                                {this.auth.currentUser?.displayName ? "Hi " + this.auth.currentUser.displayName : null}
                             </span>
                         </div>
                 </div>
