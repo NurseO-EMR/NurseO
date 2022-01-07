@@ -36,7 +36,7 @@ export default class MedicationOrderSyntax extends React.Component<Props, State>
                     {this.props.order.frequency} {" "}
                     {this.props.order.routine}  {" "}
                     {this.props.order.PRNNote}{" "}
-                    {this.props.order.notes}{" "}
+                    {this.props.order.notes ? `(${this.props.order.notes})`: null}
             </>
 
         );

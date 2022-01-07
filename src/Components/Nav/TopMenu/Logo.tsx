@@ -14,6 +14,7 @@ export default class Logo extends React.Component<Props> {
                     <span className={`flex items-center py-4 px-2 font-bold text-2xl ${this.props.className}`}>
                         <span className="tracking-wider">Nurse<abbr title="Open Source">O</abbr>&#160;</span>
                         <span className={`text-primary`}>EMR</span>
+                        <span className={`text-sm font-normal`}>&#160;&#160;Alpha</span>
                     </span>
                 </Link>
             </div>

@@ -45,7 +45,9 @@ export default class ArmBand extends React.Component<Props,State> {
                     </SectionNamedInfo>
                     <SectionNamedInfo name="Height">{this.props.patient?.height} cm</SectionNamedInfo>
                     <SectionNamedInfo name="Weight">{this.props.patient?.weight} kg</SectionNamedInfo>
-                    <SectionNamedInfo name="Sim Time">{this.state.time.hour}:{this.state.time.minutes}</SectionNamedInfo>
+                    <SectionNamedInfo name="Sim Time">
+                        {this.state.time.hour.toString().padStart(2,"0")}:{this.state.time.minutes.toString().padStart(2,"0")}
+                    </SectionNamedInfo>
 
                 </div>
             </div>

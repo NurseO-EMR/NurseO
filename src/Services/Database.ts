@@ -50,11 +50,10 @@ export default class Database {
             const templatePatientDoc = (await getDocs(templatePatientQuery)).docs[0];
             if(!templatePatientDoc) return false;
             patientChart = templatePatientDoc.data() as PatientChart;
-            
-            this.patientDocRef = await this.addPatient(patientChart);
-
-            this.currentPatientID = patientChart?.id;    
             patientChart.studentUID = uid;
+            this.patientDocRef = await this.addPatient(patientChart);
+            this.currentPatientID = patientChart?.id;    
+            
         };
         $patient.next(patientChart)
         return true;
