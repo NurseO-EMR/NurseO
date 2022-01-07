@@ -24,3 +24,5 @@ yarn-error.log*
 
 src/firebaseConfig.json
 src/assets/logo.png
+
+.firebase
