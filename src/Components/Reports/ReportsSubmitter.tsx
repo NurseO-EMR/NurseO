@@ -71,16 +71,20 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         })
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if(this.props.reportSets) {
             this.setState({
                 ReportSets: this.props.reportSets
             })
         } else {
-            const ReportSetSubscription = $settings.subscribe(setting => this.setState({
-                ReportSets: filter(setting?.reportSet, { type: this.props.reportType })
-            }))
-            this.subscriptions.push(ReportSetSubscription);
+            const db = Database.getInstance();
+            const settings = await db.getSettings();
+            $settings.next(settings);
+            if(settings) {
+                this.setState({
+                    ReportSets: filter(settings.reportSet, { type: this.props.reportType })
+                })
+            }
         }
         
 

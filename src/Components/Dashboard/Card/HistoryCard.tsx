@@ -22,7 +22,7 @@ export default class HistoryCard extends React.Component<Props> {
                 {this.props.history?.length === 0 ? 
                     <tr><td colSpan={2} className='text-center p-2'><h1>No records found</h1></td></tr>:
                     this.props.history!.map((history,i) => 
-                    <tr>
+                    <tr key={i}>
                         <td>{history.diagnosedDate}</td>
                         <td>{history.name}</td>
                         <td>{history.assessment}</td>

@@ -53,7 +53,7 @@ export default class ReportDynamicInput extends React.Component<Props> {
                         {this.props.options?.map((val, j) =>
                             <div key={this.props.index + j} className="flex items-center gap-2" >
                                 <input type="checkbox" disabled={this.props.disabled} />
-                                <label>{val.abbreviation}</label>
+                                <label>{val.name}</label>
                             </div>
                         )}
                     </div>
@@ -64,7 +64,7 @@ export default class ReportDynamicInput extends React.Component<Props> {
                 {this.props.fieldType === "options" ?
                     <select name={this.props.index.toString()} onChange={this.onSelectChangeHandler.bind(this)} className={this.inputStyle} disabled={this.props.disabled}>
                         <option></option>
-                        {this.props.options!.map((val, i) => <option key={i} title={val.name}>{val.abbreviation}</option>)}
+                        {this.props.options!.map((val, i) => <option key={i} title={val.name}>{val.name}</option>)}
                     </select>
                     : null}
             </>

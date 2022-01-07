@@ -16,8 +16,7 @@ export type ReportInputType = "number" | "text" | "T/F" | "checkbox" | "options"
 export type ReportOptions = Array<ReportOption>
 
 export class ReportOption{
-    name?: string = "";
-    abbreviation: string = ""
+    name: string = "";
 }
 
 export type StudentReport = {

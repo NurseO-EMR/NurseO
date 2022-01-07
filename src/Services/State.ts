@@ -18,7 +18,7 @@ export const $settings = new BehaviorSubject<Settings>({
 
 async function initState() {
     const db = Database.getInstance();
-    await db.getSettings();
+    // await db.getSettings();
     $error.subscribe(console.log)
     // await doThings();
 }
