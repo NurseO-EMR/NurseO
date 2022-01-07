@@ -11,7 +11,6 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 export default class AllergyCard extends React.Component<Props> {
 
     public render() {
-        console.log(this.props.allergies?.length === 0)
         return (
             <Card title="Allergies" admin={this.props.preview}>
             <thead className="font-bold">

@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import Database from '../../Services/Database';
-import { $history, $patient } from '../../Services/State';
+import { $history } from '../../Services/State';
 import {getAuth} from "firebase/auth"
 import Background from '../../Components/Background';
 type Props = {}
@@ -35,9 +35,6 @@ export default class SelectPatient extends React.Component<Props,State> {
         else {
             this.setState({error: "patient not found"})
         }
-
-        console.log(patientExist)
-        console.log($patient.value)
     }
     public render() {	
         return (

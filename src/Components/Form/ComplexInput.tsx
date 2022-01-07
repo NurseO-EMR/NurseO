@@ -1,8 +1,8 @@
 import React from 'react';
-import { uniq } from 'lodash';
 import ExtendableInput from './ExtendableInput';
 import Input from './Input';
 import DataPreviewer from '../Patient/CreatePatient/DataPreviewer';
+import { clone } from 'lodash';
 
 type Props<T> = {
     data: T[],
@@ -27,12 +27,17 @@ export default class ComplexInput<T> extends React.Component<Props<T>, State<T>>
         this.keys = Object.keys(this.props.defaultType)
     }
 
+    componentWillUnmount() {
+        this.setState({
+            data: null
+        })
+    }
+
     onClickHandler() {
         const {data} = this.state;
         if(!data) return;
-        let dataArray = new Array(...this.props.data);
-        dataArray.push(data);
-        dataArray = uniq(dataArray);
+        const dataClone = clone(data);
+        const dataArray = [...this.props.data, dataClone]
         this.props.onUpdate(dataArray);
     }
 

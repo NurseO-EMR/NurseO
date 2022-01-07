@@ -36,6 +36,11 @@ export default class FieldMaker extends React.Component<Props, State> {
 
         const fields = this.props.fields;
         fields.push(report);
+        this.setState({
+            fieldName: "",
+            fieldType: "NA",
+            options: [],
+        })
 
         this.props.onSave(fields);
     }
@@ -55,7 +60,7 @@ export default class FieldMaker extends React.Component<Props, State> {
                     <Input admin id='filedName' onChange={e => this.setState({ fieldName: e.currentTarget.value })}>Field Name</Input>
                     <SelectInput admin label='Filed Type' onChange={e => this.setState({ fieldType: e.currentTarget.value as ReportInputType })}>
                         <option></option>
-                        <option>Number</option>
+                        <option>number</option>
                         <option>text</option>
                         <option>T/F</option>
                         <option>checkbox</option>
