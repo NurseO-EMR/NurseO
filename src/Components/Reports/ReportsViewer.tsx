@@ -57,18 +57,29 @@ export default class ReportsViewer extends React.Component<Props, State> {
         return uniq(times.sort());
     }
 
-    getRows() {
-        const map = this.makeReportsMap();
+    getRows() { const map = this.makeReportsMap();
         const rows:JSX.Element[] = [];
-        map.forEach((valuesArray,name)=>{
+        let i = 0
+        if(map.size === 0) {
             const row = (
-                <tr className="odd:bg-gray-100 even:bg-gray-300 h-14">
-                    <td key={-1}>{name}</td>
-                    {valuesArray.map((value, i)=> <td key={i}>{value}</td> )}
+                <tr key={i} className="odd:bg-gray-100 even:bg-gray-300 h-14">
+                    <td key={-1}>No Data available</td>
                 </tr>
             )
             rows.push(row);
-        })
+        } else {
+            map.forEach((valuesArray,name)=>{
+                const row = (
+                    <tr key={i} className="odd:bg-gray-100 even:bg-gray-300 h-14">
+                        <td key={-1}>{name}</td>
+                        {valuesArray.map((value, i)=> <td key={i}>{value}</td> )}
+                    </tr>
+                )
+                rows.push(row);
+                i++;
+            })
+        }
+        
         return rows;
     }
 
@@ -76,6 +87,9 @@ export default class ReportsViewer extends React.Component<Props, State> {
         if(!$patient.value) return [];
         const notes = $patient.value.notes;
         const sets = this.getSets();
+
+        if(!sets[selectedTab]) return [];
+
         const filteredNotes = filter(notes, {reportName: sets[selectedTab][1][0].setName})
         return filteredNotes.map((note,i)=>(
             <div key={i} className="border-primary mx-20 py-6 px-4 border-2 my-3 flex">
