@@ -20,8 +20,11 @@ type State = {
 }
 export default class ReportEditorSelector extends React.Component<Props, State> {
 
+    private totalReportSets:ReportSet[];
+
     constructor(props: Props) {
         super(props);
+        this.totalReportSets = []
         this.state = {
             reportSets: [],
             showEditor: false,
@@ -37,6 +40,7 @@ export default class ReportEditorSelector extends React.Component<Props, State> 
 
 
         if (reportSets) {
+            this.totalReportSets = reportSets;
             reportSets = filter(reportSets, { type: this.props.reportType })
             this.setState({
                 reportSets: reportSets
@@ -70,7 +74,8 @@ export default class ReportEditorSelector extends React.Component<Props, State> 
         const db = Database.getInstance();
         const settings = await db.getSettings();
         if(settings){
-            settings.reportSet = this.state.reportSets;
+            const otherReportSets = filter(this.totalReportSets, type=>type.type !== this.props.reportType)
+            settings.reportSet = [...this.state.reportSets, ...otherReportSets];
             $settings.next(settings);
             db.updateSettings();
         } 

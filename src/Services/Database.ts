@@ -106,6 +106,8 @@ export default class Database {
         return medication;
     }
 
+
+
     async getSettings() {
         const cachedSettings = this.cache.getSettings();
         if (cachedSettings) return cachedSettings;
