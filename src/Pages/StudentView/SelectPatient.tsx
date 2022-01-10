@@ -41,7 +41,7 @@ export default class SelectPatient extends React.Component<Props,State> {
             <div>
                 <Background /> 
                 <div className="grid justify-center h-screen w-screen content-center text-center">
-                    <div className="bg-white p-28 rounded-4xl border-red-500 border-8">
+                    <form className="bg-white p-28 rounded-4xl border-red-500 border-8" onSubmit={e=>e.preventDefault()}>
                         <h1 className="text-4xl font-bold">Please 
                            <span className="text-red-600"> scan </span>
                          the patient armband</h1>
@@ -52,7 +52,7 @@ export default class SelectPatient extends React.Component<Props,State> {
                             /><br />
                         <button onClick={this.onClickHandler.bind(this)} className="rounded-full bg-red-700 text-white p-4 font-bold tracking-wider w-full">Sign in</button>
                         <div>{this.state.error}</div>
-                    </div>
+                    </form>
                 </div>
             </div>
         );

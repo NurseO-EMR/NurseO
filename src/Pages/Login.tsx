@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { FirebaseApp, FirebaseError, initializeApp } from "firebase/app";
-import { getAuth, Auth, signInWithEmailAndPassword, browserLocalPersistence, setPersistence, GoogleAuthProvider, signInWithPopup, inMemoryPersistence } from "firebase/auth";
+import { getAuth, Auth, signInWithEmailAndPassword, browserLocalPersistence, setPersistence, GoogleAuthProvider, signInWithPopup, inMemoryPersistence, createUserWithEmailAndPassword } from "firebase/auth";
 import GoogleButton from 'react-google-button';
 import firebaseConfig from "./../firebaseConfig.json";
 import Logo from '../Components/Nav/TopMenu/Logo';
@@ -30,13 +30,27 @@ export default class Login extends React.Component<Props,State> {
     async onClickHandler() {
             try {
                 await setPersistence(this.auth, inMemoryPersistence)
-                await signInWithEmailAndPassword(this.auth, `${this.state.badgeNumber}@simpleemr.com`, this.state.badgeNumber )
+                await signInWithEmailAndPassword(this.auth, `${this.state.badgeNumber}@nurseO.com`, this.state.badgeNumber )
                 if(this.auth.currentUser) $history.value.push("/studentView/selectPatient");
             } catch(e) {
-                const error = e as FirebaseError; 
-                this.setState({
-                    error: error.message
-                })
+                try {
+                    const error = e as FirebaseError; 
+                    if(error.code === "auth/user-not-found") {
+                        await createUserWithEmailAndPassword(this.auth, `${this.state.badgeNumber}@nurseo.app`, this.state.badgeNumber)
+                        await signInWithEmailAndPassword(this.auth, `${this.state.badgeNumber}@nurseo.app`, this.state.badgeNumber )
+                        if(this.auth.currentUser) $history.value.push("/studentView/selectPatient");
+                    } else {
+                        this.setState({
+                            error: error.message
+                        })
+                    }
+                } catch(e) {
+                    const error = e as FirebaseError; 
+                    this.setState({
+                        error: error.message
+                    })
+                }
+                
             }
     }
 
@@ -63,10 +77,10 @@ export default class Login extends React.Component<Props,State> {
             <div>
                 <Background /> 
                 <div className="grid justify-center h-screen w-screen content-center text-center">
-                    <div className="bg-white p-28 rounded-4xl border-red-500 border-8">
+                    <form onSubmit={e=>e.preventDefault()} className="bg-white p-28 rounded-4xl border-red-500 border-8">
                         <Logo className="text-6xl mb-10" />
                         <h1 className="text-xl font-bold">Please Scan Your Badge</h1>
-                        <input type="password" autoFocus
+                        <input type="password" autoFocus autoComplete='off'
                             className="my-5 border-2 rounded-full text-center p-4 border-red-700 w-full" 
                             placeholder="Or type your badge number here" 
                             onChange={this.onBadgeNumberChange.bind(this)}
@@ -78,7 +92,7 @@ export default class Login extends React.Component<Props,State> {
                         <hr className="w-full my-4 border-red-700"/>
                         <h1 className="font-bold">For Admins Please Click Below</h1>
                         <GoogleButton className="block mx-auto" onClick={this.onGoogleSignInClickHandler.bind(this)}/>
-                    </div>
+                    </form>
                 </div>
             </div>
         );
