@@ -30,9 +30,10 @@ export default class Login extends React.Component<Props,State> {
     async onClickHandler() {
             try {
                 await setPersistence(this.auth, inMemoryPersistence)
-                await signInWithEmailAndPassword(this.auth, `${this.state.badgeNumber}@nurseO.com`, this.state.badgeNumber )
+                await signInWithEmailAndPassword(this.auth, `${this.state.badgeNumber}@nurseO.app`, this.state.badgeNumber )
                 if(this.auth.currentUser) $history.value.push("/studentView/selectPatient");
             } catch(e) {
+                console.log(e)
                 try {
                     const error = e as FirebaseError; 
                     if(error.code === "auth/user-not-found") {
