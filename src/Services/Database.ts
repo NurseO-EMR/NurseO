@@ -75,6 +75,9 @@ export default class Database {
 
     async addMedication(medication: Medication) {
         this.medListCached = false;
+        const medicationCollection = collection(this.db, "medications");
+        const document = doc(medicationCollection);
+        medication.id = document.id;
         await addDoc(collection(this.db, "medications"), medication);
     }
 
@@ -98,12 +101,24 @@ export default class Database {
         if (medIndex > -1) return cachedMeds[medIndex];
 
         console.log("getting medication info from db")
-        const q = query(collection(this.db, "medications"), where("id", "==", medID), limit(1))
-        const doc = (await getDocs(q)).docs[0]
+        const doc = await this.getMedicationDoc(medID);
         if (!doc) return null;
         const medication = doc.data() as Medication;
         this.cache.cacheMed(medication);
         return medication;
+    }
+
+    async getMedicationDoc(medID: string) {
+        const q = query(collection(this.db, "medications"), where("id", "==", medID), limit(1))
+        const doc = (await getDocs(q)).docs[0]
+        return doc;
+    }
+
+    async updateMedication(med:Medication) {
+        console.log(med.id)
+        const doc = await this.getMedicationDoc(med.id);
+        const ref = doc.ref;
+        updateDoc(ref,{...med});
     }
 
 

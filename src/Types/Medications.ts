@@ -1,4 +1,5 @@
-export type Medication = {  
-    id: string,
-    name: string
+export class Medication {  
+    id: string = "";
+    barcode: string = "";
+    name: string = "";
 }

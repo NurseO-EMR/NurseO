@@ -9,7 +9,10 @@ type Props<T> = {
     onUpdate: (updatedData: T[])=>void,
     defaultType: Object,
     title: string,
-    admin?: boolean
+    admin?: boolean,
+    hideEditButton?: boolean,
+    hideLabel?: boolean,
+    className?: string,
 }
 type State<T> = {
     data: T | null
@@ -65,8 +68,11 @@ export default class ComplexInput<T> extends React.Component<Props<T>, State<T>>
         return (
             <div>
                 <ExtendableInput  admin={this.props.admin} id={this.removeSpaces(this.props.title)} label={this.props.title} 
+                    hideEditButton={this.props.hideEditButton}
+                    hideLabel={this.props.hideLabel}
                     onEditClick={() => this.setState({ showModal: true })}
                     editable={this.props.data.length > 0}
+                    className={this.props.className}
                     onSave={this.onClickHandler.bind(this)}>
                     {this.keys.map((key,i)=>
                         <Input className="w-7/12" key={i} id={key} admin={this.props.admin}

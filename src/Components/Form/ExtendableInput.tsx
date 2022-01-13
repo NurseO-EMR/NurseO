@@ -13,6 +13,8 @@ type Props = {
     hideSaveButton?: boolean,
     hideAddButton?: boolean,
     admin?: boolean,
+    hideEditButton?: boolean,
+    hideLabel?: boolean
 }
 
 type State = {
@@ -56,8 +58,8 @@ export default class ExtendableInput extends React.Component<Props,State> {
                 <>
                     <LabelInputWrapper className={this.props.className}>
                         {/* edit button */}
-                        {this.props.label === "" ? null :  <label htmlFor={this.props.id}>{this.props.label}</label>}
-                        {this.props.editable ? 
+                        {this.props.label === "" || this.props.hideLabel? null :  <label htmlFor={this.props.id}>{this.props.label}</label>}
+                        {this.props.editable && !this.props.hideEditButton? 
                             <Button onClick={this.onEditClickHandler.bind(this)} admin={this.props.admin}
                                 className="col-span-2 bg-edit h-9" id={`${this.props.id}_Edit`}>&#9998;</Button> 
                         : null }
