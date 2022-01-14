@@ -44,6 +44,7 @@ export default class Database {
         const q = query(collection(this.db, "patients"), where("id", "==", id), where("studentUID", "==", uid), limit(1))
         const doc = (await getDocs(q)).docs[0]
         if (doc) {
+            this.patientDocRef = doc.ref;
             patientChart = doc.data() as PatientChart;
         } else {
             const templatePatientQuery = query(collection(this.db, "templatePatients"), where("id", "==", id), limit(1))

@@ -3,6 +3,7 @@ import Database from '../../Services/Database';
 import { $history } from '../../Services/State';
 import {getAuth} from "firebase/auth"
 import Background from '../../Components/Background';
+import SignInButton from '../../Components/Form/SignInButton';
 type Props = {}
 type State = {
     patientID: string,
@@ -29,10 +30,12 @@ export default class SelectPatient extends React.Component<Props,State> {
         this.setState({patientID:event.target.value})
     }
 
-    async onClickHandler() {
+    async onClickHandler(wait: () => void, keepGoing: () => void) {
+        wait();
         const patientExist = await this.database.getPatient(this.state.patientID);
         if(patientExist) $history.value.push("/studentView/dashboard");
         else {
+            keepGoing();
             this.setState({error: "patient not found"})
         }
     }
@@ -50,7 +53,7 @@ export default class SelectPatient extends React.Component<Props,State> {
                             placeholder="Or type the patient number here" 
                             onChange={this.onPatientNumberChange.bind(this)}
                             /><br />
-                        <button onClick={this.onClickHandler.bind(this)} className="rounded-full bg-red-700 text-white p-4 font-bold tracking-wider w-full">Sign in</button>
+                        <SignInButton onClick={this.onClickHandler.bind(this)} />
                         <div>{this.state.error}</div>
                     </form>
                 </div>

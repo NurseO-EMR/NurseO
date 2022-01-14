@@ -6,6 +6,7 @@ import firebaseConfig from "./../firebaseConfig.json";
 import Logo from '../Components/Nav/TopMenu/Logo';
 import { $history } from '../Services/State';
 import Background from '../Components/Background';
+import SignInButton from '../Components/Form/SignInButton';
 type Props = {}
 type State = {
     badgeNumber: string,
@@ -27,13 +28,13 @@ export default class Login extends React.Component<Props,State> {
         }
     }
 
-    async onClickHandler() {
+    async onClickHandler(wait: () => void, keepGoing: () => void): Promise<void> {
             try {
+                wait();
                 await setPersistence(this.auth, inMemoryPersistence)
                 await signInWithEmailAndPassword(this.auth, `${this.state.badgeNumber}@nurseO.app`, this.state.badgeNumber )
                 if(this.auth.currentUser) $history.value.push("/studentView/selectPatient");
             } catch(e) {
-                console.log(e)
                 try {
                     const error = e as FirebaseError; 
                     if(error.code === "auth/user-not-found") {
@@ -41,11 +42,13 @@ export default class Login extends React.Component<Props,State> {
                         await signInWithEmailAndPassword(this.auth, `${this.state.badgeNumber}@nurseo.app`, this.state.badgeNumber )
                         if(this.auth.currentUser) $history.value.push("/studentView/selectPatient");
                     } else {
+                        keepGoing();
                         this.setState({
                             error: error.message
                         })
                     }
                 } catch(e) {
+                    keepGoing();
                     const error = e as FirebaseError; 
                     this.setState({
                         error: error.message
@@ -86,8 +89,7 @@ export default class Login extends React.Component<Props,State> {
                             placeholder="Or type your badge number here" 
                             onChange={this.onBadgeNumberChange.bind(this)}
                             /><br />
-                        <button onClick={this.onClickHandler.bind(this)} 
-                            className="rounded-full bg-red-700 text-white p-4 font-bold tracking-wider w-full">Sign in</button>
+                        <SignInButton onClick={this.onClickHandler.bind(this)} />
                         <div>{this.state.error}</div>
 
                         <hr className="w-full my-4 border-red-700"/>

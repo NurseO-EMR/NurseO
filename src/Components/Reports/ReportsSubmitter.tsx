@@ -11,6 +11,7 @@ import { getTodaysDateAsString } from '../../Services/Util';
 import ReportsSubmitterTabContent from './ReportsSubmitterTabContent';
 import ReportTabs from './ReportTabs';
 import { PatientChart } from '../../Types/PatientProfile';
+import SaveButton from '../Form/SaveButton';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     reportType: ReportType,
@@ -25,7 +26,6 @@ type State = {
     ReportSets: ReportSet[] | null,
     settings: Settings,
     date: string,
-    saveButtonText: string,
     status: Status,
     timeSlots: Array<string>,
     selectedTab: number,
@@ -40,13 +40,13 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
     private subscriptions: Subscription[]
     private readonly tabsButtonClassNames;
     private patient:PatientChart
+
     constructor(props: Props) {
         super(props);
         this.state = {
             ReportSets: null,
             settings: null,
             date: getTodaysDateAsString(),
-            saveButtonText: "Save",
             status: "completed",
             timeSlots: [],
             selectedTab: 0,
@@ -101,7 +101,6 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         const settingsSubscription = $settings.subscribe(settings => this.setState({settings}))
         this.subscriptions.push(settingsSubscription);
 
-
     }
 
 
@@ -111,13 +110,15 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         })
     }
 
-    async saveOnClickHandler() {
+    async saveOnClickHandler(wait: () => void, keepGoing: () => void) {
         const patient = this.patient;
         const reportsSetIndex = this.state.selectedTab;
         const db = Database.getInstance();
 
-        this.setState({saveButtonText: "Saving..."});
-        
+
+        console.log(patient);
+        wait();
+        console.log(patient === undefined || patient === null);
         if (patient === undefined || patient === null) $error.next(new PatientNotFoundError());
         if (patient!.notes === undefined) patient!.notes = [];
 
@@ -136,9 +137,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             $patient.next(patient);
         }
 
-        this.setState({
-            saveButtonText: "Saved"
-        })
+        keepGoing();
     }
 
     componentWillUnmount() {
@@ -205,9 +204,9 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
                             <label className="font-bold">Date: </label>
                             <input value={this.state.date} onChange={this.onDateChangeHandler.bind(this)} className="border-2 text-center" type="Date" />
                         </div>
-                        <button onClick={this.saveOnClickHandler.bind(this)} 
+                        <SaveButton onClick={this.saveOnClickHandler.bind(this)} 
                         className={`bg-${this.state.themeColor} text-white rounded-full px-8 py-1`}
-                        >{this.state.saveButtonText}</button>
+                        />
                     </div>
 
 

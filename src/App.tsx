@@ -46,7 +46,7 @@ export default class App extends React.Component<Props, State> {
     }
     Database.initialize();
     $error.subscribe(error=>{
-      if(error instanceof PatientNotFoundError) this.history.replace("/studentView/Dashboard");
+      if(error instanceof PatientNotFoundError) this.history.replace("/");
     });
   }
 
