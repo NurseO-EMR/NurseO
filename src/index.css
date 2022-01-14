@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 * {
    word-break: keep-all;
@@ -16,7 +14,7 @@ input{
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator {
-   background: transparent;
+   background: currentColor;
    bottom: 0;
    color: transparent;
    cursor: pointer;
@@ -27,3 +25,7 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
    top: 0;
    width: auto;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

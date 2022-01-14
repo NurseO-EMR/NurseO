@@ -4,7 +4,7 @@ module.exports = {
   plugins: [
     require('@savvywombat/tailwindcss-grid-areas')
   ],
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
 
   theme: {
     gridTemplateAreas: {
@@ -27,7 +27,7 @@ module.exports = {
       current: 'currentColor',
       black: colors.black,
       white: colors.white,
-      gray: colors.coolGray,
+      gray: colors.gray,
       indigo: colors.indigo,
       red: colors.rose,
       yellow: colors.amber,
@@ -68,14 +68,4 @@ module.exports = {
       }
     }
   },
-  variants: {
-    gridTemplateAreas: ['responsive'],
-    fontSize: ['hover', 'focus'],
-    borderWidth: ['hover', 'focus'],
-    extend: {
-      borderColor: ['focus-visible'],
-      backgroundColor: ["odd", "even", "disabled"],
-      cursor: ["disabled"]
-    }
-  }
 }
