@@ -122,12 +122,14 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         if (patient === undefined || patient === null) $error.next(new PatientNotFoundError());
         if (patient!.notes === undefined) patient!.notes = [];
 
-        patient!.notes.push({
-            date: `${this.state.date}`,
-            note: this.state.note,
-            reportType: this.props.reportType,
-            reportName: this.state.ReportSets![reportsSetIndex].name,
-        })
+        if(this.state.note !== "") {
+            patient!.notes.push({
+                date: `${this.state.date}`,
+                note: this.state.note,
+                reportType: this.props.reportType,
+                reportName: this.state.ReportSets![reportsSetIndex].name,
+            })
+        }
         
 
         if(this.props.patient) {
