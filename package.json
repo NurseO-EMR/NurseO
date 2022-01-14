@@ -12,7 +12,7 @@
     "react-google-button": "^0.7.2",
     "react-pure-modal": "^2.1.0",
     "react-router-dom": "^5.3.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^5.0.0",
     "rxjs": "^7.5.2"
   },
   "scripts": {
