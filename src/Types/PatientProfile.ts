@@ -23,7 +23,8 @@ export class PatientChart {
     immunizations: string[] = [];
     studentReports: StudentReport[] = [];
     notes: Note[] = [];
-    studentUID: string = ""
+    studentUID: string = "";
+    labDocURL: string = "";
 };
 
 export type Order = {

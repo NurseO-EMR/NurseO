@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import React from 'react';
-import ReportsViewer from '../../../Components/Reports/ReportsViewer';
+import LabViewer from '../../../Components/Labs/LabViewer';
 import { PatientChart } from '../../../Types/PatientProfile';
 import { StudentReport } from '../../../Types/Report';
 import StudentViewPage from '../StudentViewPage';
@@ -9,7 +9,7 @@ import StudentViewPage from '../StudentViewPage';
 type Props = {
     patient:PatientChart
 }
-export default class LabsViewer extends React.Component<Props> {
+export default class LabsViewerPage extends React.Component<Props> {
     private labsReport:StudentReport[]
     
     constructor(props: Props) {
@@ -20,7 +20,7 @@ export default class LabsViewer extends React.Component<Props> {
     public render() {	
         return (
             <StudentViewPage patient={this.props.patient}>
-                <ReportsViewer title="Labs" studentReport={this.labsReport}></ReportsViewer>
+                <LabViewer docLink={this.props.patient.labDocURL}></LabViewer>
             </StudentViewPage>
 
         );

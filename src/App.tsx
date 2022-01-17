@@ -12,7 +12,6 @@ import FlagsPage from './Pages/StudentView/Dashboard/FlagsPage';
 import VitalsPage from './Pages/StudentView/Vitals/VitalsPage';
 import VitalsViewPage from './Pages/StudentView/Vitals/VitalsViewPage';
 import Database from './Services/Database';
-import LabsViewer from './Pages/StudentView/Labs/LabsViewer';
 import { PatientNotFoundError } from './Types/ErrorCodes';
 import SelectPatient from './Pages/StudentView/SelectPatient';
 import AdministerMedsPage from './Pages/StudentView/Mar/AdministerMedsPage';
@@ -28,6 +27,7 @@ import AssessmentViewPage from './Pages/StudentView/Assessments/AssessmentsViewP
 import ViewPatientsPage from './Pages/admin/ViewPatients/ViewPatientsPage';
 import EditVitalsPage from './Pages/admin/EditVitals/EditVitalsPage';
 import EditMedicationsPage from './Pages/admin/EditMedications/EditMedicationsPage';
+import LabsViewerPage from './Pages/StudentView/Labs/LabsViewerPage';
 
 type Props = {}
 type State = {
@@ -79,8 +79,8 @@ export default class App extends React.Component<Props, State> {
           <Route exact path="/studentView/vitals/view"><VitalsViewPage patient={this.state.patient} /></Route>
           <Route exact path="/studentView/vitals/submit"><VitalsPage patient={this.state.patient} /></Route>
 
-          <Route exact path="/studentView/labs"><LabsViewer patient={this.state.patient} /></Route>
-          <Route exact path="/studentView/labs/view"><LabsViewer patient={this.state.patient} /></Route>
+          <Route exact path="/studentView/labs"><LabsViewerPage patient={this.state.patient} /></Route>
+          <Route exact path="/studentView/labs/view"><LabsViewerPage patient={this.state.patient} /></Route>
 
           <Route exact path="/studentView/orders/all"><AllOrders patient={this.state.patient} /></Route>
           <Route exact path="/studentView/orders/admission"><AdmissionOrdersPage patient={this.state.patient} /></Route>
