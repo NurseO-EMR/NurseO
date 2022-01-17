@@ -78,7 +78,7 @@ export default class ExtendableInput extends React.Component<Props,State> {
                      onClose={this.onModalCloseHandler.bind(this)} draggable>
                         <>
                             {this.props.children}
-                            {!this.props.hideSaveButton ? <Button  admin={this.props.admin} onClick={this.onSave.bind(this)}>Save</Button>: null}
+                            {!this.props.hideSaveButton ? <Button  admin={this.props.admin} className='bg-admin' onClick={this.onSave.bind(this)}>Save</Button>: null}
                         </>
 
                     </PureModal>
