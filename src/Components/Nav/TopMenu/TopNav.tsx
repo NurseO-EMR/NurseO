@@ -12,6 +12,12 @@ export default class TopNav extends React.Component<Props> {
         this.auth = getAuth();
     }
 
+    async onLogoutClickHandler() {
+        const auth = getAuth();
+        await auth.signOut();
+        window.location.reload();
+    }
+
     public render() {
         return (
             <nav className={"bg-white shadow-lg " + this.props.className}>
@@ -22,7 +28,8 @@ export default class TopNav extends React.Component<Props> {
                         </div>
 
                         <div className="flex items-center space-x-3">
-                            <span className="font-medium rounded hover:bg-red-500 transition duration-300">
+                            <span className="font-medium rounded ">
+                                <span className="cursor-pointer" onClick={this.onLogoutClickHandler.bind(this)}>Logout</span>
                                 {this.auth.currentUser?.displayName ? "Hi " + this.auth.currentUser.displayName : null}
                             </span>
                         </div>

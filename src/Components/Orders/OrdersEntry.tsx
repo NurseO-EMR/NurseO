@@ -38,7 +38,7 @@ export default class OrderEntry extends React.Component<Props, State> {
                 <td className="border-2 p-2">
                     {this.props.order.orderKind === OrderKind.med ? 
                     <MedicationOrderSyntax order={this.props.order as MedicationOrder}/>: 
-                    <pre className='font-sans whitespace-pre-wrap'>{(this.props.order as CustomOrder).order.replaceAll("\n", "\n")}</pre>}
+                    <pre className='font-sans whitespace-pre-wrap'>{(this.props.order as CustomOrder).order}</pre>}
                     
                 </td>
             </tr>
