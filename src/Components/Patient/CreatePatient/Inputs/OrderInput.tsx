@@ -8,7 +8,7 @@ import ExtendableInput from '../../../Form/ExtendableInput';
 import Input from '../../../Form/Input';
 import SelectInput from '../../../Form/SelectInput';
 import TextArea from '../../../Form/TextArea';
-import DataPreviewer from '../DataPreviewer';
+import OrderPreviewer from '../Previewer/OrderPreviewer';
 
 type Props = {
     medicalOrders: MedicationOrder[]
@@ -157,9 +157,9 @@ export default class OrderInput extends React.Component<Props, State> {
                             </SelectInput>
                 </ExtendableInput>
                 
-                <DataPreviewer onClose={() => this.setState({ showModal: false })}
-                    onItemDeleted={this.onItemDeletedHandler.bind(this)}
-                    data={[...this.props.medicalOrders, ...this.props.customOrders]} show={this.state.showModal} />
+                <OrderPreviewer onClose={() => this.setState({ showModal: false })}
+                    onOrderDeleted={this.onItemDeletedHandler.bind(this)}
+                    orders={[...this.props.medicalOrders, ...this.props.customOrders]} show={this.state.showModal} />
             </div>
         );
     }	
