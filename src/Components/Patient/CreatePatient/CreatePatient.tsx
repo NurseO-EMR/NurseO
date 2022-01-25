@@ -29,41 +29,44 @@ export default class CreatePatient extends React.Component<Props,State> {
 
     constructor(props:Props) {
         super(props);
-        this.state = {
-            id: "",
-            name: "",
-            dob: "",
-            age: "",
-            gender: 'other',
-            height: "",
-            weight: "",
-            time: new Time(),
-            allergies: [],
-            medicalIssues: [],
-            medicationOrders: [],
-            flags: [],
-            immunizations: [],
-            studentReports: [],
-            customOrders: [],
-            notes: [],
-            items: "",
-            showPreview: false,
-            studentUID: "",
-            labDocURL: ""
+        if(this.props.patient) {
+            this.state = {
+                ...this.props.patient,
+                items: "",
+                showPreview: false
+            }
+        } else {
+            this.state = {
+                id: "",
+                name: "",
+                dob: "",
+                age: "",
+                gender: 'other',
+                height: "",
+                weight: "",
+                time: new Time(),
+                allergies: [],
+                medicalIssues: [],
+                medicationOrders: [],
+                flags: [],
+                immunizations: [],
+                studentReports: [],
+                customOrders: [],
+                notes: [],
+                items: "",
+                showPreview: false,
+                studentUID: "",
+                labDocURL: ""
+            }
         }
+        
 
         this.formRef = React.createRef();
     }
 
-    componentDidMount() {
-        if(this.props.patient) {
-            this.setState({
-                ...this.props.patient
-            })
-        }
-    }
-
     onOrderInput(updatedMedicalOrders: MedicationOrder[], updatedCustomOrders: CustomOrder[]) {
+        console.log(updatedMedicalOrders);
+        console.log(updatedCustomOrders);
         this.setState({
             medicationOrders: updatedMedicalOrders,
             customOrders: updatedCustomOrders
