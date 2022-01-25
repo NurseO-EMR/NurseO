@@ -129,7 +129,7 @@ export default class OrderInput extends React.Component<Props, State> {
                                 <option value="qd">qd</option>
                                 <option value="q15m">q15 Minutes</option>
                                 <option value="q30m">q30 Minutes</option>
-                                {[...new Array(12)].map((_,i)=><option key={i+1} value={`q${i}`}>q{i+1} hr(s)</option>)}
+                                {[...new Array(12)].map((_,i)=><option key={i+1} value={`q${i}hr`}>q{i+1} hr(s)</option>)}
                                 <option value="qhs">QHS</option>
                             </SelectInput>
 
