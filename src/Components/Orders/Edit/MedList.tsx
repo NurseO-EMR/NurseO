@@ -4,6 +4,7 @@ import Database from '../../../Services/Database';
 import { Medication } from '../../../Types/Medications';
 import EmptyCard from '../../Dashboard/Card/EmptyCard';
 import Button from '../../Form/Button';
+import ButtonWConfirmBox from '../../Form/ButtonWConfirmBox';
 import MedEditor from './MedEditor';
 
 type Props = {
@@ -42,6 +43,7 @@ export default class MedList extends React.Component<Props, State> {
             const db = Database.getInstance();
             await db.addMedication(med);
             this.setState({showAdder: false})
+            await this.updateList();
         }
     }
 
@@ -52,8 +54,12 @@ export default class MedList extends React.Component<Props, State> {
         })
     }
 
-    onDeleteClickHandler(index: number) {
-        throw new Error('Method not implemented.');
+    async onDeleteClickHandler(index: number) {
+        const {medications} = this.state;
+        const db = Database.getInstance();
+        const medID = medications[index].id;
+        await db.removeMedication(medID);
+        await this.updateList();
     }
 
     async onMedEdited(med:Medication) {
@@ -66,6 +72,15 @@ export default class MedList extends React.Component<Props, State> {
             medications,
             medEditIndex: -1,
             showEditor: false
+        })
+
+    }
+
+    async updateList() {
+        const db = Database.getInstance();
+        const meds = await db.getMedications();
+        this.setState({
+            medications: meds
         })
     }
 
@@ -87,7 +102,9 @@ export default class MedList extends React.Component<Props, State> {
                                 <td>{med.barcode}</td>
                                 <td>{med.name}</td>
                                 <td><Button admin onClick={() => this.onEditClickHandler(i)}>Edit</Button></td>
-                                <td><Button className='bg-primary' onClick={() => this.onDeleteClickHandler(i)}>Delete</Button></td>
+                                <td><ButtonWConfirmBox className='bg-primary' onConfirm={() => this.onDeleteClickHandler(i)} 
+                                confirmPrompt={`Are you sure you want to delete ${this.state.medications[i].name}?`}
+                                >Delete</ButtonWConfirmBox></td>
                             </tr>
 
                         )}
