@@ -115,10 +115,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         const reportsSetIndex = this.state.selectedTab;
         const db = Database.getInstance();
 
-
-        console.log(patient);
         wait();
-        console.log(patient === undefined || patient === null);
         if (patient === undefined || patient === null) $error.next(new PatientNotFoundError());
         if (patient!.notes === undefined) patient!.notes = [];
 
@@ -135,6 +132,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         if(this.props.patient) {
             if(this.props.onUpdate) this.props.onUpdate(this.patient);
         } else {
+            console.log(patient.studentReports)
             await db.updatePatient();
             $patient.next(patient);
         }
@@ -150,7 +148,6 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
     }
 
     onInputChangeHandler(filedName: string, timeSlotIndex: number, value: string) {
-
         const patient = this.patient;
         const reportsSetIndex = this.state.selectedTab;
         if (patient === undefined) $error.next(new PatientNotFoundError());
@@ -164,7 +161,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             date: this.state.date,
             reportType: this.props.reportType,
         }
-
+        
         const reportSetIndex = this.getReportIndex(patient!.studentReports, updatedReport);
         if (reportSetIndex > -1) {
             patient!.studentReports[reportSetIndex].value = updatedReport.value;

@@ -40,7 +40,7 @@ export default class ReportsSubmitterTabContent extends React.Component<Props, S
                     {this.props.reportSet.reportFields.map((val, i) =>
                         <ReportInput
                             disabledTimeSlots={this.state.disabledTimeSlots}
-                            onChange={(name, index, value) => this.props.onInputChangeHandler(name, index, value)}
+                            onChange={(name, timeslotIndex, value) => this.props.onInputChangeHandler(name, timeslotIndex, value)}
                             key={i}
                             numberOfTimeSlots={this.props.numberOfTimeSlots}
                             vital={val} />
