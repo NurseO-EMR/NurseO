@@ -1,12 +1,15 @@
 import React, { ChangeEvent } from 'react';
 import { FirebaseApp, FirebaseError, initializeApp } from "firebase/app";
-import { getAuth, Auth, signInWithEmailAndPassword, browserLocalPersistence, setPersistence, GoogleAuthProvider, signInWithPopup, inMemoryPersistence, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, Auth, signInWithEmailAndPassword, browserLocalPersistence, 
+    setPersistence, GoogleAuthProvider, signInWithPopup, inMemoryPersistence,
+    createUserWithEmailAndPassword, signInAnonymously } from "firebase/auth";
 import GoogleButton from 'react-google-button';
 import firebaseConfig from "./../firebaseConfig.json";
 import Logo from '../Components/Nav/TopMenu/Logo';
 import { $history } from '../Services/State';
 import Background from '../Components/Background';
 import SignInButton from '../Components/Form/SignInButton';
+import AnonymousSignInButton from '../Components/Form/AnonymousSignInButton';
 type Props = {}
 type State = {
     badgeNumber: string,
@@ -76,6 +79,19 @@ export default class Login extends React.Component<Props,State> {
         }
     }
 
+    async onAnonymousSignInClickHandler() {
+        try {
+            await setPersistence(this.auth, browserLocalPersistence)
+            await signInAnonymously(this.auth);
+            if(this.auth.currentUser) $history.value.push("/studentView/selectPatient");
+        } catch(e) {
+            const error = e as FirebaseError; 
+            this.setState({
+                error: error.message
+            })
+        }
+    }
+
     public render() {	
         return (
             <div>
@@ -91,6 +107,10 @@ export default class Login extends React.Component<Props,State> {
                             /><br />
                         <SignInButton onClick={this.onClickHandler.bind(this)} />
                         <div>{this.state.error}</div>
+
+                        <hr className="w-full my-4 border-red-700"/>
+                        <h1 className="font-bold">If you forgot your ID click bellow:</h1>
+                        <AnonymousSignInButton className="block mx-auto" onClick={this.onAnonymousSignInClickHandler.bind(this)}/>
 
                         <hr className="w-full my-4 border-red-700"/>
                         <h1 className="font-bold">For Admins Please Click Below</h1>
