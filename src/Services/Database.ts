@@ -2,7 +2,7 @@ import { getAuth } from 'firebase/auth';
 import { initializeApp } from "firebase/app";
 import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
-    limit, query, updateDoc, where, setDoc, doc, getDoc, orderBy, deleteDoc
+    limit, query, updateDoc, where, setDoc, doc, getDoc, orderBy, deleteDoc, DocumentData, QueryDocumentSnapshot
 } from "firebase/firestore";
 import { $error, $patient, $settings } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";
@@ -95,22 +95,43 @@ export default class Database {
         return medications;
     }
 
-    async getMedication(medID: string): Promise<Medication | null> {
+    async getMedication(medID?: string, barcode?: string): Promise<Medication | null> {
         //check if the med is cached 
         const cachedMeds = this.cache.getMeds();
-        const medIndex = findIndex(cachedMeds, { id: medID });
+        let medIndex;
+        if(medID) medIndex = findIndex(cachedMeds, { id: medID });
+        
+        else if(barcode) medIndex = findIndex(cachedMeds, { barcode: barcode });
+        else throw new Error("Please provide either medID or barcode ID")
         if (medIndex > -1) return cachedMeds[medIndex];
 
         console.log("getting medication info from db")
-        const doc = await this.getMedicationDoc(medID);
+        let doc:QueryDocumentSnapshot<DocumentData>; 
+
+        if(medID) {
+            doc = await this.getMedicationDoc(medID);
+        } else if(barcode) {
+            doc = await this.getMedicationDoc(undefined, barcode);
+        } else {
+            throw new Error("Please provide either medID or barcode ID")
+        }
+
         if (!doc) return null;
         const medication = doc.data() as Medication;
         this.cache.cacheMed(medication);
         return medication;
     }
+    
 
-    async getMedicationDoc(medID: string) {
-        const q = query(collection(this.db, "medications"), where("id", "==", medID), limit(1))
+    async getMedicationDoc(medID?: string, barcode?: string) {
+        let q;
+        if(medID) {
+            q = query(collection(this.db, "medications"), where("id", "==", medID), limit(1))
+        } else if(barcode){
+            q = query(collection(this.db, "medications"), where("barcode", "==", barcode), limit(1))
+        } else {
+            throw new Error("Please provide either medID or barcode ID")
+        }
         const doc = (await getDocs(q)).docs[0]
         return doc;
     }

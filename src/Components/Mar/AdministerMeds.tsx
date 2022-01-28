@@ -12,7 +12,7 @@ type Props = {
 }
 
 type State = {
-    medicationID: string
+    medicationBarcode: string
     scannedMedicationOrder: MedicationOrder | undefined
     scannedMedicationName: string,
     dose: string,
@@ -23,7 +23,7 @@ export default class AdministerMeds extends React.Component<Props,State> {
     constructor(props:Props) {
         super(props);
         this.state = {
-            medicationID: "",
+            medicationBarcode: "",
             scannedMedicationOrder: undefined,
             scannedMedicationName: "",
             dose: "",
@@ -33,7 +33,7 @@ export default class AdministerMeds extends React.Component<Props,State> {
 
     onIDChangeHandler(event:ChangeEvent<HTMLInputElement>) {
         this.setState({
-            medicationID: event.target.value
+            medicationBarcode: event.target.value
         })
     }
 
@@ -48,7 +48,7 @@ export default class AdministerMeds extends React.Component<Props,State> {
         const patient = $patient.value;
         let medications = patient!.medicationOrders;
         if(!$providerOrdersAvailable.value) medications = filter(medications, order=> order.orderType !== OrderType.provider)
-        const medIndex = this.getMedIndex(medications);
+        const medIndex = await this.getMedIndex(medications);
         if(medIndex>-1) {
             const med = await db.getMedication(patient!.medicationOrders[medIndex].id);
             this.setState({
@@ -67,14 +67,14 @@ export default class AdministerMeds extends React.Component<Props,State> {
         const db = Database.getInstance();
         const patient = $patient.value!;
         const medications = patient.medicationOrders;
-        const medIndex = this.getMedIndex(medications)
+        const medIndex = await this.getMedIndex(medications)
         if(medIndex>-1) {
             const {hour,minutes} = patient.time;
             patient.medicationOrders[medIndex].mar.push({hour, minutes})
             $patient.next(patient);
             await db.updatePatient()
             this.setState({
-                medicationID: "",
+                medicationBarcode: "",
                 scannedMedicationName: "",
                 scannedMedicationOrder: undefined,
                 dose: "",
@@ -90,8 +90,11 @@ export default class AdministerMeds extends React.Component<Props,State> {
         })
     }
 
-    getMedIndex(medications:MedicationOrder[]) {
-        return findIndex(medications, {id: this.state.medicationID});
+    async getMedIndex(medicationOrders:MedicationOrder[]) {
+        const db = Database.getInstance();
+        const med = await db.getMedication(undefined, this.state.medicationBarcode)
+        const medID = med?.id;
+        return findIndex(medicationOrders, {id: medID});
     }
 
     public render() {
@@ -102,8 +105,10 @@ export default class AdministerMeds extends React.Component<Props,State> {
                         Please scan the medication you wish to administer
                     </h1>
                     <input type="text" className="border-primary border-2 rounded-full w-1/2 h-10 block mx-auto text-center"
-                    placeholder="click here to scan the medication barcode" autoFocus onChange={this.onIDChangeHandler.bind(this)} value={this.state.medicationID}/>
-                    <button className="text-white bg-primary px-20 py-2 rounded-full mt-5" onClick={this.onScanHandler.bind(this)}>Administer</button>
+                    placeholder="click here to scan the medication barcode" autoFocus onChange={this.onIDChangeHandler.bind(this)}
+                     value={this.state.medicationBarcode}/>
+                    <button className="text-white bg-primary px-20 py-2 rounded-full mt-5" 
+                    onClick={this.onScanHandler.bind(this)}>Administer</button>
                 </EmptyCard>
 
                 <PureModal isOpen={!!this.state.scannedMedicationName} header={`Administer ${this.state.scannedMedicationName}`}
