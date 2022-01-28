@@ -122,6 +122,12 @@ export default class Database {
         updateDoc(ref,{...med});
     }
 
+    async removeMedication(medID: string) {
+        const doc = await this.getMedicationDoc(medID);
+        await deleteDoc(doc.ref);
+        this.medListCached = false;
+    }
+
 
 
     async getSettings() {

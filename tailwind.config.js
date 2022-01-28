@@ -23,17 +23,7 @@ module.exports = {
       'white': "#ffffff"
     },
     colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
-      black: colors.black,
-      white: colors.white,
-      gray: colors.gray,
-      indigo: colors.indigo,
-      red: colors.rose,
-      yellow: colors.amber,
-      green: colors.green,
-
-
+      ...colors,
       primary: "#B91C1C",
       admin: "#334155",
       edit: "#DC2626",
