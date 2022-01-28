@@ -101,19 +101,21 @@ export default class AdministerMeds extends React.Component<Props,State> {
         return (
             <>
                 <EmptyCard title="Administer Medications" className="text-center">
-                    <h1 className="font-bold p-10 text-4xl">
-                        Please scan the medication you wish to administer
-                    </h1>
-                    <input type="text" className="border-primary border-2 rounded-full w-1/2 h-10 block mx-auto text-center"
-                    placeholder="click here to scan the medication barcode" autoFocus onChange={this.onIDChangeHandler.bind(this)}
-                     value={this.state.medicationBarcode}/>
-                    <button className="text-white bg-primary px-20 py-2 rounded-full mt-5" 
-                    onClick={this.onScanHandler.bind(this)}>Administer</button>
+                    <form onSubmit={e=>e.preventDefault()}>
+                        <h1 className="font-bold p-10 text-4xl">
+                            Please scan the medication you wish to administer
+                        </h1>
+                        <input type="text" className="border-primary border-2 rounded-full w-1/2 h-10 block mx-auto text-center"
+                        placeholder="click here to scan the medication barcode" autoFocus onChange={this.onIDChangeHandler.bind(this)}
+                        value={this.state.medicationBarcode}/>
+                        <button className="text-white bg-primary px-20 py-2 rounded-full mt-5" 
+                        onClick={this.onScanHandler.bind(this)}>Administer</button>
+                    </form>
                 </EmptyCard>
 
                 <PureModal isOpen={!!this.state.scannedMedicationName} header={`Administer ${this.state.scannedMedicationName}`}
                  draggable={true} onClose={this.onModalClose.bind(this)} className="text-center" width="60vw">
-                     <div>
+                     <form onSubmit={e=>e.preventDefault()}>
                         <h1 className="font-bold text-xl py-6">
                             {this.state.scannedMedicationName}{" "}
                             {this.state.scannedMedicationOrder?.concentration}{" "}
@@ -131,7 +133,7 @@ export default class AdministerMeds extends React.Component<Props,State> {
                              autoFocus type="text" id="dose" placeholder="Dose or Rate" />
                         </div>
                         <button className="bg-primary text-white py-4 px-16 rounded-full font-bold" onClick={this.onSubmit.bind(this)}>Submit</button>
-                    </div>
+                    </form>
                 </PureModal>
 
                 <PureModal isOpen={this.state.medicationNotFound} header="Medication Not Founded" 
