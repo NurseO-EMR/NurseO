@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { $history } from '../../Services/State';
 // import { $history } from '../../Services/State';
 type Props = {
-    selected: "Dashboard" | "Create Patient" | "View Patients" | "Edit Assessment" | "Edit Vitals" | "Edit Medications"
+    selected: "Dashboard" | "Create Patient" | "View Patients" | "Edit Assessment" | "Edit Vitals" | "Edit Medications" | "Add/Remove Admins"
 }
 export default class AdminViewPage extends React.Component<Props> {
 
@@ -26,6 +26,8 @@ export default class AdminViewPage extends React.Component<Props> {
                         <li className={`cursor-pointer ${this.props.selected === "Edit Assessment" ? this.selectedColor : null}`}><Link to="/admin/assessments/edit">Edit Assessments</Link></li>
                         <li className={`cursor-pointer ${this.props.selected === "Edit Vitals" ? this.selectedColor : null}`}><Link to="/admin/vitals/edit">Edit Vitals</Link></li>
                         <li className={`cursor-pointer ${this.props.selected === "Edit Medications" ? this.selectedColor : null}`}><Link to="/admin/medication/edit">Edit Medications</Link></li>
+                        <li className={`cursor-pointer ${this.props.selected === "Add/Remove Admins" ? this.selectedColor : null}`}><Link to="/admin/editAdmins">Add/Remove Admins</Link></li>
+
                     </ul>
                 </TopNav>
                 <div className="px-10 py-1">

@@ -36,7 +36,7 @@ export default class Database {
     async getPatient(id: string): Promise<boolean> {
         const uid = getAuth().currentUser?.uid;
         let patientChart: PatientChart;
-        if(!uid) return false;
+        if (!uid) return false;
 
         if (this.currentPatientID === $patient.value?.id) return true;
 
@@ -49,12 +49,12 @@ export default class Database {
         } else {
             const templatePatientQuery = query(collection(this.db, "templatePatients"), where("id", "==", id), limit(1))
             const templatePatientDoc = (await getDocs(templatePatientQuery)).docs[0];
-            if(!templatePatientDoc) return false;
+            if (!templatePatientDoc) return false;
             patientChart = templatePatientDoc.data() as PatientChart;
             patientChart.studentUID = uid;
             this.patientDocRef = await this.addPatient(patientChart);
-            this.currentPatientID = patientChart?.id;    
-            
+            this.currentPatientID = patientChart?.id;
+
         };
         $patient.next(patientChart)
         return true;
@@ -99,18 +99,18 @@ export default class Database {
         //check if the med is cached 
         const cachedMeds = this.cache.getMeds();
         let medIndex;
-        if(medID) medIndex = findIndex(cachedMeds, { id: medID });
-        
-        else if(barcode) medIndex = findIndex(cachedMeds, { barcode: barcode });
+        if (medID) medIndex = findIndex(cachedMeds, { id: medID });
+
+        else if (barcode) medIndex = findIndex(cachedMeds, { barcode: barcode });
         else throw new Error("Please provide either medID or barcode ID")
         if (medIndex > -1) return cachedMeds[medIndex];
 
         console.log("getting medication info from db")
-        let doc:QueryDocumentSnapshot<DocumentData>; 
+        let doc: QueryDocumentSnapshot<DocumentData>;
 
-        if(medID) {
+        if (medID) {
             doc = await this.getMedicationDoc(medID);
-        } else if(barcode) {
+        } else if (barcode) {
             doc = await this.getMedicationDoc(undefined, barcode);
         } else {
             throw new Error("Please provide either medID or barcode ID")
@@ -121,13 +121,13 @@ export default class Database {
         this.cache.cacheMed(medication);
         return medication;
     }
-    
+
 
     async getMedicationDoc(medID?: string, barcode?: string) {
         let q;
-        if(medID) {
+        if (medID) {
             q = query(collection(this.db, "medications"), where("id", "==", medID), limit(1))
-        } else if(barcode){
+        } else if (barcode) {
             q = query(collection(this.db, "medications"), where("barcode", "==", barcode), limit(1))
         } else {
             throw new Error("Please provide either medID or barcode ID")
@@ -136,11 +136,11 @@ export default class Database {
         return doc;
     }
 
-    async updateMedication(med:Medication) {
+    async updateMedication(med: Medication) {
         console.log(med.id)
         const doc = await this.getMedicationDoc(med.id);
         const ref = doc.ref;
-        updateDoc(ref,{...med});
+        updateDoc(ref, { ...med });
     }
 
     async removeMedication(medID: string) {
@@ -215,6 +215,24 @@ export default class Database {
         return document.ref;
     }
 
+    async getAdminList(): Promise<string[]> {
+        const q = query(collection(this.db, "Admins"), limit(1));
+        const doc = (await getDocs(q)).docs[0];
+        if (doc) {
+            return doc.data().adminEmails as string[]
+        } else {
+            return []
+        }
+    }
+
+    async updateAdminList(updatedAdmins: string[]) {
+        const q = query(collection(this.db, "Admins"), limit(1));
+        const doc = (await getDocs(q)).docs[0];
+        const data = {
+            adminEmails: updatedAdmins
+        }
+        updateDoc(doc.ref,data);
+    }
 
 
 
