@@ -1,15 +1,16 @@
 import React from 'react';
 import TopNav from '../../Components/Nav/TopMenu/TopNav';
 import {getAuth} from "firebase/auth"
-import { Link } from 'react-router-dom';
 import { $history } from '../../Services/State';
+import SideNav from '../../Components/Nav/SideBar/SideNav';
+import SideNavHeader from '../../Components/Nav/SideBar/SideNavHeader';
 // import { $history } from '../../Services/State';
 type Props = {
     selected: "Dashboard" | "Create Patient" | "View Patients" | "Edit Assessment" | "Edit Vitals" | "Edit Medications" | "Add/Remove Admins"
 }
 export default class AdminViewPage extends React.Component<Props> {
 
-    private selectedColor = "font-bold text-primary";
+    private selectedStyle = "bg-gray-800";
 
     componentDidMount() {
         if(!getAuth().currentUser) $history.value.push("/")
@@ -17,20 +18,19 @@ export default class AdminViewPage extends React.Component<Props> {
 
     public render() {	
         return (
-            <div>
-                <TopNav>
-                    <ul className="flex gap-10">
-                        <li className={`cursor-pointer ${this.props.selected === "Dashboard" ? this.selectedColor : null}`}><Link to="/admin/dashboard">Dashboard</Link></li>
-                        <li className={`cursor-pointer ${this.props.selected === "Create Patient" ? this.selectedColor : null}`}><Link to="/admin/patient/create">Create Patient</Link></li>
-                        <li className={`cursor-pointer ${this.props.selected === "View Patients" ? this.selectedColor : null}`}><Link to="/admin/patient/view">View Patients</Link></li>
-                        <li className={`cursor-pointer ${this.props.selected === "Edit Assessment" ? this.selectedColor : null}`}><Link to="/admin/assessments/edit">Edit Assessments</Link></li>
-                        <li className={`cursor-pointer ${this.props.selected === "Edit Vitals" ? this.selectedColor : null}`}><Link to="/admin/vitals/edit">Edit Vitals</Link></li>
-                        <li className={`cursor-pointer ${this.props.selected === "Edit Medications" ? this.selectedColor : null}`}><Link to="/admin/medication/edit">Edit Medications</Link></li>
-                        <li className={`cursor-pointer ${this.props.selected === "Add/Remove Admins" ? this.selectedColor : null}`}><Link to="/admin/editAdmins">Add/Remove Admins</Link></li>
+            <div className='grid grid-areas-main min-h-screen grid-cols-twoSections grid-rows-threeSections'>
+                <TopNav className="grid-in-topNav"></TopNav>
 
-                    </ul>
-                </TopNav>
-                <div className="px-10 py-1">
+                <SideNav className="grid-in-sideBar flex flex-col gap-2">
+                    <SideNavHeader admin href="/admin/dashboard" className={this.props.selected === "Dashboard" ? this.selectedStyle : null}>Dashboard</SideNavHeader>
+                    <SideNavHeader admin href="/admin/patient/create" className={this.props.selected === "Create Patient" ? this.selectedStyle : null}>Create Patient</SideNavHeader>
+                    <SideNavHeader admin href="/admin/patient/view" className={this.props.selected === "View Patients" ? this.selectedStyle : null}>View Patients</SideNavHeader>
+                    <SideNavHeader admin href="/admin/assessments/edit" className={this.props.selected === "Edit Assessment" ? this.selectedStyle : null}>Edit Assessments</SideNavHeader>
+                    <SideNavHeader admin href="/admin/vitals/edit" className={this.props.selected === "Edit Vitals" ? this.selectedStyle : null}>Edit Vitals</SideNavHeader>
+                    <SideNavHeader admin href="/admin/medication/edit" className={this.props.selected === "Edit Medications" ? this.selectedStyle : null}>Edit Medications</SideNavHeader>
+                    <SideNavHeader admin href="/admin/editAdmins" className={this.props.selected === "Add/Remove Admins" ? this.selectedStyle : null}>Add/Remove Admins</SideNavHeader>
+                </SideNav>
+                <div className="grid-in-main">
                     {this.props.children}
                 </div>
             </div>
