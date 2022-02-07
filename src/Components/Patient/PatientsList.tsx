@@ -4,6 +4,7 @@ import Database from '../../Services/Database';
 import { PatientChart } from '../../Types/PatientProfile';
 import Card from '../Dashboard/Card/Card';
 import Button from '../Form/Button';
+import ButtonWConfirmBox from '../Form/ButtonWConfirmBox';
 import CreatePatient from './CreatePatient/CreatePatient';
 
 
@@ -78,7 +79,11 @@ export default class PatientList extends React.Component<Props, State> {
                                 <td>{patient.name}</td>
                                 <td>{patient.dob}</td>
                                 <td><Button admin onClick={() => this.onEditClickHandler(patient)}>Edit</Button></td>
-                                <td><Button className='bg-primary' onClick={() => this.onDeleteClickHandler(patient)}>Delete</Button></td>
+                                <td>
+                                <ButtonWConfirmBox className='bg-primary'
+                                 confirmPrompt={`Are you sure you want to delete ${patient.name}`} 
+                                 onConfirm={()=>this.onDeleteClickHandler(patient)}>Delete</ButtonWConfirmBox>
+                                </td>
                             </tr>
 
                         )}
