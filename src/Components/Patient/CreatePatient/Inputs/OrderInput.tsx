@@ -118,10 +118,10 @@ export default class OrderInput extends React.Component<Props, State> {
                             <Input admin={this.props.admin} id='route' onChange={e=>this.setState({route: e.currentTarget.value})}>Route</Input>
 
                             <SelectInput admin={this.props.admin} label='routine' onChange={e=>this.setState({routine: e.currentTarget.value as Routine})}>
-                                <option>click here to select</option>
-                                <option value="prn">PRN</option>
-                                <option value="now">NOW</option>
-                                <option value="scheduled">Scheduled</option>
+                                <option value="">click here to select</option>
+                                <option value="PRN">PRN</option>
+                                <option value="NOW">NOW</option>
+                                <option value="Scheduled">Scheduled</option>
                             </SelectInput>
 
                             <SelectInput admin={this.props.admin} label='Frequency' onChange={e=>this.setState({frequency: e.currentTarget.value as Frequency})}>
