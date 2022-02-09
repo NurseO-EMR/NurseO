@@ -1,4 +1,4 @@
-import { filter, uniq } from 'lodash';
+import { filter, maxBy, uniq } from 'lodash';
 import React from 'react';
 import { $providerOrdersAvailable } from '../../Services/State';
 import { Frequency, MedicationOrder, OrderType, Routine, Time } from '../../Types/PatientProfile';
@@ -65,9 +65,9 @@ export default class Mar extends React.Component<Props, State> {
             const currentTime = this.props.simTime.hour;
             if(order.routine === Routine.NOW) timeSlots.push(currentTime);
             if(order.routine === Routine.PRN || order.routine === Routine.Scheduled) {
-                const medInterval = this.getMedQInterval(order) || 1;
-                
-                for(let i = currentTime; i < 24; i=i+medInterval) {
+                const medInterval:number = this.getMedQInterval(order) || 1;
+                const lastDose = maxBy(order.mar, "hour")?.hour || currentTime;
+                for(let i = lastDose; i < 24; i=i+medInterval) {
                     timeSlots.push(i)
                 }
             }
@@ -106,6 +106,8 @@ export default class Mar extends React.Component<Props, State> {
         }
 
     }
+
+    
 
 
     public render() {

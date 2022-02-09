@@ -13,6 +13,7 @@ type Props<T> = {
     hideEditButton?: boolean,
     hideLabel?: boolean,
     className?: string,
+    inputType?: "text" | "number"
 }
 type State<T> = {
     data: T | null
@@ -60,7 +61,12 @@ export default class ComplexInput<T> extends React.Component<Props<T>, State<T>>
         else data = this.state.data;
 
         const typedKey = key as keyof T;
-        data[typedKey] = value as unknown as NonNullable<T>[keyof T]
+        if(this.props.inputType === "number") {
+            const parsedValue = Number.parseInt(value);
+            data[typedKey] = parsedValue as unknown as NonNullable<T>[keyof T]
+        } else {
+            data[typedKey] = value as unknown as NonNullable<T>[keyof T]
+        }
         this.setState({data})
     }
 
@@ -75,7 +81,7 @@ export default class ComplexInput<T> extends React.Component<Props<T>, State<T>>
                     className={this.props.className}
                     onSave={this.onClickHandler.bind(this)}>
                     {this.keys.map((key,i)=>
-                        <Input className="w-7/12" key={i} id={key} admin={this.props.admin}
+                        <Input className="w-7/12" key={i} id={key} admin={this.props.admin} type={this.props.inputType}
                         onChange={e => this.onInputChangeHandler(key, e.currentTarget.value)}>{this.camelCaseToEnglish(key)}</Input>
                     )}
                     

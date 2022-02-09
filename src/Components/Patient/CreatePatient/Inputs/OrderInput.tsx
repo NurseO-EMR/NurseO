@@ -89,9 +89,6 @@ export default class OrderInput extends React.Component<Props, State> {
         this.props.onUpdate(this.medicalOrders, this.customOrders);
     }
 
-
-
-
     public render() {
         return (
             <div>
@@ -133,7 +130,7 @@ export default class OrderInput extends React.Component<Props, State> {
                                 <option value="qhs">QHS</option>
                             </SelectInput>
 
-                            <ComplexInput admin={this.props.admin} data={this.state.mar} defaultType={new Time()} onUpdate={mar=>this.setState({mar})} title='Mar' />
+                            <ComplexInput inputType='number' admin={this.props.admin} data={this.state.mar} defaultType={new Time()} onUpdate={mar=>this.setState({mar})} title='Mar' />
 
                             {this.state.routine === Routine.PRN ?
                              <Input admin={this.props.admin} id='PRNNote' onChange={e=>this.setState({PRNNote: e.currentTarget.value})}>PRN Note</Input> 

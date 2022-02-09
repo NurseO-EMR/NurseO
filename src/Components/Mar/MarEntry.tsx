@@ -50,12 +50,29 @@ export default class MarEntry extends React.Component<Props, State> {
 
         } else if (routine === Routine.PRN || routine=== Routine.Scheduled) {
             const interval = this.getMedQInterval(this.props.order) || 1;
-            for (let i = this.props.simTime.hour; i <= Math.max(...this.props.timeSlots); i = i = interval + i) {
+            const lastDoseTime = this.getLastDoseTime();
+            const start = lastDoseTime > -1 ? lastDoseTime : this.props.simTime.hour
+            for (let i = start; i <= Math.max(...this.props.timeSlots); i = interval + i) {
                 const time: Time = { hour: i, minutes: 0 }
-                if(routine === Routine.PRN) this.timeSlots.set(time.hour, "Available")
-                else if(routine === Routine.Scheduled) this.timeSlots.set(time.hour, "Due")
+
+                if(this.timeSlots.get(time.hour) !== "Givin") {
+                    if(routine === Routine.PRN) this.timeSlots.set(time.hour, "Available")
+                    else if(routine === Routine.Scheduled) this.timeSlots.set(time.hour, "Due")
+                }
             }
         }
+    }
+
+    getLastDoseTime() {
+        let lastDoseTime = -1;
+        this.timeSlots.forEach((v,k)=>{
+            if(v === "Givin" && k > lastDoseTime) {
+                lastDoseTime = k
+            }
+        })
+        
+        return lastDoseTime;
+
     }
 
 
