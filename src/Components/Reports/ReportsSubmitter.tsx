@@ -188,7 +188,10 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
     }
 
     onTabSelectionHandler(selectedTab: number) {
-        this.setState({ selectedTab })
+        this.setState({ 
+            selectedTab,
+            
+        })
     }
 
     onNoteChangeHandler(event: ChangeEvent<HTMLTextAreaElement>) {

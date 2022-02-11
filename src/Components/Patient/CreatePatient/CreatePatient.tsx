@@ -12,6 +12,8 @@ import { StudentReport } from '../../../Types/Report';
 import NotesEditor from './Inputs/NotesEditor';
 import Database from '../../../Services/Database';
 import Button from '../../Form/Button';
+import SaveButton from '../../Form/SaveButton';
+import { $history } from '../../../Services/State';
 
 
 type Props = {
@@ -20,7 +22,8 @@ type Props = {
 }
 type State = PatientChart & {
     items:string,
-    showPreview: boolean
+    showPreview: boolean,
+    saved: boolean,
 }
 
 export default class CreatePatient extends React.Component<Props,State> {
@@ -33,7 +36,8 @@ export default class CreatePatient extends React.Component<Props,State> {
             this.state = {
                 ...this.props.patient,
                 items: "",
-                showPreview: false
+                showPreview: false,
+                saved: false
             }
         } else {
             this.state = {
@@ -56,7 +60,8 @@ export default class CreatePatient extends React.Component<Props,State> {
                 items: "",
                 showPreview: false,
                 studentUID: "",
-                labDocURL: ""
+                labDocURL: "",
+                saved: false
             }
         }
         
@@ -74,7 +79,8 @@ export default class CreatePatient extends React.Component<Props,State> {
     }
 
 
-    async savePatient() {
+    async savePatient(wait: () => void, keepGoing: () => void) {
+        wait();
         const valid = this.formRef.current?.checkValidity();
         if(valid) {
             const {id, name, dob, age, gender, height, weight, time, allergies,
@@ -91,11 +97,20 @@ export default class CreatePatient extends React.Component<Props,State> {
             } else {
                 const db = Database.getInstance();
                 await db.addTemplatePatient(patient);
+                this.setState({
+                    saved: true,
+                })
+
+                setTimeout(()=>{
+                    this.setState({saved: false})
+                    $history.value.push("/admin/patient/view");
+                }, 3000)
             }
 
         } else {
             this.formRef.current?.reportValidity();
         }
+        keepGoing();
     }
 
     onReportUpdate(studentReports: StudentReport[], notes: Note[]) {
@@ -106,9 +121,10 @@ export default class CreatePatient extends React.Component<Props,State> {
         const date = new Date(e.target.value);
         const now = new Date();
         const age = now.getFullYear() - date.getFullYear();
+        const ageString = age > 0 ? `${age} years old` : age.toString();
         this.setState({
             dob: e.target.value,
-            age: age.toString()
+            age: ageString
         })
     }
 
@@ -131,6 +147,15 @@ export default class CreatePatient extends React.Component<Props,State> {
     }
 
     public render() {	
+
+        if(this.state.saved) {
+            return (
+                <div className="grid text-center mt-10">
+                    <h1 className='font-bold text-4xl text-green-800'>Patient has been saved</h1>
+                </div>
+            )
+        }
+
         return (
             <div className="grid">
                 <ArmBand patient={this.state} className="block m-auto"/>
@@ -149,7 +174,7 @@ export default class CreatePatient extends React.Component<Props,State> {
                             <Input admin id="height" value={this.state.height} onChange={e=>this.setState({height:e.currentTarget.value})}>Height</Input>
                             <Input admin id="weight" value={this.state.weight} onChange={e=>this.setState({weight:e.currentTarget.value})}>Weight</Input>
                             <Input admin id="simTime" value={`${this.state.time.hour.toString().padStart(2,"0")}:${this.state.time.minutes.toString().padStart(2,"0")}`} type="time" onChange={this.onTimeChangeHandler.bind(this)}>Sim Time</Input>
-                            <Input admin id="lab" value={this.state.labDocURL} type="url" onChange={e=>this.setState({labDocURL: e.currentTarget.value})}>Lab Document URL</Input>
+                            <Input admin id="lab" value={this.state.labDocURL} type="url" notRequired onChange={e=>this.setState({labDocURL: e.currentTarget.value})}>Lab Document URL</Input>
                             <ComplexInput admin title="Allergies" onUpdate={allergies=>this.setState({allergies})} data={this.state.allergies} defaultType={new Allergy()}/>
                             <ComplexInput admin title="History" onUpdate={medicalIssues=>this.setState({medicalIssues})} data={this.state.medicalIssues} defaultType={new MedicalIssue()}/>
                             <ComplexInput admin title="Flags" onUpdate={flags=>this.setState({flags})} data={this.state.flags} defaultType={new Flag()}/>
@@ -160,8 +185,8 @@ export default class CreatePatient extends React.Component<Props,State> {
 
                             <div className='flex justify-center ml-40 mt-10'>
                                 <Button admin>Clear</Button>
-                                <Button admin onClick={this.onPreviewClickHandler.bind(this)}>Preview</Button>
-                                <Button admin onClick={this.savePatient.bind(this)}>Save</Button>
+                                <Button admin onClick={this.onPreviewClickHandler.bind(this)} disabled className='cursor-not-allowed bg-gray-400'>Preview</Button>
+                                <SaveButton admin onClick={this.savePatient.bind(this)}>Save</SaveButton>
                             </div>
                         </form>
                 </EmptyCard>

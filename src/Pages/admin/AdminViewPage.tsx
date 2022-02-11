@@ -1,6 +1,7 @@
 import React from 'react';
 import TopNav from '../../Components/Nav/TopMenu/TopNav';
 import {getAuth} from "firebase/auth"
+import Database from "./../../Services/Database";
 import { $history } from '../../Services/State';
 import SideNav from '../../Components/Nav/SideBar/SideNav';
 import SideNavHeader from '../../Components/Nav/SideBar/SideNavHeader';
@@ -12,8 +13,12 @@ export default class AdminViewPage extends React.Component<Props> {
 
     private selectedStyle = "bg-gray-800";
 
-    componentDidMount() {
-        if(!getAuth().currentUser) $history.value.push("/")
+    async componentDidMount() {
+        const db = Database.getInstance();
+        const admins = await db.getAdminList();
+        if(!getAuth().currentUser || admins.indexOf(getAuth().currentUser!.email!) === -1) {
+            $history.value.push("/")
+        }
     }
 
     public render() {	
