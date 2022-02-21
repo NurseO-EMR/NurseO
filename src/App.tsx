@@ -29,6 +29,7 @@ import EditVitalsPage from './Pages/admin/EditVitals/EditVitalsPage';
 import EditMedicationsPage from './Pages/admin/EditMedications/EditMedicationsPage';
 import LabsViewerPage from './Pages/StudentView/Labs/LabsViewerPage';
 import EditAdminsPage from './Pages/admin/EditAdmins/EditAdmins';
+import EditSettingsRawPage from './Pages/admin/EditSettings/EditSettingsRawPage';
 
 type Props = {}
 type State = {
@@ -100,6 +101,7 @@ export default class App extends React.Component<Props, State> {
           <Route exact path="/admin/patient/view"><ViewPatientsPage /></Route>
           <Route exact path="/admin/medication/edit"><EditMedicationsPage /></Route>
           <Route exact path="/admin/editAdmins"><EditAdminsPage /></Route>
+          <Route exact path="/admin/settings/raw"><EditSettingsRawPage /></Route>
 
         </Switch>
       </Router>

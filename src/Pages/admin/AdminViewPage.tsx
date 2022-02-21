@@ -7,7 +7,7 @@ import SideNav from '../../Components/Nav/SideBar/SideNav';
 import SideNavHeader from '../../Components/Nav/SideBar/SideNavHeader';
 // import { $history } from '../../Services/State';
 type Props = {
-    selected: "Dashboard" | "Create Patient" | "View Patients" | "Edit Assessment" | "Edit Vitals" | "Edit Medications" | "Add/Remove Admins"
+    selected: "Dashboard" | "Create Patient" | "View Patients" | "Edit Assessment" | "Edit Vitals" | "Edit Medications" | "Add/Remove Admins" | "Edit Settings Raw"
 }
 export default class AdminViewPage extends React.Component<Props> {
 
@@ -34,6 +34,7 @@ export default class AdminViewPage extends React.Component<Props> {
                     <SideNavHeader admin href="/admin/vitals/edit" className={this.props.selected === "Edit Vitals" ? this.selectedStyle : null}>Edit Vitals</SideNavHeader>
                     <SideNavHeader admin href="/admin/medication/edit" className={this.props.selected === "Edit Medications" ? this.selectedStyle : null}>Edit Medications</SideNavHeader>
                     <SideNavHeader admin href="/admin/editAdmins" className={this.props.selected === "Add/Remove Admins" ? this.selectedStyle : null}>Add/Remove Admins</SideNavHeader>
+                    <SideNavHeader admin href="/admin/settings/raw" className={this.props.selected === "Edit Settings Raw" ? this.selectedStyle : null}>Edit Settings Raw</SideNavHeader>
                 </SideNav>
                 <div className="grid-in-main">
                     {this.props.children}

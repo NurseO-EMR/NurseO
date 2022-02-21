@@ -3,7 +3,7 @@ import PureModal from "react-pure-modal";
 import Button from './Button';
 
 type Props = {
-    className: string
+    className?: string
     confirmPrompt: string
     onConfirm: ()=>void
 
