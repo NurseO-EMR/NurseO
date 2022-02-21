@@ -26,3 +26,5 @@ src/firebaseConfig.json
 src/assets/logo.png
 
 .firebase
+
+*-debug.log

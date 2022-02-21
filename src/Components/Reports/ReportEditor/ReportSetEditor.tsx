@@ -3,6 +3,7 @@ import PureModal from "react-pure-modal";
 import { ReportOption, ReportSet } from '../../../Types/Report';
 import Button from '../../Form/Button';
 import ComplexInput from '../../Form/ComplexInput';
+import FieldMaker from './FieldMaker';
 
 
 type Props = {
@@ -45,6 +46,11 @@ export default class ReportSetEditor extends React.Component<Props, State> {
         if(this.props.onSave) this.props.onSave(this.state.reportSets);
     }
 
+    onFieldAdded() {
+        this.setState({reportSets: this.state.reportSets});
+        console.log( this.state.reportSets[this.props.reportToBeEditedIndex].reportFields)
+    }
+
     render() {
         const report = this.state.reportSets[this.props.reportToBeEditedIndex];
         return (
@@ -65,7 +71,7 @@ export default class ReportSetEditor extends React.Component<Props, State> {
                                     <td className='border-2 border-admin'>{field.name}</td>
                                     <td className='border-2 border-admin'>{field.fieldType}</td>
                                     <td className='border-2 border-admin'>
-                                        {field.VitalsOptions ?
+                                        {(field.fieldType === "options" || field.fieldType === "checkbox") && field.VitalsOptions ?
                                             <ComplexInput admin data={field.VitalsOptions} onUpdate={data => this.onOptionsChanges(i, data)} defaultType={new ReportOption()} title={""} />
                                             : null}
                                     </td>
@@ -77,6 +83,9 @@ export default class ReportSetEditor extends React.Component<Props, State> {
                     <div className='mt-3 flex justify-end w-11/12'>
                         <Button admin onClick={this.onSave.bind(this)}>Save</Button>
                     </div>
+                    <FieldMaker onSave={this.onFieldAdded.bind(this)} fields={report.reportFields}
+                         hideEditButton hideLabel
+                    />
                 </>
             </PureModal>
         )

@@ -9,7 +9,10 @@ import SelectInput from '../../Form/SelectInput';
 type Props = {
     onSave: (newField: Report[]) => void,
     onEditClickHandler?: ()=>void
-    fields: Report[]
+    fields: Report[],
+    hideAddButton?: boolean,
+    hideLabel?: boolean
+    hideEditButton?: boolean
 }
 type State = {
     fieldName: string,
@@ -55,6 +58,9 @@ export default class FieldMaker extends React.Component<Props, State> {
         return (
             <>
                 <ExtendableInput id='fieldName' label='Fields' onSave={this.onAddClickHandler.bind(this)} admin
+                    hideAddButton={this.props.hideAddButton}
+                    hideLabel={this.props.hideLabel}
+                    hideEditButton={this.props.hideEditButton}
                     editable={this.props.fields.length > 0} onEditClick={this.props.onEditClickHandler}>
 
                     <Input admin id='filedName' onChange={e => this.setState({ fieldName: e.currentTarget.value })}>Field Name</Input>
