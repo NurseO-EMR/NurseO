@@ -19,7 +19,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
     reportSets?: ReportSet[],
     patient?: PatientChart
     onUpdate?: (updatedPatient: PatientChart) => void,
-    admin?: boolean
+    admin?: boolean,
 }
 
 type State = {
@@ -52,7 +52,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             selectedTab: 0,
             note: "",
             themeColor: this.props.admin ? "admin" : "primary",
-            numberOfTimeSlots: this.props.reportType === "studentAssessmentReport" ? 1 : $settings.value!.numberOfTimeSlots
+            numberOfTimeSlots: this.props.reportType === "studentAssessmentReport" || this.props.reportType === "studentScalesReport" ? 1 : $settings.value!.numberOfTimeSlots
         }
 
         this.subscriptions = [];

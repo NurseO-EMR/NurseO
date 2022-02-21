@@ -28,3 +28,5 @@ src/assets/logo.png
 .firebase
 
 *-debug.log
+
+Test.ts
