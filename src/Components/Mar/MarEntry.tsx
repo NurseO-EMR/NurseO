@@ -46,8 +46,10 @@ export default class MarEntry extends React.Component<Props, State> {
     checkRoutineConditions() {
         const routine = this.props.order.routine;
         if (routine === Routine.NOW) {
-            this.timeSlots.set(this.props.simTime.hour, "Due");
-
+            const currentState = this.timeSlots.get(this.props.simTime.hour);
+            if(currentState === "-") {
+                this.timeSlots.set(this.props.simTime.hour, "Due");
+            }
         } else if (routine === Routine.PRN || routine=== Routine.Scheduled) {
             const interval = this.getMedQInterval(this.props.order) || 1;
             const lastDoseTime = this.getLastDoseTime();
