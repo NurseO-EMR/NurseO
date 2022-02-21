@@ -6,6 +6,7 @@ import SideNavHeader from '../../Components/Nav/SideBar/SideNavHeader';
 import SideNavItem from '../../Components/Nav/SideBar/SideNavItem';
 import TopNav from '../../Components/Nav/TopMenu/TopNav';
 import { $history, $patient } from '../../Services/State';
+import TapOutService from '../../Services/TapOutService';
 import { PatientChart } from '../../Types/PatientProfile';
 
 type Props = {
@@ -17,6 +18,7 @@ export default class StudentViewPage extends React.Component<Props> {
     componentDidMount() {
         if (!getAuth().currentUser) $history.value.push("/")
         if (!$patient.value) $history.value.push("/studentView/selectPatient")
+        TapOutService.initialize();
     }
 
     public render() {
