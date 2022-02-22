@@ -7,7 +7,7 @@ import SideNav from '../../Components/Nav/SideBar/SideNav';
 import SideNavHeader from '../../Components/Nav/SideBar/SideNavHeader';
 // import { $history } from '../../Services/State';
 type Props = {
-    selected: "Dashboard" | "Create Patient" | "View Patients" | "Edit Assessment" | "Edit Vitals" | "Edit Medications" | "Add/Remove Admins" | "Edit Settings Raw"
+    selected: "Dashboard" | "Create Patient" | "View Patients" | "Edit Assessment" | "Edit Vitals" | "Edit Medications" | "Add/Remove Admins" | "Edit Settings Raw" | "Edit Scales"
 }
 export default class AdminViewPage extends React.Component<Props> {
 
@@ -32,6 +32,7 @@ export default class AdminViewPage extends React.Component<Props> {
                     <SideNavHeader admin href="/admin/patient/view" className={this.props.selected === "View Patients" ? this.selectedStyle : null}>View Patients</SideNavHeader>
                     <SideNavHeader admin href="/admin/assessments/edit" className={this.props.selected === "Edit Assessment" ? this.selectedStyle : null}>Edit Assessments</SideNavHeader>
                     <SideNavHeader admin href="/admin/vitals/edit" className={this.props.selected === "Edit Vitals" ? this.selectedStyle : null}>Edit Vitals</SideNavHeader>
+                    <SideNavHeader admin href="/admin/scales/edit" className={this.props.selected === "Edit Scales" ? this.selectedStyle : null}>Edit Scales</SideNavHeader>
                     <SideNavHeader admin href="/admin/medication/edit" className={this.props.selected === "Edit Medications" ? this.selectedStyle : null}>Edit Medications</SideNavHeader>
                     <SideNavHeader admin href="/admin/editAdmins" className={this.props.selected === "Add/Remove Admins" ? this.selectedStyle : null}>Add/Remove Admins</SideNavHeader>
                     <SideNavHeader admin href="/admin/settings/raw" className={this.props.selected === "Edit Settings Raw" ? this.selectedStyle : null}>Edit Settings Raw</SideNavHeader>
