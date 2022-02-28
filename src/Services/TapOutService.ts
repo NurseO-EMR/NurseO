@@ -4,14 +4,16 @@ import { $history } from "./State";
 export default class TapOutService {
     private static instance: TapOutService;
     private writtenInfo: string;
-    private readonly id: string;
+    private readonly id: string | null;
 
 
     constructor() {
         this.writtenInfo = "";
         this.id = this.getUserID();
-        this.initKeyboardListener();
-        this.clearWrittenInfo();
+        if(this.id !== null) {
+            this.initKeyboardListener();
+            this.clearWrittenInfo();
+        }
     }
 
     private initKeyboardListener() {
@@ -34,9 +36,10 @@ export default class TapOutService {
         }
     }
 
-    private getUserID():string {
+    private getUserID():string | null{
         if(getAuth().currentUser) {
             const email = getAuth().currentUser!.email
+            if(email === null) return null;
             const id = email!.split("@")[0];
             return id;
         }
