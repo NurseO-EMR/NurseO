@@ -1,6 +1,7 @@
 import React from 'react';
 import './lib/react-pure-modal.min.css';
 import {Route, Router, Switch} from "react-router-dom";
+import { getAnalytics } from "firebase/analytics";
 import DashboardPage from './Pages/StudentView/Dashboard/DashboardPage';
 import { PatientChart } from './Types/PatientProfile';
 import {$error, $history, $patient} from "./Services/State";
@@ -50,6 +51,7 @@ export default class App extends React.Component<Props, State> {
         patient: new PatientChart()
     }
     Database.initialize();
+    getAnalytics();
     $error.subscribe(error=>{
       if(error instanceof PatientNotFoundError) this.history.replace("/");
     });
