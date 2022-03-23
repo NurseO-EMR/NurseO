@@ -1,6 +1,7 @@
 export type ReportSet = {
     name: string,
     reportFields: Report[],
+    image?: string,
     type: ReportType
 };
 
