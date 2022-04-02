@@ -1,0 +1,37 @@
+{
+  "name": "nurseo-core",
+  "version": "0.1.1",
+  "type": "module",
+  "description": "core package for nurseO software",
+  "main": "lib/index.js",
+  "repository": "https://github.com/moahmmed199898/NurseO_Core.git",
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "build": "tailwindcss -i ./src/style.css -o ./lib/style.css  -c .\\tailwind.config.cjs && copy .\\src\\assets\\ .\\lib\\assets\\"
+  },
+  "author": "Mohammed Alkhafaji",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.3.0",
+    "@fortawesome/react-fontawesome": "^0.1.17",
+    "@savvywombat/tailwindcss-grid-areas": "^2.0.1",
+    "firebase": "^9.6.8",
+    "history": "^5.3.0",
+    "lodash": "^4.17.21",
+    "react-google-button": "^0.7.2",
+    "react-pure-modal": "^2.1.0",
+    "react-router-dom": "^6.2.2",
+    "react-scripts": "^5.0.0",
+    "rxjs": "^7.5.4"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.179",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.13",
+    "autoprefixer": "^10.4.4",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.23"
+  }
+}
