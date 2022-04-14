@@ -1,18 +1,27 @@
 import React from 'react';
 import { Route, Router, Switch } from "react-router-dom";
-import { $history, Login } from "nurse-o-core";
-
+import { $history } from "nurse-o-core";
+import { LoginPage } from './Pages/LoginPage';
+import { SelectPatient } from './Pages/SelectPatientPage';
+import {Database} from './Services/Database';
+import firebaseConfig from "./firebaseConfig.json";
+import DashboardPage from './Pages/DashboardPage';
 export default class App extends React.Component {
 
-  private history = $history.value
+
+  
+  constructor(props: any) {
+    super(props);
+    Database.initialize(firebaseConfig);
+  }
 
   render() {
     return (
-      <Router history={this.history}>
+      <Router history={$history.value}>
         <Switch>
-          <Route exact path="/">
-          <div><Login></Login></div>
-          </Route>
+          <Route exact path="/"><LoginPage /></Route>
+          <Route exact path="/selectPatient"><SelectPatient /></Route>
+          <Route exact path="/dashboard"><DashboardPage /></Route>
         </Switch>
       </Router>
     );
