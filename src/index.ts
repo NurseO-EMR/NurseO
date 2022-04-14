@@ -1,11 +1,8 @@
 import "./assets/react-pure-modal.min.css";
 import "./style.css"
-export * from "./Services/Database.js";
 export * from "./Services/State.js";
 export * from "./Services/TapOutService.js";
 export * from "./Services/Util.js";
-export * from "./Pages/Login.js";
-export * from "./Pages/SelectPatient.js";
 export * from "./Components/Card/Card.js";
 export * from "./Components/Card/EmptyCard.js";
 export * from "./Components/Form/BigNavButton.js";
@@ -26,4 +23,6 @@ export * from "./Types/PatientProfile.js";
 export * from "./Types/Report.js";
 export * from "./Types/Settings.js";
 export * from "./Types/Status.js";
-
+export * from "./Components/Background.js"
+export * from "./Components/Form/SignInButton.js"
+export * from "./Components/Form/AnonymousSignInButton.js"

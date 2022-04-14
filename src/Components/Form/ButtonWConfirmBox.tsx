@@ -46,7 +46,7 @@ export class ButtonWConfirmBox extends React.Component<Props,State> {
                     <h1>{this.props.confirmPrompt}</h1>
                     <div className='mt-5'>
                         <Button onClick={this.onYesClickHandler.bind(this)}>Yes</Button>
-                        <Button onClick={this.onNoClickHandler.bind(this)} admin>No</Button>
+                        <Button onClick={this.onNoClickHandler.bind(this)}>No</Button>
                     </div>
                 </div>
             </PureModal>
