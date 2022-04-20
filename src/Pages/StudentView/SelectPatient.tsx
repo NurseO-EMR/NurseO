@@ -49,6 +49,7 @@ export default class SelectPatient extends React.Component<Props,State> {
                            <span className="text-red-600"> scan </span>
                          the patient armband</h1>
                         <input type="text" 
+                            autoFocus
                             className="my-5 border-2 rounded-full text-center p-4 border-red-700 w-full" 
                             placeholder="Or type the patient number here" 
                             onChange={this.onPatientNumberChange.bind(this)}
