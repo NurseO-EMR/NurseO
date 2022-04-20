@@ -2,7 +2,7 @@ import React from 'react';
 import PureModal from 'react-pure-modal';
 import Orders from '../../../Components/Orders/Orders';
 import { $history, $providerOrdersAvailable } from '../../../Services/State';
-import { MedicationOrder, OrderType, PatientChart } from '../../../Types/PatientProfile';
+import { Order, OrderType, PatientChart } from '../../../Types/PatientProfile';
 import StudentViewPage from '../StudentViewPage';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 }
 
 type State = {
-    orders: MedicationOrder[],
+    orders: Order[],
     providerOrdersAvailable: boolean
 }
 export default class ProviderOrdersPage extends React.Component<Props, State> {
@@ -31,7 +31,7 @@ export default class ProviderOrdersPage extends React.Component<Props, State> {
 
     onYesHandler() {
         this.setState({
-            orders: this.props.patient!.medicationOrders,
+            orders: [...this.props.patient.medicationOrders, ...this.props.patient.customOrders],
             providerOrdersAvailable: true,
         })
 
