@@ -1,7 +1,7 @@
 import { filter, maxBy, uniq } from 'lodash';
 import React from 'react';
 import { $providerOrdersAvailable } from '../../Services/State';
-import { Frequency, MedicationOrder, OrderType, Routine, Time } from '../../Types/PatientProfile';
+import { Frequency, MedicationOrder, OrderKind, OrderType, Routine, Time } from '../../Types/PatientProfile';
 import MarEntry from './MarEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -27,11 +27,10 @@ export default class Mar extends React.Component<Props, State> {
             }
         } else {
             this.state = {
-                filteredOrders: filter(this.props.orders, order => order.orderType !== OrderType.provider)
+                filteredOrders: filter(this.props.orders, order => order.orderType !== OrderType.provider || order.mar.length > 0)
             }
         }
     }
-
 
     getTimeSlots() {
 

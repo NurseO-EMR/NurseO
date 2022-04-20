@@ -1,5 +1,7 @@
+import { clone } from 'lodash';
 import React from 'react';
-import { Frequency, MedicationOrder, Routine, Time } from '../../Types/PatientProfile';
+import { $providerOrdersAvailable } from '../../Services/State';
+import { Frequency, MedicationOrder, OrderType, Routine, Time } from '../../Types/PatientProfile';
 import MedicationOrderSyntax from '../Orders/MedicationOrderSyntax';
 
 type Props = {
@@ -43,8 +45,11 @@ export default class MarEntry extends React.Component<Props, State> {
         }
     }
 
-    checkRoutineConditions() {
+    checkRoutineConditions():void {
         const routine = this.props.order.routine;
+        //check if the there is provider order with mar data, then show the mar data but no routine. 
+        if(!$providerOrdersAvailable.value && this.props.order.orderType === OrderType.provider) return;
+
         if (routine === Routine.NOW) {
             const currentState = this.timeSlots.get(this.props.simTime.hour);
             if(currentState === "-") {
@@ -98,6 +103,16 @@ export default class MarEntry extends React.Component<Props, State> {
 
     }
 
+    getOrder() {
+        const order = clone(this.props.order);
+        if(!$providerOrdersAvailable.value && order.orderType === OrderType.provider) {
+            order.routine = Routine.NA
+            order.frequency = Frequency.NA
+            order.concentration = ""
+            return order
+        } else return order;
+    }
+
 
 
     public render() {
@@ -105,7 +120,7 @@ export default class MarEntry extends React.Component<Props, State> {
         return (
             <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
                 <td className="w-80 pl-16 font-semibold">
-                    <MedicationOrderSyntax order={this.props.order} />
+                    <MedicationOrderSyntax order={this.getOrder()} />
                 </td>
                 {this.props.timeSlots.map((hour, i) => {
                     return <td className='font-bold text-center' key={i}>{this.state.timeSlots.get(hour)} </td>

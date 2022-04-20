@@ -28,8 +28,6 @@ export default class TapOutService {
     }
 
     private async checkIfWrittenInfoIsSameAsID() {
-        console.log(this.writtenInfo)
-        console.log(this.id)
         if(this.writtenInfo === this.id) {
             await getAuth().signOut();
             $history.value.push("/");
