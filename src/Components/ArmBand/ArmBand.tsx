@@ -24,10 +24,10 @@ export default class ArmBand extends React.Component<Props,State> {
 
     public render() {	
         return (
-            <div className={`${this.props.className} grid justify-center`}>
+            <div className={`${this.props.className} grid justify-center mx-auto w-11/12`}>
                 <div className={`text-secondary text-xl grid grid-rows-2 grid-cols-5 gap-8 items-center py-4`}>
                     <SectionNamedInfo name="" boldedValue={true}
-                    valueClassNames="text-3xl "
+                    valueClassNames="text-2xl "
                     removeColon={true}
                     >{this.props.patient?.name}</SectionNamedInfo>
 
