@@ -47,9 +47,9 @@ export default class MedicationCard extends React.Component<Props, State> {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.filteredOrders ? 
+                    {this.state.filteredOrders && this.state.filteredOrders.length > 0 ? 
                         this.state.filteredOrders.map((medication,i) => <MedicationEntry key={i} medication={medication}></MedicationEntry>): 
-                        <tr><td><h1>No medications added</h1></td></tr>
+                        <tr><td colSpan={6}><h1 className='text-center py-2'>No medications added</h1></td></tr>
                     }
                 </tbody>
             </Card>

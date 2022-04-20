@@ -1,3 +1,4 @@
+import { orderBy } from 'lodash';
 import React from 'react';
 import { MedicalIssue } from '../../../Types/PatientProfile';
 import Card from './Card';
@@ -7,6 +8,11 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
     preview?: boolean
 }
 export default class HistoryCard extends React.Component<Props> {
+
+    getHistory() {
+        const orderHistory = orderBy(this.props.history, "diagnosedDate", "desc");
+        return orderHistory;
+    }
 
     public render() {
         return (
@@ -21,11 +27,11 @@ export default class HistoryCard extends React.Component<Props> {
             <tbody>
                 {this.props.history?.length === 0 ? 
                     <tr><td colSpan={2} className='text-center p-2'><h1>No records found</h1></td></tr>:
-                    this.props.history!.map((history,i) => 
+                    this.getHistory().map((history,i) => 
                     <tr key={i}>
-                        <td>{history.diagnosedDate}</td>
-                        <td>{history.name}</td>
-                        <td>{history.assessment}</td>
+                        <td className="border-2 p-2">{history.diagnosedDate}</td>
+                        <td className="border-2 p-2">{history.name}</td>
+                        <td className="border-2 p-2">{history.assessment}</td>
                     </tr>)
                 }
             </tbody>
