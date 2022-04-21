@@ -3,7 +3,7 @@ import { FirebaseError } from "firebase/app";
 import {
     getAuth, Auth, signInWithEmailAndPassword, browserLocalPersistence,
     setPersistence, GoogleAuthProvider, signInWithPopup, inMemoryPersistence,
-    createUserWithEmailAndPassword, signInAnonymously
+    createUserWithEmailAndPassword, signInAnonymously, connectAuthEmulator
 } from "firebase/auth";
 import { Background, SignInButton, AnonymousSignInButton, $history } from 'nurse-o-core';
 import Logo from '../Nav/TopMenu/Logo';
@@ -22,6 +22,7 @@ export class LoginPage extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.auth = getAuth();
+        connectAuthEmulator(this.auth, "http://localhost:9099")
         this.state = {
             badgeNumber: "",
             error: ""

@@ -1,7 +1,6 @@
 import { filter, maxBy, uniq } from 'lodash';
 import React from 'react';
-import { Frequency, MedicationOrder, OrderType, 
-    Routine, Time, $providerOrdersAvailable } from 'nurse-o-core';
+import { Frequency, MedicationOrder, OrderType, Routine, Time, $providerOrdersAvailable } from 'nurse-o-core';
 import MarEntry from './MarEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -20,21 +19,17 @@ export default class Mar extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.timeSlots = this.getTimeSlots();
-        this.state = {
-            filteredOrders: filter(this.props.orders, order => order.orderType !== OrderType.provider)
+
+        if ($providerOrdersAvailable.value) {
+            this.state = {
+                filteredOrders: this.props.orders
+            }
+        } else {
+            this.state = {
+                filteredOrders: filter(this.props.orders, order => order.orderType !== OrderType.provider || order.mar.length > 0)
+            }
         }
     }
-
-    componentDidMount() {
-        $providerOrdersAvailable.subscribe(providerOrdersPermissionGranted=>{
-            if(providerOrdersPermissionGranted) {
-                this.setState({
-                    filteredOrders: this.props.orders
-                })
-            }
-        }) 
-    }
-
 
     getTimeSlots() {
 
@@ -120,6 +115,7 @@ export default class Mar extends React.Component<Props, State> {
                     <tr className="bg-primary text-white">
                         <th></th>
                         {this.timeSlots.map((time, i) => <th key={i}>{time}:00</th>)}
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

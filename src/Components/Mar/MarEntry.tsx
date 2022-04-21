@@ -1,8 +1,12 @@
 import React from 'react';
-import { 
-    Frequency, MedicationOrder, Routine, Time, MedicationOrderSyntax
- } from 'nurse-o-core';
+import {
+    Frequency, MedicationOrder, Routine, Time, MedicationOrderSyntax, $providerOrdersAvailable,
+    OrderType,
+} from 'nurse-o-core';
+import { MedicationModified } from "./../../Services/Core"
+import { clone } from "lodash";
 import { Database } from '../../Services/Database';
+import MedLocationModal from './MedLocationModal';
 
 type Props = {
     order: MedicationOrder,
@@ -48,23 +52,26 @@ export default class MarEntry extends React.Component<Props, State> {
         }
     }
 
-    checkRoutineConditions() {
+    checkRoutineConditions(): void {
         const routine = this.props.order.routine;
+        //check if the there is provider order with mar data, then show the mar data but no routine. 
+        if (!$providerOrdersAvailable.value && this.props.order.orderType === OrderType.provider) return;
+
         if (routine === Routine.NOW) {
             const currentState = this.timeSlots.get(this.props.simTime.hour);
-            if(currentState === "-") {
+            if (currentState === "-") {
                 this.timeSlots.set(this.props.simTime.hour, "Due");
             }
-        } else if (routine === Routine.PRN || routine=== Routine.Scheduled) {
+        } else if (routine === Routine.PRN || routine === Routine.Scheduled) {
             const interval = this.getMedQInterval(this.props.order) || 1;
             const lastDoseTime = this.getLastDoseTime();
             const start = lastDoseTime > -1 ? lastDoseTime : this.props.simTime.hour
             for (let i = start; i <= Math.max(...this.props.timeSlots); i = interval + i) {
                 const time: Time = { hour: i, minutes: 0 }
 
-                if(this.timeSlots.get(time.hour) !== "Givin") {
-                    if(routine === Routine.PRN) this.timeSlots.set(time.hour, "Available")
-                    else if(routine === Routine.Scheduled) this.timeSlots.set(time.hour, "Due")
+                if (this.timeSlots.get(time.hour) !== "Givin") {
+                    if (routine === Routine.PRN) this.timeSlots.set(time.hour, "Available")
+                    else if (routine === Routine.Scheduled) this.timeSlots.set(time.hour, "Due")
                 }
             }
         }
@@ -72,12 +79,12 @@ export default class MarEntry extends React.Component<Props, State> {
 
     getLastDoseTime() {
         let lastDoseTime = -1;
-        this.timeSlots.forEach((v,k)=>{
-            if(v === "Givin" && k > lastDoseTime) {
+        this.timeSlots.forEach((v, k) => {
+            if (v === "Givin" && k > lastDoseTime) {
                 lastDoseTime = k
             }
         })
-        
+
         return lastDoseTime;
 
     }
@@ -103,7 +110,7 @@ export default class MarEntry extends React.Component<Props, State> {
 
     }
 
-    async getMedName():Promise<void> {
+    async getMedName(): Promise<void> {
         const db = Database.getInstance();
         const med = await db.getMedication(this.props.order.id);
         this.setState({
@@ -111,21 +118,41 @@ export default class MarEntry extends React.Component<Props, State> {
         })
     }
 
+    getOrder() {
+        const order = clone(this.props.order);
+        if (!$providerOrdersAvailable.value && order.orderType === OrderType.provider) {
+            order.routine = Routine.NA
+            order.frequency = Frequency.NA
+            order.concentration = ""
+            return order
+        } else return order;
+    }
+
+
+    onLocateClickedHandler() {
+
+    }
+
 
 
     public render() {
 
         return (
-            <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
-                <td className="w-80 pl-16 font-semibold">
-                    <MedicationOrderSyntax medName={this.state.medName} order={this.props.order} />
-                </td>
-                {this.props.timeSlots.map((hour, i) => {
-                    return <td className='font-bold text-center' key={i}>{this.state.timeSlots.get(hour)} </td>
-                }
-                )}
-            </tr>
-
+            <>
+                <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
+                    <td className="w-80 pl-16 font-semibold">
+                        <MedicationOrderSyntax medName={this.state.medName} order={this.getOrder()} />
+                    </td>
+                    {this.props.timeSlots.map((hour, i) => {
+                        return <td className='font-bold text-center' key={i}>{this.state.timeSlots.get(hour)} </td>
+                    }
+                    )}
+                    <td className='w-36'>
+                        <button className='bg-red-700 w-full h-32 text-white'>Locate</button>
+                    </td>
+                </tr>
+                <MedLocationModal></MedLocationModal>
+            </>
         );
     }
 }
