@@ -1,13 +1,14 @@
 import React from 'react';
 import Nav from '../Components/Nav';
+import SideBar from '../Components/SideBar/SideBar';
 
 export default class DashboardPage extends React.Component {
 
     render() {
         return (
-            <div className='bg-gray-900 h-screen text-white'>
+            <div>
                 {/* <Nav /> */}
-                
+                <SideBar />
 
             </div>
 
