@@ -1,12 +1,13 @@
 {
   "name": "nurse-o-core",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "type": "module",
   "description": "core package for nurseO software",
   "main": "lib/index.js",
   "repository": "https://github.com/moahmmed199898/NurseO_Core.git",
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "src/**/*"
   ],
   "scripts": {
     "build": "tsc && tailwindcss -i ./src/style.css -o ./lib/style.css  -c .\\tailwind.config.cjs && copy .\\src\\assets\\ .\\lib\\assets\\"
