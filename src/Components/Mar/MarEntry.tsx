@@ -3,10 +3,10 @@ import {
     Frequency, MedicationOrder, Routine, Time, MedicationOrderSyntax, $providerOrdersAvailable,
     OrderType,
 } from 'nurse-o-core';
-import { MedicationModified } from "./../../Services/Core"
 import { clone } from "lodash";
 import { Database } from '../../Services/Database';
 import MedLocationModal from './MedLocationModal';
+import { MedicationModified, sampleMed } from '../../Services/Core';
 
 type Props = {
     order: MedicationOrder,
@@ -16,7 +16,8 @@ type Props = {
 
 type State = {
     timeSlots: Map<number, TimeSlotStatus>,
-    medName: string,
+    med: MedicationModified | null,
+    showLocationModal: boolean,
 }
 
 type TimeSlotStatus = "Givin" | "Available" | "-" | "Due"
@@ -27,14 +28,15 @@ export default class MarEntry extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.timeSlots = new Map<number, TimeSlotStatus>();
-        this.getMedName();
+        // this.getMed();
         this.fillTimeSlots();
         this.checkForRecordedMarData();
         this.checkRoutineConditions();
 
         this.state = {
             timeSlots: this.timeSlots,
-            medName: "Loading..."
+            med: sampleMed,
+            showLocationModal: false,
         }
     }
 
@@ -110,12 +112,13 @@ export default class MarEntry extends React.Component<Props, State> {
 
     }
 
-    async getMedName(): Promise<void> {
+    async getMed() {
         const db = Database.getInstance();
         const med = await db.getMedication(this.props.order.id);
         this.setState({
-            medName: med?.name || "unknown"
+            // med: med
         })
+        
     }
 
     getOrder() {
@@ -130,28 +133,40 @@ export default class MarEntry extends React.Component<Props, State> {
 
 
     onLocateClickedHandler() {
+        this.setState({
+            showLocationModal: true,
+        })
+    }
 
+    onLocationCloseRequest() {
+        this.setState({
+            showLocationModal: false,
+        })
     }
 
 
 
     public render() {
-
         return (
             <>
                 <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
                     <td className="w-80 pl-16 font-semibold">
-                        <MedicationOrderSyntax medName={this.state.medName} order={this.getOrder()} />
+                        <MedicationOrderSyntax medName={this.state.med ? this.state.med.name : "Loading..."} order={this.getOrder()} />
                     </td>
                     {this.props.timeSlots.map((hour, i) => {
-                        return <td className='font-bold text-center' key={i}>{this.state.timeSlots.get(hour)} </td>
+                        return <td className='font-bold text-center' 
+                        key={i}>{this.state.timeSlots.get(hour)} </td>
                     }
                     )}
                     <td className='w-36'>
-                        <button className='bg-red-700 w-full h-32 text-white'>Locate</button>
+                        <button className='bg-red-700 w-full h-32 text-white'
+                        onClick={this.onLocateClickedHandler.bind(this)}>Locate</button>
                     </td>
                 </tr>
-                <MedLocationModal></MedLocationModal>
+                {this.state.showLocationModal ? 
+                    <MedLocationModal onClose={this.onLocationCloseRequest.bind(this)} med={this.state.med} /> 
+                : null}
+                
             </>
         );
     }

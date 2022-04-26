@@ -1,10 +1,7 @@
-import { Medication } from "nurse-o-core";
-
-export class MedicationModified extends Medication {
+export class MedicationModified {
     id: string = "";
-    barcode: string = "";
     name: string = "";
-    location: MedicationLocation[] = [] 
+    locations: MedicationLocation[] = [] 
 }
 
 
@@ -18,14 +15,14 @@ export type MedicationLocation = {
 export type MedSupply = {
     name: string, 
     drawer: string,
+    barcode: string
 }
 
 
 export const sampleMed: MedicationModified = {
     id: "!",
-    barcode: "20",
     name: "Acetaminophen",
-    location: [
+    locations: [
         {
             building: "UHH",
             narcoticCountNeeded: false,
@@ -33,15 +30,18 @@ export const sampleMed: MedicationModified = {
             supply: [
                 {
                     name: "Acetaminophen tablet 800mg",
-                    drawer: "D3"
+                    drawer: "D3",
+                    barcode: "20",
                 },
                 {
                     name: "Acetaminophen tablet 600mg",
-                    drawer: "D1 Pocket B"
+                    drawer: "D1 Pocket B",
+                    barcode: "20",
                 },
                 {
                     name: "Acetaminophen tablet 325mg",
-                    drawer: "D1 Pocket A"
+                    drawer: "D1 Pocket A",
+                    barcode: "20",
                 },
             ]
         }
