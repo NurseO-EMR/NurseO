@@ -1,10 +1,7 @@
-import React from 'react';
-import Nav from '../Components/Nav';
 import SideBar from '../Components/SideBar/SideBar';
 
-export default class DashboardPage extends React.Component {
+export default function DashboardPage() {
 
-    render() {
         return (
             <div>
                 {/* <Nav /> */}
@@ -13,5 +10,4 @@ export default class DashboardPage extends React.Component {
             </div>
 
         );
-    }
 }

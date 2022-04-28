@@ -1,19 +1,16 @@
-import React, { ReactNode } from 'react';
-import SideBarItem from './SideBarItem';
+import { ReactNode } from 'react';
 
 type Props = {
-    title: string, 
+    title: string,
     children?: ReactNode
 
 }
-export default class Category extends React.Component<Props> {
+export default function Category(props: Props) {
 
-    render() {
-        return (
-            <div>
-                <div className={`text-gray-500 tracking-widest text-xl pl-5 mb-2`}>{this.props.title}</div>
-                {this.props.children}
-            </div>
-        );
-    }
+    return (
+        <div>
+            <div className={`text-gray-500 tracking-widest text-xl pl-5 mb-2`}>{props.title}</div>
+            {props.children}
+        </div>
+    );
 }

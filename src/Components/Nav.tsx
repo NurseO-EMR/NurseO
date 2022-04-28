@@ -3,13 +3,11 @@ import React from 'react';
 type Props = {
     className: string
 }
-export default class Nav extends React.Component<Props> {
+export default function Nav(props: Props) {
 
-    render() {
-        return (
-            <nav className={`h-16 bg-stone-900 ${this.props.className}`}>
-                
-            </nav>
-        );
-    }
+    return (
+        <nav className={`h-16 bg-stone-900 ${props.className}`}>
+
+        </nav>
+    );
 }

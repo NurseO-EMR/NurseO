@@ -1,26 +1,15 @@
-import React from 'react';
 import PageView from '../PageView';
 
-export default class EditLocationsPage extends React.Component {
+export default function EditLocationsPage() {
 
-    render() {
-        return (
-            <PageView>
-                <div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Station</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </PageView>
 
-        );
-    }
+    return (
+        <PageView>
+            <div>
+
+            </div>
+        </PageView>
+
+    );
+
 }

@@ -1,54 +1,41 @@
 import { Button, Input } from 'nurse-o-core';
-import React from 'react';
+import React, { useState } from 'react';
 import PureModal from "react-pure-modal"
 
 type Props = {
     children: string,
     inputLabel: string,
-    onSubmit: (value: string)=>any
+    onSubmit: (value: string) => any
 }
 
 type State = {
     showModal: boolean,
     value: string,
 }
-export default class ButtonWModalPrompt extends React.Component<Props, State> {
+export default function ButtonWModalPrompt(props: Props) {
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            showModal: false,
-            value: ""
-        }
+    const [showModal, setShowModal] = useState(false)
+    const [value, setValue] = useState("")
+
+
+    const onSubmitHandler = ()=>{
+        setShowModal(false)
+        props.onSubmit(value)
     }
 
 
-    onClickHandler() {
-        this.setState({
-            showModal: true
-        })
-    }
-
-    onSubmitHandler() {
-        this.setState({showModal: false})
-        this.props.onSubmit(this.state.value);
-    }
-
-
-    render() {
-        return (
-            <div>
-                <Button onClick={this.onClickHandler.bind(this)}>{this.props.children}</Button>
-                <PureModal isOpen={this.state.showModal} width="40vw" header={this.props.children}>
-                    <div>
-                        <Input className='grid-flow-col' id={this.props.inputLabel}
-                        onChange={e=> this.setState({value:e.currentTarget.value})}>
-                            {this.props.inputLabel}
-                        </Input>
-                        <Button onClick={this.onSubmitHandler.bind(this)}>Submit</Button>
-                    </div>
-                </PureModal>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <Button onClick={()=>setShowModal(true)}>{props.children}</Button>
+            <PureModal isOpen={showModal} width="40vw" header={props.children}>
+                <div>
+                    <Input className='grid-flow-col' id={props.inputLabel}
+                        onChange={e => setValue(e.currentTarget.value)}>
+                        {props.inputLabel}
+                    </Input>
+                    <Button onClick={onSubmitHandler}>Submit</Button>
+                </div>
+            </PureModal>
+        </div>
+    );
 }
