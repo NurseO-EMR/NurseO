@@ -1,3 +1,4 @@
+import { Settings } from 'nurse-o-core';
 export class MedicationModified {
     id: string = "";
     name: string = "";
@@ -16,6 +17,10 @@ export type MedSupply = {
     name: string, 
     drawer: string,
     barcode: string
+}
+
+export type SettingsModified = Settings & {
+    locations: MedicationLocation[]
 }
 
 

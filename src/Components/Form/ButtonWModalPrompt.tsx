@@ -1,5 +1,5 @@
 import { Button, Input } from 'nurse-o-core';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PureModal from "react-pure-modal"
 
 type Props = {
@@ -8,10 +8,6 @@ type Props = {
     onSubmit: (value: string) => any
 }
 
-type State = {
-    showModal: boolean,
-    value: string,
-}
 export default function ButtonWModalPrompt(props: Props) {
 
     const [showModal, setShowModal] = useState(false)
