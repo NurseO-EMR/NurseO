@@ -1,6 +1,6 @@
-import Logo from '../Logo';
-import Category from './Category';
-import SideBarItem from './SideBarItem';
+import Logo from "../Logo";
+import Category from "./Category";
+import SideBarItem from "./SideBarItem";
 import {
     faBuilding, faHammer, faLocationPin,
     faMicroscope, faPills, faScaleBalanced,
@@ -14,7 +14,7 @@ type Props = {
 export default function SideBar(props:Props) {
 
     return (
-        <div className={`bg-stone-900 min-h-full h-screen ${props.className}`}>
+        <div className={`bg-stone-900 min-h-full h-screen border-r-2 border-white ${props.className}`}>
             <Logo />
             <div className=''>
                 <Category title='patient'>

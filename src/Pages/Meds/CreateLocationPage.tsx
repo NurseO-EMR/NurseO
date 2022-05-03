@@ -1,10 +1,12 @@
-import { Input } from "nurse-o-core";
-import React, { useEffect, useState } from "react";
+import { Input } from "./../../Components/Form/Input";
+import { useEffect, useState } from "react";
 import ButtonWModalPrompt from "../../Components/Form/ButtonWModalPrompt";
 import ListItem from "../../Components/ListItem";
 import { MedicationLocation } from "../../Services/Core";
 import { Database } from "../../Services/Database";
 import PageView from "../PageView";
+import { Cart } from "./Cart/Cart";
+import { Button } from "./../../Components/Form/Button";
 
 export default function CreateLocationPage() {
     const db = Database.getInstance();
@@ -18,14 +20,14 @@ export default function CreateLocationPage() {
             setLocationList(buildings);
         }
         getBuildings();
-    
-    },[buildingName, setLocationList, db])
+
+    }, [buildingName, setLocationList, db])
 
 
-    const onNursingStationAddedHandler = async (nursingStationName: string)=>{
+    const onNursingStationAddedHandler = async (nursingStationName: string) => {
         console.log("here")
 
-        const location:MedicationLocation = {
+        const location: MedicationLocation = {
             building: buildingName,
             station: nursingStationName,
             supply: [],
@@ -38,17 +40,20 @@ export default function CreateLocationPage() {
 
     return (
         <PageView>
-            <form onSubmit={e => e.preventDefault()} className="">
-                <Input id='locationBuilding' className='grid-flow-col'
-                    onChange={e => setBuildingName(e.currentTarget.value)}>Building</Input>
-                <ButtonWModalPrompt onSubmit={onNursingStationAddedHandler} inputLabel='Nursing Station Name'>
-                    Add nursing station
-                </ButtonWModalPrompt>
+            <form onSubmit={e => e.preventDefault()} className="grid grid-flow-col justify-evenly">
+                <div>
+                    <Input>Building</Input>
+                    <Input>Station name</Input>
+                    <Input>Number of rows</Input>
+                    <Input>Max number of drawers per row</Input>
+                    <Button>Submit</Button>
+                </div>
+                <Cart />
 
-                <ul>
+                {/* <ul>
                     {locationList.map((loc,i)=>
                         <ListItem key={i}>{loc.building} - {loc.station}</ListItem>)}
-                </ul>
+                </ul> */}
             </form>
         </PageView>
 
