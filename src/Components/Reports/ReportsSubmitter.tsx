@@ -52,7 +52,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             selectedTab: 0,
             note: "",
             themeColor: this.props.admin ? "admin" : "primary",
-            numberOfTimeSlots: this.props.reportType === "studentAssessmentReport" || this.props.reportType === "studentScalesReport" ? 1 : $settings.value!.numberOfTimeSlots
+            numberOfTimeSlots: this.props.reportType === "studentAssessmentReport" || this.props.reportType === "studentIOReport" ? 1 : $settings.value!.numberOfTimeSlots
         }
 
         this.subscriptions = [];

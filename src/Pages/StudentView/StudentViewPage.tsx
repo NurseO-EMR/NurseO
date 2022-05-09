@@ -49,9 +49,9 @@ export default class StudentViewPage extends React.Component<Props> {
                     <SideNavItem href="/studentView/assessment/view">View Assessment</SideNavItem>
                     <SideNavItem href="/studentView/assessment/submit">Submit Assessment</SideNavItem>
 
-                    <SideNavHeader href="/studentView/scales/submit">Scales</SideNavHeader>
-                    <SideNavItem href="/studentView/scales/view">View Scales</SideNavItem>
-                    <SideNavItem href="/studentView/scales/submit">Submit Scales</SideNavItem>
+                    <SideNavHeader href="/studentView/io/submit">I/O Record</SideNavHeader>
+                    <SideNavItem href="/studentView/io/view">View I/O Record</SideNavItem>
+                    <SideNavItem href="/studentView/io/submit">Submit I/O Record</SideNavItem>
 
                     <SideNavHeader href="/studentView/labs">Labs</SideNavHeader>
                     <SideNavItem href="/studentView/labs/view">View Labs</SideNavItem>

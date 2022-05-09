@@ -11,13 +11,13 @@ type Props = {
     patient: PatientChart
 }
 
-export default class ScalesViewPage extends React.Component<Props> {
+export default class IORecordViewPage extends React.Component<Props> {
 
     private report:StudentReport[]
 
     constructor(props: Props) {
         super(props);
-        this.report = filter(this.props.patient?.studentReports, {reportType: 'studentScalesReport'} )
+        this.report = filter(this.props.patient?.studentReports, {reportType: 'studentIOReport'} )
     }
 
     componentDidMount(){
@@ -29,7 +29,7 @@ export default class ScalesViewPage extends React.Component<Props> {
     public render() {
         return (
             <StudentViewPage patient={this.props.patient}>
-                <ReportsViewer studentReport={this.report} title={"Assessment"} showNotes/>
+                <ReportsViewer studentReport={this.report} title={"I/O"} showNotes/>
             </StudentViewPage>
         );
     }
