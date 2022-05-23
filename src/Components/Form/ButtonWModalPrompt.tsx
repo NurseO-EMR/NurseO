@@ -1,11 +1,11 @@
-import { Button, Input } from 'nurse-o-core';
-import { useState } from 'react';
+import { Button, Input } from "nurse-o-core";
+import { useState } from "react";
 import PureModal from "react-pure-modal"
 
 type Props = {
     children: string,
     inputLabel: string,
-    onSubmit: (value: string) => any
+    onSubmit: (value: string) => void
 }
 
 export default function ButtonWModalPrompt(props: Props) {
