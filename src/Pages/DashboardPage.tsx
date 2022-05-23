@@ -2,6 +2,7 @@ import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough, faBoo
 import PageView from "./PageView";
 import { Step } from "../Components/Steps/Step";
 import { Steps } from "../Components/Steps/Steps";
+import { FormTest } from "./testing/FormTest";
 
 export default function DashboardPage() {
 
@@ -15,6 +16,8 @@ export default function DashboardPage() {
                 <Step icon={faHeadSideCough}/>
                 <Step icon={faBook} />
             </Steps>
+
+            <FormTest></FormTest>
         </PageView>
     );
 }
