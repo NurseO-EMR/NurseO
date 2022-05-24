@@ -10,7 +10,7 @@ export default function DashboardPage() {
 
     return (
         <PageView>
-            <Steps activeStep={0} className="mt-28">
+            <Steps activeStep={0} className="mt-24">
                 <Step active icon={faIdCard} />
                 <Step icon={faStethoscope}/>
                 <Step icon={faBookMedical} />
@@ -20,15 +20,15 @@ export default function DashboardPage() {
             </Steps>
 
             <Form>
-            <Input label="Name"/>
-            <Input label="Date of birth"/>
-            <Input label="Gender"/>
-            <Input label="Height"/>
-            <Input label="Weight"/>
-            <div className="flex gap-2">
-                <Button className="bg-darkGray">Previous</Button>
-                <Button>Next</Button>
-            </div>
+                <Input delay={0} label="Name"/>
+                <Input delay={1} label="Date of birth"/>
+                <Input delay={2} label="Gender"/>
+                <Input delay={3} label="Height"/>
+                <Input delay={4} label="Weight"/>
+                <div className="flex gap-2">
+                    <Button className="bg-darkGray">Previous</Button>
+                    <Button className="bg-blue">Next</Button>
+                </div>
             </Form>
         </PageView>
     );
