@@ -1,7 +1,7 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-type Props = {
+export type Props = {
     icon: IconProp
     className?: string,
     active?: boolean

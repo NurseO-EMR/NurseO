@@ -2,34 +2,38 @@ import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough, faBoo
 import PageView from "./PageView";
 import { Step } from "../Components/Steps/Step";
 import { Steps } from "../Components/Steps/Steps";
-import { Form } from "../Components/Form/Form";
-import { Input } from "../Components/Form/Input";
-import { Button } from "../Components/Form/Button";
+import { useState } from "react";
+import { BasicInfoStage } from "../Stages/CreatePatient/BasicInfoStage";
 
 export default function DashboardPage() {
+
+    const delay = 1.5;
+
+
+    const [stage1, setStage1] = useState(true)
+    const [stage2, setStage2] = useState(false)
+
+
+    const onNextClickHandler = () => {
+        if (stage1) {
+            setStage1(false)
+            setStage2(true)
+        }
+    }
 
     return (
         <PageView>
             <Steps activeStep={0} className="mt-24">
-                <Step active icon={faIdCard} />
-                <Step icon={faStethoscope}/>
+                <Step active={stage1} icon={faIdCard} />
+                <Step active={stage2} icon={faStethoscope} />
                 <Step icon={faBookMedical} />
                 <Step icon={faHeart} />
-                <Step icon={faHeadSideCough}/>
+                <Step icon={faHeadSideCough} />
                 <Step icon={faBook} />
             </Steps>
 
-            <Form>
-                <Input delay={0} label="Name"/>
-                <Input delay={1} label="Date of birth"/>
-                <Input delay={2} label="Gender"/>
-                <Input delay={3} label="Height"/>
-                <Input delay={4} label="Weight"/>
-                <div className="flex gap-2">
-                    <Button className="bg-darkGray">Previous</Button>
-                    <Button className="bg-blue">Next</Button>
-                </div>
-            </Form>
+            <BasicInfoStage animationDuration={delay} onNextClickHandler={onNextClickHandler} show={stage1} />
+
         </PageView>
     );
 }

@@ -1,6 +1,6 @@
 import { motion, Variants } from "framer-motion";
 
-type Props = {
+export type Props = {
     label: string,
     className?: string,
     type?: string,
@@ -12,19 +12,23 @@ type Props = {
     optional?: boolean,
     autoFocus?: boolean,
     autoComplete?: "on" | "off",
-    delay: number
+    delay?: number
 }
 export function Input(props: Props) {
     const id:string = new Date().getTime().toString();
     const animationVariants:Variants = { 
         hidden: { opacity: 0 },
-        show: { opacity: 1 } 
+        show: { 
+            opacity: 1,
+            transition:{delay: (props.delay || 0 )*0.5}
+        },
+        exit: { opacity: 0 },
     }
 
     return (
-        <motion.div className="grid text-left my-4" initial="hidden" animate="show" variants={animationVariants} transition={{delay: props.delay*0.5}}>
+        <motion.div className="grid text-left my-4" initial="hidden" animate="show" exit="exit" variants={animationVariants}>
             <label htmlFor={id} className="font-normal">{props.label}</label>
-            <input id={id} {...props} required={!props.optional} className={"border h-8"} />
+            <input id={id} {...props} required={!props.optional} className={"border h-8  px-2"} />
         </motion.div>
     )
 }
