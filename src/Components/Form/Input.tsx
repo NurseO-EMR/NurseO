@@ -1,11 +1,22 @@
 type Props = {
-    children: string
+    label: string,
+    className?: string,
+    type?: string,
+    placeHolder?: string,
+    value?: string,
+    size?: number,
+    maxLength?: number
+    pattern?: string,
+    optional?: boolean,
+    autoFocus?: boolean,
+    autoComplete?: "on" | "off",
 }
 export function Input(props: Props) {
+    const id:string = new Date().getTime().toString();
     return (
-        <div className="text-white grid m-2" >
-            <label htmlFor="" className="mb-2 text-red font-bold tracking-wider">{props.children}</label>
-            <input type="text"  className="block h-10 rounded-sm border-red border-2" />
+        <div className="grid text-left my-4">
+            <label htmlFor={id} className="font-normal">{props.label}</label>
+            <input id={id} {...props} required={!props.optional} className={"border h-8"} />
         </div>
     )
 }

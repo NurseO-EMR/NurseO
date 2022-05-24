@@ -2,13 +2,15 @@ import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough, faBoo
 import PageView from "./PageView";
 import { Step } from "../Components/Steps/Step";
 import { Steps } from "../Components/Steps/Steps";
-import { FormTest } from "./testing/FormTest";
+import { Form } from "../Components/Form/Form";
+import { Input } from "../Components/Form/Input";
+import { Button } from "../Components/Form/Button";
 
 export default function DashboardPage() {
 
     return (
         <PageView>
-            <Steps activeStep={0} className="mt-32">
+            <Steps activeStep={0} className="mt-28">
                 <Step active icon={faIdCard} />
                 <Step icon={faStethoscope}/>
                 <Step icon={faBookMedical} />
@@ -17,7 +19,17 @@ export default function DashboardPage() {
                 <Step icon={faBook} />
             </Steps>
 
-            <FormTest></FormTest>
+            <Form>
+            <Input label="Name"/>
+            <Input label="Date of birth"/>
+            <Input label="Gender"/>
+            <Input label="Height"/>
+            <Input label="Weight"/>
+            <div className="flex gap-2">
+                <Button className="bg-darkGray">Previous</Button>
+                <Button>Next</Button>
+            </div>
+            </Form>
         </PageView>
     );
 }

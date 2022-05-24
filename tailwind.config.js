@@ -5,17 +5,22 @@ module.exports = {
   ],
   theme: {
     colors: {
-      gray: "#F6F9FC",
-      white: "#FFFFFF",
-      blue: "#3B82F6",
-      red: "#F63B3B",
+      gray: "#f5f9fc",
+      white: "#ffffff",
+      blue: "#3b81fa",
+      red: "#f53c3a",
+      darkGray: "#7a7a7a"
     },
     extend: {
+      width: {
+        "formWidth": "30rem"
+      },
+      
       gridTemplateColumns: {
-        "layout": "2fr 10fr",
+        "multiFormWStepsLayout": "2fr 10fr",
       },
       gridTemplateRows: {
-        "layout": "1fr 5fr",
+        "multiFormWStepsLayout": "1fr 5fr",
       },
     },
   },

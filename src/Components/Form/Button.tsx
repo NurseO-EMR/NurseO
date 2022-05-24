@@ -1,8 +1,10 @@
 type Props = {
     children: string,
+    className?:string,
+    onClick?: ()=>void
 }
 export function Button(props:Props) {
     return (
-        <button className="py-2 font-bold text-white px-10 bg-blue rounded-full">{props.children}</button>
+        <button className={"font-bold text-white w-full py-4 bg-blue rounded-full " + props.className} onClick={props.onClick}>{props.children}</button>
     )
 }
