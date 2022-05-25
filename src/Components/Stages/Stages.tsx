@@ -11,7 +11,7 @@ type Props = {
 export function Stages(props: Props): JSX.Element {
     const delayCoefficient = 1;
 
-    return <div>
+    return <div className="overflow-hidden">
         {Children.map(props.children, (child, i) => {
             if (i === 0) return child;
             else return cloneElement(child, { delay: props.animationDuration * delayCoefficient})
