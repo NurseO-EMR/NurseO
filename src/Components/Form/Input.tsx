@@ -20,7 +20,7 @@ export function Input(props: Props) {
         hidden: { opacity: 0 },
         show: { 
             opacity: 1,
-            transition:{delay: (props.delay || 0 )*0.5}
+            transition:{delay: (props.delay || 0 )*0.4}
         },
         exit: { opacity: 0 },
     }

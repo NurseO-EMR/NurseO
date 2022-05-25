@@ -16,7 +16,7 @@ export function Steps(props:Props) {
             {props.children.map((step,i)=>
             <div key={i} className="absolute top-0" style={{left: 180*i}}>
                 {
-                    checkIfStepIsActive(props.children, step, i)
+                    checkIfStepIsActive(props.children, step, i, props.activeStep)
                 }
                 {props.children.length-1>i ? 
                 <>
@@ -34,13 +34,7 @@ export function Steps(props:Props) {
 
 
 
-function checkIfStepIsActive(children: ReactElement<StepProps>[], step: ReactElement<StepProps>, index:number):ReactElement<StepProps> {
-    if(index===children.length-1) return step;
-
-    if(children[index+1].props.active) {
-        const ele = cloneElement(step, {active: true})
-        return ele;
-    } else {
-        return step;
-    }
+function checkIfStepIsActive(children: ReactElement<StepProps>[], step: ReactElement<StepProps>, index:number, activeStep:number):ReactElement<StepProps> {
+    if(index <=activeStep) return cloneElement(step, {active: true});
+    return step;
 }

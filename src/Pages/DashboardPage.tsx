@@ -4,36 +4,38 @@ import { Step } from "../Components/Steps/Step";
 import { Steps } from "../Components/Steps/Steps";
 import { useState } from "react";
 import { BasicInfoStage } from "../Stages/CreatePatient/BasicInfoStage";
+import { Stages } from "../Components/Stages/Stages";
 
 export default function DashboardPage() {
 
-    const delay = 1.5;
+    const delay = 0.5;
 
 
-    const [stage1, setStage1] = useState(true)
-    const [stage2, setStage2] = useState(false)
-
+    const [currentStage, setCurrentStage] = useState(0)
 
     const onNextClickHandler = () => {
-        if (stage1) {
-            setStage1(false)
-            setStage2(true)
-        }
+        const stage = currentStage + 1;
+        setCurrentStage(stage);
     }
 
     return (
         <PageView>
-            <Steps activeStep={0} className="mt-24">
-                <Step active={stage1} icon={faIdCard} />
-                <Step active={stage2} icon={faStethoscope} />
+            <Steps activeStep={currentStage} className="mt-24">
+                <Step icon={faIdCard} />
+                <Step icon={faStethoscope} />
                 <Step icon={faBookMedical} />
                 <Step icon={faHeart} />
                 <Step icon={faHeadSideCough} />
                 <Step icon={faBook} />
             </Steps>
 
-            <BasicInfoStage animationDuration={delay} onNextClickHandler={onNextClickHandler} show={stage1} />
-
+            <Stages animationDuration={delay} stage={0}>
+                <BasicInfoStage animationDuration={delay} onNextClickHandler={onNextClickHandler} show={currentStage === 0} />
+                <BasicInfoStage animationDuration={delay} onNextClickHandler={onNextClickHandler} show={currentStage === 1} />
+                <BasicInfoStage animationDuration={delay} onNextClickHandler={onNextClickHandler} show={currentStage === 2} />
+                <BasicInfoStage animationDuration={delay} onNextClickHandler={onNextClickHandler} show={currentStage === 3} />
+                <BasicInfoStage animationDuration={delay} onNextClickHandler={onNextClickHandler} show={currentStage === 4} />
+            </Stages>
         </PageView>
     );
 }
