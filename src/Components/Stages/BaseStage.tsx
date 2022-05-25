@@ -10,7 +10,6 @@ export type BaseStageProps = {
     animationDuration: number,
     show: boolean,
     delay?: number,
-    children: ReactElement<InputProps> | ReactElement<InputProps>[]
 }
 
 type Props = BaseStageProps & {

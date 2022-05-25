@@ -9,7 +9,7 @@ type Props = {
 }
 
 export function Stages(props: Props): JSX.Element {
-    const delayCoefficient = 1;
+    const delayCoefficient = 0.5;
 
     return <div className="overflow-hidden">
         {Children.map(props.children, (child, i) => {

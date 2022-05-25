@@ -2,7 +2,7 @@ import { faIdCard } from "@fortawesome/free-solid-svg-icons";
 import { Input} from "../../Components/Form/Input";
 import { BaseStageProps, BaseStage } from "./../../Components/Stages/BaseStage"
 
-export type Props = Omit<BaseStageProps, "children"> & {
+export type Props = BaseStageProps & {
     onNextClickHandler: () => void,
 }
 
