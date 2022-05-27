@@ -4,10 +4,10 @@ import { Form } from "../Form/Form"
 import { Button } from "../Form/Button";
 import { Props as InputProps } from "../../Components/Form/Input";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { STAGE_ANIMATION_DURATION } from "../../Services/AnimationConfig";
 
 export type BaseStageProps = {
     onNextClickHandler: () => void,
-    animationDuration: number,
     show: boolean,
     delay?: number,
 }
@@ -22,10 +22,10 @@ export function BaseStage(props: Props) {
     return (
         <AnimatePresence>
             {props.show ? 
-            <Form animationDuration={props.animationDuration} title={props.title} icon={props.icon} delay={props.delay}>
+            <Form title={props.title} icon={props.icon}>
                 <>{props.children}</>
 
-                <motion.div className="flex gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ delay: props.animationDuration - 0.5 }}>
+                <motion.div className="flex gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ delay: STAGE_ANIMATION_DURATION - 0.5 }}>
                     <Button className="bg-darkGray">Previous</Button>
                     <Button className="bg-blue" onClick={props.onNextClickHandler}>Next</Button>
                 </motion.div>

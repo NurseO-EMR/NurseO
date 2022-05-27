@@ -6,13 +6,11 @@ import { useState } from "react";
 import { BasicInfoStage } from "../Stages/CreatePatient/BasicInfoStage";
 import { SimSpecificInfoStage } from "../Stages/CreatePatient/SimSpecificInfoStage";
 import { Stages } from "../Components/Stages/Stages";
+import { AllergiesStage } from "../Stages/CreatePatient/AllergiesStage";
 
 
 export default function DashboardPage() {
-
-    const delay = 0.5;
-
-
+    
     const [currentStage, setCurrentStage] = useState(0)
 
     const onNextClickHandler = () => {
@@ -25,20 +23,19 @@ export default function DashboardPage() {
             <Steps activeStep={currentStage} className="mt-24">
                 <Step icon={faIdCard} />
                 <Step icon={faHouseChimneyUser} />
+                <Step icon={faHeadSideCough} />
                 <Step icon={faStethoscope} />
                 <Step icon={faBookMedical} />
                 <Step icon={faHeart} />
-                <Step icon={faHeadSideCough} />
                 <Step icon={faBook} />
             </Steps>
 
-            <Stages animationDuration={delay} stage={0}>
-                <BasicInfoStage animationDuration={delay} onNextClickHandler={onNextClickHandler} show={currentStage === 0} />
-                <SimSpecificInfoStage animationDuration={delay} onNextClickHandler={onNextClickHandler} show={currentStage === 1} />
-                
-                <BasicInfoStage animationDuration={delay} onNextClickHandler={onNextClickHandler} show={currentStage === 2} />
-                <BasicInfoStage animationDuration={delay} onNextClickHandler={onNextClickHandler} show={currentStage === 3} />
-                <BasicInfoStage animationDuration={delay} onNextClickHandler={onNextClickHandler} show={currentStage === 4} />
+            <Stages stage={0}>
+                <BasicInfoStage onNextClickHandler={onNextClickHandler} show={currentStage === 0} />
+                <SimSpecificInfoStage onNextClickHandler={onNextClickHandler} show={currentStage === 1} />
+                <AllergiesStage onNextClickHandler={onNextClickHandler} show={currentStage === 2} />
+                <BasicInfoStage onNextClickHandler={onNextClickHandler} show={currentStage === 3} />
+                <BasicInfoStage onNextClickHandler={onNextClickHandler} show={currentStage === 4} />
             </Stages>
         </PageView>
     );

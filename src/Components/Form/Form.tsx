@@ -2,11 +2,11 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, Variants } from "framer-motion";
 import { Children, cloneElement, FormEvent, ReactElement } from "react";
+import { STAGE_ANIMATION_DURATION } from "../../Services/AnimationConfig";
 
 
 type Props = {
     children: ReactElement | ReactElement[],
-    animationDuration: number,
     icon: IconProp,
     title: string,
     delay?: number
@@ -37,7 +37,7 @@ export function Form(props: Props) {
     return (
             <motion.form className="bg-gray shadow-xl w-formWidth mx-auto h-fit mt-10 py-10 px-20 text-center rounded-lg overflow-y-hidden"
                 onSubmit={onSubmitHandler} variants={animationVariants}
-                initial="init" animate="end" exit="exit" transition={{ duration: props.animationDuration, delay: props.delay }}>
+                initial="init" animate="end" exit="exit" transition={{ duration: STAGE_ANIMATION_DURATION, delay: props.delay }}>
 
                 <FontAwesomeIcon icon={props.icon} className="text-5xl text-blue text-center" />
 
@@ -47,7 +47,7 @@ export function Form(props: Props) {
 
                 {
                     Children.map(props.children, (child, i) =>
-                        cloneElement(child, { delay: i + props.animationDuration + (props.delay || 0) })
+                        cloneElement(child, { delay: i + STAGE_ANIMATION_DURATION + (props.delay || 0) })
                     )
                 }
 
