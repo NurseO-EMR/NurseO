@@ -9,7 +9,8 @@ type Props = {
     children: ReactElement | ReactElement[],
     icon: IconProp,
     title: string,
-    delay?: number
+    delay?: number,
+    moveLeft?: boolean
 }
 
 
@@ -25,6 +26,9 @@ export function Form(props: Props) {
         },
         exit: {
             x:-3000
+        },
+        moveLeft: {
+            x:-300
         }
     }
 
@@ -37,7 +41,7 @@ export function Form(props: Props) {
     return (
             <motion.form className="bg-gray shadow-xl w-formWidth mx-auto h-fit mt-10 py-10 px-20 text-center rounded-lg overflow-y-hidden"
                 onSubmit={onSubmitHandler} variants={animationVariants}
-                initial="init" animate="end" exit="exit" transition={{ duration: STAGE_ANIMATION_DURATION, delay: props.delay }}>
+                initial="init" animate={props.moveLeft ? "moveLeft" : "end"} exit="exit" transition={{ duration: STAGE_ANIMATION_DURATION, delay: props.delay }}>
 
                 <FontAwesomeIcon icon={props.icon} className="text-5xl text-blue text-center" />
 

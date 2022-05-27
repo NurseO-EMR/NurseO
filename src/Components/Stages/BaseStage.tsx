@@ -7,7 +7,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { STAGE_ANIMATION_DURATION } from "../../Services/AnimationConfig";
 
 export type BaseStageProps = {
-    onNextClickHandler: () => void,
+    onNext: () => void,
     show: boolean,
     delay?: number,
 }
@@ -15,19 +15,20 @@ export type BaseStageProps = {
 type Props = BaseStageProps & {
     children: ReactElement<InputProps> | ReactElement<InputProps>[],
     title: string,
-    icon: IconProp
+    icon: IconProp,
+    moveLeft?: boolean
 }
 
 export function BaseStage(props: Props) {
     return (
         <AnimatePresence>
             {props.show ? 
-            <Form title={props.title} icon={props.icon}>
+            <Form title={props.title} icon={props.icon} moveLeft={props.moveLeft}>
                 <>{props.children}</>
 
                 <motion.div className="flex gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ delay: STAGE_ANIMATION_DURATION - 0.5 }}>
                     <Button className="bg-darkGray">Previous</Button>
-                    <Button className="bg-blue" onClick={props.onNextClickHandler}>Next</Button>
+                    <Button className="bg-blue" onClick={props.onNext}>Next</Button>
                 </motion.div>
 
             </Form>

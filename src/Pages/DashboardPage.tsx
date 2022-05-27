@@ -10,7 +10,7 @@ import { AllergiesStage } from "../Stages/CreatePatient/AllergiesStage";
 
 
 export default function DashboardPage() {
-    
+
     const [currentStage, setCurrentStage] = useState(0)
 
     const onNextClickHandler = () => {
@@ -31,11 +31,11 @@ export default function DashboardPage() {
             </Steps>
 
             <Stages stage={0}>
-                <BasicInfoStage onNextClickHandler={onNextClickHandler} show={currentStage === 0} />
-                <SimSpecificInfoStage onNextClickHandler={onNextClickHandler} show={currentStage === 1} />
-                <AllergiesStage onNextClickHandler={onNextClickHandler} show={currentStage === 2} />
-                <BasicInfoStage onNextClickHandler={onNextClickHandler} show={currentStage === 3} />
-                <BasicInfoStage onNextClickHandler={onNextClickHandler} show={currentStage === 4} />
+                <BasicInfoStage onNext={onNextClickHandler} show={currentStage === 0} />
+                <SimSpecificInfoStage onNext={onNextClickHandler} show={currentStage === 1} />
+                <AllergiesStage onNext={onNextClickHandler} show={currentStage === 2} />
+                <BasicInfoStage onNext={onNextClickHandler} show={currentStage === 3} />
+                <BasicInfoStage onNext={onNextClickHandler} show={currentStage === 4} />
             </Stages>
         </PageView>
     );
