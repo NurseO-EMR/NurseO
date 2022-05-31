@@ -31,7 +31,7 @@ function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
                 <span>{props.label}</span>
                 <span className="opacity-75 text-sm"> {props.optional ? "(optional)" : null}</span>
             </label>
-            <input id={id} {...getInputProps} required={!props.optional} className={"border h-8  px-2"} ref={ref} />
+            <input id={id} {...getInputProps()} required={!props.optional} className={"border h-8  px-2"} ref={ref} />
         </motion.div>
     )
 }
