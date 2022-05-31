@@ -17,6 +17,11 @@ export default function DashboardPage() {
         const stage = currentStage + 1;
         setCurrentStage(stage);
     }
+    const onPrevClickHandler = () => {
+        let stage = currentStage - 1;
+        if(stage < 0) stage = 0;
+        setCurrentStage(stage);
+    }
 
     return (
         <PageView>
@@ -31,11 +36,11 @@ export default function DashboardPage() {
             </Steps>
 
             <Stages stage={0}>
-                <BasicInfoStage onNext={onNextClickHandler} show={currentStage === 0} />
-                <SimSpecificInfoStage onNext={onNextClickHandler} show={currentStage === 1} />
-                <AllergiesStage onNext={onNextClickHandler} show={currentStage === 2} />
-                <BasicInfoStage onNext={onNextClickHandler} show={currentStage === 3} />
-                <BasicInfoStage onNext={onNextClickHandler} show={currentStage === 4} />
+                <BasicInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 0} />
+                <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 1} />
+                <AllergiesStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 2} />
+                <BasicInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 3} />
+                <BasicInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 4} />
             </Stages>
         </PageView>
     );

@@ -37,8 +37,8 @@ export function AllergiesStage(props: Props) {
     return (
         <div className="overflow-hidden">
             <BaseStage {...props} onNext={onNextClickHandler} title="Let's focus on sim now!" icon={faHouseChimneyUser} moveLeft={allergies.length > 0}>
-                <Input label="Allergy Name" onChange={e => setName(e.currentTarget.value)} value={name} inputref={inputRef}/>
-                <Input label="Reaction" onChange={e => setReaction(e.currentTarget.value)} value={reaction}/>
+                <Input label="Allergy Name" onChange={e => setName(e.currentTarget.value)} value={name} ref={inputRef} optional/>
+                <Input label="Reaction" onChange={e => setReaction(e.currentTarget.value)} value={reaction} optional/>
                 <Button onClick={onAllergyAddClickHandler} className="bg-blue my-4">Add Allergy</Button>
             </BaseStage>
 

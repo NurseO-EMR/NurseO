@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion"
-import { ReactElement } from "react"
+import { createRef, ReactElement } from "react"
 import { Form } from "../Form/Form"
 import { Button } from "../Form/Button";
 import { Props as InputProps } from "../../Components/Form/Input";
@@ -8,6 +8,7 @@ import { STAGE_ANIMATION_DURATION } from "../../Services/AnimationConfig";
 
 export type BaseStageProps = {
     onNext: () => void,
+    onPrev: ()=>void,
     show: boolean,
     delay?: number,
 }
@@ -20,15 +21,22 @@ type Props = BaseStageProps & {
 }
 
 export function BaseStage(props: Props) {
+    const formRef = createRef<HTMLFormElement>();
+
+    const onNextClickHandler = ()=>{
+        const valid = formRef.current?.checkValidity();
+        if(valid) props.onNext();
+    }
+
     return (
         <AnimatePresence>
             {props.show ? 
-            <Form title={props.title} icon={props.icon} moveLeft={props.moveLeft}>
+            <Form title={props.title} icon={props.icon} moveLeft={props.moveLeft} ref={formRef}>
                 <>{props.children}</>
 
                 <motion.div className="flex gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ delay: STAGE_ANIMATION_DURATION - 0.5 }}>
-                    <Button className="bg-darkGray">Previous</Button>
-                    <Button className="bg-blue" onClick={props.onNext}>Next</Button>
+                    <Button className="bg-darkGray" onClick={props.onPrev}>Previous</Button>
+                    <Button className="bg-blue" onClick={onNextClickHandler}>Next</Button>
                 </motion.div>
 
             </Form>

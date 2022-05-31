@@ -1,7 +1,7 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, Variants } from "framer-motion";
-import { Children, cloneElement, FormEvent, ReactElement } from "react";
+import { Children, cloneElement, FormEvent, ForwardedRef, forwardRef, ReactElement } from "react";
 import { STAGE_ANIMATION_DURATION } from "../../Services/AnimationConfig";
 
 
@@ -15,7 +15,7 @@ type Props = {
 
 
 
-export function Form(props: Props) {
+function FormEle(props: Props, ref: ForwardedRef<HTMLFormElement>) {
 
     const animationVariants: Variants = {
         init: {
@@ -41,7 +41,9 @@ export function Form(props: Props) {
     return (
             <motion.form className="bg-gray shadow-xl w-formWidth mx-auto h-fit mt-10 py-10 px-20 text-center rounded-lg overflow-y-hidden"
                 onSubmit={onSubmitHandler} variants={animationVariants}
-                initial="init" animate={props.moveLeft ? "moveLeft" : "end"} exit="exit" transition={{ duration: STAGE_ANIMATION_DURATION, delay: props.delay }}>
+                initial="init" animate={props.moveLeft ? "moveLeft" : "end"} exit="exit" transition={{ duration: STAGE_ANIMATION_DURATION, delay: props.delay }}
+                ref={ref}
+                >
 
                 <FontAwesomeIcon icon={props.icon} className="text-5xl text-blue text-center" />
 
@@ -58,3 +60,6 @@ export function Form(props: Props) {
             </motion.form>
     )
 }
+
+
+export const Form = forwardRef(FormEle);
