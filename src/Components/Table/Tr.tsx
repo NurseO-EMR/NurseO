@@ -1,7 +1,7 @@
 import { ReactChild } from "react";
 
 type Props = {
-    children: ReactChild[],
+    children: ReactChild | ReactChild[],
 }
 
 export function Tr(props:Props) {

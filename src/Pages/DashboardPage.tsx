@@ -8,6 +8,7 @@ import { SimSpecificInfoStage } from "../Stages/CreatePatient/SimSpecificInfoSta
 import { Stages } from "../Components/Stages/Stages";
 import { AllergiesStage } from "../Stages/CreatePatient/AllergiesStage";
 import { MedicalHistoryStage } from "../Stages/CreatePatient/MedicalHistoryStage";
+import { SocialHistoryStage } from "../Stages/CreatePatient/SocialHistoryStage";
 
 
 export default function DashboardPage() {
@@ -41,7 +42,7 @@ export default function DashboardPage() {
                 <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 1} />
                 <AllergiesStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 2} />
                 <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 3} />
-                <BasicInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 4} />
+                <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 4} />
             </Stages>
         </PageView>
     );
