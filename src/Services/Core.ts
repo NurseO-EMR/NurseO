@@ -1,7 +1,23 @@
-import { Settings } from 'nurse-o-core';
+import { Settings } from "nurse-o-core";
+
+
+export enum Gender {
+    Male="male",
+    Female="female",
+    Other="other",
+}
+
+export enum DateFormat {
+    HiddenYear="HiddenYear",
+    HiddenMonthNYear="HiddenMonthNYear",
+    NothingHidden="NothingHidden"
+}
+
+
+
 export class MedicationModified {
-    id: string = "";
-    name: string = "";
+    id = "";
+    name = "";
     locations: MedicationLocation[] = [] 
 }
 
