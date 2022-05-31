@@ -13,6 +13,11 @@ export enum DateFormat {
     NothingHidden="NothingHidden"
 }
 
+export type MedicalHistory = {
+    date: string,
+    title: string,
+    notes:string
+}
 
 
 export class MedicationModified {
