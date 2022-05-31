@@ -5,6 +5,7 @@ export type Props = Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>
     optional?: boolean,
     label: string,
     delay?: number,
+    suffix?: string
 }
 
 function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
@@ -26,12 +27,13 @@ function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
     }
 
     return (
-        <motion.div className="grid text-left my-4" initial="hidden" animate="show" exit="exit" variants={animationVariants}>
+        <motion.div className="grid text-left my-4 relative w-full" initial="hidden" animate="show" exit="exit" variants={animationVariants}>
             <label htmlFor={id} className="font-normal">
                 <span>{props.label}</span>
                 <span className="opacity-75 text-sm"> {props.optional ? "(optional)" : null}</span>
             </label>
             <input id={id} {...getInputProps()} required={!props.optional} className={"border h-8  px-2"} ref={ref} />
+            {props.suffix ? <div className="absolute top-7 left-78/100 tracking-wider opacity-75">| {props.suffix}</div>: null}
         </motion.div>
     )
 }

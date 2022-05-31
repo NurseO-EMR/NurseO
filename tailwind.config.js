@@ -15,6 +15,9 @@ module.exports = {
       width: {
         "formWidth": "30rem"
       },
+      spacing: {
+        "78/100": "78%"
+      },
       
       gridTemplateColumns: {
         "multiFormWStepsLayout": "2fr 10fr",

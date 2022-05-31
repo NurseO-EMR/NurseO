@@ -10,8 +10,9 @@ export function BasicInfoStage(props: Props) {
                 <Input label="Name" />
                 <Input label="Date of birth" type="date" />
                 <Input label="Gender" />
-                <Input label="Height" />
-                <Input label="Weight" />               
+                <Input label="Height" suffix="cm" type="number" />
+                <Input label="Weight" suffix="kg" type="number"/> 
+                              
         </BaseStage>
     )
 
