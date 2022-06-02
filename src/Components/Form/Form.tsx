@@ -10,7 +10,8 @@ type Props = {
     icon: IconProp,
     title: string,
     delay?: number,
-    moveLeft?: boolean
+    moveLeft?: boolean,
+    onValid?: (valid: boolean)=>void,
 }
 
 
@@ -36,6 +37,7 @@ function FormEle(props: Props, ref: ForwardedRef<HTMLFormElement>) {
     const onSubmitHandler = (e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         e.stopPropagation();
+        if(props.onValid) props.onValid(e.currentTarget.checkValidity());
     }
 
     return (

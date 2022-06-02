@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion"
-import { createRef, ReactElement } from "react"
+import { ReactElement} from "react"
 import { Form } from "../Form/Form"
 import { Button } from "../Form/Button";
 import { Props as InputProps } from "../../Components/Form/Input";
@@ -20,15 +20,20 @@ type Props = BaseStageProps & {
 }
 
 export function BaseStage(props: Props) {
-    const formRef = createRef<HTMLFormElement>();
+    let formInputsValid = false
 
-    const onNextClickHandler = () => {
-        const valid = formRef.current?.checkValidity();
-        if (valid) props.onNext();
+    const onNextClickHandler = () => {  
+        //The formInputsValid is always lagging behind because the onClick event gets fired before the onSubmit event
+        //and therefor the onClickHandler fires before the formInputValid variable gets set. So I am moving the 
+        //execution to the end of the stack so the formInputsValid variable gets set first by wrapping with setTimeout. 
+        setTimeout(() => {
+            if (formInputsValid) props.onNext();            
+        }, 0);
     }
+    
     return (
         <AnimatePresence exitBeforeEnter={true}>
-            <Form title={props.title} icon={props.icon} moveLeft={props.moveLeft} ref={formRef}>
+            <Form title={props.title} icon={props.icon} moveLeft={props.moveLeft} onValid={(valid)=>formInputsValid=valid}>
                 <>{props.children}</>
 
                 <motion.div className="flex gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ delay: STAGE_ANIMATION_DURATION - 0.5 }}>

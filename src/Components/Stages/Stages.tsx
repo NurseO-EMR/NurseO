@@ -11,7 +11,6 @@ type Props = {
 export function Stages(props: Props): JSX.Element {
 
     const getStage = ()=> {
-        console.log(props.stage)
         const stage = props.children[props.stage];
         let output;
         if(props.stage === 0) output = stage
