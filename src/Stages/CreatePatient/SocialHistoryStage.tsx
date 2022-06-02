@@ -33,7 +33,7 @@ export function SocialHistoryStage(props: Props) {
 
 
     return (
-        <div className="overflow-hidden">
+        <div className="overflow-hidden relative">
             <BaseStage {...props} onNext={onNextClickHandler} title="Medical History" icon={faBookMedical} moveLeft={history.length > 0}>
                 <Input label="Entry" onChange={e => setEntry(e.currentTarget.value)} value={entry} ref={inputRef} optional/>
                 

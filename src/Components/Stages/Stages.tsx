@@ -1,4 +1,4 @@
-import { Children, cloneElement, ReactElement } from "react"
+import { cloneElement, ReactElement } from "react"
 import { STAGE_ANIMATION_DURATION, STAGE_DELAY_COEFFICIENT } from "../../Services/AnimationConfig";
 import { Props as StageProps } from "./../../Stages/CreatePatient/BasicInfoStage"
 
@@ -9,11 +9,18 @@ type Props = {
 }
 
 export function Stages(props: Props): JSX.Element {
-    return <div className="overflow-hidden">
-        {Children.map(props.children, (child, i) => {
-            if (i === 0) return child;
-            else return cloneElement(child, { delay: STAGE_ANIMATION_DURATION * STAGE_DELAY_COEFFICIENT})
 
-        })}
+    const getStage = ()=> {
+        console.log(props.stage)
+        const stage = props.children[props.stage];
+        let output;
+        if(props.stage === 0) output = stage
+        else output = cloneElement(stage, { delay: STAGE_ANIMATION_DURATION * STAGE_DELAY_COEFFICIENT})
+        return output;
+    }
+
+
+    return <div className="overflow-hidden">
+        {getStage()}
     </div>
 }

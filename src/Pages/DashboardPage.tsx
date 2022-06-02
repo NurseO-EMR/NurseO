@@ -37,12 +37,12 @@ export default function DashboardPage() {
                 <Step icon={faBook} />
             </Steps>
 
-            <Stages stage={0}>
-                <BasicInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 0} />
-                <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 1} />
-                <AllergiesStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 2} />
-                <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 3} />
-                <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} show={currentStage === 4} />
+            <Stages stage={currentStage}>
+                <BasicInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
+                <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
+                <AllergiesStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
+                <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
+                <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
             </Stages>
         </PageView>
     );

@@ -12,8 +12,8 @@ type Props = {
 export function ArrayPreviewer(props: Props) {
     if (props.show) {
         return (
-            <motion.div className="bg-gray shadow-xl w-formWidth pt-2 pb-8 px-6 h-full rounded-lg overflow-y-hidden text-left"
-                initial={{ x: 3000, y: -482 }} animate={{ x: 655, y: -482 }}
+            <motion.div className="bg-gray shadow-xl w-formWidth pt-2 pb-8 px-6 rounded-lg overflow-y-hidden text-left absolute right-0 top-10"
+                initial={{ x: 3000, y: 0 }} animate={{ x: 0, y: 0 }}
                 transition={{ delay: STAGE_ANIMATION_DURATION }}
             >
                 <h1 className="text-blue font-bold mt-4 mb-2">Added Allergies</h1>

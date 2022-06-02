@@ -8,8 +8,7 @@ import { STAGE_ANIMATION_DURATION } from "../../Services/AnimationConfig";
 
 export type BaseStageProps = {
     onNext: () => void,
-    onPrev: ()=>void,
-    show: boolean,
+    onPrev: () => void,
     delay?: number,
 }
 
@@ -23,14 +22,12 @@ type Props = BaseStageProps & {
 export function BaseStage(props: Props) {
     const formRef = createRef<HTMLFormElement>();
 
-    const onNextClickHandler = ()=>{
+    const onNextClickHandler = () => {
         const valid = formRef.current?.checkValidity();
-        if(valid) props.onNext();
+        if (valid) props.onNext();
     }
-
     return (
-        <AnimatePresence>
-            {props.show ? 
+        <AnimatePresence exitBeforeEnter={true}>
             <Form title={props.title} icon={props.icon} moveLeft={props.moveLeft} ref={formRef}>
                 <>{props.children}</>
 
@@ -40,7 +37,6 @@ export function BaseStage(props: Props) {
                 </motion.div>
 
             </Form>
-            : null}
         </AnimatePresence>
     )
 
