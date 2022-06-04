@@ -20,7 +20,7 @@ export function Steps(props:Props) {
                 }
                 {props.children.length-1>i ? 
                 <>
-                    {props.activeStep >= i ? 
+                    {props.activeStep > i ? 
                     <StepConnector style={{left:77, background: "#F63B3B"}} />
                     : <StepConnector style={{left:77}} />
                     }
