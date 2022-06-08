@@ -19,7 +19,7 @@ export function Stages(props: Props): JSX.Element {
     }
 
 
-    return <div className="overflow-hidden">
+    return <div className="overflow-y-hidden">
         {getStage()}
     </div>
 }

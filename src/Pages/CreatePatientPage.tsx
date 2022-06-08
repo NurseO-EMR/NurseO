@@ -9,11 +9,12 @@ import { Stages } from "../Components/Stages/Stages";
 import { AllergiesStage } from "../Stages/CreatePatient/AllergiesStage";
 import { MedicalHistoryStage } from "../Stages/CreatePatient/MedicalHistoryStage";
 import { SocialHistoryStage } from "../Stages/CreatePatient/SocialHistoryStage";
+import { OrdersStage } from "../Stages/CreatePatient/OrdersStage";
 
 
 export default function CreatePatientPage() {
 
-    const [currentStage, setCurrentStage] = useState(0)
+    const [currentStage, setCurrentStage] = useState(5)
 
     const onNextClickHandler = () => {
         const stage = currentStage + 1;
@@ -43,6 +44,7 @@ export default function CreatePatientPage() {
                 <AllergiesStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
                 <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
                 <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
+                <OrdersStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
             </Stages>
         </PageView>
     );

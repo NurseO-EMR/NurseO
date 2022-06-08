@@ -12,7 +12,7 @@ export function Steps(props:Props) {
     
     
     return (
-        <div className={`relative grid justify-center align-middle h-20 ${props.className}`} style={{width:163.5*props.children.length}}>
+        <div className={`relative grid justify-center align-middle h-20 m-auto ${props.className}`} style={{width:163.5*props.children.length}}>
             {props.children.map((step,i)=>
             <div key={i} className="absolute top-0" style={{left: 180*i}}>
                 {

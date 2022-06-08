@@ -38,7 +38,7 @@ export function MedicalHistoryStage(props: Props) {
 
 
     return (
-        <div className="overflow-hidden relative">
+        <div className="relative">
             <BaseStage {...props} onNext={onNextClickHandler} title="Medical History" icon={faBookMedical} moveLeft={history.length > 0}>
                 <Input label="Date" type="date" onChange={e => setDate(e.currentTarget.value)} value={date} optional/>
                 <Input label="Diagnosis Title" onChange={e => setTitle(e.currentTarget.value)} value={title} ref={inputRef} optional/>
