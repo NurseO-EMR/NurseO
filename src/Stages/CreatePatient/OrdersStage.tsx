@@ -1,87 +1,119 @@
-import { faBookMedical, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faBookMedical } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import {MedicationOrderSyntax, MedicationOrder, OrderKind, OrderType, Frequency, Routine} from "nurse-o-core"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
- 
+import { MedicationOrder, OrderKind, OrderType, Frequency, Routine} from "nurse-o-core"
+import { MedicationOrdersPreviewer } from "../../Components/Stages/MedicationOrdersPreviewer";
+import { AnimatePresence } from "framer-motion";
+
 export type Props = BaseStageProps & {
-    onNext: (medicalHistory: string[]) => void,
+    onNext: (orders: MedicationOrder[]) => void,
 }
 
 export function OrdersStage(props: Props) {
-    const [history, setHistory] = useState([]as string[]);
-    
-    const [entry, setEntry] = useState("");
+    const [name, setName] = useState("");
+    const [concentration, setConcentration] = useState("");
+    const [route, setRoute] = useState("");
+    const [routine, setRoutine] = useState(Routine.NA);
+    const [PRNNote, setPRNNote] = useState("");
+    const [frequency, setFrequency] = useState(Frequency.NA);
+    const [marString, setMarString] = useState("");
+    // const [mar, setMar] = useState([] as Time[]);
+    const [notes, setNotes] = useState("");
+    const [orderType, setOrderType] = useState(OrderType.NA);
 
 
-    const onHistoryAddClickHandler = () => {
-        history.push(entry)
-        setHistory([...history]);
-        setEntry("");
+    const [orders, setOrders] = useState([] as MedicationOrder[]);
+
+    const onOrderAddClickHandler = () => {
+        const order: MedicationOrder = {
+            id: "1",
+            concentration,
+            route,
+            routine,
+            frequency,
+            mar: [],
+            notes,
+            orderType,
+            PRNNote,
+            orderKind: OrderKind.med
+        }
+
+        orders.push(order)
+        setOrders([...orders]);
+
     }
 
 
-    const onNextClickHandler = ()=> {
-        props.onNext(history)
+    const onNextClickHandler = () => {
+        props.onNext(orders)
     }
 
+    const onLocationMoveHandler = (direction: "up" | "down", index: number) => {
+        if (index === 0 || index === orders.length - 1) { console.error("can't move this item"); return; }
 
-    const sampleOrder: MedicationOrder = {
-        orderKind: OrderKind.med,
-        orderType: OrderType.admission,
-        PRNNote: "",
-        concentration: "20mg/kg",
-        frequency: Frequency.q1hr,
-        id: "1",
-        mar: [],
-        notes: "",
-        route: "PO",
-        routine: Routine.PRN
+        const temp = orders[index]
+
+        if (direction === "up") {
+            orders[index] = orders[index - 1];
+            orders[index - 1] = temp
+        }
+
+        if (direction === "down") {
+            orders[index] = orders[index + 1];
+            orders[index + 1] = temp
+        }
+
+        setOrders([...orders]);
     }
+
+    const onDeleteHandler = (index: number) => {
+        const temp = orders;
+        temp.splice(index, 1);
+        setOrders([...temp])
+    }
+
 
 
     return (
         <div className="relative w-screen">
-            <BaseStage {...props} onNext={onNextClickHandler} title="Medication Orders" icon={faBookMedical} moveLeft={history.length > 0}>
+            <BaseStage {...props} onNext={onNextClickHandler} title="Medication Orders" icon={faBookMedical} moveLeft={orders.length > 0}>
                 <div className="grid grid-cols-3 gap-x-8">
-                    <Input label="Medication Name" onChange={e => setEntry(e.currentTarget.value)} value={entry}  optional/>
-                    <Input label="Concentration" onChange={e => setEntry(e.currentTarget.value)} value={entry}  optional/>
-                    <Input label="Route" onChange={e => setEntry(e.currentTarget.value)} value={entry}  optional/>
-                    <Input label="Routine" onChange={e => setEntry(e.currentTarget.value)} value={entry}  optional/>
-                    <Input label="Frequency" onChange={e => setEntry(e.currentTarget.value)} value={entry}  optional/>
-                    <Input label="Mar" onChange={e => setEntry(e.currentTarget.value)} value={entry}  optional/>
-                    <Input label="Notes" onChange={e => setEntry(e.currentTarget.value)} value={entry}  optional/>
-                    <Select label="Order Type">
-                        <option className="hidden"></option>
-                        <option value="MedicationOrder">Admission</option>
-                        <option value="CustomOrder">Standing</option>
-                        <option value="CustomOrder">Provider</option>
+                    <Input label="Medication Name" onChange={e => setName(e.currentTarget.value)} value={name} optional />
+                    <Input label="Concentration" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional />
+                    <Input label="Route" onChange={e => setRoute(e.currentTarget.value)} value={route} optional />
+                    <Select label="Routine" onChange={e => setRoutine(e.currentTarget.value as Routine)} value={routine} optional>
+                        {Object.values(Routine).map((r, i) => <option value={r} key={i}>{r}</option>)}
+                    </Select>
+                    {routine === Routine.PRN ? <Input label="PRN Note" onChange={e => setPRNNote(e.currentTarget.value)} value={PRNNote} optional /> : null}
+                    <Select label="Frequency" onChange={e => setFrequency(e.currentTarget.value as Frequency)} value={frequency} optional>
+                        {Object.values(Frequency).map((f, i) => <option value={f} key={i}>{f}</option>)}
+                    </Select>
+
+
+                    <Input label="Mar" onChange={e => setMarString(e.currentTarget.value)} value={marString}  optional/>
+                    <Input label="Notes" onChange={e => setNotes(e.currentTarget.value)} value={notes} optional />
+                    <Select label="Order Type" value={orderType} onChange={e => setOrderType(e.currentTarget.value as OrderType)}>
+                        {Object.values(OrderType).map((t, i) => <option value={t} key={i}>{t}</option>)}
                     </Select>
 
                 </div>
-                
-                <Button onClick={onHistoryAddClickHandler} className="bg-blue my-4">Add Order</Button>
+
+                <Button onClick={onOrderAddClickHandler} className="bg-blue my-4">Add Order</Button>
             </BaseStage>
-{/* 
-            <ArrayPreviewer headerItems={["Entry"]} show={history.length > 0}>
-                {history.map((entry,i)=>
-                    <Tr key={i}>
-                        <Td>{entry}</Td>
-                    </Tr>
-                )}
-            </ArrayPreviewer> */}
-            <div className="absolute right-20 top-0 overflow-y-auto h-[65vh]">
-                {Array.from({length: 20}, (_,i)=>
-                    <div className="bg-gray shadow-xl w-formWidth rounded-lg overflow-y-hidden py-5 text-center font-bold text-blue mb-4 flex justify-evenly">
-                        <div><MedicationOrderSyntax medName="Amoxicillin" order={sampleOrder} /></div>
-                        <div className="text-red cursor-pointer"><FontAwesomeIcon icon={faTrash} /></div>
-                    </div>
-                )}
-                
-               
+
+
+            <div className="absolute right-20 top-0 overflow-y-auto h-[65vh] overflow-x-hidden">
+                <AnimatePresence>
+                    {orders.map((order, i) =>
+                        <MedicationOrdersPreviewer order={order} key={i}
+                            onUp={() => onLocationMoveHandler("up", i)} onDown={() => onLocationMoveHandler("down", i)}
+                            onDelete={() => onDeleteHandler(i)} />
+
+                    )}
+                </AnimatePresence>
             </div>
 
         </div>

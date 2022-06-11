@@ -8,11 +8,11 @@ export default function App() {
   Database.initialize(firebaseConfig);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<DashboardPage />}></Route>
-        <Route path="/patient/create" element={<CreatePatientPage />}></Route>
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<DashboardPage />}></Route>
+          <Route path="/patient/create" element={<CreatePatientPage />}></Route>
+        </Routes>
+      </BrowserRouter>
   );
 }
