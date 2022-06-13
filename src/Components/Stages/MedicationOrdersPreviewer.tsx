@@ -16,7 +16,9 @@ export function MedicationOrdersPreviewer(props: Props) {
              initial={{scaleY:0 }} animate={{scaleY:1 }}>
             <div>
                 <div className="text-center font-bold text-blue w-72"><MedicationOrderSyntax medName={"sample"} order={props.order} /></div>
-                <div className="mt-3">Mar: {props.order.mar.map((time) => time.hour + ":" + time.minutes)}</div>
+                <div>Type: {props.order.orderType}</div>
+                <div className="mt-3">Mar: {props.order.mar.length > 0 ? props.order.mar.map((time) => time.hour + ":" + time.minutes) : "No mar data added"}
+                </div>
             </div>
             <div className="text-red cursor-pointer grid items-center text-xl" onClick={props.onDelete}><FontAwesomeIcon icon={faTrash} /></div>
             <div className="grid text-xl items-center">

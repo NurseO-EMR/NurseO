@@ -4,7 +4,7 @@ import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { MedicationOrder, OrderKind, OrderType, Frequency, Routine} from "nurse-o-core"
+import { MedicationOrder, OrderKind, OrderType, Frequency, Routine, Time} from "nurse-o-core"
 import { MedicationOrdersPreviewer } from "../../Components/Stages/MedicationOrdersPreviewer";
 import { AnimatePresence } from "framer-motion";
 
@@ -13,7 +13,7 @@ export type Props = BaseStageProps & {
 }
 
 export function OrdersStage(props: Props) {
-    const ref = useRef<HTMLInputElement>(null);
+    const marRef = useRef<HTMLInputElement>(null);
 
     const [name, setName] = useState("");
     const [concentration, setConcentration] = useState("");
@@ -22,21 +22,25 @@ export function OrdersStage(props: Props) {
     const [PRNNote, setPRNNote] = useState("");
     const [frequency, setFrequency] = useState(Frequency.NA);
     const [marString, setMarString] = useState("");
-    // const [mar, setMar] = useState([] as Time[]);
     const [notes, setNotes] = useState("");
     const [orderType, setOrderType] = useState(OrderType.NA);
-
 
     const [orders, setOrders] = useState([] as MedicationOrder[]);
 
     const onOrderAddClickHandler = () => {
+
+        //check if there is med 
+        if(!name) {console.error("No med selected"); return;}
+        if(orderType === OrderType.NA) {console.error("must select order type"); return;}
+        if(!marRef.current?.checkValidity()) return;
+
         const order: MedicationOrder = {
             id: "1",
             concentration,
             route,
             routine,
             frequency,
-            mar: [],
+            mar: marToTime(marString),
             notes,
             orderType,
             PRNNote,
@@ -99,7 +103,7 @@ export function OrdersStage(props: Props) {
 
 
                     <Input label="Mar" onChange={e => setMarString(e.currentTarget.value)} value={marString}
-                    placeholder="01:00, 14:00, 16:00" pattern="(([0-2][0-9]:[0-6][0-9]),{0,1})+" ref={ref}
+                    placeholder="01:00, 14:00, 16:00" pattern="(([0-2][0-9]:[0-6][0-9]),{0,1})+" ref={marRef} optional
                     title="enter times in 24 hour format with commas in between, example: 01:00,14:00 which means it was administered at 1 am and 2 pm "
                     />
 
@@ -129,4 +133,23 @@ export function OrdersStage(props: Props) {
         </div>
     )
 
+}
+
+
+
+
+function marToTime(marString: string) :Time[] {
+    if(marString === "") return [];
+
+    const output:Time[] = [];
+    const splitedTimes = marString.split(",")
+    const splitedByCommaAndColon = splitedTimes.map(time=>time.split(":"))
+    for(const timeString of splitedByCommaAndColon ) {
+        const time:Time = {
+            hour: Number.parseInt(timeString[0]),
+            minutes: Number.parseInt(timeString[0])
+        }
+        output.push(time)
+    }
+    return output
 }
