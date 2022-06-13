@@ -1,5 +1,5 @@
 import { faBookMedical } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
@@ -13,6 +13,8 @@ export type Props = BaseStageProps & {
 }
 
 export function OrdersStage(props: Props) {
+    const ref = useRef<HTMLInputElement>(null);
+
     const [name, setName] = useState("");
     const [concentration, setConcentration] = useState("");
     const [route, setRoute] = useState("");
@@ -82,18 +84,26 @@ export function OrdersStage(props: Props) {
             <BaseStage {...props} onNext={onNextClickHandler} title="Medication Orders" icon={faBookMedical} moveLeft={orders.length > 0}>
                 <div className="grid grid-cols-3 gap-x-8">
                     <Input label="Medication Name" onChange={e => setName(e.currentTarget.value)} value={name} optional />
-                    <Input label="Concentration" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional />
+                    <Input label="Concentration" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional placeholder="ex: 20mg/kg" />
                     <Input label="Route" onChange={e => setRoute(e.currentTarget.value)} value={route} optional />
+
                     <Select label="Routine" onChange={e => setRoutine(e.currentTarget.value as Routine)} value={routine} optional>
                         {Object.values(Routine).map((r, i) => <option value={r} key={i}>{r}</option>)}
                     </Select>
+
                     {routine === Routine.PRN ? <Input label="PRN Note" onChange={e => setPRNNote(e.currentTarget.value)} value={PRNNote} optional /> : null}
+
                     <Select label="Frequency" onChange={e => setFrequency(e.currentTarget.value as Frequency)} value={frequency} optional>
                         {Object.values(Frequency).map((f, i) => <option value={f} key={i}>{f}</option>)}
                     </Select>
 
 
-                    <Input label="Mar" onChange={e => setMarString(e.currentTarget.value)} value={marString}  optional/>
+                    <Input label="Mar" onChange={e => setMarString(e.currentTarget.value)} value={marString}
+                    placeholder="01:00, 14:00, 16:00" pattern="(([0-2][0-9]:[0-6][0-9]),{0,1})+" ref={ref}
+                    title="enter times in 24 hour format with commas in between, example: 01:00,14:00 which means it was administered at 1 am and 2 pm "
+                    />
+
+
                     <Input label="Notes" onChange={e => setNotes(e.currentTarget.value)} value={notes} optional />
                     <Select label="Order Type" value={orderType} onChange={e => setOrderType(e.currentTarget.value as OrderType)}>
                         {Object.values(OrderType).map((t, i) => <option value={t} key={i}>{t}</option>)}
