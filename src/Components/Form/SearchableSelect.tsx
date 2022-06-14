@@ -1,6 +1,6 @@
 import { motion, Variants } from "framer-motion";
 import { filter } from "lodash";
-import Select from "react-select"
+import Select, { StylesConfig } from "react-select"
 
 export type Props = {
     optional?: boolean,
@@ -14,8 +14,40 @@ export type Props = {
     value?: string
 }
 
+type Option ={
+    value: string,
+    label: string
+}
+
 export function SearchableSelect(props: Props) {
     const id:string = new Date().getTime().toString();
+
+    const customStyles:StylesConfig = {
+        // option: (provided, state) => ({
+        //   ...provided,
+        //   borderBottom: "1px dotted pink",
+        //   color: state.isSelected ? "red" : "blue",
+        //   padding: 20,
+        // }),
+        control: () => ({
+            alignItems: "center",
+            borderWidth: "1px",
+            display: "flex",
+            background: "#ffffff",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+        }),
+        // singleValue: (provided, state) => {
+        //   const opacity = state.isDisabled ? 0.5 : 1;
+        //   const transition = "opacity 300ms";
+      
+        //   return { ...provided, opacity, transition };
+        // }
+      }
+      
+
+
+
     const animationVariants:Variants = { 
         hidden: { opacity: 0 },
         show: { 
@@ -29,7 +61,7 @@ export function SearchableSelect(props: Props) {
     const getOptions = ()=> {
         const output = [];
         for(const option of props.options) {
-            const temp = {
+            const temp:Option = {
                 value: option[props.valueKey],
                 label: option[props.labelKey]
             }
@@ -52,7 +84,11 @@ export function SearchableSelect(props: Props) {
                 <span>{props.label}</span>
                 <span className="opacity-75 text-sm"> {props.optional ? "(optional)" : null}</span>
             </label>
-            <Select options={getOptions()} value={getValue()} onChange={e=>props.onChange(e?.value)} isClearable={true}/>
+            <Select options={getOptions()} value={getValue()} 
+                onChange={(e)=>props.onChange((e as Option|undefined)?.value || "")}
+                isClearable={true} 
+                styles={customStyles} 
+            />
         </motion.div>
     )
 }
