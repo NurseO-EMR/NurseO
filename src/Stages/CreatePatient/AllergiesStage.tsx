@@ -42,7 +42,7 @@ export function AllergiesStage(props: Props) {
                 <Button onClick={onAllergyAddClickHandler} className="bg-blue my-4">Add Allergy</Button>
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["Allergy", "Reaction"]} show={allergies.length > 0}>
+            <ArrayPreviewer headerItems={["Allergy", "Reaction"]} show={allergies.length > 0} title="Added Allergies">
                 {allergies.map((allergy,i)=>
                     <Tr key={i}>
                         <Td>{allergy.name}</Td>

@@ -47,7 +47,7 @@ export function MedicalHistoryStage(props: Props) {
                 <Button onClick={onHistoryAddClickHandler} className="bg-blue my-4">Add Medical History Entry</Button>
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["Date", "Diagnosis", "Notes"]} show={history.length > 0}>
+            <ArrayPreviewer headerItems={["Date", "Diagnosis", "Notes"]} show={history.length > 0} title="Added History">
                 {history.map((event,i)=>
                     <Tr key={i}>
                         <Td>{event.date}</Td>

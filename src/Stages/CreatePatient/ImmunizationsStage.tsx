@@ -1,6 +1,5 @@
-import { faBookMedical } from "@fortawesome/free-solid-svg-icons";
+import { faSyringe } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { useFocus } from "../../Components/customHooks";
 import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
 import { ArrayPreviewer } from "../../Components/Stages/ArrayPreviewer";
@@ -12,36 +11,34 @@ export type Props = BaseStageProps & {
     onNext: (socialHistory: string[]) => void,
 }
 
-export function SocialHistoryStage(props: Props) {
-    const [inputRef, setInputFocus] = useFocus()
-    const [history, setHistory] = useState([]as string[]);
+export function ImmunizationsStage(props: Props) {
+    const [immunizations, setImmunizations] = useState([]as string[]);
     
     const [entry, setEntry] = useState("");
 
 
     const onHistoryAddClickHandler = () => {
-        history.push(entry)
-        setHistory([...history]);
+        immunizations.push(entry)
+        setImmunizations([...immunizations]);
         setEntry("");
-        setInputFocus();
     }
 
 
     const onNextClickHandler = ()=> {
-        props.onNext(history)
+        props.onNext(immunizations)
     }
 
 
     return (
         <div className="overflow-hidden relative">
-            <BaseStage {...props} onNext={onNextClickHandler} title="Medical History" icon={faBookMedical} moveLeft={history.length > 0}>
-                <Input label="Entry" onChange={e => setEntry(e.currentTarget.value)} value={entry} ref={inputRef} optional/>
+            <BaseStage {...props} onNext={onNextClickHandler} title="Immunizations" icon={faSyringe} moveLeft={history.length > 0}>
+                <Input label="Immunization name" onChange={e => setEntry(e.currentTarget.value)} value={entry} optional/>
                 
-                <Button onClick={onHistoryAddClickHandler} className="bg-blue my-4">Add Social History Entry</Button>
+                <Button onClick={onHistoryAddClickHandler} className="bg-blue my-4">Add Immunization Entry</Button>
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["Entry"]} show={history.length > 0} title="Added History">
-                {history.map((entry,i)=>
+            <ArrayPreviewer headerItems={["Immunization"]} show={history.length > 0} title="Added Immunizations">
+                {immunizations.map((entry,i)=>
                     <Tr key={i}>
                         <Td>{entry}</Td>
                     </Tr>

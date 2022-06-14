@@ -1,4 +1,4 @@
-import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough, faBook, faHouseChimneyUser } from "@fortawesome/free-solid-svg-icons";
+import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough, faBook, faHouseChimneyUser, faSynagogue, faSyringe } from "@fortawesome/free-solid-svg-icons";
 import PageView from "./PageView";
 import { Step } from "../Components/Steps/Step";
 import { Steps } from "../Components/Steps/Steps";
@@ -12,6 +12,7 @@ import { SocialHistoryStage } from "../Stages/CreatePatient/SocialHistoryStage";
 import { OrdersStage } from "../Stages/CreatePatient/OrdersStage";
 import { Allergy, MedicationOrder, PatientChart } from "nurse-o-core";
 import { MedicalHistory } from "../Services/Core";
+import { ImmunizationsStage } from "../Stages/CreatePatient/ImmunizationsStage";
 
 
 export default function CreatePatientPage() {
@@ -37,7 +38,7 @@ export default function CreatePatientPage() {
         allergies: [] //done
     }
 
-    const [currentStage, setCurrentStage] = useState(1)
+    const [currentStage, setCurrentStage] = useState(3)
     const [dob, setDOB] = useState("")
 
     const onNextClickHandler = () => {
@@ -90,12 +91,18 @@ export default function CreatePatientPage() {
         patient.medicationOrders = medicalOrders;
     }
 
+    const onImmunizationsHandler = (immunizations:string[]) =>{
+        patient.immunizations = immunizations;
+        onNextClickHandler();
+    }
+
     return (
         <PageView>
             <Steps activeStep={currentStage} className="mt-24">
                 <Step icon={faIdCard} />
                 <Step icon={faHouseChimneyUser} />
                 <Step icon={faHeadSideCough} />
+                <Step icon={faSyringe} />
                 <Step icon={faBookMedical} />
                 <Step icon={faHeart} />
                 <Step icon={faStethoscope} />
@@ -106,6 +113,7 @@ export default function CreatePatientPage() {
                 <BasicInfoStage onPrev={onPrevClickHandler} onNext={onBasicInfoHandler} />
                 <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onSimInfoHandler} dob={dob} />
                 <AllergiesStage onPrev={onPrevClickHandler} onNext={onAllergiesHandler} />
+                <ImmunizationsStage onPrev={onPrevClickHandler} onNext={onImmunizationsHandler} />
                 <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onMedicalHistoryHandler} />
                 <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onSocialHistoryHandler} />
                 <OrdersStage onPrev={onPrevClickHandler} onNext={onMedicalOrdersHandler} />

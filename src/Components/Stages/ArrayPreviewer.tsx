@@ -6,7 +6,8 @@ import { Tr } from "../Table/Tr";
 type Props = {
     headerItems: string[],
     children: ReactChild[],
-    show: boolean
+    show: boolean,
+    title: string
 }
 
 export function ArrayPreviewer(props: Props) {
@@ -16,7 +17,7 @@ export function ArrayPreviewer(props: Props) {
                 initial={{ x: 3000, y: 0 }} animate={{ x: 0, y: 0 }}
                 transition={{ delay: STAGE_ANIMATION_DURATION }}
             >
-                <h1 className="text-blue font-bold mt-4 mb-2">Added Allergies</h1>
+                <h1 className="text-blue font-bold mt-4 mb-2">{props.title}</h1>
 
                 <table className="table-auto w-full border border-darkGray">
                     <thead>
