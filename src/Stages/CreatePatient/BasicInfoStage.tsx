@@ -6,7 +6,7 @@ import { Gender } from "../../Services/Core";
 import { useState } from "react";
 
 
-type BasicInfo = {
+export type BasicInfo = {
     name: string,
     dob: string,
     gender: Gender,

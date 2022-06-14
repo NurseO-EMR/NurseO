@@ -7,7 +7,7 @@ import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
 import { DateFormat } from "../../Services/Core";
 
 
-type SimSpecificInfo = {
+export type SimSpecificInfo = {
     id: string,
     age: string,
     dob: string,

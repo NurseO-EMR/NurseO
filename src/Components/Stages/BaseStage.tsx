@@ -7,12 +7,13 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { STAGE_ANIMATION_DURATION } from "../../Services/AnimationConfig";
 
 export type BaseStageProps = {
-    onNext: () => void,
+    // onNext: () => void, // show be part of the lower classes
     onPrev: () => void,
     delay?: number,
 }
 
 type Props = BaseStageProps & {
+    onNext: () => void,
     children: ReactElement<InputProps> | ReactElement<InputProps>[],
     title: string,
     icon: IconProp,
