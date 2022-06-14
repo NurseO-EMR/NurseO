@@ -1,12 +1,14 @@
 import { faBookMedical } from "@fortawesome/free-solid-svg-icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { MedicationOrder, OrderKind, OrderType, Frequency, Routine, Time} from "nurse-o-core"
+import { MedicationOrder, OrderKind, OrderType, Frequency, Routine, Time, Medication} from "nurse-o-core"
 import { MedicationOrdersPreviewer } from "../../Components/Stages/MedicationOrdersPreviewer";
 import { AnimatePresence } from "framer-motion";
+import { Database } from "../../Services/Database";
+import { SearchableSelect } from "../../Components/Form/SearchableSelect";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,
@@ -14,8 +16,9 @@ export type Props = BaseStageProps & {
 
 export function OrdersStage(props: Props) {
     const marRef = useRef<HTMLInputElement>(null);
+    const [meds, setMeds] = useState([] as Medication[])
 
-    const [name, setName] = useState("");
+    const [id, setId] = useState("");
     const [concentration, setConcentration] = useState("");
     const [route, setRoute] = useState("");
     const [routine, setRoutine] = useState(Routine.NA);
@@ -27,10 +30,20 @@ export function OrdersStage(props: Props) {
 
     const [orders, setOrders] = useState([] as MedicationOrder[]);
 
-    const onOrderAddClickHandler = () => {
+
+    useEffect(()=>{
+        async function getMeds() {
+            const db = Database.getInstance();
+            const medications = await db.getMedications();
+            setMeds(medications);
+        }
+        getMeds();
+    }, [])
+
+    const onOrderAddClickHandler = () => { 
 
         //check if there is med 
-        if(!name) {console.error("No med selected"); return;}
+        if(!id) {console.error("No med selected"); return;}
         if(orderType === OrderType.NA) {console.error("must select order type"); return;}
         if(!marRef.current?.checkValidity()) return;
 
@@ -87,7 +100,8 @@ export function OrdersStage(props: Props) {
         <div className="relative w-screen">
             <BaseStage {...props} onNext={onNextClickHandler} title="Medication Orders" icon={faBookMedical} moveLeft={orders.length > 0}>
                 <div className="grid grid-cols-3 gap-x-8">
-                    <Input label="Medication Name" onChange={e => setName(e.currentTarget.value)} value={name} optional />
+                    <SearchableSelect label="Medication Name" options={meds} labelKey="name" valueKey="id" value={id} onChange={setId}/>
+
                     <Input label="Concentration" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional placeholder="ex: 20mg/kg" />
                     <Input label="Route" onChange={e => setRoute(e.currentTarget.value)} value={route} optional />
 
