@@ -29,33 +29,35 @@ export class Database {
         this.currentPatientID = null;
         this.cache = new Cache();
         this.medListCached = false;
-        this.patientListCached = false;
+        this.patientListCached = false
+
     }
 
     // async addPatient(patient: PatientChart) {
     //     return await addDoc(collection(this.db, "patients"), patient);
     // }
 
-    // async addMedication(medication: Medication) {
-    //     this.medListCached = false;
-    //     const medicationCollection = collection(this.db, "medications");
-    //     const document = doc(medicationCollection);
-    //     medication.id = document.id;
-    //     await addDoc(collection(this.db, "medications"), medication);
-    // }
+    async addMedication(medication: Medication) {
+        this.medListCached = false;
+        const medicationCollection = collection(this.db, "medications");
+        console.log(medicationCollection)
+        // const document = doc(medicationCollection);
+        // medication.id = document.id;
+        await addDoc(collection(this.db, "medications"), medication);
+    }
 
-    // async getMedications(): Promise<Medication[]> {
-    //     if (this.medListCached) {
-    //         const cachedMeds = this.cache.getMeds();
-    //         return cachedMeds;
-    //     }
-    //     console.log("getting medications from db")
-    //     const q = query(collection(this.db, "medications"), orderBy("name"));
-    //     const docs = (await getDocs(q)).docs
-    //     const medications = docs.map(doc => doc.data()) as Medication[];
-    //     this.cache.cacheMultipleMeds(medications);
-    //     return medications;
-    // }
+    async getMedications(): Promise<Medication[]> {
+        if (this.medListCached) {
+            const cachedMeds = this.cache.getMeds();
+            return cachedMeds;
+        }
+        console.log("getting medications from db")
+        const q = query(collection(this.db, "medications"), orderBy("name"));
+        const docs = (await getDocs(q)).docs
+        const medications = docs.map(doc => doc.data()) as Medication[];
+        this.cache.cacheMultipleMeds(medications);
+        return medications;
+    }
 
     // async getMedication(medID?: string, barcode?: string): Promise<Medication | null> {
     //     //check if the med is cached 
@@ -139,25 +141,25 @@ export class Database {
 
 
 
-    // async addTemplatePatient(patient: PatientChart) {
-    //     this.patientListCached = false;
-    //     await addDoc(collection(this.db, "templatePatients"), patient);
-    // }
+    async addTemplatePatient(patient: PatientChart) {
+        this.patientListCached = false;
+        await addDoc(collection(this.db, "templatePatients"), patient);
+    }
 
-    // async getTemplatePatients(): Promise<PatientChart[]> {
-    //     if (this.patientListCached) {
-    //         const patients = this.cache.getPatients();
-    //         return patients;
-    //     }
-    //     console.log("getting template patients from db")
-    //     const q = query(collection(this.db, "templatePatients"), orderBy("name"));
-    //     const docs = (await getDocs(q)).docs
-    //     if (docs.length === 0) return [];
-    //     const patients = docs.map(doc => doc.data()) as PatientChart[];
-    //     this.cache.cacheMultiplePatients(patients);
-    //     this.patientListCached = true;
-    //     return patients;
-    // }
+    async getTemplatePatients(): Promise<PatientChart[]> {
+        if (this.patientListCached) {
+            const patients = this.cache.getPatients();
+            return patients;
+        }
+        console.log("getting template patients from db")
+        const q = query(collection(this.db, "templatePatients"), orderBy("name"));
+        const docs = (await getDocs(q)).docs
+        if (docs.length === 0) return [];
+        const patients = docs.map(doc => doc.data()) as PatientChart[];
+        this.cache.cacheMultiplePatients(patients);
+        this.patientListCached = true;
+        return patients;
+    }
 
     // async deleteTemplatePatient(patient: PatientChart) {
     //     const ref = await this.getTemplatePatientRef(patient);
@@ -222,7 +224,6 @@ export class Database {
         } else {
             throw new Error("Can't get an instance without initializing first")
         }
-
     }
 
     public static initialize(firebaseConfig: any) {

@@ -24,3 +24,5 @@ yarn-error.log*
 
 firebaseConfig.json
 *.log
+
+src/oldData.ts
