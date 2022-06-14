@@ -9,7 +9,7 @@ import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
 
 export type Props = BaseStageProps & {
-    onNext: (medicalHistory: string[]) => void,
+    onNext: (socialHistory: string[]) => void,
 }
 
 export function SocialHistoryStage(props: Props) {

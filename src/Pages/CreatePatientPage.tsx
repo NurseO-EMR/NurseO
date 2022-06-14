@@ -14,7 +14,7 @@ import { OrdersStage } from "../Stages/CreatePatient/OrdersStage";
 
 export default function CreatePatientPage() {
 
-    const [currentStage, setCurrentStage] = useState(5)
+    const [currentStage, setCurrentStage] = useState(1)
 
     const onNextClickHandler = () => {
         const stage = currentStage + 1;
@@ -40,7 +40,7 @@ export default function CreatePatientPage() {
 
             <Stages stage={currentStage}>
                 <BasicInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
-                <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
+                <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} dob="" />
                 <AllergiesStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
                 <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
                 <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
