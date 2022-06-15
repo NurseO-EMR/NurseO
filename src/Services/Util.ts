@@ -1,4 +1,4 @@
-import { PatientChart } from "nurse-o-core";
+import { Gender, PatientChart } from "nurse-o-core";
 
 export function createEmptyPatient():PatientChart {
     const patient:PatientChart = {
@@ -6,14 +6,15 @@ export function createEmptyPatient():PatientChart {
         name: "",
         age: "",
         dob: "",
-        gender: "other",
+        gender: Gender.Other,
         height: "",
         labDocURL: "",
         studentUID: "",
         weight: "",
         flags: [],
         allergies: [],
-        medicalIssues: [],
+        medicalHistory: [],
+        socialHistory: [],
         notes: [],
         time: {hour: 0,minutes: 0},
         studentReports: [],

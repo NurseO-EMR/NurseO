@@ -1,4 +1,4 @@
-import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough, faBook, faHouseChimneyUser, faSynagogue, faSyringe, faMaskVentilator } from "@fortawesome/free-solid-svg-icons";
+import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough, faHouseChimneyUser, faSyringe, faMaskVentilator } from "@fortawesome/free-solid-svg-icons";
 import PageView from "./PageView";
 import { Step } from "../Components/Steps/Step";
 import { Steps } from "../Components/Steps/Steps";
@@ -10,10 +10,10 @@ import { AllergiesStage } from "../Stages/CreatePatient/AllergiesStage";
 import { MedicalHistoryStage } from "../Stages/CreatePatient/MedicalHistoryStage";
 import { SocialHistoryStage } from "../Stages/CreatePatient/SocialHistoryStage";
 import { OrdersStage } from "../Stages/CreatePatient/OrdersStage";
-import { Allergy, CustomOrder, MedicationOrder, PatientChart } from "nurse-o-core";
-import { MedicalHistory } from "../Services/Core";
+import { Allergy, CustomOrder, MedicationOrder, PatientChart, MedicalHistory } from "nurse-o-core";
 import { ImmunizationsStage } from "../Stages/CreatePatient/ImmunizationsStage";
 import { CustomOrdersStage } from "../Stages/CreatePatient/CustomOrdersStage";
+import { createEmptyPatient } from "../Services/Util";
 
 
 export default function CreatePatientPage() {
@@ -22,26 +22,7 @@ export default function CreatePatientPage() {
     const [dob, setDOB] = useState("")
 
     
-    const patient:PatientChart = {
-        id: "", //done
-        name: "", //done
-        age: "", //done
-        dob: "",  //done
-        gender: "other",  //done
-        height: "",  //done
-        labDocURL: "", //done
-        studentUID: "", //done
-        weight: "",  //done
-        medicalIssues: [],
-        medicationOrders: [], //done
-        notes: [],
-        studentReports: [],
-        time: {hour: 0, minutes: 0}, //done
-        immunizations: [], //done
-        customOrders: [], //done
-        flags: [],
-        allergies: [] //done
-    }
+    const patient:PatientChart = createEmptyPatient();
 
 
     const onNextClickHandler = () => {
@@ -79,12 +60,12 @@ export default function CreatePatientPage() {
     }
 
     const onMedicalHistoryHandler = (medicalHistory:MedicalHistory[])=>{
-        // patient.medicalIssues  = medicalHistory;
+        patient.medicalHistory = medicalHistory
         onNextClickHandler();
     }
     
     const onSocialHistoryHandler = (socialHistory:string[])=>{
-        // patient.allergies  = allergies;
+        patient.socialHistory = socialHistory
         onNextClickHandler();
     }
 
