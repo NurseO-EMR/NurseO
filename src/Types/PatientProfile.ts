@@ -1,5 +1,5 @@
-import { Gender } from "./Gender"
-import { ReportType, StudentReport } from "./Report";
+import { Gender } from "./Gender.js"
+import { ReportType, StudentReport } from "./Report.js";
 
 
 export class Time {
@@ -11,12 +11,13 @@ export class PatientChart {
     name: string = "";
     dob: string = "";
     age: string = "";
-    gender: Gender = "other";
+    gender: Gender = Gender.Other
     height: string = "";
     weight: string = "";
     time: Time = new Time();
     allergies: Allergy[] = [];
-    medicalIssues: MedicalIssue[] = [];
+    medicalHistory: MedicalHistory[] = [];
+    socialHistory: string[] = [];
     medicationOrders: MedicationOrder[] = [];
     customOrders: CustomOrder[] = [];
     flags: Flag[] = [];
@@ -49,10 +50,10 @@ export type MedicationOrder  = Order & {
 }
 
 
-export class MedicalIssue {
-    name: string = ""
-    assessment: string = ""
-    diagnosedDate:Date = new Date()
+export type MedicalHistory = {
+    date: string
+    title: string
+    notes:string
 }
 
 export type Assessment = {
@@ -73,21 +74,21 @@ export enum OrderKind {
 
 
 export enum OrderType {
+    NA = "",
     admission = "Admission",
     standing = "Standing",
     provider = "Provider",
-    NA = ""
 }
 
 export enum Routine {
+    NA = "",
     PRN = "PRN",
     NOW = "NOW",
     Scheduled = "Scheduled",
-    NA = "",
 }
 
 export enum Frequency {
-    qd = "qd",
+    NA = "",
     q15m = "q15m",
     q30m = "q30m",
     q1hr = "q1hr",
@@ -103,7 +104,7 @@ export enum Frequency {
     q11hr = "q11hr",
     q12hr = "q12hr",
     qhs = "qhs",
-    NA = "",
+    qd = "qd",
 }
 
 export class Allergy {
