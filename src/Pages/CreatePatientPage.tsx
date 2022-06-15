@@ -1,4 +1,4 @@
-import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough, faBook, faHouseChimneyUser, faSynagogue, faSyringe } from "@fortawesome/free-solid-svg-icons";
+import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough, faBook, faHouseChimneyUser, faSynagogue, faSyringe, faMaskVentilator } from "@fortawesome/free-solid-svg-icons";
 import PageView from "./PageView";
 import { Step } from "../Components/Steps/Step";
 import { Steps } from "../Components/Steps/Steps";
@@ -10,13 +10,18 @@ import { AllergiesStage } from "../Stages/CreatePatient/AllergiesStage";
 import { MedicalHistoryStage } from "../Stages/CreatePatient/MedicalHistoryStage";
 import { SocialHistoryStage } from "../Stages/CreatePatient/SocialHistoryStage";
 import { OrdersStage } from "../Stages/CreatePatient/OrdersStage";
-import { Allergy, MedicationOrder, PatientChart } from "nurse-o-core";
+import { Allergy, CustomOrder, MedicationOrder, PatientChart } from "nurse-o-core";
 import { MedicalHistory } from "../Services/Core";
 import { ImmunizationsStage } from "../Stages/CreatePatient/ImmunizationsStage";
+import { CustomOrdersStage } from "../Stages/CreatePatient/CustomOrdersStage";
 
 
 export default function CreatePatientPage() {
 
+    const [currentStage, setCurrentStage] = useState(7)
+    const [dob, setDOB] = useState("")
+
+    
     const patient:PatientChart = {
         id: "", //done
         name: "", //done
@@ -32,14 +37,12 @@ export default function CreatePatientPage() {
         notes: [],
         studentReports: [],
         time: {hour: 0, minutes: 0}, //done
-        immunizations: [],
-        customOrders: [],
+        immunizations: [], //done
+        customOrders: [], //done
         flags: [],
         allergies: [] //done
     }
 
-    const [currentStage, setCurrentStage] = useState(3)
-    const [dob, setDOB] = useState("")
 
     const onNextClickHandler = () => {
         const stage = currentStage + 1;
@@ -79,8 +82,6 @@ export default function CreatePatientPage() {
         // patient.medicalIssues  = medicalHistory;
         onNextClickHandler();
     }
-
-
     
     const onSocialHistoryHandler = (socialHistory:string[])=>{
         // patient.allergies  = allergies;
@@ -96,6 +97,11 @@ export default function CreatePatientPage() {
         onNextClickHandler();
     }
 
+    const onCustomOrdersHandler = (customOrders:CustomOrder[]) =>{
+        patient.customOrders = customOrders;
+        onNextClickHandler();
+    }
+
     return (
         <PageView>
             <Steps activeStep={currentStage} className="mt-24">
@@ -106,7 +112,7 @@ export default function CreatePatientPage() {
                 <Step icon={faBookMedical} />
                 <Step icon={faHeart} />
                 <Step icon={faStethoscope} />
-                <Step icon={faBook} />
+                <Step icon={faMaskVentilator} />
             </Steps>
 
             <Stages stage={currentStage}>
@@ -117,6 +123,7 @@ export default function CreatePatientPage() {
                 <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onMedicalHistoryHandler} />
                 <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onSocialHistoryHandler} />
                 <OrdersStage onPrev={onPrevClickHandler} onNext={onMedicalOrdersHandler} />
+                <CustomOrdersStage onPrev={onPrevClickHandler} onNext={onCustomOrdersHandler} />
             </Stages>
         </PageView>
     );
