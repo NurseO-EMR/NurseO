@@ -10,7 +10,7 @@ import { AllergiesStage } from "../Stages/CreatePatient/AllergiesStage";
 import { MedicalHistoryStage } from "../Stages/CreatePatient/MedicalHistoryStage";
 import { SocialHistoryStage } from "../Stages/CreatePatient/SocialHistoryStage";
 import { OrdersStage } from "../Stages/CreatePatient/OrdersStage";
-import { Allergy, CustomOrder, MedicationOrder, PatientChart, MedicalHistory } from "nurse-o-core";
+import { Allergy, CustomOrder, MedicationOrder, PatientChart, MedicalHistory, StudentReport } from "nurse-o-core";
 import { ImmunizationsStage } from "../Stages/CreatePatient/ImmunizationsStage";
 import { CustomOrdersStage } from "../Stages/CreatePatient/CustomOrdersStage";
 import { createEmptyPatient } from "../Services/Util";
@@ -19,7 +19,7 @@ import { ChartingStage } from "../Stages/CreatePatient/ChartingStage";
 
 export default function CreatePatientPage() {
 
-    const [currentStage, setCurrentStage] = useState(8)
+    const [currentStage, setCurrentStage] = useState(5)
     const [dob, setDOB] = useState("")
 
     
@@ -84,6 +84,11 @@ export default function CreatePatientPage() {
         onNextClickHandler();
     }
 
+    const onReportSubmitHandler = (reports:StudentReport[])=>{
+        patient.studentReports = reports;
+        onNextClickHandler();
+    }
+
     return (
         <PageView>
             <Steps activeStep={currentStage} className="mt-24">
@@ -95,8 +100,7 @@ export default function CreatePatientPage() {
                 <Step icon={faHeart} />
                 <Step icon={faStethoscope} />
                 <Step icon={faMaskVentilator} />
-                <Step icon={faComputer} />
-                
+                <Step icon={faComputer} />                
             </Steps>
 
             <Stages stage={currentStage}>
@@ -108,7 +112,7 @@ export default function CreatePatientPage() {
                 <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onSocialHistoryHandler} />
                 <OrdersStage onPrev={onPrevClickHandler} onNext={onMedicalOrdersHandler} />
                 <CustomOrdersStage onPrev={onPrevClickHandler} onNext={onCustomOrdersHandler} />
-                <ChartingStage onPrev={onPrevClickHandler} onNext={console.log} />
+                <ChartingStage onPrev={onPrevClickHandler} onNext={onReportSubmitHandler} />
             </Stages>
         </PageView>
     );
