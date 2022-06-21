@@ -23,11 +23,11 @@ export default function ReportsSubmitter(props: Props) {
     const [date, setDate] = useState("");
 
 
-    const onReportChangeHandler = (filedName: string, timeSlotIndex: number, value: string) => {
+    const onReportChangeHandler = (filedName: string, value: string) => {
         const temp: StudentReport = {
             setName: props.reportSets[selectedTab].name,
             vitalName: filedName,
-            time: time[timeSlotIndex],
+            time: time,
             value: value,
             date: date,
             reportType: props.reportType

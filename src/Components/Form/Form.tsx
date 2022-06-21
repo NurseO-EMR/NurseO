@@ -12,6 +12,8 @@ type Props = {
     delay?: number,
     moveLeft?: boolean,
     onValid?: (valid: boolean)=>void,
+    customIconNTitle?:boolean
+
 }
 
 
@@ -46,10 +48,13 @@ function FormEle(props: Props, ref: ForwardedRef<HTMLFormElement>) {
                 initial="init" animate={props.moveLeft ? "moveLeft" : "end"} exit="exit" transition={{ duration: STAGE_ANIMATION_DURATION, delay: props.delay }}
                 ref={ref}
                 >
+                {!props.customIconNTitle ? 
+                    <>
+                        <FontAwesomeIcon icon={props.icon} className="text-5xl text-blue text-center" />
 
-                <FontAwesomeIcon icon={props.icon} className="text-5xl text-blue text-center" />
-
-                <h1 className="text-blue font-bold mt-4">{props.title}</h1>
+                        <h1 className="text-blue font-bold mt-4">{props.title}</h1>
+                    </>
+                : null}
 
                 <motion.hr initial={{border: 1}} exit={{border: 0}} className="border-darkGray my-2" />
 

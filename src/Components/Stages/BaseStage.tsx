@@ -17,7 +17,8 @@ type Props = BaseStageProps & {
     children: ReactElement<InputProps> | ReactElement<InputProps>[],
     title: string,
     icon: IconProp,
-    moveLeft?: boolean
+    moveLeft?: boolean,
+    customIconNTitle?:boolean
 }
 
 export function BaseStage(props: Props) {
@@ -34,7 +35,7 @@ export function BaseStage(props: Props) {
     
     return (
         <AnimatePresence exitBeforeEnter={true}>
-            <Form title={props.title} icon={props.icon} moveLeft={props.moveLeft} onValid={(valid)=>formInputsValid=valid}>
+            <Form title={props.title} icon={props.icon} moveLeft={props.moveLeft} onValid={(valid)=>formInputsValid=valid} customIconNTitle={props.customIconNTitle}>
                 <>{props.children}</>
 
                 <motion.div className="flex gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ delay: STAGE_ANIMATION_DURATION - 0.5 }}>

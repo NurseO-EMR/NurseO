@@ -1,4 +1,6 @@
-import { faComputer } from "@fortawesome/free-solid-svg-icons";
+import { faBedPulse, faBong, faComputer, faDroplet } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { filter } from "lodash";
 import { ReportSet, StudentReport } from "nurse-o-core";
 import { useEffect, useState } from "react";
 import ReportsSubmitter from "../../Components/Reports/ReportsSubmitter";
@@ -14,31 +16,61 @@ export type Props = BaseStageProps & {
 
 export function ChartingStage(props: Props) {
 
-
+    const [allReports, setAllReports] = useState([] as ReportSet[])
     const [reportSets, setReportSets] = useState([] as ReportSet[])
     const [studentReports, setStudentReports] = useState([] as StudentReport[])
+    const [activeReportSet, setActiveReportSet] = useState(0)
 
 
     useEffect(() => {
         const db = Database.getInstance();
         db.getSettings().then(v => {
-            setReportSets(v.reportSet)
+            setAllReports(v.reportSet)
+            const firstReport = filter(allReports, {type:"studentVitalsReport"});
+            setReportSets(firstReport);
         })
-    }, [])
+    }, [allReports])
 
 
     const onNextClickHandler = () => {
         props.onNext(studentReports)
     }
 
+    const onReportSetChangeHandler= (reportSetIndex:number)=>{
+        setActiveReportSet(reportSetIndex);
+        let reports:ReportSet[];
+        switch(reportSetIndex) {
+            case 0: reports = filter(allReports, {type:"studentVitalsReport"}); break;
+            case 1: reports = filter(allReports, {type:"studentAssessmentReport"}); break;
+            case 2: reports = filter(allReports, {type:"studentIOReport"}); break;
+            default: reports = filter(allReports, {type:"studentVitalsReport"}); break;
+        }
+
+        setReportSets(reports);
+    }
+
 
     return (
         <div className="overflow-hidden relative">
-            <BaseStage {...props} onNext={onNextClickHandler} title="Charting" icon={faComputer} moveLeft={studentReports.length > 0}>
+            <BaseStage {...props} onNext={onNextClickHandler} title="Charting" icon={faComputer} moveLeft={studentReports.length > 0} customIconNTitle>
+                <div className="flex justify-around text-darkGray">
+                    <div className={"cursor-pointer " + (activeReportSet === 0 ? "text-blue" : null)} onClick={()=>onReportSetChangeHandler(0)}>
+                        <FontAwesomeIcon icon={faBedPulse} className="text-3xl text-center" />
+                        <h1 className="font-bold mt-4">Vitals</h1>
+                    </div>
+                    <div className={"cursor-pointer " + (activeReportSet === 1 ? "text-blue" : null)} onClick={()=>onReportSetChangeHandler(1)}>
+                        <FontAwesomeIcon icon={faBong} className="text-3xl text-center" />
+                        <h1 className="font-bold mt-4">Assessment</h1>
+                    </div>
+                    <div className={"cursor-pointer " + (activeReportSet === 2 ? "text-blue" : null)} onClick={()=>onReportSetChangeHandler(2)}>
+                        <FontAwesomeIcon icon={faDroplet} className="text-3xl text-center" />
+                        <h1 className="font-bold mt-4">I/O Record</h1>
+                    </div>
+                </div>
                 <ReportsSubmitter reportType="studentAssessmentReport" title="Assessment" reportSets={reportSets} onSave={setStudentReports} />
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["Date", "Time", "Set Name", "Field", "Value"]} show={studentReports.length > 0} title="Added History">
+            <ArrayPreviewer headerItems={["Date", "Time", "Set Name", "Field", "Value"]} show={studentReports.length > 0} title="Added History" className="hover:w-[50rem] transition-all h-full overflow-clip">
                 {studentReports.map((r,i)=>
                     <Tr key={i}>
                         <Td>{r.date}</Td>
