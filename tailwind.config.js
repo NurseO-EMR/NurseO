@@ -9,7 +9,8 @@ module.exports = {
       white: "#ffffff",
       blue: "#3b81fa",
       red: "#f53c3a",
-      darkGray: "#7a7a7a"
+      darkGray: "#7a7a7a",
+      disabled: "#f3f6f8"
     },
     extend: {
       width: {

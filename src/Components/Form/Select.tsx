@@ -33,7 +33,7 @@ function SelectEle(props: Props, ref:ForwardedRef<HTMLSelectElement>) {
                 <span>{props.label}</span>
                 <span className="opacity-75 text-sm"> {props.optional ? "(optional)" : null}</span>
             </label>
-            <select id={id} {...getSelectProps()} required={!props.optional} className={"border h-8  px-2"} ref={ref}>
+            <select id={id} {...getSelectProps()} required={!props.optional} className={"border h-8  px-2 disabled:bg-disabled"} ref={ref}>
                 {props.children}
             </select>
         </motion.div>
