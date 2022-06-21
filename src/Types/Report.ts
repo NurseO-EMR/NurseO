@@ -28,5 +28,5 @@ export type StudentReport = {
     reportType: ReportType,
 }
     
-export type ReportType = "studentVitalsReport" | "studentLabReport" | "studentAssessmentReport" | "studentScalesReport";
+export type ReportType = "studentVitalsReport" | "studentAssessmentReport" | "studentIOReport";
 
