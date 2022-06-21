@@ -1,4 +1,4 @@
-import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough, faHouseChimneyUser, faSyringe, faMaskVentilator } from "@fortawesome/free-solid-svg-icons";
+import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough, faHouseChimneyUser, faSyringe, faMaskVentilator, faComputer } from "@fortawesome/free-solid-svg-icons";
 import PageView from "./PageView";
 import { Step } from "../Components/Steps/Step";
 import { Steps } from "../Components/Steps/Steps";
@@ -14,11 +14,12 @@ import { Allergy, CustomOrder, MedicationOrder, PatientChart, MedicalHistory } f
 import { ImmunizationsStage } from "../Stages/CreatePatient/ImmunizationsStage";
 import { CustomOrdersStage } from "../Stages/CreatePatient/CustomOrdersStage";
 import { createEmptyPatient } from "../Services/Util";
+import { ChartingStage } from "../Stages/CreatePatient/ChartingStage";
 
 
 export default function CreatePatientPage() {
 
-    const [currentStage, setCurrentStage] = useState(7)
+    const [currentStage, setCurrentStage] = useState(8)
     const [dob, setDOB] = useState("")
 
     
@@ -94,6 +95,8 @@ export default function CreatePatientPage() {
                 <Step icon={faHeart} />
                 <Step icon={faStethoscope} />
                 <Step icon={faMaskVentilator} />
+                <Step icon={faComputer} />
+                
             </Steps>
 
             <Stages stage={currentStage}>
@@ -105,6 +108,7 @@ export default function CreatePatientPage() {
                 <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onSocialHistoryHandler} />
                 <OrdersStage onPrev={onPrevClickHandler} onNext={onMedicalOrdersHandler} />
                 <CustomOrdersStage onPrev={onPrevClickHandler} onNext={onCustomOrdersHandler} />
+                <ChartingStage onPrev={onPrevClickHandler} onNext={console.log} />
             </Stages>
         </PageView>
     );

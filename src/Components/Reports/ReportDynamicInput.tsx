@@ -1,12 +1,15 @@
 import React, { ChangeEvent } from "react";
 import { ReportInputType, ReportOptions } from "nurse-o-core";
+import { Input } from "../Form/Input";
+import { Select } from "../Form/Select";
 
 type Props = {
     fieldType: ReportInputType,
     index: number,
     onChange: (value: string, key: number) => void,
-    disabled?: boolean,
+    enabled: boolean,
     options?: ReportOptions,
+    label: string
 
 }
 
@@ -41,42 +44,47 @@ export function ReportDynamicInput(props: Props) {
     return (
         <>
             {props.fieldType === "text" ?
-                <input name={props.index.toString()} onChange={onInputChangeHandler} className={inputStyle + " "}
-                    type="text" disabled={props.disabled} /> : null}
+                <Input label={props.label} name={props.index.toString()} onChange={onInputChangeHandler} className={inputStyle + " "} optional={true}
+                    type="text" disabled={!props.enabled} /> : null}
 
 
             {props.fieldType === "number" ?
-                <input name={props.index.toString()} onChange={onInputChangeHandler} className={inputStyle}
-                    type="number" disabled={props.disabled} /> : null}
+                <Input label={props.label} name={props.index.toString()} onChange={onInputChangeHandler} className={inputStyle} optional={true}
+                    type="number" disabled={!props.enabled} /> : null}
 
 
             {props.fieldType === "T/F" ?
-                <select name={props.index.toString()} onChange={onSelectChangeHandler} className={inputStyle}
-                    disabled={props.disabled}>
+                <Select name={props.index.toString()} onChange={onSelectChangeHandler} className={inputStyle} optional={true}
+                    disabled={!props.enabled} label={props.label}>
                     <option></option>
                     <option>Y</option>
                     <option>N</option>
-                </select> : null}
+                </Select> : null}
 
 
             {props.fieldType === "checkbox" ?
-                <div className="flex flex-wrap gap-5 w-1/2">
-                    {props.options?.map((val, j) =>
-                        <div key={props.index + j} className="flex items-center gap-2" >
-                            <input type="checkbox" disabled={props.disabled} onChange={e => onCheckBoxChecked(val.name, e.target.checked, props.index)} />
-                            <label>{val.name}</label>
-                        </div>
-                    )}
+                <div className="my-4 w-full text-center">
+                    <label className="font-bold">{props.label}</label>
+                    <div className="flex flex-wrap gap-5 w-[90%] m-auto justify-center">
+                        {props.options?.map((val, j) =>
+                            <div key={props.index + j} className="flex items-center gap-2" >
+                                <input type="checkbox" disabled={!!props.enabled} onChange={e => onCheckBoxChecked(val.name, e.target.checked, props.index)} />
+                                <label>{val.name}</label>
+                            </div>
+                        )}
+                    </div>
                 </div>
                 : null}
 
 
 
             {props.fieldType === "options" ?
-                <select name={props.index.toString()} onChange={onSelectChangeHandler} className={inputStyle} disabled={props.disabled}>
+                <Select name={props.index.toString()} onChange={onSelectChangeHandler} className={inputStyle} disabled={!props.enabled} label={props.label} optional={true}>
                     <option></option>
-                    {props.options?.map((val, i) => <option key={i} title={val.name}>{val.name}</option>)}
-                </select>
+                    <>
+                        {props.options?.map((val, i) => <option key={i} title={val.name}>{val.name}</option>)}
+                    </>
+                </Select>
                 : null}
         </>
 
