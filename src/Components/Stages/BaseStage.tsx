@@ -18,7 +18,8 @@ type Props = BaseStageProps & {
     title: string,
     icon: IconProp,
     moveLeft?: boolean,
-    customIconNTitle?:boolean
+    customIconNTitle?:boolean,
+    customNextText?: string
 }
 
 export function BaseStage(props: Props) {
@@ -40,7 +41,7 @@ export function BaseStage(props: Props) {
 
                 <motion.div className="flex gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ delay: STAGE_ANIMATION_DURATION - 0.5 }}>
                     <Button className="bg-darkGray" onClick={props.onPrev}>Previous</Button>
-                    <Button className="bg-blue" onClick={onNextClickHandler}>Next</Button>
+                    <Button className="bg-blue" onClick={onNextClickHandler}>{props.customNextText ? props.customNextText : "Next"}</Button>
                 </motion.div>
 
             </Form>

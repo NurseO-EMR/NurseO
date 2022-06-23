@@ -1,4 +1,5 @@
-import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough, faHouseChimneyUser, faSyringe, faMaskVentilator, faComputer } from "@fortawesome/free-solid-svg-icons";
+import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough,
+     faHouseChimneyUser, faSyringe, faMaskVentilator, faComputer, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import PageView from "./PageView";
 import { Step } from "../Components/Steps/Step";
 import { Steps } from "../Components/Steps/Steps";
@@ -15,11 +16,12 @@ import { ImmunizationsStage } from "../Stages/CreatePatient/ImmunizationsStage";
 import { CustomOrdersStage } from "../Stages/CreatePatient/CustomOrdersStage";
 import { createEmptyPatient } from "../Services/Util";
 import { ChartingStage } from "../Stages/CreatePatient/ChartingStage";
+import { ReviewStage } from "../Stages/CreatePatient/Review";
 
 
 export default function CreatePatientPage() {
 
-    const [currentStage, setCurrentStage] = useState(5)
+    const [currentStage, setCurrentStage] = useState(9)
     const [dob, setDOB] = useState("")
 
     
@@ -100,7 +102,8 @@ export default function CreatePatientPage() {
                 <Step icon={faHeart} />
                 <Step icon={faStethoscope} />
                 <Step icon={faMaskVentilator} />
-                <Step icon={faComputer} />                
+                <Step icon={faComputer} />       
+                <Step icon={faFileInvoice} />       
             </Steps>
 
             <Stages stage={currentStage}>
@@ -113,6 +116,7 @@ export default function CreatePatientPage() {
                 <OrdersStage onPrev={onPrevClickHandler} onNext={onMedicalOrdersHandler} />
                 <CustomOrdersStage onPrev={onPrevClickHandler} onNext={onCustomOrdersHandler} />
                 <ChartingStage onPrev={onPrevClickHandler} onNext={onReportSubmitHandler} />
+                <ReviewStage  onPrev={onPrevClickHandler} onNext={console.log} patient={patient}/>
             </Stages>
         </PageView>
     );
