@@ -38,7 +38,7 @@ export function CustomOrdersStage(props: Props) {
 
     return (
         <div className="overflow-hidden relative">
-            <BaseStage {...props} onNext={onNextClickHandler} title="Custom Orders" icon={faMaskVentilator} moveLeft={history.length > 0}>
+            <BaseStage {...props} onNext={onNextClickHandler} title="Custom Orders" icon={faMaskVentilator} moveLeft={orders.length > 0}>
                 <label className="block text-left">Entry: </label>
                 <textarea className="border p-2" cols={45} rows={5} onChange={e=>setOrder(e.currentTarget.value)} />
                 <Select label="Order Type" value={orderType} onChange={e => setOrderType(e.currentTarget.value as OrderType)}>
@@ -48,7 +48,7 @@ export function CustomOrdersStage(props: Props) {
                 <Button onClick={onHistoryAddClickHandler} className="bg-blue my-4">Add Custom Order Entry</Button>
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["type","Order"]} show={history.length > 0} title="Added Custom Orders">
+            <ArrayPreviewer headerItems={["type","Order"]} show={orders.length > 0} title="Added Custom Orders">
                 {orders.map((entry,i)=>
                     <Tr key={i}>
                         <Td><pre>{entry.orderType}</pre></Td>
