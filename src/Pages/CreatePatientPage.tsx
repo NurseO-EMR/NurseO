@@ -21,7 +21,7 @@ import { ReviewStage } from "../Stages/CreatePatient/Review";
 
 export default function CreatePatientPage() {
 
-    const [currentStage, setCurrentStage] = useState(9)
+    const [currentStage, setCurrentStage] = useState(0)
     const [dob, setDOB] = useState("")
 
     

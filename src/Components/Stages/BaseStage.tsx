@@ -36,12 +36,15 @@ export function BaseStage(props: Props) {
     
     return (
         <AnimatePresence exitBeforeEnter={true}>
-            <Form title={props.title} icon={props.icon} moveLeft={props.moveLeft} onValid={(valid)=>formInputsValid=valid} customIconNTitle={props.customIconNTitle}>
+            <Form title={props.title} icon={props.icon} moveLeft={props.moveLeft}
+              onValid={(valid)=>formInputsValid=valid} customIconNTitle={props.customIconNTitle}
+              onSubmit={onNextClickHandler}
+             >
                 <>{props.children}</>
 
                 <motion.div className="flex gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ delay: STAGE_ANIMATION_DURATION - 0.5 }}>
                     <Button className="bg-darkGray" onClick={props.onPrev}>Previous</Button>
-                    <Button className="bg-blue" onClick={onNextClickHandler}>{props.customNextText ? props.customNextText : "Next"}</Button>
+                    <input type="submit" className="bg-blue font-bold text-white w-full py-4 rounded-full " value={props.customNextText ? props.customNextText : "Next"}/>
                 </motion.div>
 
             </Form>
