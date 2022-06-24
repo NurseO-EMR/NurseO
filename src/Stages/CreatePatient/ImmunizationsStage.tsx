@@ -31,13 +31,13 @@ export function ImmunizationsStage(props: Props) {
 
     return (
         <div className="overflow-hidden relative">
-            <BaseStage {...props} onNext={onNextClickHandler} title="Immunizations" icon={faSyringe} moveLeft={history.length > 0}>
+            <BaseStage {...props} onNext={onNextClickHandler} title="Immunizations" icon={faSyringe} moveLeft={immunizations.length > 0}>
                 <Input label="Immunization name" onChange={e => setEntry(e.currentTarget.value)} value={entry} optional/>
                 
                 <Button onClick={onHistoryAddClickHandler} className="bg-blue my-4">Add Immunization Entry</Button>
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["Immunization"]} show={history.length > 0} title="Added Immunizations">
+            <ArrayPreviewer headerItems={["Immunization"]} show={immunizations.length > 0} title="Added Immunizations">
                 {immunizations.map((entry,i)=>
                     <Tr key={i}>
                         <Td>{entry}</Td>
