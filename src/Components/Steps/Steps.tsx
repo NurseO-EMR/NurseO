@@ -15,22 +15,24 @@ export function Steps(props: Props) {
     console.log(itemsWidth)
     console.log(screenSize)
     return (
-        <div className={`relative h-20 flex ${props.className}`} style={{ width: screenSize - itemsWidth/2}}>
-            {props.children.map((step, i) =>
-                <div key={i} className="absolute top-0" style={{ left: itemsWidth * i }}>
-                    {
-                        checkIfStepIsActive(props.children, step, i, props.activeStep)
-                    }
-                    {props.children.length - 1 > i ?
-                        <>
-                            {props.activeStep > i ? 
-                            <StepConnector style={{width:itemsWidth, background: "#F63B3B"}} />
-                            : <StepConnector style={{width:itemsWidth}} />
-                            }
-                        </>
-                        : null}
-                </div>
-            )}
+        <div className="w-screen grid justify-center">
+            <div className={`relative h-20 flex ${props.className}`} style={{ width: screenSize - itemsWidth/2}}>
+                {props.children.map((step, i) =>
+                    <div key={i} className="absolute top-0" style={{ left: itemsWidth * i }}>
+                        {
+                            checkIfStepIsActive(props.children, step, i, props.activeStep)
+                        }
+                        {props.children.length - 1 > i ?
+                            <>
+                                {props.activeStep > i ? 
+                                <StepConnector style={{width:itemsWidth, background: "#F63B3B"}} />
+                                : <StepConnector style={{width:itemsWidth}} />
+                                }
+                            </>
+                            : null}
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
