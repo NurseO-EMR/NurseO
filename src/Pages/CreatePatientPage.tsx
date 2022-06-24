@@ -74,6 +74,7 @@ export default function CreatePatientPage() {
 
     const onMedicalOrdersHandler=(medicalOrders: MedicationOrder[])=>{
         patient.medicationOrders = medicalOrders;
+        onNextClickHandler();
     }
 
     const onImmunizationsHandler = (immunizations:string[]) =>{

@@ -123,7 +123,7 @@ export function OrdersStage(props: Props) {
 
 
                     <Input label="Notes" onChange={e => setNotes(e.currentTarget.value)} value={notes} optional />
-                    <Select label="Order Type" value={orderType} onChange={e => setOrderType(e.currentTarget.value as OrderType)}>
+                    <Select label="Order Type" value={orderType} onChange={e => setOrderType(e.currentTarget.value as OrderType)} optional>
                         {Object.values(OrderType).map((t, i) => <option value={t} key={i}>{t}</option>)}
                     </Select>
 

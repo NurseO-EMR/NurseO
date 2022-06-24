@@ -23,12 +23,6 @@ export function SearchableSelect(props: Props) {
     const id:string = new Date().getTime().toString();
 
     const customStyles:StylesConfig = {
-        // option: (provided, state) => ({
-        //   ...provided,
-        //   borderBottom: "1px dotted pink",
-        //   color: state.isSelected ? "red" : "blue",
-        //   padding: 20,
-        // }),
         control: () => ({
             alignItems: "center",
             borderWidth: "1px",
@@ -37,12 +31,6 @@ export function SearchableSelect(props: Props) {
             flexWrap: "wrap",
             justifyContent: "space-between",
         }),
-        // singleValue: (provided, state) => {
-        //   const opacity = state.isDisabled ? 0.5 : 1;
-        //   const transition = "opacity 300ms";
-      
-        //   return { ...provided, opacity, transition };
-        // }
       }
       
 
@@ -88,6 +76,8 @@ export function SearchableSelect(props: Props) {
                 onChange={(e)=>props.onChange((e as Option|undefined)?.value || "")}
                 isClearable={true} 
                 styles={customStyles} 
+                
+                
             />
         </motion.div>
     )

@@ -12,8 +12,6 @@ export function Steps(props: Props) {
 
     const screenSize = window.screen.width * 0.78;
     const itemsWidth = screenSize / (props.children.length)
-    console.log(itemsWidth)
-    console.log(screenSize)
     return (
         <div className="w-screen grid justify-center">
             <div className={`relative h-20 flex ${props.className}`} style={{ width: screenSize - itemsWidth/2}}>
