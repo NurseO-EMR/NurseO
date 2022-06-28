@@ -12,8 +12,7 @@ type Props = {
     delay?: number,
     moveLeft?: boolean,
     onValid?: (valid: boolean)=>void,
-    customIconNTitle?:boolean,
-    onSubmit?: ()=>void
+    customIconNTitle?:boolean
 
 }
 
@@ -41,7 +40,6 @@ function FormEle(props: Props, ref: ForwardedRef<HTMLFormElement>) {
         e.preventDefault();
         e.stopPropagation();
         if(props.onValid) props.onValid(e.currentTarget.checkValidity());
-        if(props.onSubmit) props.onSubmit();
     }
 
     return (
