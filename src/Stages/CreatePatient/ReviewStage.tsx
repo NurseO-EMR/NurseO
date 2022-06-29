@@ -15,14 +15,14 @@ export function ReviewStage(props: Props) {
     return <BaseStage {...props} title="Review" icon={faFileInvoice} onNext={props.onNext} customNextText="Add Patient">
         <ReviewSection title="Basic Info">
             <ReviewItem label="Name" value={props.patient.name} />
-            <ReviewItem label="DOB" value={props.patient.name} />
-            <ReviewItem label="Gender" value={props.patient.name} />
-            <ReviewItem label="Height" value={props.patient.name} />
-            <ReviewItem label="Weight" value={props.patient.name} />
+            <ReviewItem label="DOB" value={props.patient.dob} />
+            <ReviewItem label="Gender" value={props.patient.gender} />
+            <ReviewItem label="Height" value={props.patient.height} />
+            <ReviewItem label="Weight" value={props.patient.weight} />
         </ReviewSection>
         <ReviewSection title="Sim Info">
             <ReviewItem label="Barcode" value={props.patient.id} />
-            <ReviewItem label="Age" value={props.patient.name} />
+            <ReviewItem label="Age" value={props.patient.age} />
             <ReviewItem label="Sim Time" value={props.patient.time.hour + ":" + props.patient.time.minutes} />
             <ReviewItem label="Labs URL" value={props.patient.labDocURL} />
         </ReviewSection>

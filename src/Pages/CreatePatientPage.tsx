@@ -11,21 +11,21 @@ import { AllergiesStage } from "../Stages/CreatePatient/AllergiesStage";
 import { MedicalHistoryStage } from "../Stages/CreatePatient/MedicalHistoryStage";
 import { SocialHistoryStage } from "../Stages/CreatePatient/SocialHistoryStage";
 import { OrdersStage } from "../Stages/CreatePatient/OrdersStage";
-import { Allergy, CustomOrder, MedicationOrder, PatientChart, MedicalHistory, StudentReport } from "nurse-o-core";
+import { Allergy, CustomOrder, MedicationOrder, MedicalHistory, StudentReport } from "nurse-o-core";
 import { ImmunizationsStage } from "../Stages/CreatePatient/ImmunizationsStage";
 import { CustomOrdersStage } from "../Stages/CreatePatient/CustomOrdersStage";
 import { createEmptyPatient } from "../Services/Util";
 import { ChartingStage } from "../Stages/CreatePatient/ChartingStage";
-import { ReviewStage } from "../Stages/CreatePatient/Review";
+import { ReviewStage } from "../Stages/CreatePatient/ReviewStage";
 
 
 export default function CreatePatientPage() {
 
-    const [currentStage, setCurrentStage] = useState(9)
+    const [currentStage, setCurrentStage] = useState(0)
     const [dob, setDOB] = useState("")
 
     
-    const patient:PatientChart = createEmptyPatient();
+    const [patient, setPatient] = useState(createEmptyPatient());
 
 
     const onNextClickHandler = () => {
@@ -45,6 +45,7 @@ export default function CreatePatientPage() {
         patient.height = basicInfo.height
         patient.weight = basicInfo.weight
         setDOB(basicInfo.dob)
+        setPatient(patient);
         onNextClickHandler();
     }
 
@@ -54,41 +55,57 @@ export default function CreatePatientPage() {
         patient.age = simInfo.age
         patient.time = simInfo.time
         patient.labDocURL = simInfo.labDocURL
+        setPatient(patient);
+
         onNextClickHandler()
     }
 
     const onAllergiesHandler = (allergies:Allergy[])=>{
         patient.allergies  = allergies;
+        setPatient(patient);
+
         onNextClickHandler();
     }
 
     const onMedicalHistoryHandler = (medicalHistory:MedicalHistory[])=>{
         patient.medicalHistory = medicalHistory
+        setPatient(patient);
+
         onNextClickHandler();
     }
     
     const onSocialHistoryHandler = (socialHistory:string[])=>{
         patient.socialHistory = socialHistory
+        setPatient(patient);
+
         onNextClickHandler();
     }
 
     const onMedicalOrdersHandler=(medicalOrders: MedicationOrder[])=>{
         patient.medicationOrders = medicalOrders;
+        setPatient(patient);
+
         onNextClickHandler();
     }
 
     const onImmunizationsHandler = (immunizations:string[]) =>{
         patient.immunizations = immunizations;
+        setPatient(patient);
+
         onNextClickHandler();
     }
 
     const onCustomOrdersHandler = (customOrders:CustomOrder[]) =>{
         patient.customOrders = customOrders;
+        setPatient(patient);
+
         onNextClickHandler();
     }
 
     const onReportSubmitHandler = (reports:StudentReport[])=>{
         patient.studentReports = reports;
+        setPatient(patient);
+
         onNextClickHandler();
     }
 

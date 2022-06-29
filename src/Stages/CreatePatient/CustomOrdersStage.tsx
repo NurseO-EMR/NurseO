@@ -41,7 +41,7 @@ export function CustomOrdersStage(props: Props) {
             <BaseStage {...props} onNext={onNextClickHandler} title="Custom Orders" icon={faMaskVentilator} moveLeft={orders.length > 0}>
                 <label className="block text-left">Entry: </label>
                 <textarea className="border p-2" cols={45} rows={5} onChange={e=>setOrder(e.currentTarget.value)} />
-                <Select label="Order Type" value={orderType} onChange={e => setOrderType(e.currentTarget.value as OrderType)}>
+                <Select label="Order Type" value={orderType} onChange={e => setOrderType(e.currentTarget.value as OrderType)} optional>
                         {Object.values(OrderType).map((t, i) => <option value={t} key={i}>{t}</option>)}
                     </Select>
                 
