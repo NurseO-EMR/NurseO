@@ -1,23 +1,6 @@
 import { Settings } from "nurse-o-core";
 
 
-export enum Gender {
-    Male="male",
-    Female="female",
-    Other="other",
-}
-
-export enum DateFormat {
-    HiddenYear="HiddenYear",
-    HiddenMonthNYear="HiddenMonthNYear",
-    NothingHidden="NothingHidden"
-}
-
-export type MedicalHistory = {
-    date: string,
-    title: string,
-    notes:string
-}
 
 
 export class MedicationModified {
@@ -44,32 +27,3 @@ export type SettingsModified = Settings & {
     locations: MedicationLocation[]
 }
 
-
-export const sampleMed: MedicationModified = {
-    id: "!",
-    name: "Acetaminophen",
-    locations: [
-        {
-            building: "UHH",
-            narcoticCountNeeded: false,
-            station: "NurseA",
-            supply: [
-                {
-                    name: "Acetaminophen tablet 800mg",
-                    drawer: "D3",
-                    barcode: "20",
-                },
-                {
-                    name: "Acetaminophen tablet 600mg",
-                    drawer: "D1 Pocket B",
-                    barcode: "20",
-                },
-                {
-                    name: "Acetaminophen tablet 325mg",
-                    drawer: "D1 Pocket A",
-                    barcode: "20",
-                },
-            ]
-        }
-    ]
-}

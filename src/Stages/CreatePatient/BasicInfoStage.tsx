@@ -2,7 +2,7 @@ import { faIdCard } from "@fortawesome/free-solid-svg-icons";
 import { Input} from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "./../../Components/Stages/BaseStage"
-import { Gender } from "../../Services/Core";
+import { Gender } from "nurse-o-core";
 import { useState } from "react";
 
 

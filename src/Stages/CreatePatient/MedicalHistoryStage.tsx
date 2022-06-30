@@ -7,7 +7,7 @@ import { ArrayPreviewer } from "../../Components/Stages/ArrayPreviewer";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
 import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
-import { MedicalHistory } from "../../Services/Core";
+import { MedicalHistory } from "nurse-o-core";
 
 export type Props = BaseStageProps & {
     onNext: (medicalHistory: MedicalHistory[]) => void,

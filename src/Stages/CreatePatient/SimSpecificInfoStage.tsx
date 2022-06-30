@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { DateFormat } from "../../Services/Core";
+import { DateFormat } from "../../Services/DateFormat";
 
 
 export type SimSpecificInfo = {
