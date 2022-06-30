@@ -11,6 +11,7 @@ export type Props = BaseStageProps & {
     patient: PatientChart
 };
 
+
 export function ReviewStage(props: Props) {
     return <BaseStage {...props} title="Review" icon={faFileInvoice} onNext={props.onNext} customNextText="Add Patient">
         <ReviewSection title="Basic Info">

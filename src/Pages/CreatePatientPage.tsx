@@ -17,6 +17,7 @@ import { CustomOrdersStage } from "../Stages/CreatePatient/CustomOrdersStage";
 import { createEmptyPatient } from "../Services/Util";
 import { ChartingStage } from "../Stages/CreatePatient/ChartingStage";
 import { ReviewStage } from "../Stages/CreatePatient/ReviewStage";
+import { Database } from "../Services/Database";
 
 
 export default function CreatePatientPage() {
@@ -105,8 +106,15 @@ export default function CreatePatientPage() {
     const onReportSubmitHandler = (reports:StudentReport[])=>{
         patient.studentReports = reports;
         setPatient(patient);
-
         onNextClickHandler();
+    }
+
+
+    const onAddPatientClickHandler = async ()=>{
+        const db = Database.getInstance();
+        await db.addTemplatePatient(patient)
+        console.log("patient Added: ")
+        console.log(patient)
     }
 
     return (
@@ -134,7 +142,7 @@ export default function CreatePatientPage() {
                 <OrdersStage onPrev={onPrevClickHandler} onNext={onMedicalOrdersHandler} />
                 <CustomOrdersStage onPrev={onPrevClickHandler} onNext={onCustomOrdersHandler} />
                 <ChartingStage onPrev={onPrevClickHandler} onNext={onReportSubmitHandler} />
-                <ReviewStage  onPrev={onPrevClickHandler} onNext={console.log} patient={patient}/>
+                <ReviewStage  onPrev={onPrevClickHandler} onNext={onAddPatientClickHandler} patient={patient}/>
             </Stages>
         </PageView>
     );
