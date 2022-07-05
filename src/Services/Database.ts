@@ -2,14 +2,12 @@ import { initializeApp } from "firebase/app";
 import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
     limit, query, updateDoc, where, doc, getDoc, orderBy, deleteDoc,
-    DocumentData, QueryDocumentSnapshot, Firestore, connectFirestoreEmulator
+    DocumentData, QueryDocumentSnapshot, Firestore, connectFirestoreEmulator, setDoc
 } from "firebase/firestore";
 import { findIndex } from "lodash";
-import {
-    $settings, PatientChart, Medication
-} from "nurse-o-core"
+import {$settings, PatientChart} from "nurse-o-core"
 import { Cache } from "./Cache";
-import { MedicationLocation, SettingsModified as Settings } from "./Core";
+import { MedicationModified as Medication, SettingsModified as Settings } from "./Core";
 
 export class Database {
     private static instance: Database;
@@ -33,24 +31,13 @@ export class Database {
 
     }
 
-    // async addPatient(patient: PatientChart) {
-    //     return await addDoc(collection(this.db, "patients"), patient);
-    // }
-
-    async addMedication(medication: Medication) {
-        this.medListCached = false;
-        const medicationCollection = collection(this.db, "medications");
-        console.log(medicationCollection)
-        // const document = doc(medicationCollection);
-        // medication.id = document.id;
-        await addDoc(collection(this.db, "medications"), medication);
-    }
 
     async getMedications(): Promise<Medication[]> {
         if (this.medListCached) {
             const cachedMeds = this.cache.getMeds();
             return cachedMeds;
         }
+        
         console.log("getting medications from db")
         const q = query(collection(this.db, "medications"), orderBy("name"));
         const docs = (await getDocs(q)).docs
@@ -58,60 +45,6 @@ export class Database {
         this.cache.cacheMultipleMeds(medications);
         return medications;
     }
-
-    // async getMedication(medID?: string, barcode?: string): Promise<Medication | null> {
-    //     //check if the med is cached 
-    //     const cachedMeds = this.cache.getMeds();
-    //     let medIndex;
-    //     if (medID) medIndex = findIndex(cachedMeds, { id: medID });
-
-    //     else if (barcode) medIndex = findIndex(cachedMeds, { barcode: barcode });
-    //     else throw new Error("Please provide either medID or barcode ID")
-    //     if (medIndex > -1) return cachedMeds[medIndex];
-
-    //     console.log("getting medication info from db")
-    //     let doc: QueryDocumentSnapshot<DocumentData>;
-
-    //     if (medID) {
-    //         doc =  await this.getMedicationDoc(medID) as QueryDocumentSnapshot<DocumentData>;
-    //     } else if (barcode) {
-    //         doc = await this.getMedicationDoc(undefined, barcode) as QueryDocumentSnapshot<DocumentData>;
-    //     } else {
-    //         throw new Error("Please provide either medID or barcode ID")
-    //     }
-
-    //     if (!doc) return null;
-    //     const medication = doc.data() as Medication;
-    //     this.cache.cacheMed(medication);
-    //     return medication;
-    // }
-
-
-    // private async getMedicationDoc(medID?: string, barcode?: string) {
-    //     let q;
-    //     if (medID) {
-    //         q = query(collection(this.db, "medications"), where("id", "==", medID), limit(1))
-    //     } else if (barcode) {
-    //         q = query(collection(this.db, "medications"), where("barcode", "==", barcode), limit(1))
-    //     } else {
-    //         throw new Error("Please provide either medID or barcode ID")
-    //     }
-    //     const doc = (await getDocs(q)).docs[0]
-    //     return doc;
-    // }
-
-    // async updateMedication(med: Medication) {
-    //     console.log(med.id)
-    //     const doc = await this.getMedicationDoc(med.id);
-    //     const ref = doc.ref;
-    //     updateDoc(ref, { ...med });
-    // }
-
-    // async removeMedication(medID: string) {
-    //     const doc = await this.getMedicationDoc(medID);
-    //     await deleteDoc(doc.ref);
-    //     this.medListCached = false;
-    // }
 
 
 
@@ -127,19 +60,10 @@ export class Database {
         return data;
     }
 
-    // async saveSettings(setting: Settings) {
-    //     const settingsRef = doc(this.db, "settings", "settings");
-    //     await setDoc(settingsRef, setting);
-    // }
-
     async updateSettings(settings: Settings) {
         const settingsRef = doc(this.db, "settings", "settings");
         await updateDoc(settingsRef, settings);
     }
-
-
-
-
 
     async addTemplatePatient(patient: PatientChart) {
         this.patientListCached = false;
@@ -198,21 +122,6 @@ export class Database {
     //     }
     //     updateDoc(doc.ref,data);
     // }
-
-
-    async addLocation(location: MedicationLocation) {
-        const settings = await this.getSettings();
-        if (!settings.locations) settings.locations = []
-        settings.locations.push(location);
-        await this.updateSettings(settings);
-    }
-
-    async getLocations(): Promise<MedicationLocation[]> {
-        const settings = await this.getSettings();
-        if(settings.locations === undefined) return [];
-        return settings.locations;
-    }
-
 
 
 
