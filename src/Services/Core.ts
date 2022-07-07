@@ -1,21 +1,30 @@
 import { Settings } from "nurse-o-core";
 
 export type MedicationLocation = {
-    building: string,
-    station: string,
+    id: string,
     drawer: string,
     slot: string,
+    barcode: string,
+    dose: string,
+    type: string,
 }
 
 
-export type MedicationModified = MedicationLocation & {
+export type MedicationModified = {
     id: string,
     name: string,
     narcoticCountNeeded: boolean
-    medBarCode: string,
+    locations: MedicationLocation[]
+}
+
+
+export type LocationDefinition = {
+    id: string,
+    building: string,
+    station: string,
 }
 
 
 export type SettingsModified = Settings & {
-    locations: MedicationLocation[]
+    locations: LocationDefinition[]
 }

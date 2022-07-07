@@ -10,9 +10,11 @@ export type Props = BaseStageProps & {
 export function LocationBasicInfoStage(props:Props) {
     const [buildingName, setBuildingName] = useState("");
     const [stationName, setStationName] = useState("");
+    const [waiting, setWaiting] = useState(false)
 
 
     const onNextClickHandler = () => {
+        setWaiting(true)
         props.onNext(buildingName, stationName)
     }
 
@@ -21,7 +23,7 @@ export function LocationBasicInfoStage(props:Props) {
 
 
 
-    return <BaseStage {...props} title="Location Info" icon={faBuilding} onNext={onNextClickHandler}>
+    return <BaseStage {...props} title="Location Info" icon={faBuilding} onNext={onNextClickHandler} customNextText={waiting ? "Loading..." : "Next"}>
         <Input label="Building Name" onChange={e=>setBuildingName(e.currentTarget.value)} value={buildingName} />
         <Input label="Station Name"  onChange={e=>setStationName(e.currentTarget.value)} value={stationName}/>
     </BaseStage>

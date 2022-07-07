@@ -2,33 +2,30 @@ import PageView from "./PageView";
 import { Steps } from "../Components/Steps/Steps";
 import { useState } from "react";
 import { Stages } from "../Components/Stages/Stages";
-import { MedicationModified as Medication } from "../Services/Core";
+import { MedicationLocation, MedicationModified as Medication } from "../Services/Core";
 import { MedBasicInfoStage } from "../Stages/CreateMed/MedBasicInfoStage";
 import { Step } from "../Components/Steps/Step";
-import { faPills } from "@fortawesome/free-solid-svg-icons";
+import { faBuilding, faFileInvoice, faPills } from "@fortawesome/free-solid-svg-icons";
 import { MedLocationStage } from "../Stages/CreateMed/MedLocationStage";
+import { MedFinalizeStage } from "../Stages/CreateMed/MedFinalizeStage";
+import { Database } from "../Services/Database";
 
 
 export default function CreateMedicationPage() {
 
     const [currentStage, setCurrentStage] = useState(0)
 
-    const EmptyMed: Medication = {
+    const emptyMed:Medication = {
         id: "",
         name: "",
-        medBarCode: "",
         narcoticCountNeeded: false,
-        station: "",
-        building: "",
-        drawer: "",
-        slot: "",
+        locations: []
     }
 
+    const [med, setMed] = useState<Medication>(emptyMed)
 
-    const [med, setMed] = useState(EmptyMed)
 
-
-    const onNextClickHandler = () => {
+    const moveStage = () => {
         const stage = currentStage + 1;
         setCurrentStage(stage);
     }
@@ -38,18 +35,46 @@ export default function CreateMedicationPage() {
         setCurrentStage(stage);
     }
 
+    const onMedBasicInfo = async (id: string, name: string, narcoticCountNeeded: boolean)=>{
+        const db = Database.getInstance()
+        med.id = id
+        med.name = name
+        med.narcoticCountNeeded = narcoticCountNeeded
+
+        const medReference = await db.getMedication(id)
+        if(medReference) med.locations = medReference.locations
+        setMed(med);
+        moveStage()
+    }
+
+    const onMedLocationInfo = (locationId: string, drawerName: string, slotName: string,dose: string, type: string, barcode: string)=>{
+        const location:MedicationLocation = {
+            id: locationId,
+            drawer: drawerName,
+            slot: slotName,
+            dose: dose,
+            barcode: barcode,
+            type: type
+        }
+        med.locations.push(location)
+        setMed(med);
+        
+    }
+
 
 
     return (
         <PageView>
             <Steps activeStep={currentStage} className="mt-24">
                 <Step icon={faPills} />
-                <Step icon={faPills} />
+                <Step icon={faBuilding} />
+                <Step icon={faFileInvoice} />
             </Steps>
 
             <Stages stage={currentStage}>
-                <MedBasicInfoStage onPrev={onPrevClickHandler} onNext={onNextClickHandler} />
-                <MedLocationStage onPrev={onPrevClickHandler}  onNext={onNextClickHandler} />
+                <MedBasicInfoStage onPrev={onPrevClickHandler} onNext={onMedBasicInfo} />
+                <MedLocationStage onPrev={onPrevClickHandler}  onNext={onMedLocationInfo} />
+                <MedFinalizeStage onPrev={onPrevClickHandler}  onNext={console.log} />
             </Stages>
         </PageView>
     );

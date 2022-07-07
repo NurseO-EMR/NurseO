@@ -1,9 +1,12 @@
+import { useState } from "react";
+import {v4 as uuid} from "uuid"
+import { faBuilding, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
+
 import PageView from "./PageView";
 import { Steps } from "../Components/Steps/Steps";
-import { useState } from "react";
+
 import { Stages } from "../Components/Stages/Stages";
 import { Step } from "../Components/Steps/Step";
-import { faBuilding, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { LocationBasicInfoStage } from "../Stages/CreateLocation/LocationBasicInfo";
 import { LocationFinalizeStage } from "../Stages/CreateLocation/LocationFinalizeStage";
 import { Database } from "../Services/Database";
@@ -27,10 +30,17 @@ export default function CreateLocationPage() {
     }
 
 
-    const onBasicInfoHandler = (buildingName: string, stationName: string)=>{
+    const onBasicInfoHandler = async (buildingName: string, stationName: string)=>{
         const db = Database.getInstance();
+        const settings =  await db.getSettings();
         setBuildingName(buildingName)
         setStationName(stationName)
+        settings.locations.push({
+            building: buildingName,
+            station: stationName,
+            id: uuid()
+        })
+        await db.updateSettings(settings);
         moveStage()
     }
 
