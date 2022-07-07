@@ -12,9 +12,10 @@ export function Steps(props: Props) {
 
     const screenSize = window.screen.width * 0.78;
     const itemsWidth = screenSize / (props.children.length)
+    const INDIVIDUAL_STEP_SIZE = 80 //px
     return (
         <div className="w-screen grid justify-center">
-            <div className={`relative h-20 flex ${props.className}`} style={{ width: screenSize - itemsWidth/2}}>
+            <div className={`relative h-20 flex ${props.className}`} style={{ width: (itemsWidth*(props.children.length-1)+INDIVIDUAL_STEP_SIZE)}}>
                 {props.children.map((step, i) =>
                     <div key={i} className="absolute top-0" style={{ left: itemsWidth * i }}>
                         {
