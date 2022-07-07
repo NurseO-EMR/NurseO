@@ -21,6 +21,7 @@ export default function CreateMedicationPage() {
         station: "",
         building: "",
         drawer: "",
+        slot: "",
     }
 
 

@@ -62,7 +62,8 @@ export function MedBasicInfoStage(props:Props) {
             drawer: "",
             medBarCode: "",
             narcoticCountNeeded: false,
-            station: ""
+            station: "",
+            slot: "",
         })
         setId(id.toString())
     }

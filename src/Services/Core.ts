@@ -4,6 +4,7 @@ export type MedicationLocation = {
     building: string,
     station: string,
     drawer: string,
+    slot: string,
 }
 
 
