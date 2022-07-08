@@ -5,7 +5,7 @@ import {
     DocumentData, QueryDocumentSnapshot, Firestore, connectFirestoreEmulator, setDoc
 } from "firebase/firestore";
 import { findIndex } from "lodash";
-import {$settings, PatientChart} from "nurse-o-core"
+import {PatientChart} from "nurse-o-core"
 import { Cache } from "./Cache";
 import { MedicationModified as Medication, SettingsModified as Settings } from "./Core";
 
@@ -64,6 +64,18 @@ export class Database {
         return medications;
     }
 
+    async addMedication(med:Medication): Promise<void> {
+        const q = query(collection(this.db, "medications"), where("id", "==", med.id), limit(1));
+        const docs = (await getDocs(q)).docs
+        //check if med already exist
+        if(docs.length > 0) {
+            const doc = docs[0]
+            await updateDoc(doc.ref,med)
+        } else {
+            await addDoc(collection(this.db,"medications"),med)
+        }
+    }
+
 
 
     async getSettings(): Promise<Settings> {
@@ -73,7 +85,6 @@ export class Database {
         const document = await getDoc(settingsRef);
         const data = document.data() as Settings;
         this.cache.cacheSettings(data);
-        $settings.next(data);
         console.log(data)
         return data;
     }

@@ -39,7 +39,10 @@ export function MedBasicInfoStage(props: Props) {
     const onMedNameChangeHandler = (id: string) => {
         const IDedMed = find(meds, { id })
         setId(id)
-        if (IDedMed) setNarcoticCount(IDedMed.narcoticCountNeeded ? "true" : "false")
+        if (IDedMed) {
+            setNarcoticCount(IDedMed.narcoticCountNeeded ? "true" : "false")
+            setName(IDedMed.name)
+        }
     }
 
 

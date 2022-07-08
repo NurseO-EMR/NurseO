@@ -22,6 +22,8 @@ export function MedLocationStage(props: Props) {
     const [type, setType] = useState("");
     const [dose, setDose] = useState("");
     const [barcode, setBarcode] = useState("");
+
+    const [loading, setLoading] = useState(false);
     
 
 
@@ -38,6 +40,7 @@ export function MedLocationStage(props: Props) {
 
 
     const onNextClickHandler = () => {
+        setLoading(true)
         props.onNext(locationId,drawerName, slotName,dose, type, barcode);
     }
 
@@ -47,7 +50,7 @@ export function MedLocationStage(props: Props) {
     }
 
 
-    return <BaseStage {...props} title="Where is it going?" icon={faBuilding} onNext={onNextClickHandler} customNextText="Add Medication">
+    return <BaseStage {...props} title="Where is it going?" icon={faBuilding} onNext={onNextClickHandler} customNextText={loading ? "Loading...": "Add Medication"}>
         <div className="grid grid-cols-3 gap-x-8">
             <Select label="Building" onChange={e=>onBuildingSelected(e.currentTarget.value)}>
                 <option></option>

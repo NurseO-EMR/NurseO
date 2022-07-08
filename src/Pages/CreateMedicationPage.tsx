@@ -47,7 +47,8 @@ export default function CreateMedicationPage() {
         moveStage()
     }
 
-    const onMedLocationInfo = (locationId: string, drawerName: string, slotName: string,dose: string, type: string, barcode: string)=>{
+    const onMedLocationInfo = async (locationId: string, drawerName: string, slotName: string,dose: string, type: string, barcode: string)=>{
+        const db = Database.getInstance()
         const location:MedicationLocation = {
             id: locationId,
             drawer: drawerName,
@@ -56,9 +57,11 @@ export default function CreateMedicationPage() {
             barcode: barcode,
             type: type
         }
+        if(!med.locations) med.locations = []
         med.locations.push(location)
         setMed(med);
-        
+        await db.addMedication(med)
+        moveStage();
     }
 
 
@@ -74,7 +77,7 @@ export default function CreateMedicationPage() {
             <Stages stage={currentStage}>
                 <MedBasicInfoStage onPrev={onPrevClickHandler} onNext={onMedBasicInfo} />
                 <MedLocationStage onPrev={onPrevClickHandler}  onNext={onMedLocationInfo} />
-                <MedFinalizeStage onPrev={onPrevClickHandler}  onNext={console.log} />
+                <MedFinalizeStage onPrev={onPrevClickHandler} med={med} />
             </Stages>
         </PageView>
     );
