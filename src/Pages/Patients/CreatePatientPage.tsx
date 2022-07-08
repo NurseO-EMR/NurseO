@@ -1,23 +1,23 @@
 import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough,
      faHouseChimneyUser, faSyringe, faMaskVentilator, faComputer, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import PageView from "./PageView";
-import { Step } from "../Components/Steps/Step";
-import { Steps } from "../Components/Steps/Steps";
+import PageView from "../PageView";
+import { Step } from "../../Components/Steps/Step";
+import { Steps } from "../../Components/Steps/Steps";
 import { useState } from "react";
-import { BasicInfo, BasicInfoStage } from "../Stages/CreatePatient/BasicInfoStage";
-import { SimSpecificInfo, SimSpecificInfoStage } from "../Stages/CreatePatient/SimSpecificInfoStage";
-import { Stages } from "../Components/Stages/Stages";
-import { AllergiesStage } from "../Stages/CreatePatient/AllergiesStage";
-import { MedicalHistoryStage } from "../Stages/CreatePatient/MedicalHistoryStage";
-import { SocialHistoryStage } from "../Stages/CreatePatient/SocialHistoryStage";
-import { OrdersStage } from "../Stages/CreatePatient/OrdersStage";
+import { BasicInfo, BasicInfoStage } from "../../Stages/CreatePatient/BasicInfoStage";
+import { SimSpecificInfo, SimSpecificInfoStage } from "../../Stages/CreatePatient/SimSpecificInfoStage";
+import { Stages } from "../../Components/Stages/Stages";
+import { AllergiesStage } from "../../Stages/CreatePatient/AllergiesStage";
+import { MedicalHistoryStage } from "../../Stages/CreatePatient/MedicalHistoryStage";
+import { SocialHistoryStage } from "../../Stages/CreatePatient/SocialHistoryStage";
+import { OrdersStage } from "../../Stages/CreatePatient/OrdersStage";
 import { Allergy, CustomOrder, MedicationOrder, MedicalHistory, StudentReport } from "nurse-o-core";
-import { ImmunizationsStage } from "../Stages/CreatePatient/ImmunizationsStage";
-import { CustomOrdersStage } from "../Stages/CreatePatient/CustomOrdersStage";
-import { createEmptyPatient } from "../Services/Util";
-import { ChartingStage } from "../Stages/CreatePatient/ChartingStage";
-import { ReviewStage } from "../Stages/CreatePatient/ReviewStage";
-import { Database } from "../Services/Database";
+import { ImmunizationsStage } from "../../Stages/CreatePatient/ImmunizationsStage";
+import { CustomOrdersStage } from "../../Stages/CreatePatient/CustomOrdersStage";
+import { createEmptyPatient } from "../../Services/Util";
+import { ChartingStage } from "../../Stages/CreatePatient/ChartingStage";
+import { ReviewStage } from "../../Stages/CreatePatient/ReviewStage";
+import { Database } from "../../Services/Database";
 
 
 export default function CreatePatientPage() {

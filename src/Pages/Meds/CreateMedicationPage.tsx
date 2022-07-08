@@ -1,14 +1,14 @@
-import PageView from "./PageView";
-import { Steps } from "../Components/Steps/Steps";
+import PageView from "../PageView";
+import { Steps } from "../../Components/Steps/Steps";
 import { useState } from "react";
-import { Stages } from "../Components/Stages/Stages";
-import { MedicationLocation, MedicationModified as Medication } from "../Services/Core";
-import { MedBasicInfoStage } from "../Stages/CreateMed/MedBasicInfoStage";
-import { Step } from "../Components/Steps/Step";
+import { Stages } from "../../Components/Stages/Stages";
+import { MedicationLocation, MedicationModified as Medication } from "../../Services/Core";
+import { MedBasicInfoStage } from "../../Stages/CreateMed/MedBasicInfoStage";
+import { Step } from "../../Components/Steps/Step";
 import { faBuilding, faFileInvoice, faPills } from "@fortawesome/free-solid-svg-icons";
-import { MedLocationStage } from "../Stages/CreateMed/MedLocationStage";
-import { MedFinalizeStage } from "../Stages/CreateMed/MedFinalizeStage";
-import { Database } from "../Services/Database";
+import { MedLocationStage } from "../../Stages/CreateMed/MedLocationStage";
+import { MedFinalizeStage } from "../../Stages/CreateMed/MedFinalizeStage";
+import { Database } from "../../Services/Database";
 
 
 export default function CreateMedicationPage() {

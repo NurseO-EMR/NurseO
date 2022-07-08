@@ -2,9 +2,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import DashboardPage from "./Pages/DashboardPage"
 import { Database } from "./Services/Database"
 import firebaseConfig from "./firebaseConfig.json"
-import CreatePatientPage from "./Pages/CreatePatientPage";
-import CreateMedicationPage from "./Pages/CreateMedicationPage";
-import CreateLocationPage from "./Pages/CreateLocationPage";
+import CreatePatientPage from "./Pages/Patients/CreatePatientPage";
+import CreateMedicationPage from "./Pages/Meds/CreateMedicationPage";
+import CreateLocationPage from "./Pages/Locations/CreateLocationPage";
 
 export default function App() {
   Database.initialize(firebaseConfig);
