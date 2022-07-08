@@ -53,12 +53,13 @@ export function MedLocationStage(props: Props) {
     return <BaseStage {...props} title="Where is it going?" icon={faBuilding} onNext={onNextClickHandler} customNextText={loading ? "Loading...": "Add Medication"}>
         <div className="grid grid-cols-3 gap-x-8">
             <Select label="Building" onChange={e=>onBuildingSelected(e.currentTarget.value)}>
-                <option></option>
+                <option className="hidden"></option>
                 <>{buildings.map((b, i) => <option value={b} key={i}>{b}</option>)}</>
             </Select>
 
             <Select label="Station" onChange={e=>setLocationID(e.currentTarget.value)} value={locationId}>
-                {stations.map((s, i) => <option value={s.id} key={i}>{s.station}</option>)}
+                <option className="hidden"></option>
+                <>{stations.map((s, i) => <option value={s.id} key={i}>{s.station}</option>)}</>
             </Select>
 
             <Input label="Drawer Name" onChange={e=>setDrawerName(e.currentTarget.value)} value={drawerName} placeholder="A1, A2, C2"/>

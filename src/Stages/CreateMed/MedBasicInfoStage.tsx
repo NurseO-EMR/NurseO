@@ -7,6 +7,7 @@ import { Select } from "../../Components/Form/Select";
 import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
 import { MedicationModified as Medication } from "../../Services/Core";
 import { Database } from "../../Services/Database";
+import {v4 as uuid} from "uuid"
 
 export type Props = BaseStageProps & {
     onNext: (id: string, name: string, narcoticCountNeeded: boolean) => void
@@ -47,8 +48,17 @@ export function MedBasicInfoStage(props: Props) {
 
 
     const onNewMedCreated = (name: string) => {
-
-        console.log("hello")
+        const med:Medication = {
+            name: name,
+            id: uuid(),
+            narcoticCountNeeded: false,
+            locations: []
+        }
+        meds.push(med);
+        setName(name)
+        setId(med.id)
+        setNarcoticCount("false")
+        setMeds(meds)
     }
 
     return <BaseStage {...props} title="Let's start with the basics, medName and barcode please!" icon={faPills} onNext={onNextClickHandler}>
