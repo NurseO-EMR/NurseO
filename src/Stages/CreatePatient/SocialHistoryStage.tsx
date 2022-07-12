@@ -1,4 +1,5 @@
 import { faBookMedical } from "@fortawesome/free-solid-svg-icons";
+import { PatientChart } from "nurse-o-core";
 import { useState } from "react";
 import { useFocus } from "../../Components/customHooks";
 import { Button } from "../../Components/Form/Button";
@@ -10,11 +11,12 @@ import { Tr } from "../../Components/Table/Tr";
 
 export type Props = BaseStageProps & {
     onNext: (socialHistory: string[]) => void,
+    patient?:PatientChart
 }
 
 export function SocialHistoryStage(props: Props) {
     const [inputRef, setInputFocus] = useFocus()
-    const [history, setHistory] = useState([]as string[]);
+    const [history, setHistory] = useState(props.patient?.socialHistory || []as string[]);
     
     const [entry, setEntry] = useState("");
 

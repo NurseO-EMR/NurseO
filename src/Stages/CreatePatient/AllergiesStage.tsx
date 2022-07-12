@@ -1,5 +1,5 @@
 import { faHouseChimneyUser } from "@fortawesome/free-solid-svg-icons";
-import { Allergy } from "nurse-o-core";
+import { Allergy, PatientChart } from "nurse-o-core";
 import { useState } from "react";
 import { useFocus } from "../../Components/customHooks";
 import { Button } from "../../Components/Form/Button";
@@ -11,11 +11,12 @@ import { Tr } from "../../Components/Table/Tr";
 
 export type Props = BaseStageProps & {
     onNext: (allergies: Allergy[]) => void,
+    patient?:PatientChart
 }
 
 export function AllergiesStage(props: Props) {
     const [inputRef, setInputFocus] = useFocus()
-    const [allergies, setAllergies] = useState([]as Allergy[]);
+    const [allergies, setAllergies] = useState(props.patient?.allergies || []as Allergy[]);
     const [name, setName] = useState("");
     const [reaction, setReaction] = useState("");
 

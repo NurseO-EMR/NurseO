@@ -1,4 +1,5 @@
 import { faSyringe } from "@fortawesome/free-solid-svg-icons";
+import { PatientChart } from "nurse-o-core";
 import { useState } from "react";
 import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
@@ -9,10 +10,11 @@ import { Tr } from "../../Components/Table/Tr";
 
 export type Props = BaseStageProps & {
     onNext: (socialHistory: string[]) => void,
+    patient?:PatientChart
 }
 
 export function ImmunizationsStage(props: Props) {
-    const [immunizations, setImmunizations] = useState([]as string[]);
+    const [immunizations, setImmunizations] = useState( props.patient?.immunizations || []as string[]);
     
     const [entry, setEntry] = useState("");
 

@@ -120,12 +120,12 @@ export class Database {
         this.patientListCached = false;
     }
 
-    // async updateTemplatePatient(oldPatient: PatientChart, newPatient: PatientChart) {
-    //     const ref = await this.getTemplatePatientRef(oldPatient);
-    //     const patient = { ...newPatient };
-    //     this.patientListCached = false;
-    //     await updateDoc(ref, patient);
-    // }
+    async updateTemplatePatient(oldPatient: PatientChart, newPatient: PatientChart) {
+        const ref = await this.getTemplatePatientRef(oldPatient);
+        const patient = { ...newPatient };
+        this.patientListCached = false;
+        await updateDoc(ref, patient);
+    }
 
     private async getTemplatePatientRef(patient: PatientChart): Promise<DocumentReference> {
         const patientQuery = query(collection(this.db, "templatePatients"), where("id", "==", patient.id), limit(1))

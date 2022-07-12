@@ -4,7 +4,7 @@ import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { MedicationOrder, OrderKind, OrderType, Frequency, Routine, Time} from "nurse-o-core"
+import { MedicationOrder, OrderKind, OrderType, Frequency, Routine, Time, PatientChart} from "nurse-o-core"
 import { MedicationOrdersPreviewer } from "../../Components/Stages/MedicationOrdersPreviewer";
 import { AnimatePresence } from "framer-motion";
 import { Database } from "../../Services/Database";
@@ -13,6 +13,7 @@ import { MedicationModified as Medication } from "../../Services/Core";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,
+    patient?:PatientChart
 }
 
 export function OrdersStage(props: Props) {
@@ -29,7 +30,7 @@ export function OrdersStage(props: Props) {
     const [notes, setNotes] = useState("");
     const [orderType, setOrderType] = useState(OrderType.NA);
 
-    const [orders, setOrders] = useState([] as MedicationOrder[]);
+    const [orders, setOrders] = useState(props.patient?.medicationOrders || [] as MedicationOrder[]);
 
 
     useEffect(()=>{

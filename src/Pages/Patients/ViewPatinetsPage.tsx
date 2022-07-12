@@ -1,5 +1,6 @@
 import { PatientChart } from "nurse-o-core";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
 import { Database } from "../../Services/Database";
@@ -8,6 +9,7 @@ import PageView from "../PageView";
 export function ViewPatientsPage() {
 
     const [patients, setPatients] = useState<PatientChart[]>([])
+    const navigate = useNavigate()
 
 
     const getPatients = async () => {
@@ -25,6 +27,10 @@ export function ViewPatientsPage() {
         const db = Database.getInstance()
         await db.deleteTemplatePatient(patient)
         await getPatients();
+    }
+
+    const onEditClickHandler = async (patient:PatientChart) => {
+        navigate("/patient/edit",{state:{patient}})
     }
 
     return <PageView>
@@ -46,7 +52,7 @@ export function ViewPatientsPage() {
                             <Td>{p.name}</Td>
                             <Td>{p.dob}</Td>
                             <Td>{p.id}</Td>
-                            <td><button className="bg-blue text-white px-4 py-2 mx-auto w-full">Edit</button></td>
+                            <td><button className="bg-blue text-white px-4 py-2 mx-auto w-full" onClick={()=>onEditClickHandler(p)}>Edit</button></td>
                             <td><button className="bg-red text-white px-4 py-2 mx-auto w-full" onClick={() => onDeleteClickHandler(p)}>Delete</button></td>
                         </Tr>
                     )}

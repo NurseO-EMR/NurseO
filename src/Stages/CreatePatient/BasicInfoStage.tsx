@@ -2,7 +2,7 @@ import { faIdCard } from "@fortawesome/free-solid-svg-icons";
 import { Input} from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "./../../Components/Stages/BaseStage"
-import { Gender } from "nurse-o-core";
+import { Gender, PatientChart } from "nurse-o-core";
 import { useState } from "react";
 
 
@@ -17,14 +17,17 @@ export type BasicInfo = {
 
 export type Props = BaseStageProps & {
     onNext:(basicInfo:BasicInfo)=>void
+    patient?:PatientChart
 };
 
 export function BasicInfoStage(props: Props) {
-    const [name, setName] = useState("");
-    const [dob, setDOB] = useState("")
-    const [gender, setGender] = useState("" as Gender)
-    const [height, setHeight] = useState(0)
-    const [weight, setWeight] = useState(0)
+    const {patient} = props;
+
+    const [name, setName] = useState(patient?.name || "");
+    const [dob, setDOB] = useState(patient?.dob || "")
+    const [gender, setGender] = useState(patient?.gender || "" as Gender)
+    const [height, setHeight] = useState<number>(0)
+    const [weight, setWeight] = useState<number>(0)
     
     const onNextClickHandler = ()=>{
         const basicInfo:BasicInfo = {

@@ -1,5 +1,5 @@
 import { faHouseChimneyUser } from "@fortawesome/free-solid-svg-icons";
-import { Time } from "nurse-o-core";
+import { PatientChart, Time } from "nurse-o-core";
 import { useState } from "react";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
@@ -13,21 +13,22 @@ export type SimSpecificInfo = {
     dob: string,
     time: Time,
     labDocURL: string
-    
 }
 
 export type Props = BaseStageProps & {
     onNext:(basicInfo:SimSpecificInfo)=>void,
     dob:string,
+    patient?:PatientChart
+
 };
 
 export function SimSpecificInfoStage(props: Props) {
 
-    const [barcode, setBarcode] = useState("")
-    const [age, setAge] = useState("")
+    const [barcode, setBarcode] = useState(props.patient?.id || "")
+    const [age, setAge] = useState(props.patient?.age || "")
     const [dateFormat, setDateFormat] = useState("" as DateFormat)
     const [simTime, setSimTime] = useState("")
-    const [labsURL, setLabsURL] = useState("")
+    const [labsURL, setLabsURL] = useState(props.patient?.labDocURL || "")
 
 
     const onNextClickHandler = ()=>{

@@ -7,15 +7,16 @@ import { ArrayPreviewer } from "../../Components/Stages/ArrayPreviewer";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
 import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
-import { MedicalHistory } from "nurse-o-core";
+import { MedicalHistory, PatientChart } from "nurse-o-core";
 
 export type Props = BaseStageProps & {
     onNext: (medicalHistory: MedicalHistory[]) => void,
+    patient?:PatientChart
 }
 
 export function MedicalHistoryStage(props: Props) {
     const [inputRef, setInputFocus] = useFocus()
-    const [history, setHistory] = useState([]as MedicalHistory[]);
+    const [history, setHistory] = useState(props.patient?.medicalHistory || []as MedicalHistory[]);
     
     const [date, setDate] = useState("");
     const [title, setTitle] = useState("");

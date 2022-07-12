@@ -1,5 +1,5 @@
 import { faMaskVentilator } from "@fortawesome/free-solid-svg-icons";
-import { CustomOrder, OrderKind, OrderType } from "nurse-o-core";
+import { CustomOrder, OrderKind, OrderType, PatientChart } from "nurse-o-core";
 import { useState } from "react";
 import { Button } from "../../Components/Form/Button";
 import { Select } from "../../Components/Form/Select";
@@ -10,10 +10,11 @@ import { Tr } from "../../Components/Table/Tr";
 
 export type Props = BaseStageProps & {
     onNext: (orders: CustomOrder[]) => void,
+    patient?:PatientChart
 }
 
 export function CustomOrdersStage(props: Props) {
-    const [orders, setOrders] = useState([]as CustomOrder[]);
+    const [orders, setOrders] = useState(props.patient?.customOrders || []as CustomOrder[]);
     
     const [order, setOrder] = useState("");
     const [orderType, setOrderType] = useState(OrderType.NA);

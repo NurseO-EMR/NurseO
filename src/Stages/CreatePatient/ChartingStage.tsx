@@ -1,7 +1,7 @@
 import { faBedPulse, faBong, faComputer, faDroplet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { filter } from "lodash";
-import { ReportSet, StudentReport } from "nurse-o-core";
+import { PatientChart, ReportSet, StudentReport } from "nurse-o-core";
 import { useEffect, useState } from "react";
 import ReportsSubmitter from "../../Components/Reports/ReportsSubmitter";
 import { ArrayPreviewer } from "../../Components/Stages/ArrayPreviewer";
@@ -12,13 +12,14 @@ import { Database } from "../../Services/Database";
 
 export type Props = BaseStageProps & {
     onNext: (studentReports: StudentReport[]) => void,
+    patient?:PatientChart
 }
 
 export function ChartingStage(props: Props) {
 
     const [allReports, setAllReports] = useState([] as ReportSet[])
     const [reportSets, setReportSets] = useState([] as ReportSet[])
-    const [studentReports, setStudentReports] = useState([] as StudentReport[])
+    const [studentReports, setStudentReports] = useState(props.patient?.studentReports || [] as StudentReport[])
     const [activeReportSet, setActiveReportSet] = useState(0)
 
 

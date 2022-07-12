@@ -10,6 +10,7 @@ import { Tr } from "../../Components/Table/Tr";
 export type Props = BaseStageProps & {
     onNext: () => void,
     patient: PatientChart
+    customNextText?: string
 };
 
 
@@ -22,7 +23,7 @@ export function ReviewStage(props: Props) {
         props.onNext()
     }
 
-    return <BaseStage {...props} title="Review" icon={faFileInvoice} onNext={onNextClickHandler} customNextText={loading ? "Loading..." : "Add Patient"}>
+    return <BaseStage {...props} title="Review" icon={faFileInvoice} onNext={onNextClickHandler} customNextText={loading ? "Loading..." : props.customNextText  || "Add Patient"}>
         <ReviewSection title="Basic Info">
             <ReviewItem label="Name" value={props.patient.name} />
             <ReviewItem label="DOB" value={props.patient.dob} />
