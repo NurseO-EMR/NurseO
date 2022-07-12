@@ -1,0 +1,58 @@
+import { PatientChart } from "nurse-o-core";
+import { useEffect, useState } from "react";
+import { Td } from "../../Components/Table/Td";
+import { Tr } from "../../Components/Table/Tr";
+import { Database } from "../../Services/Database";
+import PageView from "../PageView";
+
+export function ViewPatientsPage() {
+
+    const [patients, setPatients] = useState<PatientChart[]>([])
+
+
+    const getPatients = async () => {
+        const db = Database.getInstance()
+        const patients = await db.getTemplatePatients();
+        setPatients(patients)
+    }
+
+    useEffect(() => {
+        getPatients()
+    }, [])
+
+
+    const onDeleteClickHandler = async (patient: PatientChart) => {
+        const db = Database.getInstance()
+        await db.deleteTemplatePatient(patient)
+        await getPatients();
+    }
+
+    return <PageView>
+        <div className="bg-gray shadow-xl mx-auto rounded-lg mt-[20vh] h-[60vh] w-[40vw] py-5 px-4">
+            <h1 className="text-blue text-left font-bold text-lg pb-2">Template Patients:</h1>
+            <table className="w-full">
+                <thead>
+                    <Tr>
+                        <th className="border font-normal">Patient Name</th>
+                        <th className="border font-normal">Patient DOB</th>
+                        <th className="border font-normal">Patient Barcode</th>
+                        <th className="border font-normal">Edit</th>
+                        <th className="border font-normal">Delete</th>
+                    </Tr>
+                </thead>
+                <tbody>
+                    {patients.map((p, i) =>
+                        <Tr key={i}>
+                            <Td>{p.name}</Td>
+                            <Td>{p.dob}</Td>
+                            <Td>{p.id}</Td>
+                            <td><button className="bg-blue text-white px-4 py-2 mx-auto w-full">Edit</button></td>
+                            <td><button className="bg-red text-white px-4 py-2 mx-auto w-full" onClick={() => onDeleteClickHandler(p)}>Delete</button></td>
+                        </Tr>
+                    )}
+                </tbody>
+            </table>
+        </div>
+    </PageView>
+}
+
