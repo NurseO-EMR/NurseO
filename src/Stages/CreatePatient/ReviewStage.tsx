@@ -1,5 +1,6 @@
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { MedicationOrderSyntax, PatientChart } from "nurse-o-core";
+import { useState } from "react";
 import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
 import { ReviewItem } from "../../Components/Stages/Review/ReviewItem";
 import { ReviewSection } from "../../Components/Stages/Review/ReviewSection";
@@ -13,7 +14,15 @@ export type Props = BaseStageProps & {
 
 
 export function ReviewStage(props: Props) {
-    return <BaseStage {...props} title="Review" icon={faFileInvoice} onNext={props.onNext} customNextText="Add Patient">
+
+    const [loading, setLoading] = useState(false)
+
+    const onNextClickHandler = ()=>{
+        setLoading(true)
+        props.onNext()
+    }
+
+    return <BaseStage {...props} title="Review" icon={faFileInvoice} onNext={onNextClickHandler} customNextText={loading ? "Loading..." : "Add Patient"}>
         <ReviewSection title="Basic Info">
             <ReviewItem label="Name" value={props.patient.name} />
             <ReviewItem label="DOB" value={props.patient.dob} />

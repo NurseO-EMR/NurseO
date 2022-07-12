@@ -18,6 +18,7 @@ import { createEmptyPatient } from "../../Services/Util";
 import { ChartingStage } from "../../Stages/CreatePatient/ChartingStage";
 import { ReviewStage } from "../../Stages/CreatePatient/ReviewStage";
 import { Database } from "../../Services/Database";
+import { PatientFinalizeStage } from "../../Stages/CreatePatient/PatientFinalizeStage";
 
 
 export default function CreatePatientPage() {
@@ -115,6 +116,7 @@ export default function CreatePatientPage() {
         await db.addTemplatePatient(patient)
         console.log("patient Added: ")
         console.log(patient)
+        onNextClickHandler();
     }
 
     return (
@@ -143,6 +145,7 @@ export default function CreatePatientPage() {
                 <CustomOrdersStage onPrev={onPrevClickHandler} onNext={onCustomOrdersHandler} />
                 <ChartingStage onPrev={onPrevClickHandler} onNext={onReportSubmitHandler} />
                 <ReviewStage  onPrev={onPrevClickHandler} onNext={onAddPatientClickHandler} patient={patient}/>
+                <PatientFinalizeStage onPrev={console.log} />
             </Stages>
         </PageView>
     );
