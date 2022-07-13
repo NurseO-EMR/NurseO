@@ -76,6 +76,14 @@ export class Database {
         }
     }
 
+    async deleteMedication(med: Medication) {
+        const q = query(collection(this.db, "medications"), where("id", "==", med.id), limit(1))
+        const document = (await getDocs(q)).docs[0];
+        const ref = document.ref;
+        await deleteDoc(ref);
+        this.medListCached = false;
+    }
+
 
 
     async getSettings(): Promise<Settings> {
