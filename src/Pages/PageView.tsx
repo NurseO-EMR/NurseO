@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Link } from "react-router-dom";
 import { Background } from "../Components/Background";
 import Logo from "../Components/Logo";
 
@@ -12,7 +13,7 @@ export default function PageView(props: Props) {
     return (
         <div className="relative w-screen h-screen grid justify-center grid-rows-multiFormWStepsLayout">
             <Background />
-            <Logo className='py-5 text-3xl text-center absolute top-0 left-40' />
+            <Link to={"/"}><Logo className='py-5 text-3xl text-center absolute top-0 left-40' /></Link>
 
             {props.children}
 
