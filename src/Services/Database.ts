@@ -85,6 +85,13 @@ export class Database {
     }
 
 
+    async updateMedication(med: Medication) {
+        const q = query(collection(this.db, "medications"), where("id", "==", med.id), limit(1))
+        const document = (await getDocs(q)).docs[0];
+        const ref = document.ref
+        await updateDoc(ref,med)
+    }
+
 
     async getSettings(): Promise<Settings> {
         const cachedSettings = this.cache.getSettings();
