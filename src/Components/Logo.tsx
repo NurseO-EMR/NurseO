@@ -2,7 +2,7 @@ type Props = {
     className?: string
 }
 
-export default function Logo(props:Props) {
+export function Logo(props:Props) {
 
     return (
         <div className={props.className}>
