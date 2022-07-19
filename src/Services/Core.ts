@@ -1,7 +1,9 @@
-export class MedicationModified {
-    id: string = "";
-    name: string = "";
-    locations: MedicationLocation[] = [] 
+
+
+export type MedSupply = {
+    name: string, 
+    drawer: string,
+    barcode: string
 }
 
 
@@ -12,10 +14,12 @@ export type MedicationLocation = {
     narcoticCountNeeded: boolean,
 }
 
-export type MedSupply = {
-    name: string, 
-    drawer: string,
-    barcode: string
+
+
+export class MedicationModified {
+    id = "";
+    name = "";
+    locations: MedicationLocation[] = [] 
 }
 
 

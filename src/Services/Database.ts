@@ -1,10 +1,10 @@
-import { getAuth } from 'firebase/auth';
-import { initializeApp } from "firebase/app";
+import { getAuth } from '@firebase/auth';
+import { initializeApp } from "@firebase/app";
 import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
-    limit, query, updateDoc, where, setDoc, doc, getDoc, orderBy, deleteDoc, 
+    limit, query, updateDoc, where, setDoc, doc, getDoc, orderBy, deleteDoc,
     DocumentData, QueryDocumentSnapshot, Firestore, connectFirestoreEmulator
-} from "firebase/firestore";
+} from "@firebase/firestore";
 import { findIndex } from "lodash";
 import {
     $error, $patient, $settings, PatientChart, PatientNotFoundError, Medication, Settings
@@ -12,9 +12,10 @@ import {
 import { Cache } from './Cache';
 
 export class Database {
+    // eslint-disable-next-line no-use-before-define
     private static instance: Database;
     // private patient: PatientChart;
-    private db:Firestore;
+    private db: Firestore;
     private patientDocRef: DocumentReference | null;
     private currentPatientID: string | null | undefined;
     private cache: Cache;
@@ -54,7 +55,7 @@ export class Database {
             this.patientDocRef = await this.addPatient(patientChart);
             this.currentPatientID = patientChart?.id;
 
-        };
+        }
         $patient.next(patientChart)
         console.log(patientChart)
         return true;
@@ -95,33 +96,22 @@ export class Database {
         return medications;
     }
 
-    async getMedication(medID?: string, barcode?: string): Promise<Medication | null> {
-        //check if the med is cached 
-        const cachedMeds = this.cache.getMeds();
-        let medIndex;
-        if (medID) medIndex = findIndex(cachedMeds, { id: medID });
-
-        else if (barcode) medIndex = findIndex(cachedMeds, { barcode: barcode });
-        else throw new Error("Please provide either medID or barcode ID")
-        if (medIndex > -1) return cachedMeds[medIndex];
-
-        console.log("getting medication info from db")
-        let doc: QueryDocumentSnapshot<DocumentData>;
-
-        if (medID) {
-            doc =  await this.getMedicationDoc(medID) as QueryDocumentSnapshot<DocumentData>;
-        } else if (barcode) {
-            doc = await this.getMedicationDoc(undefined, barcode) as QueryDocumentSnapshot<DocumentData>;
-        } else {
-            throw new Error("Please provide either medID or barcode ID")
+    async getMedication(id: string): Promise<Medication | null> {
+        if (this.medListCached) {
+            const cachedMeds = this.cache.getMeds();
+            const medIndex = findIndex(cachedMeds, { id })
+            if (medIndex > -1) return cachedMeds[medIndex]
         }
 
-        if (!doc) return null;
-        const medication = doc.data() as Medication;
-        this.cache.cacheMed(medication);
+        console.log("getting medication from db")
+        const q = query(collection(this.db, "medications"), where("id", "==", id), limit(1));
+        const docs = (await getDocs(q)).docs
+        if (docs.length === 0) return null;
+
+        const medication = docs[0].data() as Medication
+        this.cache.cacheMed(medication)
         return medication;
     }
-
 
     async getMedicationDoc(medID?: string, barcode?: string) {
         let q;
@@ -232,7 +222,7 @@ export class Database {
         const data = {
             adminEmails: updatedAdmins
         }
-        updateDoc(doc.ref,data);
+        updateDoc(doc.ref, data);
     }
 
 
@@ -246,7 +236,7 @@ export class Database {
         } else {
             throw new Error("Can't get an instance without initializing first")
         }
-        
+
     }
 
     public static initialize(firebaseConfig: any) {

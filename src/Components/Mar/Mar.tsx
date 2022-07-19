@@ -1,51 +1,43 @@
 import { filter, maxBy, uniq } from 'lodash';
-import React from 'react';
+import React, { useState } from 'react';
 import { Frequency, MedicationOrder, OrderType, Routine, Time, $providerOrdersAvailable } from 'nurse-o-core';
-import MarEntry from './MarEntry';
+import {MarEntry} from './MarEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     orders: MedicationOrder[],
     simTime: Time
 }
 
-type State = {
-    filteredOrders: MedicationOrder[]
-}
+export function Mar(props: Props) {
 
-export default class Mar extends React.Component<Props, State> {
-
-    private timeSlots: number[];
-
-    constructor(props: Props) {
-        super(props);
-        this.timeSlots = this.getTimeSlots();
-
-        if ($providerOrdersAvailable.value) {
-            this.state = {
-                filteredOrders: this.props.orders
-            }
-        } else {
-            this.state = {
-                filteredOrders: filter(this.props.orders, order => order.orderType !== OrderType.provider || order.mar.length > 0)
-            }
-        }
-    }
-
-    getTimeSlots() {
-
+    const getTimeSlots = () => {
         let output: number[] = [];
-        output = this.checkForRecordedMarData(output);
-        output = this.checkRoutineConditions(output);
-        output = this.checkFrequencyConditions(output);
+        output = checkForRecordedMarData(output);
+        output = checkRoutineConditions(output);
+        output = checkFrequencyConditions(output);
         output = uniq(output);
-        output = output.sort((a,b) => a - b);
+        output = output.sort((a, b) => a - b);
         return output;
     }
 
-    checkForRecordedMarData(timeSlots: number[]) {
+    const getOrders = () => {
+        if ($providerOrdersAvailable.value) return props.orders
+        else return filter(props.orders, order => order.orderType !== OrderType.provider || order.mar.length > 0)
+    }
+
+
+
+    const timeSlots = getTimeSlots();
+    const [filteredOrders, setFilteredOrders] = useState<MedicationOrder[]>(getOrders())
+
+
+
+
+
+    const checkForRecordedMarData = (timeSlots: number[]) => {
         let smallest = Number.MAX_VALUE;
         let biggest = 0;
-        for (const medication of this.props.orders) {
+        for (const medication of props.orders) {
             for (const time of medication.mar) {
                 if (time.hour > biggest) biggest = time.hour;
                 if (time.hour < smallest) smallest = time.hour;
@@ -58,14 +50,14 @@ export default class Mar extends React.Component<Props, State> {
         return timeSlots;
     }
 
-    checkRoutineConditions(timeSlots: number[]) {
-        for(const order of this.props.orders) {
-            const currentTime = this.props.simTime.hour;
-            if(order.routine === Routine.NOW) timeSlots.push(currentTime);
-            if(order.routine === Routine.PRN || order.routine === Routine.Scheduled) {
-                const medInterval:number = this.getMedQInterval(order) || 1;
+    const checkRoutineConditions = (timeSlots: number[]) => {
+        for (const order of props.orders) {
+            const currentTime = props.simTime.hour;
+            if (order.routine === Routine.NOW) timeSlots.push(currentTime);
+            if (order.routine === Routine.PRN || order.routine === Routine.Scheduled) {
+                const medInterval: number = getMedQInterval(order) || 1;
                 const lastDose = maxBy(order.mar, "hour")?.hour || currentTime;
-                for(let i = lastDose; i < 24; i=i+medInterval) {
+                for (let i = lastDose; i < 24; i = i + medInterval) {
                     timeSlots.push(i)
                 }
             }
@@ -73,11 +65,11 @@ export default class Mar extends React.Component<Props, State> {
         return timeSlots;
     }
 
-    checkFrequencyConditions(timeSlots: number[]) {
-        for(const order of this.props.orders) {
-            if(order.frequency === Frequency.qd) {
-                timeSlots.push(this.props.simTime.hour)
-            } else if(order.frequency === Frequency.qhs){
+    const checkFrequencyConditions = (timeSlots: number[]) => {
+        for (const order of props.orders) {
+            if (order.frequency === Frequency.qd) {
+                timeSlots.push(props.simTime.hour)
+            } else if (order.frequency === Frequency.qhs) {
                 timeSlots.push(21)
             }
         }
@@ -85,8 +77,8 @@ export default class Mar extends React.Component<Props, State> {
     }
 
 
-    getMedQInterval(order:MedicationOrder): number | null {
-        switch(order.frequency) {
+    const getMedQInterval = (order: MedicationOrder) => {
+        switch (order.frequency) {
             case Frequency.q1hr: return 1;
             case Frequency.q2hr: return 2;
             case Frequency.q3hr: return 3;
@@ -105,30 +97,26 @@ export default class Mar extends React.Component<Props, State> {
 
     }
 
-    
 
+    return (
+        <table className={"table-auto w-full "}>
+            <thead className="w-full h-16">
+                <tr className="bg-primary text-white">
+                    <th></th>
+                    {timeSlots.map((time, i) => <th key={i}>{time}:00</th>)}
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    timeSlots.length === 0 ?
+                        <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
+                            <td className="w-80 pl-16 font-semibold">No Mar Records Available</td>
+                        </tr>
+                        : filteredOrders.map((order, i) => <MarEntry simTime={props.simTime} timeSlots={timeSlots} key={i} order={order}></MarEntry>)
+                }
+            </tbody>
+        </table>
 
-    public render() {
-        return (
-            <table className={"table-auto w-full " + this.props.className}>
-                <thead className="w-full h-16">
-                    <tr className="bg-primary text-white">
-                        <th></th>
-                        {this.timeSlots.map((time, i) => <th key={i}>{time}:00</th>)}
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        this.timeSlots.length === 0 ?
-                            <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
-                                <td className="w-80 pl-16 font-semibold">No Mar Records Available</td>
-                            </tr>
-                            : this.state.filteredOrders.map((order, i) => <MarEntry simTime={this.props.simTime} timeSlots={this.timeSlots} key={i} order={order}></MarEntry>)
-                    }
-                </tbody>
-            </table>
-
-        );
-    }
+    );
 }

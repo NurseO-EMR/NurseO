@@ -1,11 +1,8 @@
-import { findIndex } from 'lodash';
 import React, { ChangeEvent } from 'react';
 import PureModal from 'react-pure-modal';
 import { filter } from 'lodash';
 import {Database} from './../../Services/Database';
-import { 
-    MedicationOrder, OrderType, PatientChart,$patient, $providerOrdersAvailable , EmptyCard
-} from 'nurse-o-core';
+import { MedicationOrder, OrderType, PatientChart,$patient, $providerOrdersAvailable , EmptyCard} from 'nurse-o-core';
 
 type Props = {
     patient: PatientChart
@@ -91,10 +88,13 @@ export default class AdministerMeds extends React.Component<Props,State> {
     }
 
     async getMedIndex(medicationOrders:MedicationOrder[]) {
-        const db = Database.getInstance();
-        const med = await db.getMedication(undefined, this.state.medicationBarcode)
-        const medID = med?.id;
-        return findIndex(medicationOrders, {id: medID});
+        // const db = Database.getInstance();
+        // const med = await db.getMedication(undefined, this.state.medicationBarcode)
+        // const medID = med?.id;
+        // return findIndex(medicationOrders, {id: medID});
+        console.log("getting med")
+        return 0;
+
     }
 
     public render() {

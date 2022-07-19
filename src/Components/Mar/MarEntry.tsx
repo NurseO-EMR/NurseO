@@ -1,12 +1,9 @@
-import React from 'react';
-import {
-    Frequency, MedicationOrder, Routine, Time, MedicationOrderSyntax, $providerOrdersAvailable,
-    OrderType,
-} from 'nurse-o-core';
+import { useEffect, useState } from 'react';
+import { Frequency, MedicationOrder, Routine, Time, MedicationOrderSyntax, $providerOrdersAvailable, OrderType } from 'nurse-o-core';
 import { clone } from "lodash";
 import { Database } from '../../Services/Database';
-import MedLocationModal from './MedLocationModal';
-import { MedicationModified, sampleMed } from '../../Services/Core';
+import {MedLocationModal} from './MedLocationModal';
+import { sampleMed } from '../../Services/Core';
 
 type Props = {
     order: MedicationOrder,
@@ -14,85 +11,77 @@ type Props = {
     simTime: Time
 }
 
-type State = {
-    timeSlots: Map<number, TimeSlotStatus>,
-    med: MedicationModified | null,
-    showLocationModal: boolean,
-}
 
 type TimeSlotStatus = "Givin" | "Available" | "-" | "Due"
-export default class MarEntry extends React.Component<Props, State> {
+export function MarEntry(props: Props) {
 
-    private timeSlots: Map<number, TimeSlotStatus>;
+    const [timeSlots, setTimeSlots] = useState(new Map<number, TimeSlotStatus>())
+    const [med, setMed] = useState(sampleMed)
+    const [showLocationModal, setShowLocationModal] = useState(false)
 
-    constructor(props: Props) {
-        super(props);
-        this.timeSlots = new Map<number, TimeSlotStatus>();
-        // this.getMed();
-        this.fillTimeSlots();
-        this.checkForRecordedMarData();
-        this.checkRoutineConditions();
+    useEffect(() => {
 
-        this.state = {
-            timeSlots: this.timeSlots,
-            med: sampleMed,
-            showLocationModal: false,
-        }
-    }
-
-    fillTimeSlots() {
-        for (const timeSlot of this.props.timeSlots) {
-            this.timeSlots.set(timeSlot, "-")
-        }
-        return this.timeSlots
-    }
-
-    checkForRecordedMarData() {
-        for (const recordTime of this.props.order.mar) {
-            const { hour } = recordTime;
-            this.timeSlots.set(hour, "Givin");
-        }
-    }
-
-    checkRoutineConditions(): void {
-        const routine = this.props.order.routine;
-        //check if the there is provider order with mar data, then show the mar data but no routine. 
-        if (!$providerOrdersAvailable.value && this.props.order.orderType === OrderType.provider) return;
-
-        if (routine === Routine.NOW) {
-            const currentState = this.timeSlots.get(this.props.simTime.hour);
-            if (currentState === "-") {
-                this.timeSlots.set(this.props.simTime.hour, "Due");
+        function fillTimeSlots() {
+            for (const timeSlot of props.timeSlots) {
+                timeSlots.set(timeSlot, "-")
             }
-        } else if (routine === Routine.PRN || routine === Routine.Scheduled) {
-            const interval = this.getMedQInterval(this.props.order) || 1;
-            const lastDoseTime = this.getLastDoseTime();
-            const start = lastDoseTime > -1 ? lastDoseTime : this.props.simTime.hour
-            for (let i = start; i <= Math.max(...this.props.timeSlots); i = interval + i) {
-                const time: Time = { hour: i, minutes: 0 }
+            return timeSlots
+        }
 
-                if (this.timeSlots.get(time.hour) !== "Givin") {
-                    if (routine === Routine.PRN) this.timeSlots.set(time.hour, "Available")
-                    else if (routine === Routine.Scheduled) this.timeSlots.set(time.hour, "Due")
+        function checkForRecordedMarData() {
+            for (const recordTime of props.order.mar) {
+                const { hour } = recordTime;
+                timeSlots.set(hour, "Givin");
+            }
+        }
+
+        function getLastDoseTime() {
+            let lastDoseTime = -1;
+            timeSlots.forEach((v, k) => {
+                if (v === "Givin" && k > lastDoseTime) {
+                    lastDoseTime = k
+                }
+            })
+
+            return lastDoseTime;
+
+        }
+
+
+        function checkRoutineConditions() {
+            const routine = props.order.routine;
+            //check if the there is provider order with mar data, then show the mar data but no routine. 
+            if (!$providerOrdersAvailable.value && props.order.orderType === OrderType.provider) return;
+
+            if (routine === Routine.NOW) {
+                const currentState = timeSlots.get(props.simTime.hour);
+                if (currentState === "-") {
+                    timeSlots.set(props.simTime.hour, "Due");
+                }
+            } else if (routine === Routine.PRN || routine === Routine.Scheduled) {
+                const interval = getMedQInterval(props.order) || 1;
+                const lastDoseTime = getLastDoseTime();
+                const start = lastDoseTime > -1 ? lastDoseTime : props.simTime.hour
+                for (let i = start; i <= Math.max(...props.timeSlots); i = interval + i) {
+                    const time: Time = { hour: i, minutes: 0 }
+
+                    if (timeSlots.get(time.hour) !== "Givin") {
+                        if (routine === Routine.PRN) timeSlots.set(time.hour, "Available")
+                        else if (routine === Routine.Scheduled) timeSlots.set(time.hour, "Due")
+                    }
                 }
             }
         }
-    }
-
-    getLastDoseTime() {
-        let lastDoseTime = -1;
-        this.timeSlots.forEach((v, k) => {
-            if (v === "Givin" && k > lastDoseTime) {
-                lastDoseTime = k
-            }
-        })
-
-        return lastDoseTime;
-
-    }
 
 
-    getMedQInterval(order: MedicationOrder): number | null {
+        fillTimeSlots();
+        checkForRecordedMarData();
+        checkRoutineConditions();
+        setTimeSlots(timeSlots)
+        // eslint-disable-next-line no-use-before-define
+    }, [timeSlots, setTimeSlots, props])
+
+    const getMedQInterval = (order: MedicationOrder) => {
         switch (order.frequency) {
             case Frequency.q1hr: return 1;
             case Frequency.q2hr: return 2;
@@ -112,17 +101,15 @@ export default class MarEntry extends React.Component<Props, State> {
 
     }
 
-    async getMed() {
+    const getMed = async () => {
         const db = Database.getInstance();
-        const med = await db.getMedication(this.props.order.id);
-        this.setState({
-            // med: med
-        })
-        
+        const med = await db.getMedication(props.order.id);
+        // setMed(med)
+
     }
 
-    getOrder() {
-        const order = clone(this.props.order);
+    const getOrder = () => {
+        const order = clone(props.order);
         if (!$providerOrdersAvailable.value && order.orderType === OrderType.provider) {
             order.routine = Routine.NA
             order.frequency = Frequency.NA
@@ -132,42 +119,28 @@ export default class MarEntry extends React.Component<Props, State> {
     }
 
 
-    onLocateClickedHandler() {
-        this.setState({
-            showLocationModal: true,
-        })
-    }
-
-    onLocationCloseRequest() {
-        this.setState({
-            showLocationModal: false,
-        })
-    }
 
 
-
-    public render() {
-        return (
-            <>
-                <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
-                    <td className="w-80 pl-16 font-semibold">
-                        <MedicationOrderSyntax medName={this.state.med ? this.state.med.name : "Loading..."} order={this.getOrder()} />
-                    </td>
-                    {this.props.timeSlots.map((hour, i) => {
-                        return <td className='font-bold text-center' 
-                        key={i}>{this.state.timeSlots.get(hour)} </td>
-                    }
-                    )}
-                    <td className='w-36'>
-                        <button className='bg-red-700 w-full h-32 text-white'
-                        onClick={this.onLocateClickedHandler.bind(this)}>Locate</button>
-                    </td>
-                </tr>
-                {this.state.showLocationModal ? 
-                    <MedLocationModal onClose={this.onLocationCloseRequest.bind(this)} med={this.state.med} /> 
+    return (
+        <>
+            <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
+                <td className="w-80 pl-16 font-semibold">
+                    <MedicationOrderSyntax medName={med ? med.name : "Loading..."} order={getOrder()} />
+                </td>
+                {props.timeSlots.map((hour, i) => {
+                    return <td className='font-bold text-center'
+                        key={i}>{timeSlots.get(hour)} </td>
+                }
+                )}
+                <td className='w-36'>
+                    <button className='bg-red-700 w-full h-32 text-white'
+                        onClick={() => setShowLocationModal(true)}>Locate</button>
+                </td>
+            </tr>
+            {showLocationModal ?
+                <MedLocationModal onClose={() => setShowLocationModal(false)} med={med} />
                 : null}
-                
-            </>
-        );
-    }
+
+        </>
+    );
 }

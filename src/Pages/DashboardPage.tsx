@@ -1,11 +1,11 @@
-import { $patient, MedicationOrder } from 'nurse-o-core';
+import { $patient } from 'nurse-o-core';
 import React from 'react';
-import Mar from '../Components/Mar/Mar';
-import TopNav from '../Nav/TopMenu/TopNav';
+import { Mar } from '../Components/Mar/Mar';
+import {TopNav} from '../Nav/TopMenu/TopNav';
 
 export default class DashboardPage extends React.Component {
 
-     render() {	
+    render() {
         return (
             <div>
                 <TopNav />
@@ -13,5 +13,5 @@ export default class DashboardPage extends React.Component {
             </div>
 
         );
-    }	
+    }
 }
