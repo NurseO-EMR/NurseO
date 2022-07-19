@@ -1,29 +1,24 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PureModal from "react-pure-modal";
-import { Button, Input } from "nurse-o-core"
-import { MedSupply } from '../../Services/Core';
+import { Button, Input, Medication, MedicationLocation } from "nurse-o-core"
 import {XIcon} from '../XIcon';
 
 type Props = {
-    med: MedSupply
+    med: Medication,
+    location: MedicationLocation,
+
     onVerified: () => void,
     onClose?: () => void
 }
 
-type State = {
-    barcode: string,
-    wrongMed: boolean
-}
 export function VerifyPopup(props: Props) {
     const [barcode, setBarCode] = useState("")
     const [wrongMed, setWrongMed] = useState(false)
 
 
     const onVerifyButtonClicked = () => {
-        if (barcode === props.med.barcode) props.onVerified();
-        else {
-            setWrongMed(true)
-        }
+        if (barcode === props.location.barcode) props.onVerified();
+        else setWrongMed(true)
     }
 
     return (

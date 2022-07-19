@@ -1,7 +1,7 @@
 import { filter, maxBy, uniq } from 'lodash';
 import React, { useState } from 'react';
 import { Frequency, MedicationOrder, OrderType, Routine, Time, $providerOrdersAvailable } from 'nurse-o-core';
-import {MarEntry} from './MarEntry';
+import { MarEntry } from './MarEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     orders: MedicationOrder[],
@@ -10,29 +10,10 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 
 export function Mar(props: Props) {
 
-    const getTimeSlots = () => {
-        let output: number[] = [];
-        output = checkForRecordedMarData(output);
-        output = checkRoutineConditions(output);
-        output = checkFrequencyConditions(output);
-        output = uniq(output);
-        output = output.sort((a, b) => a - b);
-        return output;
-    }
-
     const getOrders = () => {
         if ($providerOrdersAvailable.value) return props.orders
         else return filter(props.orders, order => order.orderType !== OrderType.provider || order.mar.length > 0)
     }
-
-
-
-    const timeSlots = getTimeSlots();
-    const [filteredOrders, setFilteredOrders] = useState<MedicationOrder[]>(getOrders())
-
-
-
-
 
     const checkForRecordedMarData = (timeSlots: number[]) => {
         let smallest = Number.MAX_VALUE;
@@ -97,6 +78,21 @@ export function Mar(props: Props) {
 
     }
 
+    const getTimeSlots = () => {
+        let output: number[] = [];
+        output = checkForRecordedMarData(output);
+        output = checkRoutineConditions(output);
+        output = checkFrequencyConditions(output);
+        output = uniq(output);
+        output = output.sort((a, b) => a - b);
+        return output;
+    }
+
+
+
+    const timeSlots = getTimeSlots();
+    const [filteredOrders, setFilteredOrders] = useState<MedicationOrder[]>(getOrders())
+
 
     return (
         <table className={"table-auto w-full "}>
@@ -113,7 +109,7 @@ export function Mar(props: Props) {
                         <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
                             <td className="w-80 pl-16 font-semibold">No Mar Records Available</td>
                         </tr>
-                        : filteredOrders.map((order, i) => <MarEntry simTime={props.simTime} timeSlots={timeSlots} key={i} order={order}></MarEntry>)
+                        : filteredOrders.map((order, i) => <MarEntry simTime={props.simTime} timeSlots={timeSlots} key={i} order={order} onLocateClick={console.log} />)
                 }
             </tbody>
         </table>

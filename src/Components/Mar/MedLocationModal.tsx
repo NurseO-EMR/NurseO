@@ -1,43 +1,23 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PureModal from "react-pure-modal"
-import { MedicationModified, MedSupply } from "./../../Services/Core"
-import { Button } from "nurse-o-core"
-import {VerifyPopup} from './VerifyPopup';
-import { filter } from 'lodash';
+import { Medication, MedicationLocation } from "nurse-o-core"
+import { VerifyPopup } from './VerifyPopup';
 
 type Props = {
-    med: MedicationModified | null,
+    med: Medication,
     onClose: () => void
 }
 
 export function MedLocationModal(props: Props) {
 
-    const getMedSupplies = () => {
-        if (!props.med) return [];
-        const building = "UHH";
-        const station = "NurseA";
-        const filteredLocations = filter(props.med.locations, { building, station })
-        //there should be only one left
-        if (filteredLocations.length === 0) return []
-        return filteredLocations[0].supply;
-    }
 
+    const [locationToBeVerified, setLocationToBeVerified] = useState<MedicationLocation | null>(null)
 
-    const onMedVerify = (medSupply: MedSupply) => {
-        if (medSupply) setMedToBeVerified(medSupply)
-    }
 
     const onMedVerified = () => {
-        setMedToBeVerified(null)
+        setLocationToBeVerified(null)
         props.onClose();
     }
-
-
-
-    const [supplies, setSupplies] = useState(getMedSupplies())
-    const [medToBeVerified, setMedToBeVerified] = useState<MedSupply | null>(null)
-
-
 
 
     return (
@@ -46,21 +26,28 @@ export function MedLocationModal(props: Props) {
                 <h1 className='font-bold text-lg py-2 text-red-700 text-center'>
                     Acetaminophen 10mg/kg PO q7hr PRN
                 </h1>
-                {supplies.length > 0 ?
+
+                {props.med.locations.length > 0 ?
                     <table className='w-full m-auto'>
                         <thead>
                             <tr className='text-left h-10'>
                                 <th className='pl-5'>Medication</th>
+                                <th className='pl-5'>Type</th>
+                                <th className='pl-5'>Dose</th>
                                 <th>Drawer</th>
+                                <th>Slot</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {supplies.map((supply, i) =>
+                            {props.med.locations.map((location, i) =>
                                 <tr key={i} className='h-16 odd:bg-gray-100 even:bg-gray-300 '>
-                                    <td className='pl-5'>{supply.name}</td>
-                                    <td>{supply.drawer}</td>
-                                    <td><Button onClick={() => onMedVerify(supply)}>Verify</Button></td>
+                                    <td className='pl-5'>{props.med.name}</td>
+                                    <td className='pl-5'>{location.type.toLocaleUpperCase()}</td>
+                                    <td>{location.dose}</td>
+                                    <td>{location.drawer}</td>
+                                    <td>{location.slot}</td>
+                                    <td className='w-36'><button className='bg-red-700 text-white px-10 h-10 rounded-full' onClick={() => setLocationToBeVerified(location)}>Verify</button></td>
                                 </tr>
                             )}
                         </tbody>
@@ -68,10 +55,12 @@ export function MedLocationModal(props: Props) {
                     <h1 className='text-center font-bold py-6'>Medication is not available, please call pharmacy</h1>
                 }
 
-                {medToBeVerified ?
-                    <VerifyPopup med={medToBeVerified}
+                {locationToBeVerified ?
+                    <VerifyPopup 
+                        med={props.med}
+                        location= {locationToBeVerified}
                         onVerified={onMedVerified}
-                        onClose={onMedVerified} />
+                        onClose={console.log} />
                     : null}
 
             </div>

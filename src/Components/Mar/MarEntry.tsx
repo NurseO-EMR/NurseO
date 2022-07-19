@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Frequency, MedicationOrder, Routine, Time, MedicationOrderSyntax, $providerOrdersAvailable, OrderType } from 'nurse-o-core';
+import { Frequency, MedicationOrder, Routine, Time, MedicationOrderSyntax, $providerOrdersAvailable, OrderType, Medication } from 'nurse-o-core';
 import { clone } from "lodash";
 import { Database } from '../../Services/Database';
-import {MedLocationModal} from './MedLocationModal';
-import { sampleMed } from '../../Services/Core';
+import { MedLocationModal } from './MedLocationModal';
 
 type Props = {
     order: MedicationOrder,
     timeSlots: number[],
-    simTime: Time
+    simTime: Time,
+    onLocateClick: (med: Medication) => void
 }
 
 
@@ -16,7 +16,7 @@ type TimeSlotStatus = "Givin" | "Available" | "-" | "Due"
 export function MarEntry(props: Props) {
 
     const [timeSlots, setTimeSlots] = useState(new Map<number, TimeSlotStatus>())
-    const [med, setMed] = useState(sampleMed)
+    const [med, setMed] = useState<Medication | null>(null)
     const [showLocationModal, setShowLocationModal] = useState(false)
 
     useEffect(() => {
@@ -73,13 +73,22 @@ export function MarEntry(props: Props) {
             }
         }
 
+        async function getMed() {
+            const db = Database.getInstance();
+            const med = await db.getMedication(props.order.id);
+            setMed(med)
+        }
+
+
 
         fillTimeSlots();
         checkForRecordedMarData();
         checkRoutineConditions();
         setTimeSlots(timeSlots)
+        getMed()
         // eslint-disable-next-line no-use-before-define
     }, [timeSlots, setTimeSlots, props])
+
 
     const getMedQInterval = (order: MedicationOrder) => {
         switch (order.frequency) {
@@ -101,12 +110,6 @@ export function MarEntry(props: Props) {
 
     }
 
-    const getMed = async () => {
-        const db = Database.getInstance();
-        const med = await db.getMedication(props.order.id);
-        // setMed(med)
-
-    }
 
     const getOrder = () => {
         const order = clone(props.order);
@@ -137,10 +140,9 @@ export function MarEntry(props: Props) {
                         onClick={() => setShowLocationModal(true)}>Locate</button>
                 </td>
             </tr>
-            {showLocationModal ?
-                <MedLocationModal onClose={() => setShowLocationModal(false)} med={med} />
+            {showLocationModal && med ?
+                <MedLocationModal onClose={console.log} med={med} />
                 : null}
-
         </>
     );
 }

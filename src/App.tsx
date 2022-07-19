@@ -4,12 +4,10 @@ import { SelectPatient } from './Pages/SelectPatientPage';
 import { Database } from './Services/Database';
 import firebaseConfig from "./firebaseConfig.json";
 import DashboardPage from './Pages/DashboardPage';
+
 export default function App() {
 
   Database.initialize(firebaseConfig)
-
-  
-
 
   return (
     <BrowserRouter>
