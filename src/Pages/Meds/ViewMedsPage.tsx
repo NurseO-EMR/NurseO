@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "../../Components/Card";
 import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
-import { MedicationModified as Medication } from "../../Services/Core";
+import { Medication } from "nurse-o-core";
 import { Database } from "../../Services/Database";
 import PageView from "../PageView";
 

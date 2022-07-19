@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
 import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
-import { LocationDefinition, MedicationModified as Medication } from "../../Services/Core";
+import { LocationDefinition, Medication } from "nurse-o-core";
 import { Database } from "../../Services/Database";
 
 export type Props = BaseStageProps & {

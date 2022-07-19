@@ -7,7 +7,7 @@ import {
 import { findIndex } from "lodash";
 import {PatientChart} from "nurse-o-core"
 import { Cache } from "./Cache";
-import { MedicationModified as Medication, SettingsModified as Settings } from "./Core";
+import { Medication, Settings } from "nurse-o-core";
 
 export class Database {
     private static instance: Database;

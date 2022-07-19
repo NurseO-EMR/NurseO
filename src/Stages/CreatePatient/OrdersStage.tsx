@@ -9,7 +9,7 @@ import { MedicationOrdersPreviewer } from "../../Components/Stages/MedicationOrd
 import { AnimatePresence } from "framer-motion";
 import { Database } from "../../Services/Database";
 import { SearchableSelect } from "../../Components/Form/SearchableSelect";
-import { MedicationModified as Medication } from "../../Services/Core";
+import {  Medication } from "nurse-o-core";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,

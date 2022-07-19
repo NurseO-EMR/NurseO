@@ -1,7 +1,7 @@
 import { faPills } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { find } from "lodash";
-import { SettingsModified as Settings } from "./../../Services/Core";
+import { Settings, Medication,  MedicationLocation } from "nurse-o-core";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Card } from "../../Components/Card";
@@ -10,7 +10,6 @@ import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
-import { MedicationLocation, MedicationModified as Medication } from "../../Services/Core";
 import { Database } from "../../Services/Database";
 import PageView from "../PageView";
 

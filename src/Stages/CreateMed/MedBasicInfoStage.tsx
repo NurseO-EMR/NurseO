@@ -5,7 +5,7 @@ import { Input } from "../../Components/Form/Input";
 import { SearchableSelect } from "../../Components/Form/SearchableSelect";
 import { Select } from "../../Components/Form/Select";
 import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
-import { MedicationModified as Medication } from "../../Services/Core";
+import { Medication } from "nurse-o-core";
 import { Database } from "../../Services/Database";
 import {v4 as uuid} from "uuid"
 

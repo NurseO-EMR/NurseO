@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
-import { LocationDefinition } from "../../Services/Core";
+import { LocationDefinition } from "nurse-o-core";
 import { Database } from "../../Services/Database";
 
 export type Props = BaseStageProps & {
