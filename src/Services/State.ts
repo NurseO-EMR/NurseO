@@ -10,9 +10,10 @@ export const $error = new BehaviorSubject<Error>(new NoErrors());
 export const $history = new BehaviorSubject<History>(createBrowserHistory());
 export const $providerOrdersAvailable = new BehaviorSubject<boolean>(false);
 export const $settings = new BehaviorSubject<Settings>({
-    numberOfTimeSlots: 5,
+    numberOfTimeSlots: 1,
     reportSet: [],
-    previewColor: "gray-900"
+    previewColor: "gray-900",
+    locations: []
 });
 
 async function initState() {

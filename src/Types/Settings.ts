@@ -6,4 +6,4 @@ export type Settings = {
     reportSet: ReportSet[],
     previewColor: string,
     locations: LocationDefinition[]
-} | null
+}
