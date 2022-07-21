@@ -1,6 +1,7 @@
 export type ReportSet = {
     name: string,
     reportFields: Report[],
+    image?: string,
     type: ReportType
 };
 
@@ -28,5 +29,4 @@ export type StudentReport = {
     reportType: ReportType,
 }
     
-export type ReportType = "studentVitalsReport" | "studentAssessmentReport" | "studentIOReport";
-
+export type ReportType = "studentVitalsReport" | "studentLabReport" | "studentAssessmentReport" | "studentIOReport";
