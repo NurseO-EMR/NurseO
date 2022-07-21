@@ -3,14 +3,10 @@ import React, { ChangeEvent } from 'react';
 import { Subscription } from 'rxjs';
 import Database from '../../Services/Database';
 import { $error, $patient, $settings } from '../../Services/State';
-import { Settings } from '../../Types/Settings';
-import { Status } from '../../Types/Status';
-import { ReportType, StudentReport, ReportSet } from '../../Types/Report';
-import { PatientNotFoundError } from '../../Types/ErrorCodes';
+import { ReportType, StudentReport, ReportSet, PatientNotFoundError, Status, Settings, PatientChart } from 'nurse-o-core';
 import { getTodaysDateAsString } from '../../Services/Util';
 import ReportsSubmitterTabContent from './ReportsSubmitterTabContent';
 import ReportTabs from './ReportTabs';
-import { PatientChart } from '../../Types/PatientProfile';
 import SaveButton from '../Form/SaveButton';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -24,7 +20,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 
 type State = {
     ReportSets: ReportSet[] | null,
-    settings: Settings,
+    settings: Settings | null,
     date: string,
     status: Status,
     timeSlots: Array<string>,

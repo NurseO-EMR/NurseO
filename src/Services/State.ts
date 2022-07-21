@@ -1,8 +1,5 @@
-import { NoErrors } from './../Types/ErrorCodes';
 import { BehaviorSubject } from "rxjs";
-import { PatientChart } from "../Types/PatientProfile";
-import { Settings } from "../Types/Settings";
-import { Error } from "../Types/ErrorCodes";
+import { Error, NoErrors, Settings, PatientChart } from "nurse-o-core";
 import { createBrowserHistory, History } from 'history';
 
 export const $patient = new BehaviorSubject<PatientChart>(new PatientChart());
@@ -12,7 +9,8 @@ export const $providerOrdersAvailable = new BehaviorSubject<boolean>(false);
 export const $settings = new BehaviorSubject<Settings>({
     numberOfTimeSlots: 5,
     reportSet: [],
-    previewColor: "gray-900"
+    previewColor: "gray-900",
+    locations: []
 });
 
 async function initState() {

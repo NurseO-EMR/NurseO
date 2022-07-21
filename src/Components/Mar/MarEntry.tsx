@@ -1,7 +1,7 @@
 import { clone } from 'lodash';
 import React from 'react';
 import { $providerOrdersAvailable } from '../../Services/State';
-import { Frequency, MedicationOrder, OrderType, Routine, Time } from '../../Types/PatientProfile';
+import { Frequency, MedicationOrder, OrderType, Routine, Time } from 'nurse-o-core';
 import MedicationOrderSyntax from '../Orders/MedicationOrderSyntax';
 
 type Props = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReportSet } from '../../Types/Report';
+import { ReportSet } from 'nurse-o-core';
 import ReportInput from './ReportInput';
 import ReportsHeaderTimeSlots from './ReportsHeaderTimeSlots';
 

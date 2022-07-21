@@ -1,7 +1,7 @@
 import React from 'react';
 import Dashboard from '../../../Components/Dashboard/Dashboard';
 import { $patient } from '../../../Services/State';
-import { PatientChart } from '../../../Types/PatientProfile';
+import { PatientChart } from 'nurse-o-core';
 import StudentViewPage from '../StudentViewPage';
 import "./../../../index.css";
 

@@ -23,7 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 src/firebaseConfig.json
-src/assets/logo.png
+src/assets/logo.*
 
 .firebase
 

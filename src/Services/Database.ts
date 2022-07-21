@@ -6,11 +6,8 @@ import {
 } from "firebase/firestore";
 import { $error, $patient, $settings } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";
-import { PatientChart } from "../Types/PatientProfile";
-import { PatientNotFoundError } from "../Types/ErrorCodes";
-import { Medication } from "../Types/Medications";
+import { Medication, Settings,PatientChart, PatientNotFoundError } from "nurse-o-core";
 import { findIndex } from "lodash";
-import { Settings } from "../Types/Settings";
 import Cache from "./Cache";
 
 export default class Database {
@@ -101,7 +98,14 @@ export default class Database {
         let medIndex;
         if (medID) medIndex = findIndex(cachedMeds, { id: medID });
 
-        else if (barcode) medIndex = findIndex(cachedMeds, { barcode: barcode });
+        else if (barcode) {
+            for(let i = 0; i < cachedMeds.length; i++) {
+                const med = cachedMeds[i]
+                const barcodeIndex = findIndex(med.locations, {barcode})
+                if(barcodeIndex> -1) medIndex = i
+            }
+            medIndex = -1
+        }
         else throw new Error("Please provide either medID or barcode ID")
         if (medIndex > -1) return cachedMeds[medIndex];
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import EmptyCard from '../../../Components/Dashboard/Card/EmptyCard';
-import { PatientChart } from '../../../Types/PatientProfile';
+import { PatientChart } from 'nurse-o-core';
 import StudentViewPage from '../StudentViewPage';
 import ReportSubmitter from "../../../Components/Reports/ReportsSubmitter";
 

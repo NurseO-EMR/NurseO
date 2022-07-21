@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flag } from '../../../Types/PatientProfile';
+import { Flag } from 'nurse-o-core';
 
 
 export type Props = {

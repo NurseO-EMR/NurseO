@@ -2,9 +2,8 @@ import { filter } from 'lodash';
 import React from 'react';
 import ReportsViewer from '../../../Components/Reports/ReportsViewer';
 import { $error } from '../../../Services/State';
-import { PatientNotFoundError } from '../../../Types/ErrorCodes';
-import { PatientChart } from '../../../Types/PatientProfile';
-import { StudentReport } from '../../../Types/Report';
+import { PatientNotFoundError, StudentReport } from 'nurse-o-core';
+import { PatientChart } from 'nurse-o-core';
 import StudentViewPage from '../StudentViewPage';
 
 

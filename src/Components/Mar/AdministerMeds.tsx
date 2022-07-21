@@ -4,7 +4,7 @@ import PureModal from 'react-pure-modal';
 import { filter } from 'lodash';
 import Database from '../../Services/Database';
 import { $patient, $providerOrdersAvailable } from '../../Services/State';
-import { MedicationOrder, OrderType, PatientChart } from '../../Types/PatientProfile';
+import { MedicationOrder, OrderType, PatientChart } from 'nurse-o-core';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 
 type Props = {

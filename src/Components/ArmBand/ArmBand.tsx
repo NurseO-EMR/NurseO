@@ -1,8 +1,8 @@
 import React from 'react';
 import { startCase } from 'lodash';
-import { PatientChart, Time } from '../../Types/PatientProfile';
+import {PatientChart, Time} from "nurse-o-core"
 import SectionNamedInfo from './SectionNamedInfo';
-import logo from "./../../assets/logo.png"
+import logo from "./../../assets/logo.svg"
 import { $patient } from '../../Services/State';
 
 
@@ -48,7 +48,6 @@ export default class ArmBand extends React.Component<Props,State> {
                     <SectionNamedInfo name="Sim Time">
                         {this.state.time.hour.toString().padStart(2,"0")}:{this.state.time.minutes.toString().padStart(2,"0")}
                     </SectionNamedInfo>
-
                 </div>
             </div>
         );

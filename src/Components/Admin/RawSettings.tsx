@@ -1,6 +1,6 @@
 import React from 'react';
 import Database from '../../Services/Database';
-import { Settings } from '../../Types/Settings';
+import { Settings } from 'nurse-o-core';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 import ButtonWConfirmBox from '../Form/ButtonWConfirmBox';
 

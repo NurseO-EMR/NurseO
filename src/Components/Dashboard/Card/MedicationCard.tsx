@@ -1,7 +1,7 @@
 import { filter } from 'lodash';
 import React from 'react';
 import { $providerOrdersAvailable } from '../../../Services/State';
-import { MedicationOrder, OrderType } from '../../../Types/PatientProfile';
+import { MedicationOrder, OrderType } from 'nurse-o-core';
 import Card from './Card';
 import MedicationEntry from './MedicationEntry';
 

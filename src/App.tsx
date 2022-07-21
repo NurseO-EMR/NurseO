@@ -3,7 +3,6 @@ import './lib/react-pure-modal.min.css';
 import {Route, Router, Switch} from "react-router-dom";
 import { getAnalytics } from "firebase/analytics";
 import DashboardPage from './Pages/StudentView/Dashboard/DashboardPage';
-import { PatientChart } from './Types/PatientProfile';
 import {$error, $history, $patient} from "./Services/State";
 import Login from './Pages/Login';
 import MARPage from "./Pages/StudentView/Mar/MARPage"
@@ -13,27 +12,19 @@ import FlagsPage from './Pages/StudentView/Dashboard/FlagsPage';
 import VitalsPage from './Pages/StudentView/Vitals/VitalsPage';
 import VitalsViewPage from './Pages/StudentView/Vitals/VitalsViewPage';
 import Database from './Services/Database';
-import { PatientNotFoundError } from './Types/ErrorCodes';
+import { PatientNotFoundError,PatientChart } from 'nurse-o-core';
 import SelectPatient from './Pages/StudentView/SelectPatient';
 import AdministerMedsPage from './Pages/StudentView/Mar/AdministerMedsPage';
 import AdmissionOrdersPage from './Pages/StudentView/Orders/AdmissionOrders';
 import ProviderOrdersPage from './Pages/StudentView/Orders/ProviderOrders';
 import StandingOrdersPage from './Pages/StudentView/Orders/StandingOrders';
 import AllOrders from './Pages/StudentView/Orders/AllOrders';
-import AdminDashboard from './Pages/admin/AdminDashboard';
-import EditAssessmentPage from './Pages/admin/EditsAssessment/EditAssessmentPage';
 import AssessmentSubmitPage from './Pages/StudentView/Assessments/AssessmentsSubmitPage';
-import CreatePatientPage from './Pages/admin/CreatePatient/CreatePatientPage';
 import AssessmentViewPage from './Pages/StudentView/Assessments/AssessmentsViewPage';
-import ViewPatientsPage from './Pages/admin/ViewPatients/ViewPatientsPage';
-import EditVitalsPage from './Pages/admin/EditVitals/EditVitalsPage';
-import EditMedicationsPage from './Pages/admin/EditMedications/EditMedicationsPage';
 import LabsViewerPage from './Pages/StudentView/Labs/LabsViewerPage';
-import EditAdminsPage from './Pages/admin/EditAdmins/EditAdmins';
-import EditSettingsRawPage from './Pages/admin/EditSettings/EditSettingsRawPage';
 import IORecordSubmitPage from './Pages/StudentView/IORecord/IORecordSubmitPage';
 import IORecordViewPage from './Pages/StudentView/IORecord/IORecordViewPage';
-import EditIOPage from './Pages/admin/EditIO/EditIOPage';
+
 
 type Props = {}
 type State = {
@@ -99,19 +90,6 @@ export default class App extends React.Component<Props, State> {
 
           <Route exact path="/studentView/io/view"><IORecordViewPage patient={this.state.patient} /></Route>         
           <Route exact path="/studentView/io/submit"><IORecordSubmitPage patient={this.state.patient} /></Route>         
-
-
-          {/* Admin */}
-
-          <Route exact path="/admin/dashboard"><AdminDashboard /></Route>
-          <Route exact path="/admin/assessments/edit"><EditAssessmentPage /></Route>
-          <Route exact path="/admin/vitals/edit"><EditVitalsPage /></Route>
-          <Route exact path="/admin/scales/edit"><EditIOPage /></Route>
-          <Route exact path="/admin/patient/create"><CreatePatientPage /></Route>
-          <Route exact path="/admin/patient/view"><ViewPatientsPage /></Route>
-          <Route exact path="/admin/medication/edit"><EditMedicationsPage /></Route>
-          <Route exact path="/admin/editAdmins"><EditAdminsPage /></Route>
-          <Route exact path="/admin/settings/raw"><EditSettingsRawPage /></Route>
 
         </Switch>
       </Router>

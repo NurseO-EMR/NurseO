@@ -1,1 +1,0 @@
-export type Status = "loading" | "completed" | "fail" | "savePatient";

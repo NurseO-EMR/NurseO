@@ -1,10 +1,10 @@
 import { orderBy } from 'lodash';
 import React from 'react';
-import { MedicalIssue } from '../../../Types/PatientProfile';
+import { MedicalHistory } from 'nurse-o-core';
 import Card from './Card';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-    history: MedicalIssue[],
+    history: MedicalHistory[],
     preview?: boolean
 }
 export default class HistoryCard extends React.Component<Props> {
@@ -16,12 +16,12 @@ export default class HistoryCard extends React.Component<Props> {
 
     public render() {
         return (
-            <Card className={this.props.className} title="History" admin={this.props.preview}>
+            <Card className={this.props.className} title="Medical History" admin={this.props.preview}>
             <thead className="font-bold">
                 <tr>
                     <td className="border-2 p-2">Date</td>
-                    <td className="border-2 p-2">Name</td>
-                    <td className="border-2 p-2">Assessment</td>
+                    <td className="border-2 p-2">Title</td>
+                    <td className="border-2 p-2">Notes</td>
                 </tr>
             </thead>
             <tbody>
@@ -29,9 +29,9 @@ export default class HistoryCard extends React.Component<Props> {
                     <tr><td colSpan={2} className='text-center p-2'><h1>No records found</h1></td></tr>:
                     this.getHistory().map((history,i) => 
                     <tr key={i}>
-                        <td className="border-2 p-2">{history.diagnosedDate}</td>
-                        <td className="border-2 p-2">{history.name}</td>
-                        <td className="border-2 p-2">{history.assessment}</td>
+                        <td className="border-2 p-2">{history.date}</td>
+                        <td className="border-2 p-2">{history.title}</td>
+                        <td className="border-2 p-2">{history.notes}</td>
                     </tr>)
                 }
             </tbody>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Report } from '../../Types/Report';
+import { Report } from 'nurse-o-core';
 import ReportDynamicInput from './ReportDynamicInput';
 
 type Props = {

@@ -1,7 +1,5 @@
 import { findIndex } from "lodash";
-import { Medication } from "../Types/Medications";
-import { PatientChart } from "../Types/PatientProfile";
-import { Settings } from "../Types/Settings";
+import { Medication, Settings, PatientChart } from "nurse-o-core";
 
 export default class Cache {
     private cachedMeds: Medication[];

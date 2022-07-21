@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { ReportInputType, ReportOptions } from '../../Types/Report';
+import { ReportInputType, ReportOptions } from 'nurse-o-core';
 
 type Props = {
     fieldType: ReportInputType,

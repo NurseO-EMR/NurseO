@@ -1,8 +1,6 @@
 import React from 'react';
 import Database from '../../Services/Database';
-import { Medication } from '../../Types/Medications';
-import { MedicationOrder } from '../../Types/PatientProfile';
-
+import { Medication, MedicationOrderSyntax as BaseMedicationOrderSyntax, MedicationOrder } from 'nurse-o-core';
 type Props = {
     order: MedicationOrder,
     
@@ -29,15 +27,7 @@ export default class MedicationOrderSyntax extends React.Component<Props, State>
 
     public render() {	
         return (
-            <>
-                    {this.state.medication?.name} {" "}
-                    {this.props.order.concentration}{" "}
-                    {this.props.order.route}{" "}
-                    {this.props.order.frequency} {" "}
-                    {this.props.order.routine}  {" "}
-                    {this.props.order.PRNNote}{" "}
-                    {this.props.order.notes ? `(${this.props.order.notes})`: null}
-            </>
+            <BaseMedicationOrderSyntax medName={this.state.medication?.name || "Loading..."} order={this.props.order} />
 
         );
     }	

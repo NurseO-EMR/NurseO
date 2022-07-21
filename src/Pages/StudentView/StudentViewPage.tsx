@@ -7,7 +7,7 @@ import SideNavItem from '../../Components/Nav/SideBar/SideNavItem';
 import TopNav from '../../Components/Nav/TopMenu/TopNav';
 import { $history, $patient } from '../../Services/State';
 import TapOutService from '../../Services/TapOutService';
-import { PatientChart } from '../../Types/PatientProfile';
+import { PatientChart } from 'nurse-o-core';
 
 type Props = {
     patient: PatientChart

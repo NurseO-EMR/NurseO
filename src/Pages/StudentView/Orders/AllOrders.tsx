@@ -1,6 +1,6 @@
 import React from 'react';
 import Orders from '../../../Components/Orders/Orders';
-import { PatientChart } from '../../../Types/PatientProfile';
+import { PatientChart } from 'nurse-o-core';
 import StudentViewPage from '../StudentViewPage';
 
 type Props = {

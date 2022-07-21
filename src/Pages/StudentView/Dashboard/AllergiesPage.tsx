@@ -1,6 +1,6 @@
 import React from 'react';
 import AllergyCard from '../../../Components/Dashboard/Card/AllergyCard';
-import { PatientChart } from '../../../Types/PatientProfile';
+import { PatientChart } from 'nurse-o-core';
 import StudentViewPage from '../StudentViewPage';
 
 type Props =  {
