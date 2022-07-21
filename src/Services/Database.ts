@@ -7,9 +7,11 @@ import {
 } from "@firebase/firestore";
 import { findIndex } from "lodash";
 import {
-    $error, $patient, $settings, PatientChart, PatientNotFoundError, Medication, Settings
+    PatientChart, PatientNotFoundError, Medication, Settings
 } from "nurse-o-core"
 import { Cache } from './Cache';
+
+import {$patient} from "./State"
 
 export class Database {
     // eslint-disable-next-line no-use-before-define
@@ -64,7 +66,7 @@ export class Database {
 
     async updatePatient() {
         if (this.patientDocRef === null) {
-            $error.next(new PatientNotFoundError())
+            console.error("Patient not found")
         } else {
             const patient = { ...$patient.value };
             await updateDoc(this.patientDocRef, patient);
@@ -148,8 +150,6 @@ export class Database {
         const document = await getDoc(settingsRef);
         const data = document.data() as Settings;
         this.cache.cacheSettings(data);
-        $settings.next(data);
-        console.log(data)
         return data;
     }
 
@@ -158,10 +158,10 @@ export class Database {
         await setDoc(settingsRef, setting);
     }
 
-    async updateSettings() {
-        const settingsRef = doc(this.db, "settings", "settings");
-        await updateDoc(settingsRef, $settings.value);
-    }
+    // async updateSettings() {
+    //     const settingsRef = doc(this.db, "settings", "settings");
+    //     await updateDoc(settingsRef, $settings.value);
+    // }
 
 
 

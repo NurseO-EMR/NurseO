@@ -5,9 +5,10 @@ import {
     setPersistence, inMemoryPersistence,
     createUserWithEmailAndPassword, signInAnonymously, connectAuthEmulator
 } from "@firebase/auth";
-import { Background, SignInButton, AnonymousSignInButton } from 'nurse-o-core';
-import {Logo} from '../Nav/TopMenu/Logo';
+import { Logo } from '../Nav/TopMenu/Logo';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../Components/Form/Button';
+import { Background } from '../Components/Background';
 
 
 export function LoginPage() {
@@ -21,9 +22,8 @@ export function LoginPage() {
     const [error, setError] = useState("")
 
 
-    const onClickHandler = async (wait: () => void, keepGoing: () => void) => {
+    const onClickHandler = async () => {
         try {
-            wait();
             await setPersistence(auth, inMemoryPersistence)
             await signInWithEmailAndPassword(auth, `${badgeNumber}@nurseO.app`, badgeNumber)
             if (auth.currentUser) navigate(postLoginPath)
@@ -35,11 +35,9 @@ export function LoginPage() {
                     await signInWithEmailAndPassword(auth, `${badgeNumber}@nurseo.app`, badgeNumber)
                     if (auth.currentUser) navigate(postLoginPath)
                 } else {
-                    keepGoing();
                     setError(error.message)
                 }
             } catch (e) {
-                keepGoing();
                 const error = e as FirebaseError;
                 setError(error.message)
             }
@@ -71,12 +69,12 @@ export function LoginPage() {
                         placeholder="Or type your badge number here"
                         onChange={e => setBadgeNumber(e.target.value)}
                     /><br />
-                    <SignInButton onClick={onClickHandler} />
+                    <Button className='rounded-full bg-red-700 text-white p-4 font-bold tracking-wider w-full' onClick={onClickHandler}>Sign in</Button>
                     <div>{error}</div>
 
                     <hr className="w-full my-4 border-red-700" />
                     <h1 className="font-bold">If you forgot your ID click bellow:</h1>
-                    <AnonymousSignInButton className="block mx-auto" onClick={onAnonymousSignInClickHandler} />
+                    <Button className="rounded-full bg-gray-700 text-white py-5 font-bold tracking-wider w-full block mx-auto" onClick={onAnonymousSignInClickHandler}>Anonymously Sign In</Button>
                 </form>
             </div>
         </div>

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Background, SignInButton } from "nurse-o-core"
 import { Database } from "./../Services/Database"
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../Components/Form/Button';
+import { Background } from '../Components/Background';
 
 
 export function SelectPatient() {
@@ -16,12 +17,10 @@ export function SelectPatient() {
 
 
 
-    const onClickHandler = async (wait: () => void, keepGoing: () => void) => {
-        wait();
+    const onClickHandler = async () => {
         const patientExist = await database.getPatient(patientID);
         if (patientExist) navigate("/dashboard");
         else {
-            keepGoing();
             setError("patient not found")
         }
     }
@@ -40,7 +39,7 @@ export function SelectPatient() {
                         placeholder="Or type the patient number here"
                         onChange={e => setPatientID(e.currentTarget.value)}
                     /><br />
-                    <SignInButton onClick={onClickHandler} />
+                    <Button className='rounded-full bg-red-700 text-white p-4 font-bold tracking-wider w-full' onClick={onClickHandler}>Sign in</Button>
                     <div>{error}</div>
                 </form>
             </div>

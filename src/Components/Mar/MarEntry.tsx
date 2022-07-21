@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Frequency, MedicationOrder, Routine, Time, MedicationOrderSyntax, $providerOrdersAvailable, OrderType, Medication } from 'nurse-o-core';
+import { Frequency, MedicationOrder, Routine, Time, MedicationOrderSyntax, OrderType, Medication } from 'nurse-o-core';
 import { clone } from "lodash";
 import { Database } from '../../Services/Database';
 import { MedLocationModal } from './MedLocationModal';
+import {$providerOrdersAvailable} from "./../../Services/State"
 
 type Props = {
     order: MedicationOrder,

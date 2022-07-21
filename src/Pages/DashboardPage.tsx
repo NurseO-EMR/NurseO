@@ -1,4 +1,4 @@
-import { $patient } from 'nurse-o-core';
+import {$patient} from "./../Services/State"
 import React from 'react';
 import { Mar } from '../Components/Mar/Mar';
 import {TopNav} from '../Nav/TopMenu/TopNav';

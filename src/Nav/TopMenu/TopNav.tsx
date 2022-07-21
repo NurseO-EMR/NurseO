@@ -3,7 +3,9 @@ import { Logo } from './Logo';
 import { getAuth } from "firebase/auth"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
-import { $history, $providerOrdersAvailable, Button } from 'nurse-o-core';
+import {$providerOrdersAvailable} from "./../../Services/State"
+import { useNavigate } from 'react-router-dom';
+import {Button} from "./../../Components/Form/Button"
 
 type Props = {
     className?: string
@@ -11,10 +13,11 @@ type Props = {
 export function TopNav(props: Props) {
 
     const auth = getAuth()
+    const navigate = useNavigate()
 
     const onLogoutClickHandler = async () => {
         await auth.signOut();
-        $history.value.push("/")
+        navigate("/")
         window.location.reload();
     }
 

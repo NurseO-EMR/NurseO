@@ -1,6 +1,7 @@
 import { filter, maxBy, uniq } from 'lodash';
 import React, { useState } from 'react';
-import { Frequency, MedicationOrder, OrderType, Routine, Time, $providerOrdersAvailable } from 'nurse-o-core';
+import { Frequency, MedicationOrder, OrderType, Routine, Time } from 'nurse-o-core';
+import {$providerOrdersAvailable} from "./../../Services/State"
 import { MarEntry } from './MarEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
