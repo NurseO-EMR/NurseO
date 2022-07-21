@@ -1,4 +1,3 @@
-import { filter } from 'lodash';
 import React from 'react';
 import LabViewer from '../../../Components/Labs/LabViewer';
 import { PatientChart } from 'nurse-o-core';
