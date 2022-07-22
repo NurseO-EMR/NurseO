@@ -47,9 +47,9 @@ export default class ReportsSubmitterTabContent extends React.Component<Props, S
                                 onChange={(name, timeslotIndex, value) => this.props.onInputChangeHandler(name, timeslotIndex, value)}
                                 key={i}
                                 numberOfTimeSlots={this.props.numberOfTimeSlots}
+                                secondField={field.addSecondField}
                                 vital={field} />
                         )}
-
                     </tbody>
                 </table>
             </>

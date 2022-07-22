@@ -37,6 +37,7 @@ export default class ReportsHeaderTimeSlots extends React.Component<Props,State>
                         <input className="w-9/12 max-w-xs border border-black text-center" type="time" value={this.state.timeSlots[i]} onChange={(value)=>this.inputChangeHandler(value,i)}  />
                     </td>
                 )}
+                {this.props.numberOfTimeSlots === 1 ? <td></td> : null} 
             </tr>
         );
     }	
