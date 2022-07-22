@@ -26,7 +26,6 @@ export default class ReportsViewer extends React.Component<Props, State> {
             selectedTab: 0
         }
         this.filteredSets = this.getSets();
-        this.getRows();
         this.notes = $patient.value?.notes || [];
     }
 
@@ -56,6 +55,7 @@ export default class ReportsViewer extends React.Component<Props, State> {
         return uniq(times.sort());
     }
 
+    //this function is expensive and might require optimization letter
     getRows() {
         const map = this.makeReportsMap();
         const rows: JSX.Element[] = [];
@@ -69,6 +69,12 @@ export default class ReportsViewer extends React.Component<Props, State> {
             rows.push(row);
         } else {
             map.forEach((valuesArray, name) => {
+                //replacing all the empty cells with empty string values 
+                for(let i = 0; i<valuesArray.length; i++) {
+                    const value = valuesArray[i]
+                    if(value === undefined) valuesArray[i] = ""
+                }
+                //making the row
                 const row = (
                     <tr key={i} className="odd:bg-gray-100 even:bg-gray-300 h-14">
                         <td key={-1}>{name}</td>
@@ -137,7 +143,7 @@ export default class ReportsViewer extends React.Component<Props, State> {
                         <table className="w-full table-auto text-center">
                             <thead>
                                 <tr className="">
-                                    <th key={-1}>Vital</th>
+                                    <th key={-1}>{this.props.title}</th>
                                     {this.getTimes().map((time, i) =>
                                         <th key={i}>{time}</th>
                                     )}

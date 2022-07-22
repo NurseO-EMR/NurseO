@@ -36,18 +36,18 @@ export default class ReportsSubmitterTabContent extends React.Component<Props, S
         return (
             <>
                 {this.props.reportSet.image ?
-                    <img src={this.props.reportSet.image} alt="" className='max-h-64 m-auto'/>
+                    <img src={this.props.reportSet.image} alt="" className='max-h-64 m-auto' />
                     : null}
                 <table className="w-full">
                     <tbody>
                         <ReportsHeaderTimeSlots onChange={this.onTimeSlotChangeHandler.bind(this)} numberOfTimeSlots={this.props.numberOfTimeSlots}></ReportsHeaderTimeSlots>
-                        {this.props.reportSet.reportFields.map((val, i) =>
+                        {this.props.reportSet.reportFields.map((field, i) =>
                             <ReportInput
                                 disabledTimeSlots={this.state.disabledTimeSlots}
                                 onChange={(name, timeslotIndex, value) => this.props.onInputChangeHandler(name, timeslotIndex, value)}
                                 key={i}
                                 numberOfTimeSlots={this.props.numberOfTimeSlots}
-                                vital={val} />
+                                vital={field} />
                         )}
 
                     </tbody>
