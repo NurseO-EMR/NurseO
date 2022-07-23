@@ -2,7 +2,7 @@ import React from 'react';
 import { startCase } from 'lodash';
 import {PatientChart, Time} from "nurse-o-core"
 import SectionNamedInfo from './SectionNamedInfo';
-import logo from "./../../assets/logo.svg"
+import logo from "./../../assets/logo.png"
 import { $patient } from '../../Services/State';
 
 

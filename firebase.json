@@ -11,7 +11,8 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ]
+    ],
+    "site": "emr-32372"
   },
   "emulators": {
     "auth": {
