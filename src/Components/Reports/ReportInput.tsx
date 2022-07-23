@@ -16,12 +16,18 @@ export default function ReportInput(props: Props) {
 
     const onChangeHandler = (inputIndex: 1|2 ,value: string, key: number) => {
         if(inputIndex === 1) {
-            setValue1(value)
-            onChangeUpstreamHandler(value, value2, key)
+            let output;
+            if(props.vital.labels) output = props.vital.labels[0] + ": " + value
+            else output = value
+            setValue1(output)
+            onChangeUpstreamHandler(output, value2, key)
         }
         if(inputIndex === 2) {
-            setValue2(value)
-            onChangeUpstreamHandler(value1, value, key)
+            let output;
+            if(props.vital.labels) output = props.vital.labels[1] + ": " + value
+            else output = value
+            setValue2(output)
+            onChangeUpstreamHandler(value1, output, key)
         }
         
     }
@@ -29,7 +35,9 @@ export default function ReportInput(props: Props) {
 
     const onChangeUpstreamHandler = (v1:string, v2:string, key: number) =>{
         const vitalName = props.vital.name;
-        const value = `${v1}/${v2}`
+        let value;
+        if(v2) value = `${v1} | ${v2}`
+        else value = v1
         console.log(value)
         props.onChange(vitalName, key - 1, value);
     }
@@ -44,6 +52,7 @@ export default function ReportInput(props: Props) {
                     const disabled = props.disabledTimeSlots[i - 1];
                     return <Fragment key={i}>
                         <td>
+                            {props.vital.labels ? <label className='block'>{props.vital.labels[0]}</label> : null}
                             <ReportDynamicInput fieldType={props.vital.fieldType} index={i} onChange={(v,k)=> onChangeHandler(1,v,k)}
                                 disabled={disabled} options={props.vital.VitalsOptions}
                             />
@@ -51,6 +60,8 @@ export default function ReportInput(props: Props) {
 
                         {props.secondField ?
                             <td>
+                                {props.vital.labels && props.vital.labels.length > 1 ? <label className='block'>{props.vital.labels[1]}</label> : null}
+                                
                                 <ReportDynamicInput fieldType={props.vital.fieldType} index={i} onChange={(v,k)=> onChangeHandler(2,v,k)}
                                     disabled={disabled} options={props.vital.VitalsOptions}
                                 />
