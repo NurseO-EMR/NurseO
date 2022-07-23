@@ -10,7 +10,8 @@ export type Report = {
     fieldType: ReportInputType,   
     VitalsOptions?: ReportOptions
     value?: string, //prop can be removed!
-    addSecondField?: boolean
+    addSecondField?: boolean,
+    labels?: string[]
 }
 
 export type ReportInputType = "number" | "text" | "T/F" | "checkbox" | "options" | "NA"
