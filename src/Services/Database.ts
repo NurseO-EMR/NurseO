@@ -59,11 +59,10 @@ export class Database {
     }
 
     async getMedication(id: string): Promise<Medication | null> {
-        if (this.medListCached) {
-            const cachedMeds = this.cache.getMeds();
-            const medIndex = findIndex(cachedMeds, { id })
-            if (medIndex > -1) return cachedMeds[medIndex]
-        }
+        const cachedMeds = this.cache.getMeds();
+        const medIndex = findIndex(cachedMeds, { id })
+        if (medIndex > -1) return cachedMeds[medIndex]
+
 
         console.log("getting medication from db")
         const q = query(collection(this.db, "medications"), where("id", "==", id), limit(1));

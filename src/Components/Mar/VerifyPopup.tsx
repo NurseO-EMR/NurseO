@@ -33,7 +33,7 @@ export function VerifyPopup(props: Props) {
                     : null}
 
                 <Input className='mx-auto block w-full' autoFocus autoComplete='disabled' onChange={setBarCode} />
-                <Button className='block mx-auto w-80 my-2' onClick={onVerifyButtonClicked}>
+                <Button className='block mx-auto w-80 my-2 bg-primary' onClick={onVerifyButtonClicked}>
                     Verify
                 </Button>
             </form>

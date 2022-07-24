@@ -4,6 +4,8 @@ import { SelectPatient } from './Pages/SelectPatientPage';
 import { Database } from './Services/Database';
 import firebaseConfig from "./firebaseConfig.json";
 import DashboardPage from './Pages/DashboardPage';
+import 'react-pure-modal/dist/react-pure-modal.min.css';
+
 
 export default function App() {
 

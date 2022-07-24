@@ -1,17 +1,16 @@
-import {$patient} from "./../Services/State"
-import React from 'react';
+import { $patient } from "./../Services/State"
 import { Mar } from '../Components/Mar/Mar';
-import {TopNav} from '../Nav/TopMenu/TopNav';
+import { TopNav } from '../Nav/TopMenu/TopNav';
 
-export default class DashboardPage extends React.Component {
 
-    render() {
-        return (
-            <div>
-                <TopNav />
-                <Mar orders={$patient.value.medicationOrders} simTime={$patient.value.time} />
-            </div>
+export default function DashboardPage() {
 
-        );
-    }
+
+    return (
+        <div>
+            <TopNav />
+            <Mar orders={$patient.value.medicationOrders} simTime={$patient.value.time} />
+        </div>
+
+    );
 }

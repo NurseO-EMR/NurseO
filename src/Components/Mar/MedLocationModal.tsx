@@ -60,7 +60,7 @@ export function MedLocationModal(props: Props) {
                         med={props.med}
                         location= {locationToBeVerified}
                         onVerified={onMedVerified}
-                        onClose={console.log} />
+                        onClose={props.onClose} />
                     : null}
 
             </div>
