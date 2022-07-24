@@ -1,8 +1,8 @@
 import { getAuth } from '@firebase/auth';
 import { initializeApp } from "@firebase/app";
 import {
-    addDoc, collection, DocumentReference, getDocs, getFirestore,
-    limit, query, updateDoc, where, doc, getDoc, Firestore, connectFirestoreEmulator
+    addDoc, collection, getDocs, getFirestore,
+    limit, query, where, doc, getDoc, Firestore, connectFirestoreEmulator
 } from "@firebase/firestore";
 import { findIndex } from "lodash";
 import {PatientChart, Medication, Settings} from "nurse-o-core"
@@ -13,23 +13,18 @@ import {$patient} from "./State"
 export class Database {
     // eslint-disable-next-line no-use-before-define
     private static instance: Database;
-    // private patient: PatientChart;
     private db: Firestore;
-    private patientDocRef: DocumentReference | null;
     private currentPatientID: string | null | undefined;
     private cache: Cache;
     private medListCached: boolean;
-    private patientListCached: boolean;
 
     constructor(firebaseConfig: any) {
         initializeApp(firebaseConfig);
         this.db = getFirestore();
         connectFirestoreEmulator(this.db, "localhost", 8080);
-        this.patientDocRef = null;
         this.currentPatientID = null;
         this.cache = new Cache();
         this.medListCached = false;
-        this.patientListCached = false;
     }
 
     async getPatient(id: string): Promise<boolean> {
@@ -43,7 +38,6 @@ export class Database {
         const q = query(collection(this.db, "patients"), where("id", "==", id), where("studentUID", "==", uid), limit(1))
         const doc = (await getDocs(q)).docs[0]
         if (doc) {
-            this.patientDocRef = doc.ref;
             patientChart = doc.data() as PatientChart;
         } else {
             const templatePatientQuery = query(collection(this.db, "templatePatients"), where("id", "==", id), limit(1))
@@ -51,7 +45,6 @@ export class Database {
             if (!templatePatientDoc) return false;
             patientChart = templatePatientDoc.data() as PatientChart;
             patientChart.studentUID = uid;
-            this.patientDocRef = await this.addPatient(patientChart);
             this.currentPatientID = patientChart?.id;
 
         }
@@ -60,16 +53,7 @@ export class Database {
         return true;
 
     }
-
-    async updatePatient() {
-        if (this.patientDocRef === null) {
-            console.error("Patient not found")
-        } else {
-            const patient = { ...$patient.value };
-            await updateDoc(this.patientDocRef, patient);
-        }
-    }
-
+    
     async addPatient(patient: PatientChart) {
         return await addDoc(collection(this.db, "patients"), patient);
     }
