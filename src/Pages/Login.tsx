@@ -1,9 +1,8 @@
 import React, { ChangeEvent } from 'react';
 import { FirebaseApp, FirebaseError, initializeApp } from "firebase/app";
 import { getAuth, Auth, signInWithEmailAndPassword, browserLocalPersistence, 
-    setPersistence, GoogleAuthProvider, signInWithPopup, inMemoryPersistence,
+    setPersistence, inMemoryPersistence,
     createUserWithEmailAndPassword, signInAnonymously } from "firebase/auth";
-import GoogleButton from 'react-google-button';
 import firebaseConfig from "./../firebaseConfig.json";
 import Logo from '../Components/Nav/TopMenu/Logo';
 import { $history } from '../Services/State';
@@ -65,19 +64,7 @@ export default class Login extends React.Component<Props,State> {
         this.setState({badgeNumber:event.target.value})
     }
 
-    async onGoogleSignInClickHandler() {
-        const provider = new GoogleAuthProvider();
-        try {
-            await setPersistence(this.auth, browserLocalPersistence)
-            await signInWithPopup(this.auth,provider);
-            if(this.auth.currentUser) $history.value.push("/admin/dashboard")
-        } catch(e) {
-            const error = e as FirebaseError; 
-            this.setState({
-                error: error.message
-            })
-        }
-    }
+
 
     async onAnonymousSignInClickHandler() {
         try {
@@ -111,10 +98,6 @@ export default class Login extends React.Component<Props,State> {
                         <hr className="w-full my-4 border-red-700"/>
                         <h1 className="font-bold">If you forgot your ID click bellow:</h1>
                         <AnonymousSignInButton className="block mx-auto" onClick={this.onAnonymousSignInClickHandler.bind(this)}/>
-
-                        <hr className="w-full my-4 border-red-700"/>
-                        <h1 className="font-bold">For Admins Please Click Below</h1>
-                        <GoogleButton className="block mx-auto" onClick={this.onGoogleSignInClickHandler.bind(this)}/>
                     </form>
                 </div>
             </div>
