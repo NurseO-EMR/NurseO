@@ -24,7 +24,7 @@ export default function DashboardPage() {
                     </DashboardNavCard>
                     <DashboardNavCard icon={faBuilding} title="Locations">
                         <Link to={"/locations/create"}>Create a new location</Link>
-                        <Link to={""}>View/Edit locations</Link>
+                        <Link to={"/locations/view"}>View/delete locations</Link>
                     </DashboardNavCard>
                     
                     <DashboardNavCard icon={faBuilding} title="Admin">
