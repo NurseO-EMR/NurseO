@@ -11,6 +11,7 @@ import { ViewMedsPage } from "./Pages/Meds/ViewMedsPage";
 import { EditMedPage } from "./Pages/Meds/EditMedPage";
 import { ViewLocationsPage } from "./Pages/Locations/ViewLocationsPage";
 import CreateAdminPage from "./Pages/Admins/CreateAdminPage";
+import { ViewAdminsPage } from "./Pages/Admins/ViewLocationsPage";
 
 export default function App() {
   Database.initialize(firebaseConfig);
@@ -32,7 +33,7 @@ export default function App() {
           <Route path="/locations/view" element={<ViewLocationsPage />}></Route>
 
           <Route path="/admins/create" element={<CreateAdminPage />}></Route>
-          <Route path="/admins/view" element={<CreateAdminPage />}></Route>
+          <Route path="/admins/view" element={<ViewAdminsPage />}></Route>
 
         </Routes>
       </BrowserRouter>
