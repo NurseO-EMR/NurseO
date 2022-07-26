@@ -10,6 +10,7 @@ import { EditPatientPage } from "./Pages/Patients/EditPatientPage";
 import { ViewMedsPage } from "./Pages/Meds/ViewMedsPage";
 import { EditMedPage } from "./Pages/Meds/EditMedPage";
 import { ViewLocationsPage } from "./Pages/Locations/ViewLocationsPage";
+import CreateAdminPage from "./Pages/Admins/CreateAdminPage";
 
 export default function App() {
   Database.initialize(firebaseConfig);
@@ -29,6 +30,10 @@ export default function App() {
 
           <Route path="/locations/create" element={<CreateLocationPage />}></Route>
           <Route path="/locations/view" element={<ViewLocationsPage />}></Route>
+
+          <Route path="/admins/create" element={<CreateAdminPage />}></Route>
+          <Route path="/admins/view" element={<CreateAdminPage />}></Route>
+
         </Routes>
       </BrowserRouter>
   );

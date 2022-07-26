@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
     limit, query, updateDoc, where, doc, getDoc, orderBy, deleteDoc,
-    DocumentData, QueryDocumentSnapshot, Firestore, connectFirestoreEmulator, setDoc
+     Firestore, connectFirestoreEmulator
 } from "firebase/firestore";
 import { findIndex } from "lodash";
 import {PatientChart} from "nurse-o-core"
@@ -148,24 +148,24 @@ export class Database {
         return document.ref;
     }
 
-    // async getAdminList(): Promise<string[]> {
-    //     const q = query(collection(this.db, "Admins"), limit(1));
-    //     const doc = (await getDocs(q)).docs[0];
-    //     if (doc) {
-    //         return doc.data().adminEmails as string[]
-    //     } else {
-    //         return []
-    //     }
-    // }
+    async getAdminList(): Promise<string[]> {
+        const q = query(collection(this.db, "Admins"), limit(1));
+        const doc = (await getDocs(q)).docs[0];
+        if (doc) {
+            return doc.data().adminEmails as string[]
+        } else {
+            return []
+        }
+    }
 
-    // async updateAdminList(updatedAdmins: string[]) {
-    //     const q = query(collection(this.db, "Admins"), limit(1));
-    //     const doc = (await getDocs(q)).docs[0];
-    //     const data = {
-    //         adminEmails: updatedAdmins
-    //     }
-    //     updateDoc(doc.ref,data);
-    // }
+    async updateAdminList(updatedAdmins: string[]) {
+        const q = query(collection(this.db, "Admins"), limit(1));
+        const doc = (await getDocs(q)).docs[0];
+        const data = {
+            adminEmails: updatedAdmins
+        }
+        updateDoc(doc.ref,data);
+    }
 
 
 
