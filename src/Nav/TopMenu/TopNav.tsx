@@ -30,11 +30,7 @@ export function TopNav(props: Props) {
             <div className="flex justify-around">
                 <Logo className='flex-row text-xl' />
                 <div className="flex items-center space-x-8">
-                    <Button className='tracking-wider animate-pulse bg-green-900'
-                        onClick={onProviderOrdersClickHandler}
-                    >
-                        Click here if you received provider orders
-                    </Button>
+                    
                 </div>
 
                 <div className="flex items-center space-x-3">

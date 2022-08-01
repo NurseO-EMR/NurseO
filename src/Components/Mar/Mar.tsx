@@ -110,7 +110,8 @@ export function Mar(props: Props) {
                         <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
                             <td className="w-80 pl-16 font-semibold">No Mar Records Available</td>
                         </tr>
-                        : filteredOrders.map((order, i) => <MarEntry simTime={props.simTime} timeSlots={timeSlots} key={i} order={order} onLocateClick={console.log} />)
+
+                        :  filteredOrders.map((order, i) =>  <MarEntry simTime={props.simTime} timeSlots={timeSlots} key={i} order={order} onLocateClick={console.log} />)
                 }
             </tbody>
         </table>
