@@ -124,7 +124,7 @@ export function EditPatientPage() {
 
 
     return <PageView>
-        <Steps activeStep={currentStage} className="mt-24">
+        <Steps activeStep={currentStage}>
             <Step icon={faIdCard} />
             <Step icon={faHouseChimneyUser} />
             <Step icon={faHeadSideCough} />

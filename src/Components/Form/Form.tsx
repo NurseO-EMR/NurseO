@@ -43,7 +43,9 @@ function FormEle(props: Props, ref: ForwardedRef<HTMLFormElement>) {
     }
 
     return (
-            <motion.form className="bg-gray shadow-xl min-w-fit w-formWidth mx-auto h-fit mt-10 py-10 px-20 text-center rounded-lg max-h-[70vh] overflow-y-auto"
+            <motion.form className="bg-gray shadow-xl min-w-fit w-formWidth mx-auto h-fit mt-[3vh] 
+                                    py-10 px-20 text-center rounded-lg max-h-[71vh] overflow-y-auto
+                                    "
                 onSubmit={onSubmitHandler} variants={animationVariants}
                 initial="init" animate={props.moveLeft ? "moveLeft" : "end"} exit="exit" transition={{ duration: STAGE_ANIMATION_DURATION, delay: props.delay }}
                 ref={ref}
@@ -58,11 +60,13 @@ function FormEle(props: Props, ref: ForwardedRef<HTMLFormElement>) {
 
                 <motion.hr initial={{border: 1}} exit={{border: 0}} className="border-darkGray my-2" />
 
-                {
-                    Children.map(props.children, (child, i) =>
-                        cloneElement(child, { delay: i + STAGE_ANIMATION_DURATION + (props.delay || 0) })
-                    )
-                }
+                <div className="">
+                    {
+                        Children.map(props.children, (child, i) =>
+                            cloneElement(child, { delay: i + STAGE_ANIMATION_DURATION + (props.delay || 0) })
+                        )
+                    }
+                </div>
 
             </motion.form>
     )

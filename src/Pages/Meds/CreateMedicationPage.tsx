@@ -68,7 +68,7 @@ export default function CreateMedicationPage() {
 
     return (
         <PageView>
-            <Steps activeStep={currentStage} className="mt-24">
+            <Steps activeStep={currentStage}>
                 <Step icon={faPills} />
                 <Step icon={faBuilding} />
                 <Step icon={faFileInvoice} />
