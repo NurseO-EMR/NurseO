@@ -12,6 +12,7 @@ import { EditMedPage } from "./Pages/Meds/EditMedPage";
 import { ViewLocationsPage } from "./Pages/Locations/ViewLocationsPage";
 import CreateAdminPage from "./Pages/Admins/CreateAdminPage";
 import { ViewAdminsPage } from "./Pages/Admins/ViewLocationsPage";
+import { RAWSettingsEditor } from "./Pages/Settings/RAWSettingsEditor";
 
 export default function App() {
   Database.initialize(firebaseConfig);
@@ -34,6 +35,8 @@ export default function App() {
 
           <Route path="/admins/create" element={<CreateAdminPage />}></Route>
           <Route path="/admins/view" element={<ViewAdminsPage />}></Route>
+
+          <Route path="/settings/rawEdit" element={<RAWSettingsEditor />}></Route>
 
         </Routes>
       </BrowserRouter>

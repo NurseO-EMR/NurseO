@@ -1,4 +1,4 @@
-import { faBuilding, faIdCard, faPills } from "@fortawesome/free-solid-svg-icons";
+import { faBuilding, faGear, faIdCard, faPills } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { DashboardNavCard } from "../Components/DashboardNavCard";
 import PageView from "./PageView";
@@ -30,6 +30,9 @@ export default function DashboardPage() {
                     <DashboardNavCard icon={faBuilding} title="Admin">
                         <Link to={"/admins/create"}>Add Admin</Link>
                         <Link to={"/admins/view"}>View/Edit Admins</Link>
+                    </DashboardNavCard>
+                    <DashboardNavCard icon={faGear} title="Settings ( DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING)">
+                        <Link to={"/settings/rawEdit"}>RAW Settings Editor</Link>
                     </DashboardNavCard>
                 </div>
 
