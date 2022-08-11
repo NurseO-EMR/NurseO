@@ -18,7 +18,7 @@ export function Nav() {
                 </Dropdown>
                 <Dropdown label="Locations">
                     <Link to="/locations/create">Create Location</Link>
-                    <Link to="">View/Edit Locations</Link>
+                    <Link to="/locations/view">View/Edit Locations</Link>
                 </Dropdown>
             </div>
         </nav>
