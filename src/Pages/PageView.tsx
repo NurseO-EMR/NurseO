@@ -1,6 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
+import {getAuth} from "firebase/auth"
 import { Background } from "../Components/Background";
 import { Nav } from "../Components/nav/Nav";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     children: ReactNode
@@ -8,6 +10,12 @@ type Props = {
 
 export default function PageView(props: Props) {
     const year = new Date().getFullYear()
+    const navigate = useNavigate()
+    
+    useEffect(()=>{
+        const auth = getAuth();
+        if(!auth.currentUser) navigate("/login");
+    }, [navigate])
 
     return (
         <div className="relative w-screen h-screen grid justify-center grid-rows-multiFormWStepsLayout">
