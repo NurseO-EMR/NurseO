@@ -88,7 +88,7 @@ export function MarEntry(props: Props) {
         setTimeSlots(timeSlots)
         getMed()
         // eslint-disable-next-line no-use-before-define
-    }, [timeSlots, setTimeSlots, props])
+    }, [timeSlots, setTimeSlots, props.order, props.timeSlots, props.simTime.hour])
 
 
     const getMedQInterval = (order: MedicationOrder) => {
