@@ -21,7 +21,7 @@ export function MedLocationModal(props: Props) {
 
 
     return (
-        <PureModal width='60vw' header="Order" isOpen={true} onClose={props.onClose}>
+        <PureModal width='60vw' header="Order" isOpen={true} onClose={props.onClose} className="min-h-[29vh]">
             <div>
                 <h1 className='font-bold text-lg py-2 text-red-700 text-center'>
                     Acetaminophen 10mg/kg PO q7hr PRN
