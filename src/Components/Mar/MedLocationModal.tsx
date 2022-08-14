@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PureModal from "react-pure-modal"
 import { Medication, MedicationLocation } from "nurse-o-core"
 import { VerifyPopup } from './VerifyPopup';
+import { $locationID } from '../../Services/State';
+import { filter } from 'lodash';
 
 type Props = {
     med: Medication,
@@ -12,7 +14,17 @@ export function MedLocationModal(props: Props) {
 
 
     const [locationToBeVerified, setLocationToBeVerified] = useState<MedicationLocation | null>(null)
+    const [locations, setLocations] = useState<MedicationLocation[]>([])
 
+
+    useEffect(()=>{
+        if($locationID.value === null) {
+            setLocations(props.med.locations)
+        } else {
+            const filteredLocations = filter(props.med.locations, {id: $locationID.value})
+            setLocations(filteredLocations)
+        }
+    },[props.med.locations])
 
     const onMedVerified = () => {
         setLocationToBeVerified(null)
@@ -27,7 +39,7 @@ export function MedLocationModal(props: Props) {
                     Acetaminophen 10mg/kg PO q7hr PRN
                 </h1>
 
-                {props.med.locations.length > 0 ?
+                {locations.length > 0 ?
                     <table className='w-full m-auto'>
                         <thead>
                             <tr className='text-left h-10'>
