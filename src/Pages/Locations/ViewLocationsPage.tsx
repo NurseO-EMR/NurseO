@@ -41,6 +41,7 @@ export function ViewLocationsPage() {
                     <Tr>
                         <th className="border font-normal">Building</th>
                         <th className="border font-normal">Station</th>
+                        <th className="border font-normal">ID</th>
                         <th className="border font-normal">Delete</th>
                     </Tr>
                 </thead>
@@ -49,6 +50,7 @@ export function ViewLocationsPage() {
                         <Tr key={i}>
                             <Td>{l.building}</Td>
                             <Td>{String(l.station)}</Td>
+                            <Td>{String(l.id)}</Td>
                             <td><button className="bg-red text-white px-4 py-2 mx-auto w-full" onClick={() => onDeleteClickHandler(l)}>Delete</button></td>
                         </Tr>
                     )}
