@@ -2,7 +2,7 @@ import { getAuth } from 'firebase/auth';
 import { initializeApp } from "firebase/app";
 import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
-    limit, query, updateDoc, where, setDoc, doc, getDoc, orderBy, deleteDoc, DocumentData, QueryDocumentSnapshot
+    limit, query, updateDoc, where, setDoc, doc, getDoc, orderBy, deleteDoc, DocumentData, QueryDocumentSnapshot, connectFirestoreEmulator
 } from "firebase/firestore";
 import { $error, $patient, $settings } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";
@@ -23,6 +23,7 @@ export default class Database {
     constructor() {
         initializeApp(firebaseConfig);
         this.db = getFirestore();
+        // connectFirestoreEmulator(this.db, 'localhost', 8080);
         this.patientDocRef = null;
         this.currentPatientID = null;
         this.cache = new Cache();
