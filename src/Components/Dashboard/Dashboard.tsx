@@ -5,6 +5,7 @@ import FlagsCard from './Card/FlagsCard';
 import HistoryCard from './Card/HistoryCard';
 import ImmunizationCard from './Card/ImmunizationCard';
 import MedicationCard from './Card/MedicationCard';
+import SocialHistoryCard from './Card/SocialHistory';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     patient: PatientChart
@@ -21,6 +22,7 @@ export default class Dashboard extends React.Component<Props> {
                 <FlagsCard className="col-span-2" flags={this.props.patient?.flags}></FlagsCard>
                 <ImmunizationCard  className="col-span-2" immunizations={this.props.patient.immunizations} />
                 <HistoryCard className="col-span-4" history={this.props.patient.medicalHistory} />
+                <SocialHistoryCard className="col-span-4" history={this.props.patient.socialHistory} />
             </div>
 
         );
