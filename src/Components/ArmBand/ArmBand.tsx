@@ -43,8 +43,8 @@ export default class ArmBand extends React.Component<Props,State> {
                     <SectionNamedInfo name="Flags" boldedValue={true}>
                         {this.props.patient.flags.length === 0 ? "None" : this.props.patient?.flags.map(flag=>flag.name+" ")}
                     </SectionNamedInfo>
-                    <SectionNamedInfo name="Height">{this.props.patient?.height} cm</SectionNamedInfo>
-                    <SectionNamedInfo name="Weight">{this.props.patient?.weight} kg</SectionNamedInfo>
+                    <SectionNamedInfo name="Height">{this.props.patient?.height}</SectionNamedInfo>
+                    <SectionNamedInfo name="Weight">{this.props.patient?.weight}</SectionNamedInfo>
                     <SectionNamedInfo name="Sim Time">
                         {this.state.time.hour.toString().padStart(2,"0")}:{this.state.time.minutes.toString().padStart(2,"0")}
                     </SectionNamedInfo>
