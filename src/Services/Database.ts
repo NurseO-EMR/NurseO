@@ -80,47 +80,30 @@ export default class Database {
         await addDoc(collection(this.db, "medications"), medication);
     }
 
-    async getMedications(): Promise<Medication[]> {
-        if (this.medListCached) {
-            const cachedMeds = this.cache.getMeds();
-            return cachedMeds;
-        }
-        console.log("getting medications from db")
-        const q = query(collection(this.db, "medications"), orderBy("name"));
-        const docs = (await getDocs(q)).docs
-        const medications = docs.map(doc => doc.data()) as Medication[];
-        this.cache.cacheMultipleMeds(medications);
-        return medications;
-    }
-
     async getMedication(medID?: string, barcode?: string): Promise<Medication | null> {
         //check if the med is cached 
         const cachedMeds = this.cache.getMeds();
-        let medIndex;
+        let medIndex = -1;
         if (medID) medIndex = findIndex(cachedMeds, { id: medID });
 
         else if (barcode) {
             for(let i = 0; i < cachedMeds.length; i++) {
                 const med = cachedMeds[i]
-                const barcodeIndex = findIndex(med.locations, {barcode})
+                const locations = med.locations;
+                const barcodeIndex = findIndex(locations, {barcode})
                 if(barcodeIndex> -1) medIndex = i
             }
-            medIndex = -1
         }
+
         else throw new Error("Please provide either medID or barcode ID")
         if (medIndex > -1) return cachedMeds[medIndex];
+        else if (barcode) return null;
+
 
         console.log("getting medication info from db")
         let doc: QueryDocumentSnapshot<DocumentData>;
 
-        if (medID) {
-            doc = await this.getMedicationDoc(medID);
-        } else if (barcode) {
-            doc = await this.getMedicationDoc(undefined, barcode);
-        } else {
-            throw new Error("Please provide either medID or barcode ID")
-        }
-
+        doc = await this.getMedicationDoc(medID!);
         if (!doc) return null;
         const medication = doc.data() as Medication;
         this.cache.cacheMed(medication);
@@ -128,15 +111,9 @@ export default class Database {
     }
 
 
-    async getMedicationDoc(medID?: string, barcode?: string) {
+    async getMedicationDoc(medID: string) {
         let q;
-        if (medID) {
-            q = query(collection(this.db, "medications"), where("id", "==", medID), limit(1))
-        } else if (barcode) {
-            q = query(collection(this.db, "medications"), where("barcode", "==", barcode), limit(1))
-        } else {
-            throw new Error("Please provide either medID or barcode ID")
-        }
+        q = query(collection(this.db, "medications"), where("id", "==", medID), limit(1))
         const doc = (await getDocs(q)).docs[0]
         return doc;
     }
