@@ -76,8 +76,6 @@ function changeDOBFormat(dob: string, format: DateFormat) {
     }
 
     const joined = `${month}/${day}/${year}`
-    console.log(joined)
-
     return joined
 }
 
