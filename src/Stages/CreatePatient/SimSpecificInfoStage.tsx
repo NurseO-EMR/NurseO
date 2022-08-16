@@ -65,14 +65,19 @@ export function SimSpecificInfoStage(props: Props) {
 function changeDOBFormat(dob: string, format: DateFormat) {
     if(dob === "") return dob;
     if(format === DateFormat.NothingHidden) return dob;
-    const splitedByDate = dob.split("/")
-    if(format === DateFormat.HiddenYear) splitedByDate[2] = "xxxx"
+    const splitedByDate = dob.split("-")
+    let year = splitedByDate[0]
+    const day = splitedByDate[2];
+    let month = splitedByDate[1];
+    if(format === DateFormat.HiddenYear) year = "xxxx"
     if(format === DateFormat.HiddenMonthNYear) {
-        splitedByDate[2] = "xxxx"
-        splitedByDate[0] = "xx"
+        year = "xxxx"
+        month = "xx"
     }
 
-    const joined = splitedByDate.join("/")
+    const joined = `${month}/${day}/${year}`
+    console.log(joined)
+
     return joined
 }
 
