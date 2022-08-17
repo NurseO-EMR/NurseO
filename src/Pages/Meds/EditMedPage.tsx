@@ -65,7 +65,7 @@ export function EditMedPage() {
 
 
     return <PageView>
-        <Card>
+        <Card className="overflow-scroll">
             <FontAwesomeIcon className="block m-auto text-5xl text-blue" icon={faPills} />
             <h1 className="text-center text-2xl text-blue font-bold mt-4">Edit Medication</h1>
             <Input label="medID" value={id} disabled />
@@ -90,8 +90,7 @@ export function EditMedPage() {
                 <tbody>
                     {locations.map((l, i) => {
                         let location;
-                        if (settings) location = find(settings.locations, { id })
-
+                        if (settings) location = find(settings.locations, { id: l.id })
                         return <Tr key={i}>
                             <Td>{location?.building || "Error"}</Td>
                             <Td>{location?.station || "Error"}</Td>
