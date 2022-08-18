@@ -50,7 +50,7 @@ export function OrdersStage(props: Props) {
         if(!marRef.current?.checkValidity()) return;
 
         const order: MedicationOrder = {
-            id: "1",
+            id: id,
             concentration,
             route,
             routine,
@@ -104,7 +104,7 @@ export function OrdersStage(props: Props) {
                 <div className="grid grid-cols-3 gap-x-8">
                     <SearchableSelect label="Medication Name" options={meds} labelKey="name" valueKey="id" value={id} onChange={setId}/>
 
-                    <Input label="Concentration" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional placeholder="ex: 20mg/kg" />
+                    <Input label="Dose" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional placeholder="ex: 20mg/kg" />
                     <Input label="Route" onChange={e => setRoute(e.currentTarget.value)} value={route} optional />
 
                     <Select label="Routine" onChange={e => setRoutine(e.currentTarget.value as Routine)} value={routine} optional>
@@ -163,7 +163,7 @@ function marToTime(marString: string) :Time[] {
     for(const timeString of splitedByCommaAndColon ) {
         const time:Time = {
             hour: Number.parseInt(timeString[0]),
-            minutes: Number.parseInt(timeString[0])
+            minutes: Number.parseInt(timeString[1])
         }
         output.push(time)
     }
