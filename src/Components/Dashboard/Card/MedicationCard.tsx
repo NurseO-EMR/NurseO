@@ -39,7 +39,7 @@ export default class MedicationCard extends React.Component<Props, State> {
                 <thead className="font-bold">
                     <tr>
                         <td className="border-2 p-2">Name</td>
-                        <td className="border-2 p-2">Concentration</td>
+                        <td className="border-2 p-2">Dose</td>
                         <td className="border-2 p-2">Route</td>
                         <td className="border-2 p-2">Frequency</td>
                         <td className="border-2 p-2">Routine</td>
