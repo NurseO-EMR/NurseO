@@ -127,22 +127,14 @@ export function MarEntry(props: Props) {
     }
 
     const getTimeSlotValue = (hour:number)=>{
-        getRandomInitials()
         const value =  timeSlots.get(hour);
         if(!value) return <span>Error</span>
         if(isMedGivin(value)) {
-            return <span>{value} <br /> - {getRandomInitials()}</span>
+            return <span>{value} <br /> - LK</span>
         } else {
             return <span>{value}</span>
         }
 
-    }
-
-    const getRandomInitials = ()=>{
-        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        const index1 = Math.floor(Math.random()* characters.length)
-        const index2 = Math.floor(Math.random()* characters.length)
-        return characters[index1] + characters[index2]
     }
 
 
