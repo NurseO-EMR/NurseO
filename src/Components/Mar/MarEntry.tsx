@@ -21,7 +21,6 @@ export function MarEntry(props: Props) {
     const [showLocationModal, setShowLocationModal] = useState(false)
 
     useEffect(() => {
-
         function fillTimeSlots() {
             for (const timeSlot of props.timeSlots) {
                 timeSlots.set(timeSlot, "-")
@@ -66,7 +65,7 @@ export function MarEntry(props: Props) {
                 for (let i = start; i <= Math.max(...props.timeSlots); i = interval + i) {
                     const time: Time = { hour: i, minutes: 0 }
 
-                    if (timeSlots.get(time.hour) !== "Givin") {
+                    if (timeSlots.get(time.hour) && !isMedGivin(timeSlots.get(time.hour)!)) {
                         if (routine === Routine.PRN) timeSlots.set(time.hour, "Available")
                         else if (routine === Routine.Scheduled) timeSlots.set(time.hour, "Due")
                     }
