@@ -41,4 +41,9 @@ export class Cache {
         return this.patients;
     }
 
+    cacheMultiplePatients(patients: PatientChart[]) {
+        for(const patient of patients) {
+            this.cachePatient(patient);
+        }
+    }
 }

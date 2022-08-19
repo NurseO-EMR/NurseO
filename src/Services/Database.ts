@@ -2,7 +2,7 @@ import { getAuth } from '@firebase/auth';
 import { initializeApp } from "@firebase/app";
 import {
     addDoc, collection, getDocs, getFirestore,
-    limit, query, where, doc, getDoc, Firestore
+    limit, query, where, doc, getDoc, Firestore, orderBy
 } from "@firebase/firestore";
 import { findIndex } from "lodash";
 import {PatientChart, Medication, Settings} from "nurse-o-core"
@@ -17,6 +17,8 @@ export class Database {
     private currentPatientID: string | null | undefined;
     private cache: Cache;
     private medListCached: boolean;
+    private patientListCached: boolean;
+
 
     constructor(firebaseConfig: any) {
         initializeApp(firebaseConfig);
@@ -25,6 +27,8 @@ export class Database {
         this.currentPatientID = null;
         this.cache = new Cache();
         this.medListCached = false;
+        this.patientListCached = false
+
     }
 
     async getPatient(id: string): Promise<boolean> {
@@ -84,6 +88,21 @@ export class Database {
         const data = document.data() as Settings;
         this.cache.cacheSettings(data);
         return data;
+    }
+
+    async getTemplatePatients(): Promise<PatientChart[]> {
+        if (this.patientListCached) {
+            const patients = this.cache.getPatients();
+            return patients;
+        }
+        console.log("getting template patients from db")
+        const q = query(collection(this.db, "templatePatients"), orderBy("name"));
+        const docs = (await getDocs(q)).docs
+        if (docs.length === 0) return [];
+        const patients = docs.map(doc => doc.data()) as PatientChart[];
+        this.cache.cacheMultiplePatients(patients);
+        this.patientListCached = true;
+        return patients;
     }
 
 

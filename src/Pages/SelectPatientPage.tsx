@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Database } from "./../Services/Database"
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../Components/Form/Button';
 import { Background } from '../Components/Background';
+import { PatientChart } from 'nurse-o-core';
 
 
 export function SelectPatient() {
@@ -10,19 +10,21 @@ export function SelectPatient() {
 
 
     const database = Database.getInstance();
-    const [patientID, setPatientID] = useState("")
-    const [error, setError] = useState("")
+    const [patients, setPatients] = useState<PatientChart[]>([])
+
     const navigate = useNavigate()
 
+    useEffect(()=>{
+        database.getTemplatePatients().then(p=>{
+            setPatients(p)
+        })
+    },[database])
 
 
 
-    const onClickHandler = async () => {
-        const patientExist = await database.getPatient(patientID);
+    const onClickHandler = async (id:string) => {
+        const patientExist = await database.getPatient(id);
         if (patientExist) navigate("/dashboard");
-        else {
-            setError("patient not found")
-        }
     }
 
 
@@ -30,18 +32,32 @@ export function SelectPatient() {
         <div>
             <Background />
             <div className="grid justify-center h-screen w-screen content-center text-center">
-                <form className="bg-white p-28 rounded-4xl border-red-500 border-8" onSubmit={e => e.preventDefault()}>
-                    <h1 className="text-4xl font-bold">Please
-                        <span className="text-red-600"> scan </span>
-                        the patient armband</h1>
-                    <input type="text"
-                        className="my-5 border-2 rounded-full text-center p-4 border-red-700 w-full"
-                        placeholder="Or type the patient number here"
-                        onChange={e => setPatientID(e.currentTarget.value)}
-                    /><br />
-                    <Button className='rounded-full bg-red-700 text-white p-4 font-bold tracking-wider w-full' onClick={onClickHandler}>Sign in</Button>
-                    <div>{error}</div>
-                </form>
+                <div className="bg-white p-10 rounded-4xl border-red-500 border-8 w-[60vw]" onSubmit={e => e.preventDefault()}>
+                    <h1 className='my-4 font-bold text-3xl'>Select your patient from the list here</h1>
+                    <table className='w-full border text-left'>
+                        <thead>
+                            <tr className='py-10'>
+                                <th className='border pl-10'>Name</th>
+                                <th className='border'>DOB</th>
+                                <th className='border'></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {patients.map((p,k)=>
+                                <tr key={k} className="odd:bg-gray-100 even:bg-gray-300">
+                                    <td className='border pl-10'>{p.name}</td>
+                                    <td className='border'>{p.dob}</td>
+                                    <td className='border h-16'>
+                                        <button 
+                                            className='w-full h-full bg-red-700 text-white'
+                                            onClick={()=>onClickHandler(p.id)}
+                                            >Select</button>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
