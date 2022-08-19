@@ -1,12 +1,14 @@
 import { $patient, $providerOrdersAvailable } from "./../Services/State"
 import { Mar } from '../Components/Mar/Mar';
 import { TopNav } from '../Nav/TopMenu/TopNav';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import TapOutService from "../Services/TapOutService";
 
 
 export default function DashboardPage() {
 
     const [showProviderOrdersButton, setShowProviderOrdersButton] = useState(true)
+    useEffect(()=>TapOutService.initialize(),[])
     
 
     const onProviderOrders = () => {
