@@ -1,5 +1,5 @@
 import { filter, maxBy, uniq } from 'lodash';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Frequency, MedicationOrder, OrderType, Routine, Time } from 'nurse-o-core';
 import {$providerOrdersAvailable} from "./../../Services/State"
 import { MarEntry } from './MarEntry';
@@ -93,6 +93,16 @@ export function Mar(props: Props) {
 
     const timeSlots = getTimeSlots();
     const [filteredOrders, setFilteredOrders] = useState<MedicationOrder[]>(getOrders())
+
+    useEffect(()=>{
+        const sub = $providerOrdersAvailable.subscribe((providerOrdersAvailable)=>{
+            if(providerOrdersAvailable) {
+                setFilteredOrders(props.orders)
+            }
+        })
+
+        return sub.unsubscribe()
+    })
 
 
     return (

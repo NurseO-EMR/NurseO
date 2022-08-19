@@ -69,12 +69,12 @@ export function LoginPage() {
                         placeholder="Or type your badge number here"
                         onChange={e => setBadgeNumber(e.target.value)}
                     /><br />
-                    <Button className='rounded-full bg-red-700 text-white p-4 font-bold tracking-wider w-full' onClick={onClickHandler}>Sign in</Button>
+                    <Button className='rounded-full bg-red-700 text-white py-6 font-bold tracking-wider w-full' onClick={onClickHandler}>Sign in</Button>
                     <div>{error}</div>
 
                     <hr className="w-full my-4 border-red-700" />
                     <h1 className="font-bold">If you forgot your ID click bellow:</h1>
-                    <Button className="rounded-full bg-gray-700 text-white py-5 font-bold tracking-wider w-full block mx-auto" onClick={onAnonymousSignInClickHandler}>Anonymously Sign In</Button>
+                    <Button className="rounded-full bg-gray-700 text-white py-6 font-bold tracking-wider w-full block mx-auto" onClick={onAnonymousSignInClickHandler}>Anonymously Sign In</Button>
                 </form>
             </div>
         </div>
