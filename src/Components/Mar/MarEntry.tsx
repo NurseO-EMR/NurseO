@@ -13,7 +13,7 @@ type Props = {
 }
 
 
-type TimeSlotStatus = "Givin" | "Available" | "-" | "Due"
+type TimeSlotStatus = string | "Available" | "-" | "Due"
 export function MarEntry(props: Props) {
 
     const [timeSlots, setTimeSlots] = useState(new Map<number, TimeSlotStatus>())
@@ -31,15 +31,15 @@ export function MarEntry(props: Props) {
 
         function checkForRecordedMarData() {
             for (const recordTime of props.order.mar) {
-                const { hour } = recordTime;
-                timeSlots.set(hour, "Givin");
+                const { hour, minutes } = recordTime;
+                timeSlots.set(hour, `${hour.toString().padStart(2,"0")}:${minutes.toString().padStart(2,"0")}`);                
             }
         }
 
         function getLastDoseTime() {
             let lastDoseTime = -1;
             timeSlots.forEach((v, k) => {
-                if (v === "Givin" && k > lastDoseTime) {
+                if (isMedGivin(v) && k > lastDoseTime) {
                     lastDoseTime = k
                 }
             })
@@ -122,7 +122,28 @@ export function MarEntry(props: Props) {
         } else return order;
     }
 
+    const isMedGivin = (status:TimeSlotStatus) => {
+        return status!=="Available" && status!=="-" && status !== "Due"
+    }
 
+    const getTimeSlotValue = (hour:number)=>{
+        getRandomInitials()
+        const value =  timeSlots.get(hour);
+        if(!value) return <span>Error</span>
+        if(isMedGivin(value)) {
+            return <span>{value} <br /> - {getRandomInitials()}</span>
+        } else {
+            return <span>{value}</span>
+        }
+
+    }
+
+    const getRandomInitials = ()=>{
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        const index1 = Math.floor(Math.random()* characters.length)
+        const index2 = Math.floor(Math.random()* characters.length)
+        return characters[index1] + characters[index2]
+    }
 
 
     return (
@@ -133,7 +154,9 @@ export function MarEntry(props: Props) {
                 </td>
                 {props.timeSlots.map((hour, i) => {
                     return <td className='font-bold text-center'
-                        key={i}>{timeSlots.get(hour)} </td>
+                        key={i}>{
+                            getTimeSlotValue(hour)
+                        } </td>
                 }
                 )}
                 <td className='w-36'>

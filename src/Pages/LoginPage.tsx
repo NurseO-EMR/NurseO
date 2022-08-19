@@ -3,7 +3,7 @@ import { FirebaseError } from "@firebase/app";
 import {
     getAuth, signInWithEmailAndPassword, browserLocalPersistence,
     setPersistence, inMemoryPersistence,
-    createUserWithEmailAndPassword, signInAnonymously, connectAuthEmulator
+    createUserWithEmailAndPassword, signInAnonymously
 } from "@firebase/auth";
 import { Logo } from '../Nav/TopMenu/Logo';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ import { Background } from '../Components/Background';
 
 export function LoginPage() {
     const auth = getAuth()
-    connectAuthEmulator(auth, "http://localhost:9099")
+    // connectAuthEmulator(auth, "http://localhost:9099")
     const navigate = useNavigate()
 
     const postLoginPath = "/selectPatient"
