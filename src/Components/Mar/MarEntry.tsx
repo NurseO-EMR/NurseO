@@ -14,7 +14,7 @@ type State = {
     timeSlots: Map<number, TimeSlotStatus>
 }
 
-type TimeSlotStatus = "Givin" | "Available" | "-" | "Due"
+type TimeSlotStatus = string | "Available" | "-" | "Due"
 export default class MarEntry extends React.Component<Props, State> {
 
     private timeSlots: Map<number, TimeSlotStatus>;
@@ -40,8 +40,8 @@ export default class MarEntry extends React.Component<Props, State> {
 
     checkForRecordedMarData() {
         for (const recordTime of this.props.order.mar) {
-            const { hour } = recordTime;
-            this.timeSlots.set(hour, "Givin");
+            const { hour, minutes } = recordTime;
+            this.timeSlots.set(hour, `${hour.toString().padStart(2,"0")}:${minutes.toString().padStart(2,"0")}`);                
         }
     }
 
@@ -113,6 +113,22 @@ export default class MarEntry extends React.Component<Props, State> {
         } else return order;
     }
 
+    isMedGivin(status:TimeSlotStatus) {
+        return status!=="Available" && status!=="-" && status !== "Due"
+    }
+
+    getTimeSlotValue(hour:number) {
+        const value =  this.timeSlots.get(hour);
+        if(!value) return <span>Error</span>
+        if(this.isMedGivin(value)) {
+            return <span>{value} <br /> - LK</span>
+        } else {
+            return <span>{value}</span>
+        }
+
+    }
+
+
 
 
     public render() {
@@ -123,7 +139,7 @@ export default class MarEntry extends React.Component<Props, State> {
                     <MedicationOrderSyntax order={this.getOrder()} />
                 </td>
                 {this.props.timeSlots.map((hour, i) => {
-                    return <td className='font-bold text-center' key={i}>{this.state.timeSlots.get(hour)} </td>
+                    return <td className='font-bold text-center' key={i}>{this.getTimeSlotValue(hour)} </td>
                 }
                 )}
             </tr>
