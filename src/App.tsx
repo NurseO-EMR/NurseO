@@ -6,7 +6,7 @@ import firebaseConfig from "./firebaseConfig.json";
 import DashboardPage from './Pages/DashboardPage';
 import 'react-pure-modal/dist/react-pure-modal.min.css';
 import { useEffect } from "react";
-import { $locationID } from "./Services/State";
+import { $locationID, $showVerify } from "./Services/State";
 
 
 export default function App() {
@@ -16,7 +16,9 @@ export default function App() {
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const location = queryParams.get('location');
+    const showVerify = queryParams.get('showVerify');
     $locationID.next(location)
+    $showVerify.next(showVerify === "true")
   }, [])
 
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import PureModal from "react-pure-modal"
 import { Medication, MedicationLocation } from "nurse-o-core"
 import { VerifyPopup } from './VerifyPopup';
-import { $locationID } from '../../Services/State';
+import { $locationID, $showVerify } from '../../Services/State';
 import { filter } from 'lodash';
 
 type Props = {
@@ -59,7 +59,9 @@ export function MedLocationModal(props: Props) {
                                     <td>{location.dose}</td>
                                     <td>{location.drawer}</td>
                                     <td>{location.slot}</td>
-                                    <td className='w-36'><button className='bg-red-700 text-white px-10 h-10 rounded-full' onClick={() => setLocationToBeVerified(location)}>Verify</button></td>
+                                    {$showVerify.value ? 
+                                        <td className='w-36'><button className='bg-red-700 text-white px-10 h-10 rounded-full' onClick={() => setLocationToBeVerified(location)}>Verify</button></td>
+                                    : null}
                                 </tr>
                             )}
                         </tbody>
