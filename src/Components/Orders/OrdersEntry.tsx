@@ -34,7 +34,7 @@ export default class OrderEntry extends React.Component<Props, State> {
             <tr onClick={this.onClickHandler.bind(this)} 
               className="hover:bg-primary hover:text-white transition-all duration-200  even:bg-gray-300 cursor-pointer">
                 <td className="border-2 p-2">{this.props.order.orderType}</td>
-                <td className="border-2 p-2">{"Doc Name"}</td>
+                <td className="border-2 p-2">{"Miami Doc."}</td>
                 <td className="border-2 p-2">
                     {this.props.order.orderKind === OrderKind.med ? 
                     <MedicationOrderSyntax order={this.props.order as MedicationOrder}/>: 
@@ -45,7 +45,7 @@ export default class OrderEntry extends React.Component<Props, State> {
 
             <PureModal header="Order" width="60vw" className="text-center font-bold" isOpen={this.state.isModalShown} onClose={this.onModalCloseHandler.bind(this)}>
                 <div>
-                {this.props.order.orderKind === OrderKind.med ? <MedicationOrderSyntax order={this.props.order as MedicationOrder}/>: null}
+                {this.props.order.orderKind === OrderKind.med ? <MedicationOrderSyntax order={this.props.order as MedicationOrder}/>: <pre className='text-left'>{(this.props.order as CustomOrder).order}</pre>}
                 </div>
             </PureModal>
             </>

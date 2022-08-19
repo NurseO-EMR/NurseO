@@ -11,7 +11,7 @@ export default class StandingOrdersPage extends React.Component<Props> {
     public render() {	
         return (
             <StudentViewPage patient={this.props.patient}>
-                <Orders orderType={OrderType.standing} orders={[...this.props.patient!.medicationOrders, ...this.props.patient!.customOrders!]}></Orders>
+                <Orders orderType={OrderType.standing} orders={[...this.props.patient.medicationOrders, ...this.props.patient.customOrders!]}></Orders>
             </StudentViewPage>
 
         );
