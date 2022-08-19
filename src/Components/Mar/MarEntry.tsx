@@ -105,6 +105,8 @@ export function MarEntry(props: Props) {
             case Frequency.q10hr: return 10;
             case Frequency.q11hr: return 11;
             case Frequency.q12hr: return 12;
+            case Frequency.qd: return 24;
+            case Frequency.NA: return 24;
             default: return null
 
         }
