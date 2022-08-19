@@ -5,14 +5,13 @@ import Card from './Card';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     allergies: Allergy[] | undefined,
-    preview?: boolean
 }
 
 export default class AllergyCard extends React.Component<Props> {
 
     public render() {
         return (
-            <Card title="Allergies" admin={this.props.preview}>
+            <Card title="Allergies" className={this.props.className}>
             <thead className="font-bold">
                 <tr>
                     <td className="border-2 p-2">Name</td>
