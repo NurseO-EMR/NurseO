@@ -127,7 +127,7 @@ export default class AdministerMeds extends React.Component<Props,State> {
                         </h1>
                         <div>
                             <label className="block text-primary font-bold text-lg tracking-wide pb-4" htmlFor="dose">
-                                Please State your dose or rate with unites (ex: 100ml/hr or 20mg)
+                                Please State your dose or rate with units (ex: 100ml/hr or 20mg)
                             </label>
                             <input className="border-2 border-primary rounded-full text-center h-10 w-1/2 mb-4" onChange={this.onDoseChangeHandler.bind(this)}
                              autoFocus type="text" id="dose" placeholder="Dose or Rate" />
