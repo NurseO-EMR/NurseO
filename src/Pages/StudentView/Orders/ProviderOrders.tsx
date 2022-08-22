@@ -31,7 +31,7 @@ export default class ProviderOrdersPage extends React.Component<Props, State> {
 
     onYesHandler() {
         this.setState({
-            orders: [...this.props.patient.medicationOrders, ...this.props.patient.customOrders],
+            orders: [...this.props.patient.customOrders, ...this.props.patient.medicationOrders],
             providerOrdersAvailable: true,
         })
 
