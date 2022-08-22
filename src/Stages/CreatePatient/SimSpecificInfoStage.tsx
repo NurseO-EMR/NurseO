@@ -26,8 +26,8 @@ export function SimSpecificInfoStage(props: Props) {
 
     const [barcode, setBarcode] = useState(props.patient?.id || "")
     const [age, setAge] = useState(props.patient?.age || "")
-    const [dateFormat, setDateFormat] = useState("" as DateFormat)
-    const [simTime, setSimTime] = useState("")
+    const [dateFormat, setDateFormat] = useState(props.patient ? getDateFormat(props.patient.dob) : "" as DateFormat)
+    const [simTime, setSimTime] = useState(props.patient ? convertTimeToString(props.patient.time) : "")
     const [labsURL, setLabsURL] = useState(props.patient?.labDocURL || "")
 
 
@@ -87,4 +87,21 @@ function makeTimeObject(timeString: string) {
         minutes: Number.parseInt(splited[1]),
     }
     return output
+}
+
+function convertTimeToString(time:Time):string {
+    return `${time.hour.toString().padStart(2,"0")}:${time.minutes.toString().padStart(2,"0")}`
+}
+
+
+function getDateFormat(dob: string):DateFormat {
+    let numberOfXs = 0;
+    for(const letter of dob) {
+        if(letter === "x") numberOfXs++;
+    }
+    
+    if(numberOfXs === 0) return DateFormat.NothingHidden;
+    else if(numberOfXs === 4) return DateFormat.HiddenYear;
+    else if(numberOfXs === 6) return DateFormat.HiddenMonthNYear;
+    else return DateFormat.NothingHidden
 }
