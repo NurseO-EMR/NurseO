@@ -24,10 +24,10 @@ export function BasicInfoStage(props: Props) {
     const {patient} = props;
 
     const [name, setName] = useState(patient?.name || "");
-    const [dob, setDOB] = useState(patient?.dob || "")
+    const [dob, setDOB] = useState(patient? convertDateToValue(patient.dob)  : "")
     const [gender, setGender] = useState(patient?.gender || "" as Gender)
-    const [height, setHeight] = useState<number>(0)
-    const [weight, setWeight] = useState<number>(0)
+    const [height, setHeight] = useState<number>(breakUnitFromNumber("cm",patient?.height))
+    const [weight, setWeight] = useState<number>(breakUnitFromNumber("kg",patient?.weight))
     
     const onNextClickHandler = ()=>{
         const basicInfo:BasicInfo = {
@@ -57,4 +57,20 @@ export function BasicInfoStage(props: Props) {
         </BaseStage>
     )
 
+}
+
+
+function breakUnitFromNumber(unit:string, number?:string):number {
+    if(!number) return 0;
+    const split = number.split(unit);
+    const convert = parseInt(split[0])
+    return convert;
+}
+
+function convertDateToValue(date:string) {
+    const stars = date.replaceAll("x","1");
+    const d = new Date(stars);
+    
+
+    return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`
 }
