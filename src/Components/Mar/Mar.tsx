@@ -1,7 +1,7 @@
-import { filter, maxBy, uniq } from 'lodash';
+import { filter, uniq } from 'lodash';
 import React from 'react';
 import { $providerOrdersAvailable } from '../../Services/State';
-import { Frequency, MedicationOrder, OrderType, Routine, Time } from 'nurse-o-core';
+import { MedicationOrder, OrderType, Time } from 'nurse-o-core';
 import MarEntry from './MarEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -36,8 +36,7 @@ export default class Mar extends React.Component<Props, State> {
 
         let output: number[] = [];
         output = this.checkForRecordedMarData(output);
-        output = this.checkRoutineConditions(output);
-        output = this.checkFrequencyConditions(output);
+        output.push(this.props.simTime.hour)
         output = uniq(output);
         output = output.sort((a,b) => a - b);
         return output;
@@ -58,54 +57,6 @@ export default class Mar extends React.Component<Props, State> {
         }
         return timeSlots;
     }
-
-    checkRoutineConditions(timeSlots: number[]) {
-        for(const order of this.props.orders) {
-            const currentTime = this.props.simTime.hour;
-            if(order.routine === Routine.NOW) timeSlots.push(currentTime);
-            if(order.routine === Routine.PRN || order.routine === Routine.Scheduled) {
-                const medInterval:number = this.getMedQInterval(order) || 1;
-                const lastDose = maxBy(order.mar, "hour")?.hour || currentTime;
-                for(let i = lastDose; i < 24; i=i+medInterval) {
-                    timeSlots.push(i)
-                }
-            }
-        }
-        return timeSlots;
-    }
-
-    checkFrequencyConditions(timeSlots: number[]) {
-        for(const order of this.props.orders) {
-            if(order.frequency === Frequency.qd) {
-                timeSlots.push(this.props.simTime.hour)
-            } else if(order.frequency === Frequency.qhs){
-                timeSlots.push(21)
-            }
-        }
-        return timeSlots;
-    }
-
-
-    getMedQInterval(order:MedicationOrder): number | null {
-        switch(order.frequency) {
-            case Frequency.q1hr: return 1;
-            case Frequency.q2hr: return 2;
-            case Frequency.q3hr: return 3;
-            case Frequency.q4hr: return 4;
-            case Frequency.q5hr: return 5;
-            case Frequency.q6hr: return 6;
-            case Frequency.q7hr: return 7;
-            case Frequency.q8hr: return 8;
-            case Frequency.q9hr: return 9;
-            case Frequency.q10hr: return 10;
-            case Frequency.q11hr: return 11;
-            case Frequency.q12hr: return 12;
-            default: return null
-
-        }
-
-    }
-
     
 
 
