@@ -35,44 +35,6 @@ export function MarEntry(props: Props) {
             }
         }
 
-        function getLastDoseTime() {
-            let lastDoseTime = -1;
-            timeSlots.forEach((v, k) => {
-                if (isMedGivin(v) && k > lastDoseTime) {
-                    lastDoseTime = k
-                }
-            })
-
-            return lastDoseTime;
-
-        }
-
-
-        function checkRoutineConditions() {
-            const routine = props.order.routine;
-            //check if the there is provider order with mar data, then show the mar data but no routine. 
-            if (!$providerOrdersAvailable.value && props.order.orderType === OrderType.provider) return;
-
-            if (routine === Routine.NOW) {
-                const currentState = timeSlots.get(props.simTime.hour);
-                if (currentState === "-") {
-                    timeSlots.set(props.simTime.hour, "Due");
-                }
-            } else if (routine === Routine.PRN || routine === Routine.Scheduled) {
-                const interval = getMedQInterval(props.order) || 1;
-                const lastDoseTime = getLastDoseTime();
-                const start = lastDoseTime > -1 ? lastDoseTime : props.simTime.hour
-                for (let i = start; i <= Math.max(...props.timeSlots); i = interval + i) {
-                    const time: Time = { hour: i, minutes: 0 }
-
-                    if (timeSlots.get(time.hour) && !isMedGivin(timeSlots.get(time.hour)!)) {
-                        if (routine === Routine.PRN) timeSlots.set(time.hour, "Available")
-                        else if (routine === Routine.Scheduled) timeSlots.set(time.hour, "Due")
-                    }
-                }
-            }
-        }
-
         async function getMed() {
             const db = Database.getInstance();
             const med = await db.getMedication(props.order.id);
@@ -83,34 +45,10 @@ export function MarEntry(props: Props) {
 
         fillTimeSlots();
         checkForRecordedMarData();
-        checkRoutineConditions();
         setTimeSlots(timeSlots)
         getMed()
         // eslint-disable-next-line no-use-before-define
     }, [timeSlots, setTimeSlots, props.order, props.timeSlots, props.simTime.hour])
-
-
-    const getMedQInterval = (order: MedicationOrder) => {
-        switch (order.frequency) {
-            case Frequency.q1hr: return 1;
-            case Frequency.q2hr: return 2;
-            case Frequency.q3hr: return 3;
-            case Frequency.q4hr: return 4;
-            case Frequency.q5hr: return 5;
-            case Frequency.q6hr: return 6;
-            case Frequency.q7hr: return 7;
-            case Frequency.q8hr: return 8;
-            case Frequency.q9hr: return 9;
-            case Frequency.q10hr: return 10;
-            case Frequency.q11hr: return 11;
-            case Frequency.q12hr: return 12;
-            case Frequency.qd: return 24;
-            case Frequency.NA: return 24;
-            default: return null
-
-        }
-
-    }
 
 
     const getOrder = () => {
