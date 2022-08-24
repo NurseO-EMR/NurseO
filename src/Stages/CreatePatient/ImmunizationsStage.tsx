@@ -30,6 +30,11 @@ export function ImmunizationsStage(props: Props) {
         props.onNext(immunizations)
     }
 
+    const onDeleteClickHandler = (index:number)=>{
+        immunizations.splice(index,1)
+        setImmunizations([...immunizations]);
+    }
+
 
     return (
         <div className="overflow-hidden relative">
@@ -39,10 +44,14 @@ export function ImmunizationsStage(props: Props) {
                 <Button onClick={onHistoryAddClickHandler} className="bg-blue my-4">Add Immunization Entry</Button>
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["Immunization"]} show={immunizations.length > 0} title="Added Immunizations">
+            <ArrayPreviewer headerItems={["Immunization", "Delete"]} show={immunizations.length > 0} title="Added Immunizations">
                 {immunizations.map((entry,i)=>
                     <Tr key={i}>
                         <Td>{entry}</Td>
+                        <Td>
+                            <button className="bg-red w-full h-10 text-white font-bold"
+                            onClick={()=>onDeleteClickHandler(i)}>Delete</button>
+                        </Td>
                     </Tr>
                 )}
             </ArrayPreviewer>

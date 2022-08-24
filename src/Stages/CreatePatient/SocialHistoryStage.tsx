@@ -33,6 +33,11 @@ export function SocialHistoryStage(props: Props) {
         props.onNext(history)
     }
 
+        
+    const onDeleteClickHandler = (index:number)=>{
+        history.splice(index,1)
+        setHistory([...history]);
+    }
 
     return (
         <div className="overflow-hidden relative">
@@ -42,10 +47,14 @@ export function SocialHistoryStage(props: Props) {
                 <Button onClick={onHistoryAddClickHandler} className="bg-blue my-4">Add Social History Entry</Button>
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["Entry"]} show={history.length > 0} title="Added History">
+            <ArrayPreviewer headerItems={["Entry", "Delete"]} show={history.length > 0} title="Added History">
                 {history.map((entry,i)=>
                     <Tr key={i}>
                         <Td>{entry}</Td>
+                        <Td>
+                            <button className="bg-red w-full h-10 text-white font-bold"
+                            onClick={()=>onDeleteClickHandler(i)}>Delete</button>
+                        </Td>
                     </Tr>
                 )}
             </ArrayPreviewer>

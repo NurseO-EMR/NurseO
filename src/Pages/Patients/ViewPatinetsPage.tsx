@@ -1,6 +1,7 @@
 import { PatientChart } from "nurse-o-core";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ButtonWConfirmBox } from "../../Components/Form/ButtonWConfirmBox";
 import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
 import { Database } from "../../Services/Database";
@@ -53,7 +54,8 @@ export function ViewPatientsPage() {
                             <Td>{p.dob}</Td>
                             <Td>{p.id}</Td>
                             <td><button className="bg-blue text-white px-4 py-2 mx-auto w-full" onClick={()=>onEditClickHandler(p)}>Edit</button></td>
-                            <td><button className="bg-red text-white px-4 py-2 mx-auto w-full" onClick={() => onDeleteClickHandler(p)}>Delete</button></td>
+                            <td><ButtonWConfirmBox className="bg-red text-white px-4 py-2 mx-auto w-full"
+                            onConfirm={() => onDeleteClickHandler(p)} confirmPrompt={"Are you sure you want to delete this patient?"}>Delete</ButtonWConfirmBox></td>
                         </Tr>
                     )}
                 </tbody>

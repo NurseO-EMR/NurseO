@@ -37,6 +37,12 @@ export function MedicalHistoryStage(props: Props) {
         props.onNext(history)
     }
 
+    
+    const onDeleteClickHandler = (index:number)=>{
+        history.splice(index,1)
+        setHistory([...history]);
+    }
+
 
     return (
         <div className="relative">
@@ -48,12 +54,16 @@ export function MedicalHistoryStage(props: Props) {
                 <Button onClick={onHistoryAddClickHandler} className="bg-blue my-4">Add Medical History Entry</Button>
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["Date", "Diagnosis", "Notes"]} show={history.length > 0} title="Added History">
+            <ArrayPreviewer headerItems={["Date", "Diagnosis", "Notes", "Delete"]} show={history.length > 0} title="Added History">
                 {history.map((event,i)=>
                     <Tr key={i}>
                         <Td>{event.date}</Td>
                         <Td>{event.title}</Td>
                         <Td>{event.notes}</Td>
+                        <Td>
+                            <button className="bg-red w-full h-10 text-white font-bold"
+                            onClick={()=>onDeleteClickHandler(i)}>Delete</button>
+                        </Td>
                     </Tr>
                 )}
             </ArrayPreviewer>

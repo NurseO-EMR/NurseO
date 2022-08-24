@@ -36,6 +36,10 @@ export function CustomOrdersStage(props: Props) {
         props.onNext(orders)
     }
 
+    const onDeleteClickHandler = (index:number)=>{
+        orders.splice(index,1)
+        setOrders([...orders]);
+    }
 
     return (
         <div className="overflow-hidden relative">
@@ -49,11 +53,15 @@ export function CustomOrdersStage(props: Props) {
                 <Button onClick={onHistoryAddClickHandler} className="bg-blue my-4">Add Custom Order Entry</Button>
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["type","Order"]} show={orders.length > 0} title="Added Custom Orders">
+            <ArrayPreviewer headerItems={["type","Order", "Delete"]} show={orders.length > 0} title="Added Custom Orders">
                 {orders.map((entry,i)=>
                     <Tr key={i}>
                         <Td><pre>{entry.orderType}</pre></Td>
                         <Td><pre>{entry.order}</pre></Td>
+                        <Td>
+                            <button className="bg-red w-full h-10 text-white font-bold"
+                            onClick={()=>onDeleteClickHandler(i)}>Delete</button>
+                        </Td>
                     </Tr>
                 )}
             </ArrayPreviewer>

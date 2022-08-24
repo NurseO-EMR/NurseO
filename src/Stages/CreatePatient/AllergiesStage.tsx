@@ -34,6 +34,11 @@ export function AllergiesStage(props: Props) {
         props.onNext(allergies)
     }
 
+    const onDeleteClickHandler = (index:number)=>{
+        allergies.splice(index,1)
+        setAllergies([...allergies]);
+    }
+
 
     return (
         <div className="overflow-hidden relative">
@@ -43,11 +48,15 @@ export function AllergiesStage(props: Props) {
                 <Button onClick={onAllergyAddClickHandler} className="bg-blue my-4">Add Allergy</Button>
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["Allergy", "Reaction"]} show={allergies.length > 0} title="Added Allergies">
+            <ArrayPreviewer headerItems={["Allergy", "Reaction", "Delete"]} show={allergies.length > 0} title="Added Allergies">
                 {allergies.map((allergy,i)=>
                     <Tr key={i}>
                         <Td>{allergy.name}</Td>
                         <Td>{allergy.reaction}</Td>
+                        <Td>
+                            <button className="bg-red w-full h-10 text-white font-bold"
+                            onClick={()=>onDeleteClickHandler(i)}>Delete</button>
+                        </Td>
                     </Tr>
                 )}
             </ArrayPreviewer>
