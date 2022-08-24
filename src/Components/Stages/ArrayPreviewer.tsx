@@ -14,7 +14,7 @@ type Props = {
 export function ArrayPreviewer(props: Props) {
     if (props.show) {
         return (
-            <motion.div className={"bg-gray shadow-xl w-formWidth pt-2 pb-8 px-6 rounded-lg overflow-y-hidden text-left absolute right-20 top-10 break-words " + props.className }
+            <motion.div className={"bg-gray shadow-xl w-formWidth pt-2 pb-8 px-6 rounded-lg overflow-y-auto text-left absolute right-20 top-10 break-words " + props.className }
                 initial={{ x: 3000, y: 0 }} animate={{ x: 0, y: 0 }}
                 transition={{ delay: STAGE_ANIMATION_DURATION }}
             >
