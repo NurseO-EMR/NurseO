@@ -27,3 +27,5 @@ firebaseConfig.json
 .firebase
 
 *-debug.log
+
+.firebase/

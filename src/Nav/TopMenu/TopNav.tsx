@@ -1,11 +1,8 @@
-import React from 'react';
 import { Logo } from './Logo';
 import { getAuth } from "firebase/auth"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
-import {$providerOrdersAvailable} from "./../../Services/State"
 import { useNavigate } from 'react-router-dom';
-import {Button} from "./../../Components/Form/Button"
 
 type Props = {
     className?: string
@@ -19,10 +16,6 @@ export function TopNav(props: Props) {
         await auth.signOut();
         navigate("/")
         window.location.reload();
-    }
-
-    const onProviderOrdersClickHandler = () => {
-        $providerOrdersAvailable.next(true);
     }
 
     return (

@@ -7,6 +7,7 @@ import DashboardPage from './Pages/DashboardPage';
 import 'react-pure-modal/dist/react-pure-modal.min.css';
 import { useEffect } from "react";
 import { $locationID, $showVerify } from "./Services/State";
+import { AZListing } from "./Pages/AZListing";
 
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/selectPatient" element={<SelectPatient />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/AZListing" element={<AZListing />} />
       </Routes>
     </BrowserRouter>
   );

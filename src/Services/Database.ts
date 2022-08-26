@@ -78,6 +78,21 @@ export class Database {
         return medication;
     }
 
+    async getMedications(): Promise<Medication[]> {
+        if (this.medListCached) {
+            const cachedMeds = this.cache.getMeds();
+            return cachedMeds;
+        }
+        
+        console.log("getting medications from db")
+        const q = query(collection(this.db, "medications"), orderBy("name"));
+        const docs = (await getDocs(q)).docs
+        const medications = docs.map(doc => doc.data()) as Medication[];
+        this.cache.cacheMultipleMeds(medications);
+        this.medListCached = true
+        return medications;
+    }
+
 
 
     async getSettings() {

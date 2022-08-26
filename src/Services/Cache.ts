@@ -19,6 +19,12 @@ export class Cache {
         this.cachedMeds.push(med);
     }
 
+    cacheMultipleMeds(meds: Medication[]) {
+        for(const med of meds) {
+            this.cacheMed(med);
+        }
+    }
+
     getMeds():Medication[] {
         return this.cachedMeds;
     }

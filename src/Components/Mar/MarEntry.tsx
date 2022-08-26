@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Frequency, MedicationOrder, Routine, Time, MedicationOrderSyntax, OrderType, Medication } from 'nurse-o-core';
-import { clone } from "lodash";
+import { MedicationOrder, Time, MedicationOrderSyntax, Medication } from 'nurse-o-core';
 import { Database } from '../../Services/Database';
 import { MedLocationModal } from './MedLocationModal';
-import {$providerOrdersAvailable} from "./../../Services/State"
 
 type Props = {
     order: MedicationOrder,
@@ -51,16 +49,6 @@ export function MarEntry(props: Props) {
     }, [timeSlots, setTimeSlots, props.order, props.timeSlots, props.simTime.hour])
 
 
-    const getOrder = () => {
-        const order = clone(props.order);
-        if (!$providerOrdersAvailable.value && order.orderType === OrderType.provider) {
-            order.routine = Routine.NA
-            order.frequency = Frequency.NA
-            order.concentration = ""
-            return order
-        } else return order;
-    }
-
     const isMedGivin = (status:TimeSlotStatus) => {
         return status!=="Available" && status!=="-" && status !== "Due"
     }
@@ -81,7 +69,7 @@ export function MarEntry(props: Props) {
         <>
             <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
                 <td className="w-80 pl-16 font-semibold">
-                    <MedicationOrderSyntax medName={med ? med.name : "Loading..."} order={getOrder()} />
+                    <MedicationOrderSyntax medName={med ? med.name : "Loading..."} order={props.order} />
                 </td>
                 {props.timeSlots.map((hour, i) => {
                     return <td className='font-bold text-center'

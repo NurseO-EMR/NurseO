@@ -1,7 +1,6 @@
-import { filter, uniq } from 'lodash';
-import React, { useEffect, useState } from 'react';
-import { MedicationOrder, OrderType, Time } from 'nurse-o-core';
-import { $providerOrdersAvailable } from "./../../Services/State"
+import { uniq } from 'lodash';
+import React from 'react';
+import { MedicationOrder, Time } from 'nurse-o-core';
 import { MarEntry } from './MarEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -11,10 +10,6 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 
 export function Mar(props: Props) {
 
-    const getOrders = () => {
-        if ($providerOrdersAvailable.value) return props.orders
-        else return filter(props.orders, order => order.orderType !== OrderType.provider || order.mar.length > 0)
-    }
 
     const checkForRecordedMarData = (timeSlots: number[]) => {
         let smallest = Number.MAX_VALUE;
@@ -44,17 +39,7 @@ export function Mar(props: Props) {
 
 
     const timeSlots = getTimeSlots();
-    const [filteredOrders, setFilteredOrders] = useState<MedicationOrder[]>(getOrders())
 
-    useEffect(() => {
-        const sub = $providerOrdersAvailable.subscribe((providerOrdersAvailable) => {
-            if (providerOrdersAvailable) {
-                setFilteredOrders(props.orders)
-            }
-        })
-
-        return sub.unsubscribe()
-    })
 
 
     return (
@@ -73,7 +58,7 @@ export function Mar(props: Props) {
                             <td className="w-80 pl-16 font-semibold">No Mar Records Available</td>
                         </tr>
 
-                        : filteredOrders.map((order, i) => <MarEntry simTime={props.simTime} timeSlots={timeSlots} key={i} order={order} onLocateClick={console.log} />)
+                        : props.orders.map((order, i) => <MarEntry simTime={props.simTime} timeSlots={timeSlots} key={i} order={order} onLocateClick={console.log} />)
                 }
             </tbody>
         </table>
