@@ -26,3 +26,5 @@ firebaseConfig.json
 *.log
 
 src/oldData.ts
+
+*.cache
