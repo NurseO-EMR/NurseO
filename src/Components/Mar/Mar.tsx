@@ -1,7 +1,6 @@
-import { filter, uniq } from 'lodash';
+import { uniq } from 'lodash';
 import React from 'react';
-import { $providerOrdersAvailable } from '../../Services/State';
-import { MedicationOrder, OrderType, Time } from 'nurse-o-core';
+import { MedicationOrder, Time } from 'nurse-o-core';
 import MarEntry from './MarEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -20,15 +19,8 @@ export default class Mar extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.timeSlots = this.getTimeSlots();
-
-        if ($providerOrdersAvailable.value) {
-            this.state = {
-                filteredOrders: this.props.orders
-            }
-        } else {
-            this.state = {
-                filteredOrders: filter(this.props.orders, order => order.orderType !== OrderType.provider || order.mar.length > 0)
-            }
+        this.state = {
+            filteredOrders: this.props.orders
         }
     }
 

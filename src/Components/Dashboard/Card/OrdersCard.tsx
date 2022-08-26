@@ -1,6 +1,5 @@
 import { filter } from 'lodash';
 import React from 'react';
-import { $providerOrdersAvailable } from '../../../Services/State';
 import { Order, OrderType } from 'nurse-o-core';
 import Card from './Card';
 import OrderEntry from '../../Orders/OrdersEntry';
@@ -19,14 +18,8 @@ export default class OrdersCard extends React.Component<Props, State> {
     constructor(props:Props) {
         super(props);
 
-        if($providerOrdersAvailable.value) {
-            this.state = {
-                filteredOrders: this.props.medications!
-            }
-        } else {
-            this.state = {
-                filteredOrders: filter(this.props.medications, order=> order.orderType !== OrderType.provider)
-            }
+        this.state = {
+            filteredOrders: filter(this.props.medications, order=> order.orderType !== OrderType.NA)
         }
     }
 

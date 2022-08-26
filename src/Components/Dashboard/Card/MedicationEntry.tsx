@@ -24,7 +24,7 @@ export default class MedicationEntry extends React.Component<Props,State> {
     }
 
     async componentDidMount(){
-        const medication = await this.database.getMedication(this.props.medication.id); 
+        const medication = await this.database.getMedicationById(this.props.medication.id); 
         this.setState({medication})
     }
 

@@ -2,8 +2,7 @@ import { getAuth } from 'firebase/auth';
 import { initializeApp } from "firebase/app";
 import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
-    limit, query, updateDoc, where, setDoc, doc, getDoc, orderBy, deleteDoc, DocumentData, QueryDocumentSnapshot, connectFirestoreEmulator
-} from "firebase/firestore";
+    limit, query, updateDoc, where, doc, getDoc, orderBy} from "firebase/firestore";
 import { $error, $patient, $settings } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";
 import { Medication, Settings,PatientChart, PatientNotFoundError } from "nurse-o-core";
@@ -18,7 +17,6 @@ export default class Database {
     private currentPatientID: string | null | undefined;
     private cache: Cache;
     private medListCached: boolean;
-    private patientListCached: boolean;
 
     constructor() {
         initializeApp(firebaseConfig);
@@ -28,7 +26,6 @@ export default class Database {
         this.currentPatientID = null;
         this.cache = new Cache();
         this.medListCached = false;
-        this.patientListCached = false;
     }
 
     async getPatient(id: string): Promise<boolean> {
@@ -72,42 +69,54 @@ export default class Database {
         return await addDoc(collection(this.db, "patients"), patient);
     }
 
-    async addMedication(medication: Medication) {
-        this.medListCached = false;
-        const medicationCollection = collection(this.db, "medications");
-        const document = doc(medicationCollection);
-        medication.id = document.id;
-        await addDoc(collection(this.db, "medications"), medication);
-    }
 
-    async getMedication(medID?: string, barcode?: string): Promise<Medication | null> {
-        //check if the med is cached 
+    async getMedicationById(medID: string): Promise<Medication | null> {
         const cachedMeds = this.cache.getMeds();
-        let medIndex = -1;
-        if (medID) medIndex = findIndex(cachedMeds, { id: medID });
-
-        else if (barcode) {
-            for(let i = 0; i < cachedMeds.length; i++) {
-                const med = cachedMeds[i]
-                const locations = med.locations;
-                const barcodeIndex = findIndex(locations, {barcode})
-                if(barcodeIndex> -1) medIndex = i
-            }
-        }
-
-        else throw new Error("Please provide either medID or barcode ID")
+        const medIndex = findIndex(cachedMeds, { id: medID });
         if (medIndex > -1) return cachedMeds[medIndex];
-        else if (barcode) return null;
-
 
         console.log("getting medication info from db")
-        let doc: QueryDocumentSnapshot<DocumentData>;
-
-        doc = await this.getMedicationDoc(medID!);
+        const doc = await this.getMedicationDoc(medID!);
         if (!doc) return null;
         const medication = doc.data() as Medication;
         this.cache.cacheMed(medication);
         return medication;
+    }
+
+
+    async getMedicationByBarcode(barcode:string): Promise<Medication | null>{
+        const cachedMeds = this.cache.getMeds();
+
+        for(let i = 0; i < cachedMeds.length; i++) {
+            const med = cachedMeds[i]
+            const locations = med.locations;
+            const barcodeIndex = findIndex(locations, {barcode})
+            if(barcodeIndex> -1) return cachedMeds[i];
+        }
+
+        
+        console.log("getting medication info from db")
+        const meds = await this.getMedications();
+        for(const med of meds) {
+            const locations = med.locations
+            const barcodeIndex = findIndex(locations, {barcode})
+            if(barcodeIndex>-1) return med;
+        }
+        return null;
+    }
+
+    async getMedications(): Promise<Medication[]> {
+        if (this.medListCached) {
+            const cachedMeds = this.cache.getMeds();
+            return cachedMeds;
+        }
+        
+        console.log("getting medications from db")
+        const q = query(collection(this.db, "medications"), orderBy("name"));
+        const docs = (await getDocs(q)).docs
+        const medications = docs.map(doc => doc.data()) as Medication[];
+        this.cache.cacheMultipleMeds(medications);
+        return medications;
     }
 
 
@@ -116,19 +125,6 @@ export default class Database {
         q = query(collection(this.db, "medications"), where("id", "==", medID), limit(1))
         const doc = (await getDocs(q)).docs[0]
         return doc;
-    }
-
-    async updateMedication(med: Medication) {
-        console.log(med.id)
-        const doc = await this.getMedicationDoc(med.id);
-        const ref = doc.ref;
-        updateDoc(ref, { ...med });
-    }
-
-    async removeMedication(medID: string) {
-        const doc = await this.getMedicationDoc(medID);
-        await deleteDoc(doc.ref);
-        this.medListCached = false;
     }
 
 
@@ -144,59 +140,6 @@ export default class Database {
         return data;
     }
 
-    async saveSettings(setting: Settings) {
-        const settingsRef = doc(this.db, "settings", "settings");
-        await setDoc(settingsRef, setting);
-    }
-
-    async updateSettings() {
-        const settingsRef = doc(this.db, "settings", "settings");
-        await updateDoc(settingsRef, $settings.value);
-    }
-
-
-
-
-
-    async addTemplatePatient(patient: PatientChart) {
-        this.patientListCached = false;
-        await addDoc(collection(this.db, "templatePatients"), patient);
-    }
-
-    async getTemplatePatients(): Promise<PatientChart[]> {
-        if (this.patientListCached) {
-            const patients = this.cache.getPatients();
-            return patients;
-        }
-        console.log("getting template patients from db")
-        const q = query(collection(this.db, "templatePatients"), orderBy("name"));
-        const docs = (await getDocs(q)).docs
-        if (docs.length === 0) return [];
-        const patients = docs.map(doc => doc.data()) as PatientChart[];
-        this.cache.cacheMultiplePatients(patients);
-        this.patientListCached = true;
-        return patients;
-    }
-
-    async deleteTemplatePatient(patient: PatientChart) {
-        const ref = await this.getTemplatePatientRef(patient);
-        await deleteDoc(ref);
-        this.patientListCached = false;
-    }
-
-    async updateTemplatePatient(oldPatient: PatientChart, newPatient: PatientChart) {
-        const ref = await this.getTemplatePatientRef(oldPatient);
-        const patient = { ...newPatient };
-        this.patientListCached = false;
-        await updateDoc(ref, patient);
-    }
-
-    private async getTemplatePatientRef(patient: PatientChart): Promise<DocumentReference> {
-        const patientQuery = query(collection(this.db, "templatePatients"), where("id", "==", patient.id), limit(1))
-        const document = (await getDocs(patientQuery)).docs[0];
-        return document.ref;
-    }
-
     async getAdminList(): Promise<string[]> {
         const q = query(collection(this.db, "Admins"), limit(1));
         const doc = (await getDocs(q)).docs[0];
@@ -206,17 +149,6 @@ export default class Database {
             return []
         }
     }
-
-    async updateAdminList(updatedAdmins: string[]) {
-        const q = query(collection(this.db, "Admins"), limit(1));
-        const doc = (await getDocs(q)).docs[0];
-        const data = {
-            adminEmails: updatedAdmins
-        }
-        updateDoc(doc.ref,data);
-    }
-
-
 
 
 

@@ -1,6 +1,5 @@
 import { filter } from 'lodash';
 import React from 'react';
-import { $providerOrdersAvailable } from '../../Services/State';
 import { Order, OrderType } from 'nurse-o-core';
 import Card from '../Dashboard/Card/Card';
 import OrderEntry from './OrdersEntry';
@@ -21,18 +20,13 @@ export default class Orders extends React.Component<Props, State> {
         super(props)
         let filteredOrders: Order[] = [];
 
+        //remove ones with no order type
+
         // if the order type prop provided then show only that order type
         if(this.props.orderType) {
-            filteredOrders = filter(this.props.orders, {orderType: this.props.orderType})
+            filteredOrders = filter(this.props.orders, order => order.orderType !== OrderType.NA && order.orderType === this.props.orderType)
         } else {
-            // if no order type provided then check if the provider orders are available 
-            if(!$providerOrdersAvailable.value) {
-                //if they are not available then show everything except the provider orders ( used for the orders tab)
-                filteredOrders = filter(this.props.orders, order=> order.orderType !== OrderType.provider)
-            } else {
-                // if they are available then show everything
-                if(this.props.orders) filteredOrders = this.props.orders
-            }
+            filteredOrders = filter(this.props.orders, order=>order.orderType !== OrderType.NA)
         }
         // the provider order tab is protected by its own component
 
@@ -47,7 +41,6 @@ export default class Orders extends React.Component<Props, State> {
             <thead className="font-bold">
                 <tr>
                     <td className="border-2 p-2">Type</td>
-                    <td className="border-2 p-2">Doctor Name</td>
                     <td className="border-2 p-2">Order</td>
                 </tr>
             </thead>

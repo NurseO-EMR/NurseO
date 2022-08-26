@@ -1,7 +1,5 @@
-import { clone } from 'lodash';
 import React from 'react';
-import { $providerOrdersAvailable } from '../../Services/State';
-import { Frequency, MedicationOrder, OrderType, Routine, Time } from 'nurse-o-core';
+import { MedicationOrder, Time } from 'nurse-o-core';
 import MedicationOrderSyntax from '../Orders/MedicationOrderSyntax';
 
 type Props = {
@@ -44,17 +42,6 @@ export default class MarEntry extends React.Component<Props, State> {
     }
 
 
-
-    getOrder() {
-        const order = clone(this.props.order);
-        if(!$providerOrdersAvailable.value && order.orderType === OrderType.provider) {
-            order.routine = Routine.NA
-            order.frequency = Frequency.NA
-            order.concentration = ""
-            return order
-        } else return order;
-    }
-
     isMedGivin(status:TimeSlotStatus) {
         return status!=="Available" && status!=="-" && status !== "Due"
     }
@@ -78,7 +65,7 @@ export default class MarEntry extends React.Component<Props, State> {
         return (
             <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
                 <td className="w-80 pl-16 font-semibold">
-                    <MedicationOrderSyntax order={this.getOrder()} />
+                    <MedicationOrderSyntax order={this.props.order} />
                 </td>
                 {this.props.timeSlots.map((hour, i) => {
                     return <td className='font-bold text-center' key={i}>{this.getTimeSlotValue(hour)} </td>

@@ -1,10 +1,9 @@
 import { findIndex } from 'lodash';
 import React, { ChangeEvent } from 'react';
 import PureModal from 'react-pure-modal';
-import { filter } from 'lodash';
 import Database from '../../Services/Database';
-import { $patient, $providerOrdersAvailable } from '../../Services/State';
-import { MedicationOrder, OrderType, PatientChart } from 'nurse-o-core';
+import { $patient } from '../../Services/State';
+import { Frequency, MedicationOrder, OrderKind, OrderType, PatientChart, Routine } from 'nurse-o-core';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 
 type Props = {
@@ -47,10 +46,9 @@ export default class AdministerMeds extends React.Component<Props,State> {
         const db = Database.getInstance();
         const patient = $patient.value;
         let medications = patient!.medicationOrders;
-        if(!$providerOrdersAvailable.value) medications = filter(medications, order=> order.orderType !== OrderType.provider)
         const medIndex = await this.getMedIndex(medications);
         if(medIndex>-1) {
-            const med = await db.getMedication(patient!.medicationOrders[medIndex].id);
+            const med = await db.getMedicationById(patient!.medicationOrders[medIndex].id);
             this.setState({
                 scannedMedicationOrder: patient?.medicationOrders[medIndex],
                 scannedMedicationName:med!.name
@@ -92,9 +90,29 @@ export default class AdministerMeds extends React.Component<Props,State> {
 
     async getMedIndex(medicationOrders:MedicationOrder[]) {
         const db = Database.getInstance();
-        const med = await db.getMedication(undefined, this.state.medicationBarcode)
+        const med = await db.getMedicationByBarcode(this.state.medicationBarcode)
         const medID = med?.id;
-        return findIndex(medicationOrders, {id: medID});
+        const orderIndex = findIndex(medicationOrders, {id: medID});
+        if(orderIndex>-1) return orderIndex
+        else if(med){
+            const order:MedicationOrder = {
+                id: med.id,
+                concentration: "",
+                frequency: Frequency.NA,
+                mar: [],
+                notes: "",
+                orderKind: OrderKind.NA,
+                orderType: OrderType.NA,
+                PRNNote: "",
+                route: "",
+                routine: Routine.NA,
+            }
+            medicationOrders.push(order)
+            $patient.value.medicationOrders = medicationOrders;
+            $patient.next($patient.value)
+            return medicationOrders.length-1
+        }
+        else return -1;
     }
 
     public render() {
