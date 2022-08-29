@@ -9,7 +9,7 @@ export default function DashboardPage() {
     return (
         <PageView>
 
-            <div className="mt-[20vh]">
+            <div className="mt-[11vh]">
 
                 <h1 className="text-white text-5xl tracking-[1rem] mb-20 text-center">What do you want to do?</h1>
                 <div className="flex gap-20 w-[80vw] flex-wrap">
