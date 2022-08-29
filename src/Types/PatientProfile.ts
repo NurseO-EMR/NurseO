@@ -77,7 +77,6 @@ export enum OrderType {
     NA = "",
     admission = "Admission",
     standing = "Standing",
-    provider = "Provider",
 }
 
 export enum Routine {
