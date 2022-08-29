@@ -53,13 +53,14 @@ export function CustomOrdersStage(props: Props) {
                 <Button onClick={onHistoryAddClickHandler} className="bg-blue my-4">Add Custom Order Entry</Button>
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["type","Order", "Delete"]} show={orders.length > 0} title="Added Custom Orders">
+            <ArrayPreviewer headerItems={["type","Order", "Delete"]} show={orders.length > 0} title="Added Custom Orders"
+            className="hover:w-[60rem] transition-all">
                 {orders.map((entry,i)=>
                     <Tr key={i}>
                         <Td><pre>{entry.orderType}</pre></Td>
-                        <Td><pre>{entry.order}</pre></Td>
+                        <Td><pre className="whitespace-pre-wrap w-[40rem]">{entry.order}</pre></Td>
                         <Td>
-                            <button className="bg-red w-full h-10 text-white font-bold"
+                            <button className="bg-red w-full h-10 text-white font-bold p-2"
                             onClick={()=>onDeleteClickHandler(i)}>Delete</button>
                         </Td>
                     </Tr>
