@@ -54,7 +54,7 @@ export function ViewPatientsPage() {
                             <Td>{p.dob}</Td>
                             <Td>{p.id}</Td>
                             <td><button className="bg-blue text-white px-4 py-2 mx-auto w-full" onClick={()=>onEditClickHandler(p)}>Edit</button></td>
-                            <td><ButtonWConfirmBox className="bg-red text-white px-4 py-2 mx-auto w-full"
+                            <td><ButtonWConfirmBox className="bg-red text-white px-4 py-2 mx-auto w-full rounded-none"
                             onConfirm={() => onDeleteClickHandler(p)} confirmPrompt={"Are you sure you want to delete this patient?"}>Delete</ButtonWConfirmBox></td>
                         </Tr>
                     )}
