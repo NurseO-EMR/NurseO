@@ -9,8 +9,6 @@ export type Report = {
     name: string,
     fieldType: ReportInputType,   
     VitalsOptions?: ReportOptions
-    value?: string, //prop can be removed!
-    addSecondField?: boolean,
     labels?: string[]
 }
 
