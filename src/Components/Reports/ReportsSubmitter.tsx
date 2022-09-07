@@ -23,7 +23,7 @@ type State = {
     settings: Settings | null,
     date: string,
     status: Status,
-    timeSlots: Array<string>,
+    timeSlot: string,
     selectedTab: number,
     note: string,
     themeColor: string,
@@ -44,7 +44,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             settings: null,
             date: getTodaysDateAsString(),
             status: "completed",
-            timeSlots: [],
+            timeSlot: "",
             selectedTab: 0,
             note: "",
             themeColor: this.props.admin ? "admin" : "primary",
@@ -151,7 +151,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
         const updatedReport: StudentReport = {
             setName: this.state.ReportSets![reportsSetIndex].name,
-            time: this.state.timeSlots[timeSlotIndex],
+            time: this.state.timeSlot,
             value: value,
             vitalName: filedName,
             date: this.state.date,
@@ -179,8 +179,8 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         return -1;
     }
 
-    onTimeSlotChanges(timeSlots: Array<string>) {
-        this.setState({ timeSlots })
+    onTimeSlotChanges(timeSlot: string) {
+        this.setState({ timeSlot })
     }
 
     onTabSelectionHandler(selectedTab: number) {

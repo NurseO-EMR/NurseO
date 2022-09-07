@@ -1,44 +1,37 @@
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 type Props = {
     numberOfTimeSlots: number | undefined
-    onChange:(timeSlots:Array<string>)=>void
+    onChange:(timeSlot: string)=>void
 }
 
-type State = {
-    timeSlots:Array<string>;
-}
-export default class ReportsHeaderTimeSlots extends React.Component<Props,State> {
+export default function ReportsHeaderTimeSlots(props:Props) {
 
-    constructor(props: Props){
-        super(props);
-        const timeSlots = new Array<string>();
-        for(let i = 0; i<(this.props.numberOfTimeSlots || 0); i++) timeSlots.push("");
-        this.state = {
-            timeSlots:timeSlots
-        } 
+    const timeSlotsTemp = new Array<string>();
+    for(let i = 0; i<(props.numberOfTimeSlots || 0); i++) timeSlotsTemp.push("");
+    const [timeSlots, setTmeSlots] = useState("")
+    const ref = useRef<HTMLInputElement>(null)
 
-    }
-
-    inputChangeHandler(event:ChangeEvent<HTMLInputElement>, index:number) {
-        const timeSlots = this.state.timeSlots;
-        timeSlots[index] = event.target.value;
-        this.setState({timeSlots});
-        this.props.onChange(timeSlots);
+    useEffect(()=>{
+        if(ref.current) ref.current.value = ""
+    },[props])
+    
+    const inputChangeHandler = (event:ChangeEvent<HTMLInputElement>)=>{
+        const timeSlots = event.target.value;
+        setTmeSlots(timeSlots)
+        props.onChange(timeSlots);
         
     }
 
-    public render() {	
         return (
             <tr className="h-14 odd:bg-gray-100 even:bg-gray-300">
                 <td className="font-bold pl-4">Time</td>
-                {[...new Array(this.props.numberOfTimeSlots)].map( (val,i) =>
-                    <td key={i} >
-                        <input className="w-9/12 max-w-xs border border-black text-center" type="time" value={this.state.timeSlots[i]} onChange={(value)=>this.inputChangeHandler(value,i)}  />
+                    <td >
+                        <input className="w-9/12 max-w-xs border border-black text-center"
+                         type="time" value={timeSlots} 
+                         onChange={inputChangeHandler}  ref={ref}/>
                     </td>
-                )}
-                {this.props.numberOfTimeSlots === 1 ? <><td /><td /></> : null} 
+                {props.numberOfTimeSlots === 1 ? <><td /><td /></> : null} 
             </tr>
         );
     }	
-}
