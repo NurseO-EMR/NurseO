@@ -13,12 +13,14 @@ type State = {
 export default class SelectPatient extends React.Component<Props,State> {
 
     private database;
+    private ref;
     constructor(props: Props) {
         super(props);
         this.state = {
             patientID: "",
             error: ""
         }
+        this.ref = React.createRef<HTMLInputElement>()
         this.database = Database.getInstance();
     }
 
@@ -36,7 +38,11 @@ export default class SelectPatient extends React.Component<Props,State> {
         if(patientExist) $history.value.push("/studentView/dashboard");
         else {
             keepGoing();
-            this.setState({error: "patient not found"})
+            this.setState({
+                error: "patient not found",
+                patientID: "",
+            })
+            this.ref.current?.focus()
         }
     }
     public render() {	
@@ -49,10 +55,13 @@ export default class SelectPatient extends React.Component<Props,State> {
                            <span className="text-red-600"> scan </span>
                          the patient armband</h1>
                         <input type="text" 
+                            ref={this.ref}
                             autoFocus
                             className="my-5 border-2 rounded-full text-center p-4 border-red-700 w-full" 
                             placeholder="Or type the patient number here" 
                             onChange={this.onPatientNumberChange.bind(this)}
+                            value={this.state.patientID}
+                            
                             /><br />
                         <SignInButton onClick={this.onClickHandler.bind(this)} />
                         <div>{this.state.error}</div>

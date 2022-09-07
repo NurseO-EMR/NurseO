@@ -18,7 +18,7 @@ type State = {
     medicationNotFound: boolean,
 }
 export default class AdministerMeds extends React.Component<Props,State> {
-
+    private ref;
     constructor(props:Props) {
         super(props);
         this.state = {
@@ -28,6 +28,7 @@ export default class AdministerMeds extends React.Component<Props,State> {
             dose: "",
             medicationNotFound: false
         }
+        this.ref = React.createRef<HTMLInputElement>()
     }
 
     onIDChangeHandler(event:ChangeEvent<HTMLInputElement>) {
@@ -84,8 +85,10 @@ export default class AdministerMeds extends React.Component<Props,State> {
         this.setState({
             scannedMedicationOrder: undefined,
             scannedMedicationName: "",
-            medicationNotFound: false
+            medicationNotFound: false,
+            medicationBarcode: "",
         })
+        this.ref.current?.focus()
     }
 
     async getMedIndex(medicationOrders:MedicationOrder[]) {
@@ -125,7 +128,7 @@ export default class AdministerMeds extends React.Component<Props,State> {
                         </h1>
                         <input type="text" className="border-primary border-2 rounded-full w-1/2 h-10 block mx-auto text-center"
                         placeholder="click here to scan the medication barcode" autoFocus onChange={this.onIDChangeHandler.bind(this)}
-                        value={this.state.medicationBarcode}/>
+                        value={this.state.medicationBarcode} ref={this.ref} />
                         <button className="text-white bg-primary px-20 py-2 rounded-full mt-5" 
                         onClick={this.onScanHandler.bind(this)}>Administer</button>
                     </form>
