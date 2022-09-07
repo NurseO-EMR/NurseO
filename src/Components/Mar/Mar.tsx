@@ -53,7 +53,7 @@ export function Mar(props: Props) {
             </thead>
             <tbody>
                 {
-                    timeSlots.length === 1 ?
+                    props.orders.length === 0 ?
                         <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
                             <td className="w-80 pl-16 font-semibold">No Mar Records Available</td>
                         </tr>
