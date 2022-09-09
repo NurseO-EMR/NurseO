@@ -1,7 +1,7 @@
 import { Logo } from './Logo';
 import { getAuth } from "firebase/auth"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeftLong, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom';
 import { $locationID } from '../../Services/State';
 
@@ -22,7 +22,12 @@ export function TopNav(props: Props) {
     return (
         <nav className={"bg-white shadow-lg " + props.className}>
             <div className="flex justify-around">
-                <Logo className='flex-row text-xl' />
+                <div className='flex items-center'>
+                    <FontAwesomeIcon icon={faArrowLeftLong} onClick={()=>navigate("/selectPatient")}
+                    className="text-xl mr-10 cursor-pointer" /> 
+                    <Logo className='flex-row text-xl' />
+                </div>
+                
                 <div className="flex items-center space-x-8">
                     
                 </div>
