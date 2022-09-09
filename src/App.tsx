@@ -20,6 +20,7 @@ export default function App() {
     const showVerify = queryParams.get('showVerify');
     $locationID.next(location)
     $showVerify.next(showVerify === "true")
+    console.log(location)
   }, [])
 
 

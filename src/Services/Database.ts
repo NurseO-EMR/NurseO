@@ -36,7 +36,7 @@ export class Database {
         let patientChart: PatientChart;
         if (!uid) return false;
 
-        if (this.currentPatientID === $patient.value?.id) return true;
+        if (this.currentPatientID === $patient.value?.id && this.currentPatientID === id) return true;
 
         console.log("getting patient info from db")
         const q = query(collection(this.db, "patients"), where("id", "==", id), where("studentUID", "==", uid), limit(1))

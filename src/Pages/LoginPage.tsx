@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FirebaseError } from "@firebase/app";
 import {
     getAuth, signInWithEmailAndPassword, browserLocalPersistence,
@@ -9,6 +9,7 @@ import { Logo } from '../Nav/TopMenu/Logo';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../Components/Form/Button';
 import { Background } from '../Components/Background';
+import TapOutService from '../Services/TapOutService';
 
 
 export function LoginPage() {
@@ -21,6 +22,8 @@ export function LoginPage() {
     const [badgeNumber, setBadgeNumber] = useState("")
     const [error, setError] = useState("")
 
+    
+    useEffect(() => TapOutService.initialize(), [])
 
     const onClickHandler = async () => {
         try {

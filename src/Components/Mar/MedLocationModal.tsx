@@ -17,20 +17,30 @@ export function MedLocationModal(props: Props) {
     const [locations, setLocations] = useState<MedicationLocation[]>([])
 
 
-    useEffect(()=>{
-        if($locationID.value === null) {
-            setLocations(props.med.locations)
-        } else {
-            const filteredLocations = filter(props.med.locations, {id: $locationID.value})
-            setLocations(filteredLocations)
-        }
-    },[props.med.locations])
+
 
     const onMedVerified = () => {
         setLocationToBeVerified(null)
         props.onClose();
     }
 
+    
+    useEffect(()=>{
+        const onLocationIDUpdated = (location:string | null) => {
+            if(location === null) {
+                setLocations(props.med.locations)
+            } else {
+                const filteredLocations = filter(props.med.locations, {id: location})
+                setLocations(filteredLocations)
+                console.log(filteredLocations)
+            }
+        }
+
+        console.log("hello")
+        const sub = $locationID.subscribe(onLocationIDUpdated)
+        return sub.unsubscribe()
+        
+    }, [props.med.locations])
 
     return (
         <PureModal width='60vw' header="Order" isOpen={true} onClose={props.onClose} className="min-h-[29vh]">
@@ -49,7 +59,7 @@ export function MedLocationModal(props: Props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {props.med.locations.map((location, i) =>
+                            {locations.map((location, i) =>
                                 <tr key={i} className='h-16 odd:bg-gray-100 even:bg-gray-300 '>
                                     <td className='pl-5'>{props.med.name}</td>
                                     <td className='pl-5'>{location.type.toLocaleUpperCase()}</td>
