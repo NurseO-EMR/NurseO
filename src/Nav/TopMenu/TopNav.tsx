@@ -3,6 +3,7 @@ import { getAuth } from "firebase/auth"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom';
+import { $locationID } from '../../Services/State';
 
 type Props = {
     className?: string
@@ -14,7 +15,7 @@ export function TopNav(props: Props) {
 
     const onLogoutClickHandler = async () => {
         await auth.signOut();
-        navigate("/")
+        navigate("/?location=" + $locationID.value)
         window.location.reload();
     }
 
@@ -28,7 +29,6 @@ export function TopNav(props: Props) {
 
                 <div className="flex items-center space-x-3">
                     <span className="font-medium rounded ">
-                        {auth.currentUser?.displayName ? "Hi " + auth.currentUser.displayName : null}&nbsp;
                         <span className='font-bold'> | </span>
                         <span className="cursor-pointer" onClick={onLogoutClickHandler}>
                             <FontAwesomeIcon icon={faSignOutAlt}></FontAwesomeIcon>
