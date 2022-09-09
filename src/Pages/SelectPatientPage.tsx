@@ -32,7 +32,8 @@ export function SelectPatient() {
         <div>
             <Background />
             <div className="grid justify-center h-screen w-screen content-center text-center">
-                <div className="bg-white p-10 rounded-4xl border-red-500 border-8 w-[60vw]" onSubmit={e => e.preventDefault()}>
+                <div className="bg-white p-10 rounded-4xl border-red-500 border-8 w-[60vw] max-h-[80vh] overflow-y-auto"
+                 onSubmit={e => e.preventDefault()}>
                     <h1 className='my-4 font-bold text-3xl'>Select your patient from the list here</h1>
                     <table className='w-full border text-left'>
                         <thead>
@@ -42,7 +43,7 @@ export function SelectPatient() {
                                 <th className='border'></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className=''>
                             {patients.map((p,k)=>
                                 <tr key={k} className="odd:bg-gray-100 even:bg-gray-300">
                                     <td className='border pl-10'>{p.name}</td>
