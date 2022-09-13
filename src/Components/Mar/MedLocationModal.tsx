@@ -36,7 +36,6 @@ export function MedLocationModal(props: Props) {
             }
         }
 
-        console.log("hello")
         const sub = $locationID.subscribe(onLocationIDUpdated)
         return sub.unsubscribe()
         

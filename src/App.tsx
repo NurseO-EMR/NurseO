@@ -8,6 +8,7 @@ import 'react-pure-modal/dist/react-pure-modal.min.css';
 import { useEffect } from "react";
 import { $locationID, $showVerify } from "./Services/State";
 import { AZListing } from "./Pages/AZListing";
+import { getLocationFromStorage, getVerifyFromStorage, storeLocation, storeVerify } from "./Services/LocalStorage";
 
 
 export default function App() {
@@ -16,11 +17,19 @@ export default function App() {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
-    const location = queryParams.get('location');
-    const showVerify = queryParams.get('showVerify');
+    let location = queryParams.get('location');
+    let showVerify = queryParams.get('showVerify');
+    if(location) storeLocation(location)
+    else location = getLocationFromStorage()
+
+    if(showVerify) storeVerify(showVerify)
+    else showVerify = getVerifyFromStorage()
+
+
     $locationID.next(location)
     $showVerify.next(showVerify === "true")
-    console.log(location)
+    console.log("location: " + location)
+    console.log("show verify: " + (showVerify === "true"))
   }, [])
 
 
