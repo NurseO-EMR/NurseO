@@ -11,6 +11,9 @@ export const $settings = new BehaviorSubject<Settings>({
     locations: []
 });
 
+export const $locationID = new BehaviorSubject<string | null>(null);
+
+
 async function initState() {
     $error.subscribe(console.log)
 }

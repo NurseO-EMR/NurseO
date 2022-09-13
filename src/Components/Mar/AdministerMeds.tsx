@@ -1,5 +1,5 @@
 import { findIndex } from 'lodash';
-import React, { ChangeEvent } from 'react';
+import { useRef, useState } from 'react';
 import PureModal from 'react-pure-modal';
 import Database from '../../Services/Database';
 import { $patient } from '../../Services/State';
@@ -10,95 +10,63 @@ type Props = {
     patient: PatientChart
 }
 
-type State = {
-    medicationBarcode: string
-    scannedMedicationOrder: MedicationOrder | undefined
-    scannedMedicationName: string,
-    dose: string,
-    medicationNotFound: boolean,
-}
-export default class AdministerMeds extends React.Component<Props,State> {
-    private ref;
-    constructor(props:Props) {
-        super(props);
-        this.state = {
-            medicationBarcode: "",
-            scannedMedicationOrder: undefined,
-            scannedMedicationName: "",
-            dose: "",
-            medicationNotFound: false
-        }
-        this.ref = React.createRef<HTMLInputElement>()
-    }
+export default function AdministerMeds(props: Props) {
+    const ref = useRef<HTMLInputElement>(null)
+    const [medicationBarcode, setMedicationBarcode] = useState("")
+    const [scannedMedicationOrder, setScannedMedicationOrder] = useState<MedicationOrder | undefined>(undefined)
+    const [scannedMedicationName, setScannedMedicationName] = useState("")
+    const [dose, setDose] = useState("")
+    const [medicationNotFound, setMedicationNotFound] = useState(false)
 
-    onIDChangeHandler(event:ChangeEvent<HTMLInputElement>) {
-        this.setState({
-            medicationBarcode: event.target.value
-        })
-    }
 
-    onDoseChangeHandler(event:ChangeEvent<HTMLInputElement>) {
-        this.setState({
-            dose: event.target.value
-        })
-    }
-
-    async onScanHandler() {
+    const onScanHandler = async () => {
         const db = Database.getInstance();
         const patient = $patient.value;
         let medications = patient!.medicationOrders;
-        const medIndex = await this.getMedIndex(medications);
-        if(medIndex>-1) {
+        const medIndex = await getMedIndex(medications);
+        if (medIndex > -1) {
             const med = await db.getMedicationById(patient!.medicationOrders[medIndex].id);
-            this.setState({
-                scannedMedicationOrder: patient?.medicationOrders[medIndex],
-                scannedMedicationName:med!.name
-            });
+            setScannedMedicationOrder(patient?.medicationOrders[medIndex])
+            if (med) setScannedMedicationName(med.name)
         } else {
-            this.setState({
-                medicationNotFound: true
-            })
+            setMedicationNotFound(true)
         }
-        
+
     }
 
-    async onSubmit() {
+    const onSubmit = async () => {
         const db = Database.getInstance();
         const patient = $patient.value!;
         const medications = patient.medicationOrders;
-        const medIndex = await this.getMedIndex(medications)
-        if(medIndex>-1) {
-            const {hour,minutes} = patient.time;
-            patient.medicationOrders[medIndex].mar.push({hour, minutes})
+        const medIndex = await getMedIndex(medications)
+        if (medIndex > -1) {
+            const { hour, minutes } = patient.time;
+            patient.medicationOrders[medIndex].mar.push({ hour, minutes })
             $patient.next(patient);
             await db.updatePatient()
-            this.setState({
-                medicationBarcode: "",
-                scannedMedicationName: "",
-                scannedMedicationOrder: undefined,
-                dose: "",
-            })
+            setMedicationBarcode("")
+            setScannedMedicationName("")
+            setScannedMedicationOrder(undefined)
+            setDose("")
         }
     }
 
-    onModalClose() {
-        this.setState({
-            scannedMedicationOrder: undefined,
-            scannedMedicationName: "",
-            medicationNotFound: false,
-            medicationBarcode: "",
-        })
-        this.ref.current?.focus()
+    const onModalClose = () => {
+        setScannedMedicationOrder(undefined)
+        setScannedMedicationName("")
+        setMedicationNotFound(false)
+        setMedicationBarcode("")
+        ref.current?.focus()
     }
 
-    async getMedIndex(medicationOrders:MedicationOrder[]) {
+    const getMedIndex = async (medicationOrders: MedicationOrder[]) => {
         const db = Database.getInstance();
-        const med = await db.getMedicationByBarcode(this.state.medicationBarcode)
+        const med = await db.getMedicationByBarcode(medicationBarcode)
         const medID = med?.id;
-        const orderIndex = findIndex(medicationOrders, {id: medID});
-        if(orderIndex>-1) return orderIndex
-        else if(med){
-            const order:MedicationOrder = {
+        const orderIndex = findIndex(medicationOrders, { id: medID });
+        if (orderIndex > -1) return orderIndex
+        else if (med) {
+            const order: MedicationOrder = {
                 id: med.id,
                 concentration: "",
                 frequency: Frequency.NA,
@@ -113,58 +81,60 @@ export default class AdministerMeds extends React.Component<Props,State> {
             medicationOrders.push(order)
             $patient.value.medicationOrders = medicationOrders;
             $patient.next($patient.value)
-            return medicationOrders.length-1
+            return medicationOrders.length - 1
         }
         else return -1;
     }
 
-    public render() {
-        return (
-            <>
-                <EmptyCard title="Administer Medications" className="text-center">
-                    <form onSubmit={e=>e.preventDefault()}>
-                        <h1 className="font-bold p-10 text-4xl">
-                            Please scan the medication you wish to administer
-                        </h1>
-                        <input type="text" className="border-primary border-2 rounded-full w-1/2 h-10 block mx-auto text-center"
-                        placeholder="click here to scan the medication barcode" autoFocus onChange={this.onIDChangeHandler.bind(this)}
-                        value={this.state.medicationBarcode} ref={this.ref} />
-                        <button className="text-white bg-primary px-20 py-2 rounded-full mt-5" 
-                        onClick={this.onScanHandler.bind(this)}>Administer</button>
-                    </form>
-                </EmptyCard>
 
-                <PureModal isOpen={!!this.state.scannedMedicationName} header={`Administer ${this.state.scannedMedicationName}`}
-                 draggable={true} onClose={this.onModalClose.bind(this)} className="text-center" width="60vw">
-                     <form onSubmit={e=>e.preventDefault()}>
-                        <h1 className="font-bold text-xl py-6">
-                            {this.state.scannedMedicationName}{" "}
-                            {this.state.scannedMedicationOrder?.concentration}{" "}
-                            {this.state.scannedMedicationOrder?.route}{" "}
-                            {this.state.scannedMedicationOrder?.frequency} {" "}
-                            {this.state.scannedMedicationOrder?.routine}  {" "}
-                            {this.state.scannedMedicationOrder?.PRNNote}{" "}
-                            {this.state.scannedMedicationOrder?.notes}{" "}
-                        </h1>
-                        <div>
-                            <label className="block text-primary font-bold text-lg tracking-wide pb-4" htmlFor="dose">
-                                Please State your dose or rate with units (ex: 100ml/hr or 20mg)
-                            </label>
-                            <input className="border-2 border-primary rounded-full text-center h-10 w-1/2 mb-4" onChange={this.onDoseChangeHandler.bind(this)}
-                             autoFocus type="text" id="dose" placeholder="Dose or Rate" />
-                        </div>
-                        <button className="bg-primary text-white py-4 px-16 rounded-full font-bold" onClick={this.onSubmit.bind(this)}>Submit</button>
-                    </form>
-                </PureModal>
+    return (
+        <>
+            <EmptyCard title="Administer Medications" className="text-center">
+                <form onSubmit={e => e.preventDefault()}>
+                    <h1 className="font-bold p-10 text-4xl">
+                        Please scan the medication you wish to administer
+                    </h1>
+                    <input type="text" className="border-primary border-2 rounded-full w-1/2 h-10 block mx-auto text-center"
+                        placeholder="click here to scan the medication barcode" autoFocus
+                        onChange={e => setMedicationBarcode(e.target.value)}
+                        value={medicationBarcode} ref={ref} />
+                    <button className="text-white bg-primary px-20 py-2 rounded-full mt-5"
+                        onClick={onScanHandler}>Administer</button>
+                </form>
+            </EmptyCard>
 
-                <PureModal isOpen={this.state.medicationNotFound} header="Medication Not Founded" 
-                    onClose={this.onModalClose.bind(this)} className="text-center" width="60vw">
-                        <h1>The medication was not found please try again or verify that you have the right medication</h1>
-                    </PureModal>
+            <PureModal isOpen={!!scannedMedicationName} header={`Administer ${scannedMedicationName}`}
+                draggable={true} onClose={onModalClose} className="text-center" width="60vw">
+                <form onSubmit={e => e.preventDefault()}>
+                    <h1 className="font-bold text-xl py-6">
+                        {scannedMedicationName}{" "}
+                        {scannedMedicationOrder?.concentration}{" "}
+                        {scannedMedicationOrder?.route}{" "}
+                        {scannedMedicationOrder?.frequency} {" "}
+                        {scannedMedicationOrder?.routine}  {" "}
+                        {scannedMedicationOrder?.PRNNote}{" "}
+                        {scannedMedicationOrder?.notes}{" "}
+                    </h1>
+                    <div>
+                        <label className="block text-primary font-bold text-lg tracking-wide pb-4" htmlFor="dose">
+                            Please State your dose or rate with units (ex: 100ml/hr or 20mg)
+                        </label>
+                        <input className="border-2 border-primary rounded-full text-center h-10 w-1/2 mb-4"
+                            onChange={e => setDose(e.target.value)} value={dose}
+                            autoFocus type="text" id="dose" placeholder="Dose or Rate" />
+                    </div>
+                    <button className="bg-primary text-white py-4 px-16 rounded-full font-bold" onClick={onSubmit}>Submit</button>
+                </form>
+            </PureModal>
 
-            </>
-        );
-    }
+            <PureModal isOpen={medicationNotFound} header="Medication Not Founded"
+                onClose={onModalClose} className="text-center" width="60vw">
+                <h1>The medication was not found please try again or verify that you have the right medication</h1>
+            </PureModal>
+
+        </>
+    );
 }
+
 
 
