@@ -23,6 +23,7 @@ import AssessmentViewPage from './Pages/StudentView/Assessments/AssessmentsViewP
 import LabsViewerPage from './Pages/StudentView/Labs/LabsViewerPage';
 import IORecordSubmitPage from './Pages/StudentView/IORecord/IORecordSubmitPage';
 import IORecordViewPage from './Pages/StudentView/IORecord/IORecordViewPage';
+import { getLocationFromStorage, storeLocation } from './Services/LocalStorage';
 
 
 
@@ -49,8 +50,14 @@ export default function App() {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
-    const location = queryParams.get('location');
-    $locationID.next(location)
+    let location = queryParams.get('location');
+    if(location) {
+      storeLocation(location)
+    } else {
+      location = getLocationFromStorage()
+    }
+    $locationID.next(location)  
+    
     console.log(location)
   }, [])
 

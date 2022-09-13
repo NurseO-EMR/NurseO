@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
     limit, query, updateDoc, where, doc, getDoc, orderBy} from "firebase/firestore";
-import { $error, $patient, $settings } from "./State";
+import { $error, $locationID, $patient, $settings } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";
 import { Medication, Settings,PatientChart, PatientNotFoundError } from "nurse-o-core";
 import { findIndex } from "lodash";
@@ -86,11 +86,14 @@ export default class Database {
 
     async getMedicationByBarcode(barcode:string): Promise<Medication | null>{
         const cachedMeds = this.cache.getMeds();
-
+        const locationID = $locationID.value
         for(let i = 0; i < cachedMeds.length; i++) {
             const med = cachedMeds[i]
             const locations = med.locations;
-            const barcodeIndex = findIndex(locations, {barcode})
+            let barcodeIndex ;
+            
+            if(locationID) barcodeIndex = findIndex(locations, {id: locationID, barcode: barcode})
+            else barcodeIndex = findIndex(locations, {barcode})
             if(barcodeIndex> -1) return cachedMeds[i];
         }
 
@@ -99,7 +102,12 @@ export default class Database {
         const meds = await this.getMedications();
         for(const med of meds) {
             const locations = med.locations
-            const barcodeIndex = findIndex(locations, {barcode})
+            let barcodeIndex ;
+            if(locationID) {
+                barcodeIndex = findIndex(locations, {id: locationID, barcode: barcode})
+                console.log("hello from hell")
+            }
+            else barcodeIndex = findIndex(locations, {barcode})
             if(barcodeIndex>-1) return med;
         }
         return null;
