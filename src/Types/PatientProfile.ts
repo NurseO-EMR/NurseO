@@ -104,6 +104,9 @@ export enum Frequency {
     q12hr = "q12hr",
     qhs = "qhs",
     qd = "qd",
+    bid="bid",
+    qam="qam",
+    
 }
 
 export class Allergy {
