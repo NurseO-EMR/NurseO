@@ -20,7 +20,7 @@ export function ArrayPreviewer(props: Props) {
             >
                 <h1 className="text-blue font-bold mt-4 mb-2">{props.title}</h1>
 
-                <table className="table-auto border border-darkGray">
+                <table className="table-auto border border-darkGray w-full">
                     <thead>
                         <Tr>
                             {props.headerItems.map((header, i) => <th key={i} className="border border-darkGray px-4 py-2">{header}</th>)}
