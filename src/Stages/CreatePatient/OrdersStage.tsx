@@ -101,7 +101,7 @@ export function OrdersStage(props: Props) {
     return (
         <div className="relative w-screen">
             <BaseStage {...props} onNext={onNextClickHandler} title="Medication Orders" icon={faBookMedical} moveLeft={orders.length > 0}>
-                <div className="grid grid-cols-3 gap-x-8">
+                <div className="grid grid-cols-3 gap-x-8 max-w-[50vw]">
                     <SearchableSelect label="Medication Name" options={meds} labelKey="name" valueKey="id" value={id} onChange={setId}/>
 
                     <Input label="Dose" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional placeholder="ex: 20mg/kg" />
