@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from "react";
 import {getAuth} from "firebase/auth"
 import { Background } from "../Components/Background";
-import { Nav } from "../Components/nav/Nav";
+import { Nav } from "../Components/Nav/Nav";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
