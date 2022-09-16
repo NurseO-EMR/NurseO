@@ -16,6 +16,7 @@ export function ViewPatientsPage() {
     const getPatients = async () => {
         const db = Database.getInstance()
         const patients = await db.getTemplatePatients();
+        patients.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
         setPatients(patients)
     }
 
@@ -35,7 +36,7 @@ export function ViewPatientsPage() {
     }
 
     return <PageView>
-        <div className="bg-gray shadow-xl mx-auto rounded-lg mt-[20vh] h-[60vh] w-[40vw] py-5 px-4">
+        <div className="bg-gray shadow-xl mx-auto rounded-lg mt-[20vh] h-[60vh] w-[40vw] py-5 px-4 overflow-y-auto">
             <h1 className="text-blue text-left font-bold text-lg pb-2">Template Patients:</h1>
             <table className="w-full">
                 <thead>
