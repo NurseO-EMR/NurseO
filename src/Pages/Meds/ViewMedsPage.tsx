@@ -6,10 +6,12 @@ import { Tr } from "../../Components/Table/Tr";
 import { Medication } from "nurse-o-core";
 import { Database } from "../../Services/Database";
 import PageView from "../PageView";
+import { Input } from "../../Components/Form/Input";
 
 export function ViewMedsPage() {
     const [meds, setMeds] = useState<Medication[]>([])
     const navigate = useNavigate()
+    const [filteredMeds, setFilteredMeds] = useState<Medication[]>([]);
 
 
     const getMeds = async () => {
@@ -17,6 +19,7 @@ export function ViewMedsPage() {
         const medications = await db.getMedications();
         medications.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
         setMeds(medications)
+        setFilteredMeds(medications)
     }
 
     useEffect(() => {
@@ -34,9 +37,15 @@ export function ViewMedsPage() {
         navigate("/meds/edit", { state: { med } })
     }
 
+    const onSearchChangeHandler = (searchPhrase: string)=>{
+        const filtered = meds.filter(m=>m.name.toLowerCase().startsWith(searchPhrase.toLowerCase()))
+        setFilteredMeds(filtered);
+    }
+    
     return <PageView>
         <Card className="overflow-auto">
-            <h1 className="text-blue text-left font-bold text-lg pb-2">Template Patients:</h1>
+            <h1 className="text-blue text-left font-bold text-lg pb-2">Medications</h1>
+            <Input label="Search:" onChange={e=>onSearchChangeHandler(e.currentTarget.value)} />
             <table className="w-full">
                 <thead>
                     <Tr>
@@ -48,7 +57,7 @@ export function ViewMedsPage() {
                     </Tr>
                 </thead>
                 <tbody>
-                    {meds.map((m, i) =>
+                    {filteredMeds.map((m, i) =>
                         <Tr key={i}>
                             <Td>{m.name}</Td>
                             <Td>{String(m.narcoticCountNeeded)}</Td>

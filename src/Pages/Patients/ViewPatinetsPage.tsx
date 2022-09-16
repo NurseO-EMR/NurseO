@@ -2,6 +2,7 @@ import { PatientChart } from "nurse-o-core";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ButtonWConfirmBox } from "../../Components/Form/ButtonWConfirmBox";
+import { Input } from "../../Components/Form/Input";
 import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
 import { Database } from "../../Services/Database";
@@ -11,6 +12,7 @@ export function ViewPatientsPage() {
 
     const [patients, setPatients] = useState<PatientChart[]>([])
     const navigate = useNavigate()
+    const [filteredPatients, setFilteredPatients] = useState<PatientChart[]>([])
 
 
     const getPatients = async () => {
@@ -18,6 +20,7 @@ export function ViewPatientsPage() {
         const patients = await db.getTemplatePatients();
         patients.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
         setPatients(patients)
+        setFilteredPatients(patients)
     }
 
     useEffect(() => {
@@ -35,9 +38,15 @@ export function ViewPatientsPage() {
         navigate("/patient/edit",{state:{patient}})
     }
 
+    const onSearchChangeHandler = (searchPhrase: string)=>{
+        const filtered = patients.filter(p=>p.name.toLowerCase().startsWith(searchPhrase.toLowerCase()))
+        setFilteredPatients(filtered);
+    }
+
     return <PageView>
-        <div className="bg-gray shadow-xl mx-auto rounded-lg mt-[20vh] h-[60vh] w-[40vw] py-5 px-4 overflow-y-auto">
+        <div className="bg-gray shadow-xl mx-auto rounded-lg mt-[12vh] h-[80vh] w-[60vw] py-5 px-4 overflow-y-auto">
             <h1 className="text-blue text-left font-bold text-lg pb-2">Template Patients:</h1>
+            <Input label="Search:" onChange={e=>onSearchChangeHandler(e.currentTarget.value)} />
             <table className="w-full">
                 <thead>
                     <Tr>
@@ -49,7 +58,7 @@ export function ViewPatientsPage() {
                     </Tr>
                 </thead>
                 <tbody>
-                    {patients.map((p, i) =>
+                    {filteredPatients.map((p, i) =>
                         <Tr key={i}>
                             <Td>{p.name}</Td>
                             <Td>{p.dob}</Td>
