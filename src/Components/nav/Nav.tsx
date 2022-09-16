@@ -1,8 +1,19 @@
-import { Link } from "react-router-dom";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getAuth } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
 import { Logo } from "../Logo";
 import { Dropdown } from "./Dropdown";
 
 export function Nav() {
+    const nav = useNavigate()
+
+    const onLogoutClickHandler = async ()=>{
+        const auth = getAuth()
+        await auth.signOut()
+        nav("/login")
+    }
+
     return (
         <nav aria-label="primary" className="absolute top-0 shadow-xl w-screen py-4 px-[10vw] h-fit flex justify-between items-center bg-white/95 z-20">
             <Link to="/"><Logo className="text-2xl" /></Link>
@@ -20,6 +31,9 @@ export function Nav() {
                     <Link to="/locations/create">Create Location</Link>
                     <Link to="/locations/view">View/Edit Locations</Link>
                 </Dropdown>
+
+                <FontAwesomeIcon onClick={onLogoutClickHandler} className="pt-1 cursor-pointer text-lg" icon={faRightFromBracket} />
+
             </div>
         </nav>
     )
