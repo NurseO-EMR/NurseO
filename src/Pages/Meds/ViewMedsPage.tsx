@@ -15,6 +15,7 @@ export function ViewMedsPage() {
     const getMeds = async () => {
         const db = Database.getInstance()
         const medications = await db.getMedications();
+        medications.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
         setMeds(medications)
     }
 
