@@ -42,7 +42,7 @@ export type MedicationOrder  = Order & {
     id: string;
     concentration:string;
     route: string;
-    frequency: Frequency;
+    frequency: string;
     routine: Routine;
     PRNNote: string | null;
     notes: string;

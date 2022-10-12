@@ -1,6 +1,6 @@
 {
   "name": "nurse-o-core",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "type": "module",
   "description": "core package for nurseO software",
   "main": "lib/index.js",
