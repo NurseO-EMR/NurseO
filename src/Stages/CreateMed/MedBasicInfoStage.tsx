@@ -21,6 +21,7 @@ export function MedBasicInfoStage(props: Props) {
     const [brandName, setBrandName] = useState("")
     const [genericName, setGenericName] = useState("")
     const [narcoticCount, setNarcoticCount] = useState("")
+    const [switchBrandToFreeText, SetSwitchBrandToFreeText] = useState(false)
 
     useEffect(() => {
         async function getMeds() {
@@ -64,16 +65,21 @@ export function MedBasicInfoStage(props: Props) {
         setId(med.id)
         setNarcoticCount("false")
         setMeds(meds)
+        SetSwitchBrandToFreeText(true)
     }
 
     return <BaseStage {...props} title="Let's start with the basics, brand, generic, and barcode please!" icon={faPills} onNext={onNextClickHandler}>
         <Input label="medID" value={id} disabled onChange={e => setId(e.currentTarget.value)} />
 
-        <SearchableSelect label="Brand Name" options={meds} labelKey="brandName" valueKey="id" onChange={onMedNameChangeHandler}
-            creatable onCreateOption={(name)=>onNewMedCreated(name, undefined)} value={id} />
-
         <SearchableSelect label="Generic Name" options={meds} labelKey="genericName" valueKey="id" onChange={onMedNameChangeHandler}
-            creatable onCreateOption={(name)=>onNewMedCreated(undefined, name)} value={id} />
+            creatable onCreateOption={(name) => onNewMedCreated(undefined, name)} value={id} />
+        {switchBrandToFreeText ?
+            <Input label="Brand Name" onChange={e => setBrandName(e.currentTarget.value)}
+                value={brandName} />
+            :
+            <SearchableSelect label="Brand Name" options={meds} labelKey="brandName" valueKey="id" onChange={onMedNameChangeHandler} value={id} />
+        }
+
 
         <Select label="Does this medication require Narcotic count?" onChange={e => setNarcoticCount(e.currentTarget.value)} value={narcoticCount}>
             <option value="true">Yes</option>
