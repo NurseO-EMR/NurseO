@@ -66,7 +66,7 @@ export function MedBasicInfoStage(props: Props) {
         setMeds(meds)
     }
 
-    return <BaseStage {...props} title="Let's start with the basics, medName and barcode please!" icon={faPills} onNext={onNextClickHandler}>
+    return <BaseStage {...props} title="Let's start with the basics, brand, generic, and barcode please!" icon={faPills} onNext={onNextClickHandler}>
         <Input label="medID" value={id} disabled onChange={e => setId(e.currentTarget.value)} />
 
         <SearchableSelect label="Brand Name" options={meds} labelKey="brandName" valueKey="id" onChange={onMedNameChangeHandler}
