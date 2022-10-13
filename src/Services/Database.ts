@@ -2,7 +2,8 @@ import { initializeApp } from "firebase/app";
 import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
     limit, query, updateDoc, where, doc, getDoc, orderBy, deleteDoc,
-     Firestore
+     Firestore,
+     connectFirestoreEmulator
 } from "firebase/firestore";
 import { findIndex } from "lodash";
 import {PatientChart} from "nurse-o-core"
@@ -22,7 +23,7 @@ export class Database {
     constructor(firebaseConfig: any) {
         initializeApp(firebaseConfig);
         this.db = getFirestore();
-        // connectFirestoreEmulator(this.db, "localhost", 8080);
+        connectFirestoreEmulator(this.db, "localhost", 8080);
         this.patientDocRef = null;
         this.currentPatientID = null;
         this.cache = new Cache();

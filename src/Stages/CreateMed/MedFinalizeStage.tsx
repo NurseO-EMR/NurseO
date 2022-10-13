@@ -34,7 +34,7 @@ export function MedFinalizeStage(props: Props) {
     if (!locations) return <div>Loading...</div>
     else return <BaseStage {...props} title="Cognations" icon={faFileInvoice} onNext={onNextClickHandler} customNextText="Go Home">
         <div>
-            <h2>{props.med.name} is now added in the following locations: </h2>
+            <h2>{props.med.genericName} ({props.med.brandName}) is now added in the following locations: </h2>
             <table className="my-3">
                 <thead>
                     <Tr>

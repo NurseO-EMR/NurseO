@@ -7,10 +7,10 @@ import { Select } from "../../Components/Form/Select";
 import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
 import { Medication } from "nurse-o-core";
 import { Database } from "../../Services/Database";
-import {v4 as uuid} from "uuid"
+import { v4 as uuid } from "uuid"
 
 export type Props = BaseStageProps & {
-    onNext: (id: string, name: string, narcoticCountNeeded: boolean) => void
+    onNext: (id: string, brandName: string, genericName: string, narcoticCountNeeded: boolean) => void
 };
 
 export function MedBasicInfoStage(props: Props) {
@@ -18,7 +18,8 @@ export function MedBasicInfoStage(props: Props) {
     const [meds, setMeds] = useState([] as Medication[])
 
     const [id, setId] = useState("")
-    const [name, setName] = useState("")
+    const [brandName, setBrandName] = useState("")
+    const [genericName, setGenericName] = useState("")
     const [narcoticCount, setNarcoticCount] = useState("")
 
     useEffect(() => {
@@ -33,7 +34,7 @@ export function MedBasicInfoStage(props: Props) {
 
     const onNextClickHandler = () => {
         const narcoticCountBoolean = narcoticCount === "yes"
-        props.onNext(id, name, narcoticCountBoolean)
+        props.onNext(id, brandName, genericName, narcoticCountBoolean)
     }
 
 
@@ -42,20 +43,24 @@ export function MedBasicInfoStage(props: Props) {
         setId(id)
         if (IDedMed) {
             setNarcoticCount(IDedMed.narcoticCountNeeded ? "true" : "false")
-            setName(IDedMed.name)
+            setBrandName(IDedMed.brandName || "")
+            setGenericName(IDedMed.genericName || "")
         }
     }
 
 
-    const onNewMedCreated = (name: string) => {
-        const med:Medication = {
-            name: name,
+    const onNewMedCreated = (brandName?: string, genericName?: string) => {
+        const med: Medication = {
+            brandName,
+            genericName,
             id: uuid(),
             narcoticCountNeeded: false,
             locations: []
         }
+
         meds.push(med);
-        setName(name)
+        setBrandName(brandName || "")
+        setGenericName(genericName || "")
         setId(med.id)
         setNarcoticCount("false")
         setMeds(meds)
@@ -63,8 +68,13 @@ export function MedBasicInfoStage(props: Props) {
 
     return <BaseStage {...props} title="Let's start with the basics, medName and barcode please!" icon={faPills} onNext={onNextClickHandler}>
         <Input label="medID" value={id} disabled onChange={e => setId(e.currentTarget.value)} />
-        <SearchableSelect label="Med Name" options={meds} labelKey="name" valueKey="id" onChange={onMedNameChangeHandler}
-            creatable onCreateOption={onNewMedCreated} value={id} />
+
+        <SearchableSelect label="Brand Name" options={meds} labelKey="brandName" valueKey="id" onChange={onMedNameChangeHandler}
+            creatable onCreateOption={(name)=>onNewMedCreated(name, undefined)} value={id} />
+
+        <SearchableSelect label="Generic Name" options={meds} labelKey="genericName" valueKey="id" onChange={onMedNameChangeHandler}
+            creatable onCreateOption={(name)=>onNewMedCreated(undefined, name)} value={id} />
+
         <Select label="Does this medication require Narcotic count?" onChange={e => setNarcoticCount(e.currentTarget.value)} value={narcoticCount}>
             <option value="true">Yes</option>
             <option value="false">No</option>

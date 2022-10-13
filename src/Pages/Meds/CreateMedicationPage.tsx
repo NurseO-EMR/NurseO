@@ -17,7 +17,8 @@ export default function CreateMedicationPage() {
 
     const emptyMed:Medication = {
         id: "",
-        name: "",
+        brandName: "",
+        genericName: "",
         narcoticCountNeeded: false,
         locations: []
     }
@@ -35,10 +36,11 @@ export default function CreateMedicationPage() {
         setCurrentStage(stage);
     }
 
-    const onMedBasicInfo = async (id: string, name: string, narcoticCountNeeded: boolean)=>{
+    const onMedBasicInfo = async (id: string, brandName: string, genericName: string, narcoticCountNeeded: boolean)=>{
         const db = Database.getInstance()
         med.id = id
-        med.name = name
+        med.brandName = brandName
+        med.genericName = genericName
         med.narcoticCountNeeded = narcoticCountNeeded
 
         const medReference = await db.getMedication(id)

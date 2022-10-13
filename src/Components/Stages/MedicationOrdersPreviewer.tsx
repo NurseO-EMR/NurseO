@@ -18,7 +18,7 @@ export function MedicationOrdersPreviewer(props: Props) {
     useEffect(()=>{
         const db = Database.getInstance();
         db.getMedication(props.order.id).then(m=>{
-            if(m) setMedName(m.name)
+            if(m) setMedName(m.brandName || m.genericName || "")
             else setMedName("Error")
         })
     },[props.order.id])
