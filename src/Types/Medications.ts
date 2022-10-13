@@ -1,6 +1,7 @@
 export type Medication = {
     id: string,
-    name: string,
+    name?: string, //this is the brandName
+    generic?: string,
     narcoticCountNeeded: boolean
     locations: MedicationLocation[]
 }
