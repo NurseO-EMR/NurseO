@@ -46,6 +46,7 @@ export function MedBasicInfoStage(props: Props) {
             setNarcoticCount(IDedMed.narcoticCountNeeded ? "true" : "false")
             setBrandName(IDedMed.brandName || "")
             setGenericName(IDedMed.genericName || "")
+            SetSwitchBrandToFreeText(true)
         }
     }
 
