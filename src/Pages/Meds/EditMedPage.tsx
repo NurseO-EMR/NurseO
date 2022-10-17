@@ -27,7 +27,7 @@ export function EditMedPage() {
     const oldMed = state.med
     const [id] = useState(oldMed.id)
     const [brandName, setBrandName] = useState(oldMed.brandName)
-    const [genericName, setGenericName] = useState(oldMed.brandName)
+    const [genericName, setGenericName] = useState(oldMed.genericName)
     const [narcoticCount, setNarcoticCount] = useState(oldMed.narcoticCountNeeded ? "true" : "false")
     const [locations, setLocations] = useState(oldMed.locations as ModifiableLocation[])
     const [settings, setSetting] = useState<Settings>()
