@@ -7,7 +7,7 @@ export class Cache {
     private cachedSettings: Settings | null;
     private patients: PatientChart[];
     private static instance: Cache;
-
+    private triggerCacheUpdateEvent:()=>void = ()=>null;
     private constructor() {
         this.cachedMeds = [];
         this.cachedSettings = null;
@@ -19,6 +19,7 @@ export class Cache {
         const index = findIndex(this.cachedMeds, {id:med.id});
         if(index > -1) return;
         this.cachedMeds.push(med);
+        this.triggerCacheUpdateEvent()
     }
 
     cacheMultipleMeds(meds: Medication[]) {
@@ -33,6 +34,7 @@ export class Cache {
 
     cacheSettings(settings: Settings) {
         this.cachedSettings = settings;
+        this.triggerCacheUpdateEvent()
     }
 
     getSettings(): Settings | null{
@@ -43,6 +45,7 @@ export class Cache {
         const index = findIndex(this.patients, {id: patient.id});
         if(index > -1) return;
         this.patients.push(patient);
+        this.triggerCacheUpdateEvent()
     }
     cacheMultiplePatients(patients: PatientChart[]) {
         for(const patient of patients) {
@@ -51,6 +54,10 @@ export class Cache {
     }
     getPatients():PatientChart[] {
         return this.patients;
+    }
+
+    addOnCacheUpdateEventListener(fn:()=>void) {
+        this.triggerCacheUpdateEvent = fn
     }
 
 
