@@ -6,8 +6,9 @@ export class Cache {
     private cachedMeds: Medication[];
     private cachedSettings: Settings | null;
     private patients: PatientChart[];
+    private static instance: Cache;
 
-    constructor() {
+    private constructor() {
         this.cachedMeds = [];
         this.cachedSettings = null;
         this.patients = []
@@ -50,6 +51,22 @@ export class Cache {
     }
     getPatients():PatientChart[] {
         return this.patients;
+    }
+
+
+    public static getInstance(): Cache {
+        if (Cache.instance) {
+            return Cache.instance;
+        } else {
+            throw new Error("Can't get an instance without initializing first")
+        }
+    }
+
+    public static initialize() {
+        if (!Cache.instance) {
+            Cache.instance = new Cache();
+        }
+        return Cache.instance;
     }
 
 }
