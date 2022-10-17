@@ -1,15 +1,17 @@
 import React from 'react';
+import { Medication } from '../Types/Medications.js';
 import { MedicationOrder } from '../Types/PatientProfile.js';
 
 type Props = {
     order: MedicationOrder,
-    medName: string
+    med: Medication
 
 }
 export function MedicationOrderSyntax(props: Props) {
     return (
         <>
-            {props.medName} {" "}
+            {props.med.genericName} {" "}
+            {"("}{props.med.brandName}{")"}
             {props.order.concentration}{" "}
             {props.order.route}{" "}
             {props.order.frequency} {" "}
