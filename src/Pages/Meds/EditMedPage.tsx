@@ -26,7 +26,8 @@ export function EditMedPage() {
     const state = useLocation().state as RouterState;
     const oldMed = state.med
     const [id] = useState(oldMed.id)
-    const [name, setName] = useState(oldMed.name)
+    const [brandName, setBrandName] = useState(oldMed.brandName)
+    const [genericName, setGenericName] = useState(oldMed.genericName)
     const [narcoticCount, setNarcoticCount] = useState(oldMed.narcoticCountNeeded ? "true" : "false")
     const [locations, setLocations] = useState(oldMed.locations as ModifiableLocation[])
     const [settings, setSetting] = useState<Settings>()
@@ -50,7 +51,8 @@ export function EditMedPage() {
     const onSaveClickHandler = () => {
         const newMed: Medication = {
             id,
-            name,
+            brandName,
+            genericName,
             narcoticCountNeeded: narcoticCount === "true",
             locations
         }
@@ -69,7 +71,8 @@ export function EditMedPage() {
             <FontAwesomeIcon className="block m-auto text-5xl text-blue" icon={faPills} />
             <h1 className="text-center text-2xl text-blue font-bold mt-4">Edit Medication</h1>
             <Input label="medID" value={id} disabled />
-            <Input label="Med Name" onChange={e => setName(e.currentTarget.value)} value={name} />
+            <Input label="Brand Name" onChange={e => setBrandName(e.currentTarget.value)} value={brandName} />
+            <Input label="Generic Name" onChange={e => setGenericName(e.currentTarget.value)} value={genericName} />
             <Select label="Does this medication require Narcotic count?" onChange={e => setNarcoticCount(e.currentTarget.value)} value={narcoticCount}>
                 <option value="true">Yes</option>
                 <option value="false">No</option>

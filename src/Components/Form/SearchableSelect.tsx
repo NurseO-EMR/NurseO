@@ -52,10 +52,13 @@ export function SearchableSelect(props: Props) {
     const getOptions = () => {
         const output = [];
         for (const option of props.options) {
+            if(!option[props.labelKey]) continue;
+
             const temp: Option = {
                 value: option[props.valueKey],
                 label: option[props.labelKey]
             }
+            
             output.push(temp);
         }
         return output;
