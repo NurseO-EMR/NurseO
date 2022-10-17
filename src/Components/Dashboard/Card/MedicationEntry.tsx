@@ -32,7 +32,8 @@ export default class MedicationEntry extends React.Component<Props,State> {
     public render() {
         return (
             <tr>
-                <td className="border-2 p-2">{this.state.medication?.name}</td>
+                <td className="border-2 p-2">{this.state.medication?.genericName}</td>
+                <td className="border-2 p-2">{this.state.medication?.brandName}</td>
                 <td className="border-2 p-2">{this.props.medication.concentration}</td>
                 <td className="border-2 p-2">{this.props.medication.route}</td>
                 <td className="border-2 p-2">{this.props.medication.frequency}</td>

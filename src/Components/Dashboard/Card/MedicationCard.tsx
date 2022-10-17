@@ -19,7 +19,8 @@ export default class MedicationCard extends React.Component<Props, State> {
             <Card title="Medications" className={this.props.className} admin={this.props.preview}>
                 <thead className="font-bold">
                     <tr>
-                        <td className="border-2 p-2">Name</td>
+                        <td className="border-2 p-2">Generic</td>
+                        <td className="border-2 p-2">Brand</td>
                         <td className="border-2 p-2">Dose</td>
                         <td className="border-2 p-2">Route</td>
                         <td className="border-2 p-2">Frequency</td>
