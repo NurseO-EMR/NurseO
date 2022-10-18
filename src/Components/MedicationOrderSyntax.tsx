@@ -10,8 +10,8 @@ type Props = {
 export function MedicationOrderSyntax(props: Props) {
     return (
         <>
-            {props.med.genericName} {" "}
-            {"("}{props.med.brandName}{")"}
+            {props.med.genericName ? props.med.genericName + " ": ""}
+            {props.med.brandName ? "( "+ props.med.brandName+ " ) ": ""}
             {props.order.concentration}{" "}
             {props.order.route}{" "}
             {props.order.frequency} {" "}
