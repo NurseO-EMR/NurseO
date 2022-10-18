@@ -15,7 +15,7 @@ type TimeSlotStatus = string | "Available" | "-" | "Due"
 export function MarEntry(props: Props) {
 
     const [timeSlots, setTimeSlots] = useState(new Map<number, TimeSlotStatus>())
-    const [med, setMed] = useState<Medication | null>(null)
+    const [med, setMed] = useState<Medication>({id: "", locations: [], narcoticCountNeeded: false,})
     const [showLocationModal, setShowLocationModal] = useState(false)
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export function MarEntry(props: Props) {
         async function getMed() {
             const db = Database.getInstance();
             const med = await db.getMedication(props.order.id);
-            setMed(med)
+            if(med) setMed(med)
         }
 
 
@@ -69,7 +69,7 @@ export function MarEntry(props: Props) {
         <>
             <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
                 <td className="w-80 pl-16 font-semibold">
-                    <MedicationOrderSyntax medName={med ? med.name : "Loading..."} order={props.order} />
+                    <MedicationOrderSyntax med={med} order={props.order} />
                 </td>
                 {props.timeSlots.map((hour, i) => {
                     return <td className='font-bold text-center'
