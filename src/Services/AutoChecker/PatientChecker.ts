@@ -1,4 +1,3 @@
-import { groupBy } from "lodash"
 import { PatientChart } from "nurse-o-core"
 import { Cache } from "../Cache"
 export type PatientBarCodeCombo = {
@@ -22,5 +21,5 @@ export function checkPatients(){
         }
     }
 
-    return groupBy(patientsWIssues, "barcode")
+    return patientsWIssues
 }

@@ -12,7 +12,7 @@ export function IssuesPage() {
     const medsWIssues = checkMeds(cache.getMeds())
     const groupedMeds = groupBy(medsWIssues, "barcode")
 
-    const patientsWIssues = checkPatients()
+    const patientsWIssues = groupBy(checkPatients(), "barcode")
 
 
     return <PageView>
