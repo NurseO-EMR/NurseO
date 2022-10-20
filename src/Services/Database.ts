@@ -14,19 +14,15 @@ export class Database {
     private static instance: Database;
     // private patient: PatientChart;
     private db: Firestore;
-    private patientDocRef: DocumentReference | null;
-    private currentPatientID: string | null | undefined;
+
     private cache: Cache;
     private medListCached: boolean;
     private patientListCached: boolean;
-
     constructor(firebaseConfig: any) {
         initializeApp(firebaseConfig);
         this.db = getFirestore();
         connectFirestoreEmulator(this.db, "localhost", 8080);
-        this.patientDocRef = null;
-        this.currentPatientID = null;
-        this.cache = new Cache();
+        this.cache = Cache.initialize();
         this.medListCached = false;
         this.patientListCached = false
 
