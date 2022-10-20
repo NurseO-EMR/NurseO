@@ -31,6 +31,7 @@ export function EditMedPage() {
     const [narcoticCount, setNarcoticCount] = useState(oldMed.narcoticCountNeeded ? "true" : "false")
     const [locations, setLocations] = useState(oldMed.locations as ModifiableLocation[])
     const [settings, setSetting] = useState<Settings>()
+    const [saveText, setSaveText] = useState("Save")
 
     useEffect(() => {
         async function getSettings() {
@@ -48,7 +49,8 @@ export function EditMedPage() {
     }
 
 
-    const onSaveClickHandler = () => {
+    const onSaveClickHandler = async () => {
+        setSaveText("Saving...")
         const newMed: Medication = {
             id,
             brandName,
@@ -57,7 +59,9 @@ export function EditMedPage() {
             locations
         }
         const db = Database.getInstance();
-        db.updateMedication(newMed)
+        await db.updateMedication(newMed)
+        setSaveText("Saved")
+        setTimeout(()=>setSaveText("Save"), 3000)
     }
 
     const onLocationDeleteHandler = (index:number)=>{
@@ -108,7 +112,7 @@ export function EditMedPage() {
                 </tbody>
             </table>
 
-            <Button className="bg-blue my-6" onClick={onSaveClickHandler}>Save</Button>
+            <Button className="bg-blue my-6" onClick={onSaveClickHandler}>{saveText}</Button>
         </Card>
 
     </PageView>
