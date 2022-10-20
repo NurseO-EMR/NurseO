@@ -42,7 +42,7 @@ export class Cache {
     }
 
     cachePatient(patient:PatientChart) {
-        const index = findIndex(this.patients, {id: patient.id});
+        const index = findIndex(this.patients, patient);
         if(index > -1) return;
         this.patients.push(patient);
         this.triggerCacheUpdateEvent()
