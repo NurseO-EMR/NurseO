@@ -18,6 +18,7 @@ export function ViewLocationsPage() {
         const db = Database.getInstance()
         const settings = await db.getSettings();
         const locations = settings.locations;
+        locations.sort((a,b)=>a.building.localeCompare(b.building) + a.station.localeCompare(b.station))
         setLocations(locations)
     }
 
