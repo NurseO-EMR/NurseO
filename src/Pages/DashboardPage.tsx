@@ -35,8 +35,9 @@ export default function DashboardPage() {
                     <DashboardNavCard icon={faGear} title="Settings ( DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING)">
                         <Link to={"/settings/rawEdit"}>RAW Settings Editor</Link>
                     </DashboardNavCard>
-                    
-                    <AutoChecker />
+                    <Link to={"/issues"} className="mx-auto min-w-[20vw]">
+                        <AutoChecker />
+                    </Link>
                 </div>
 
             </div>
