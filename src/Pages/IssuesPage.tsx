@@ -30,7 +30,7 @@ export function IssuesPage() {
                         <Tr key={i}>
                             <Td>{barcode}</Td>
                             <Td>
-                                {meds.map((m, j) => <span key={j}>{m.med.genericName}, </span>)}
+                                {meds.map((m, j) => <span  className="block" key={j}>{m.med.genericName} </span>)}
                             </Td>
                         </Tr>
                     )}
@@ -49,7 +49,7 @@ export function IssuesPage() {
                         <Tr key={i}>
                             <Td>{barcode}</Td>
                             <Td>
-                                {patients.map((p, j) => <span key={j}>{p.patient.name} | </span>)}
+                                {patients.map((p, j) => <span className="block" key={j}>{p.patient.name} </span>)}
                             </Td>
                         </Tr>
                     )}
