@@ -6,9 +6,12 @@ import { LocationDefinition } from "nurse-o-core";
 import { Database } from "../../Services/Database";
 import PageView from "../PageView";
 import { findIndex } from "lodash";
+import { Input } from "../../Components/Form/Input";
+import { Button } from "../../Components/Form/Button";
 
 export function ViewLocationsPage() {
     const [locations, setLocations] = useState<LocationDefinition[]>([])
+    const [saveText, setSaveText] = useState("Save")
 
 
     const getLocations = async () => {
@@ -32,6 +35,26 @@ export function ViewLocationsPage() {
         setLocations([...settings.locations])
     }
 
+    const onBuildingEdit = (id:string, building: string) => {
+        const index = findIndex(locations, {id})
+        locations[index].building = building
+    }
+
+    const onStationEdit = (id:string, station: string) => {
+        const index = findIndex(locations, {id})
+        locations[index].station = station
+    }
+
+    const onSaveClickHandler = async () =>{
+        setSaveText("Saving...")
+        const db = Database.getInstance()
+        const settings = await db.getSettings();
+        settings.locations = locations
+        await db.updateSettings(settings);
+        setSaveText("Saved!")
+        setTimeout(()=>setSaveText("Save"), 3000)
+    }
+
 
     return <PageView>
         <Card>
@@ -48,14 +71,20 @@ export function ViewLocationsPage() {
                 <tbody>
                     {locations.map((l, i) =>
                         <Tr key={i}>
-                            <Td>{l.building}</Td>
-                            <Td>{String(l.station)}</Td>
+                            <Td className="w-28"><Input label="building name" hideLabel defaultValue={l.building} 
+                            onChange={({target})=>onBuildingEdit(l.id, target.value)} /></Td>
+
+                            <Td><Input label="station name" hideLabel defaultValue={l.station} 
+                            onChange={({target})=>onStationEdit(l.id, target.value)} /></Td>
+
                             <Td>{String(l.id)}</Td>
                             <td><button className="bg-red text-white px-4 py-2 mx-auto w-full" onClick={() => onDeleteClickHandler(l)}>Delete</button></td>
                         </Tr>
                     )}
                 </tbody>
             </table>
+
+            <Button className="bg-blue my-6" onClick={onSaveClickHandler}>{saveText}</Button>
         </Card>
     </PageView>
 }
