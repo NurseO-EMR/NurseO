@@ -52,7 +52,7 @@ export function BasicInfoStage(props: Props) {
                     <option value={Gender.Other}>Other</option>
                 </Select>
                 <Input label="Height" suffix="cm" type="number" onChange={e=>setHeight(Number.parseInt(e.currentTarget.value))} value={height}/>
-                <Input label="Weight" suffix="kg" type="number"onChange={e=>setWeight(Number.parseInt(e.currentTarget.value))} value={weight}/> 
+                <Input label="Weight" suffix="kg" type="number" step={0.5} onChange={e=>setWeight(Number.parseFloat(e.currentTarget.value))} value={weight}/> 
                               
         </BaseStage>
     )
