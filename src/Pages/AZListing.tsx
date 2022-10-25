@@ -16,7 +16,7 @@ export function AZListing() {
         db.getMedications().then(medications => {
             let letters: string[] = []
             for (const med of medications) {
-                const firstLetter = med.name[0]
+                const firstLetter = (med.genericName || "")[0]
                 letters.push(firstLetter.toUpperCase());
             }
             letters = uniq(letters);
@@ -30,7 +30,7 @@ export function AZListing() {
 
 
     const onSearchedTextChangeHandler=(text:string)=>{
-        const filtered = fullMeds.filter(m=>m.name.toLowerCase().startsWith(text.toLowerCase()))
+        const filtered = fullMeds.filter(m=>(m.genericName || "").toLowerCase().startsWith(text.toLowerCase()))
         setMeds(filtered);
     }
 
@@ -48,13 +48,17 @@ export function AZListing() {
             {alphabet.map((letter, i) =>
                 <div key={i}>
                     <h1 className="text-5xl border-b-2 text-gray-400 mb-4">{letter}</h1>
-                    {meds.filter(m => m.name[0].toUpperCase() === letter).sort().map((med, j) =>
+                    {meds.filter(m => (m.genericName || "")[0].toUpperCase() === letter).sort().map((med, j) =>
                         <div key={j} onClick={()=>setMedSelected(med)}
                             className="h-16 my-1 bg-red-200 flex items-center pl-20 justify-between
                                     hover:bg-red-700 hover:text-white hover:font-bold 
                                     transition-all cursor-pointer
                          ">
-                            <div>{med.name}</div>
+                            <div>
+                                {med.genericName} 
+                                {med.brandName ? "(" + med.brandName + " )" : null}
+                            
+                            </div>
                             <button className="bg-red-700 text-white h-full w-40 
                            border-l-4 border-white">Locate</button>
                         </div>

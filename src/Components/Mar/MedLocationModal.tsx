@@ -49,7 +49,8 @@ export function MedLocationModal(props: Props) {
                     <table className='w-full m-auto'>
                         <thead>
                             <tr className='text-left h-10'>
-                                <th className='pl-5'>Medication</th>
+                                <th className='pl-5'>Generic</th>
+                                <th className='pl-5'>Brand</th>
                                 <th className='pl-5'>Type</th>
                                 <th className='pl-5'>Dose</th>
                                 <th>Drawer</th>
@@ -60,7 +61,8 @@ export function MedLocationModal(props: Props) {
                         <tbody>
                             {locations.map((location, i) =>
                                 <tr key={i} className='h-16 odd:bg-gray-100 even:bg-gray-300 '>
-                                    <td className='pl-5'>{props.med.name}</td>
+                                    <td className='pl-5'>{props.med.genericName}</td>
+                                    <td className='pl-5'>{props.med.brandName}</td>
                                     <td className='pl-5'>{location.type.toLocaleUpperCase()}</td>
                                     <td>{location.dose}</td>
                                     <td>{location.drawer}</td>
