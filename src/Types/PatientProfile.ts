@@ -47,6 +47,7 @@ export type MedicationOrder  = Order & {
     PRNNote: string | null;
     notes: string;
     mar: Time[];
+    completed?: boolean
 }
 
 
@@ -88,25 +89,30 @@ export enum Routine {
 
 export enum Frequency {
     NA = "",
-    q15m = "q15m",
-    q30m = "q30m",
-    q1hr = "q1hr",
-    q2hr = "q2hr",
-    q3hr = "q3hr",
-    q4hr = "q4hr",
-    q5hr = "q5hr",
-    q6hr = "q6hr",
-    q7hr = "q7hr",
-    q8hr = "q8hr",
-    q9hr = "q9hr",
-    q10hr = "q10hr",
-    q11hr = "q11hr",
-    q12hr = "q12hr",
-    qhs = "qhs",
-    qd = "qd",
-    bid="bid",
-    qam="qam",
-    
+    q15m = "every 15 minutes",
+    q30m = "every 30 minutes",
+    q1hr = "every hour",
+    q2hr = "every two hours",
+    q3hr = "every two hours",
+    q4hr = "every two hours",
+    q5hr = "every two hours",
+    q6hr = "every two hours",
+    q7hr = "every two hours",
+    q8hr = "every two hours",
+    q9hr = "every two hours",
+    q10hr = "every two hours",
+    q11hr = "every two hours",
+    q12hr = "every two hours",
+    qhs = "daily at bedtime",
+    qd = "every day",
+    bid="two times a day",
+    qam="in the morning",
+    qpm="in the evening",
+    qac="before meals",
+    qpc="after meals",
+    tid="three times a day",
+    qid="four times a day",
+
 }
 
 export class Allergy {
