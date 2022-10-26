@@ -35,7 +35,10 @@ export function NarcoticCountModel(props: Props) {
     return (
         <PureModal isOpen={true} header={"Narcotic Count Verification"} width="40vw" onClose={props.onClose}>
             <form onSubmit={e => e.preventDefault()}>
-                <h1 className='font-bold text-center'>{props.med.genericName} ({props.med.brandName})</h1>
+                <h1 className='font-bold text-center'>
+                    {props.med.genericName ? props.med.genericName : null} 
+                    {props.med.brandName ? "( " + props.med.brandName + " )" : null} 
+                </h1>
                 <h2 className='text-center my-2 text-red-700 font-bold'>Narcotic count must be completed</h2>
                 <div className='flex justify-around'>
                     <div>
@@ -48,11 +51,11 @@ export function NarcoticCountModel(props: Props) {
                     </div>
                 </div>
 
-                <Button className='block mx-auto w-80 my-2 bg-green-700' onClick={props.onClose}>
+                <Button className='block mx-auto w-80 my-4 bg-green-700' onClick={props.onClose}>
                     Completed Narcotic Count
                 </Button>
 
-                <Button className='block mx-auto w-80 my-2 bg-primary' onClick={onReportClickHandler}>
+                <Button className='block mx-auto w-80 my-4 bg-primary' onClick={onReportClickHandler}>
                     Report Narcotic Discrepancy
                 </Button>
             </form>
