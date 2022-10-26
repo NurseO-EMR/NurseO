@@ -63,12 +63,18 @@ export default class MarEntry extends React.Component<Props, State> {
     public render() {
 
         return (
-            <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
-                <td className="w-80 pl-16 font-semibold">
+            <tr className={`odd:bg-gray-100 even:bg-gray-300 h-32 relative
+                ${this.props.order.completed ? `
+                after:bg-green-700 after:opacity-30 after:h-full after:w-full 
+                after:absolute after:inset-0 after:border-2 after:content-['Completed'] after:text-center 
+                after:items-center after:grid after:font-bold after:text-5xl after:z-10` : null}
+            `}>
+                <td className={`w-80 pl-16 font-semibold relative
+                                ${this.props.order.completed ? "line-through" : null}`}>
                     <MedicationOrderSyntax order={this.props.order} />
                 </td>
                 {this.props.timeSlots.map((hour, i) => {
-                    return <td className='font-bold text-center' key={i}>{this.getTimeSlotValue(hour)} </td>
+                    return <td className='font-bold text-center line-through' key={i}>{this.getTimeSlotValue(hour)} </td>
                 }
                 )}
             </tr>
