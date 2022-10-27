@@ -4,16 +4,16 @@ import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { MedicationOrder, OrderKind, OrderType, Frequency, Routine, Time, PatientChart} from "nurse-o-core"
+import { MedicationOrder, OrderKind, OrderType, Frequency, Routine, Time, PatientChart } from "nurse-o-core"
 import { MedicationOrdersPreviewer } from "../../Components/Stages/MedicationOrdersPreviewer";
 import { AnimatePresence } from "framer-motion";
 import { Database } from "../../Services/Database";
 import { SearchableSelect } from "../../Components/Form/SearchableSelect";
-import {  Medication } from "nurse-o-core";
+import { Medication } from "nurse-o-core";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,
-    patient?:PatientChart
+    patient?: PatientChart
 }
 
 export function OrdersStage(props: Props) {
@@ -29,11 +29,12 @@ export function OrdersStage(props: Props) {
     const [marString, setMarString] = useState("");
     const [notes, setNotes] = useState("");
     const [orderType, setOrderType] = useState(OrderType.NA);
+    const [completed, setCompleted] = useState(false);
 
     const [orders, setOrders] = useState(props.patient?.medicationOrders || [] as MedicationOrder[]);
 
 
-    useEffect(()=>{
+    useEffect(() => {
         async function getMeds() {
             const db = Database.getInstance();
             const medications = await db.getMedications();
@@ -42,12 +43,12 @@ export function OrdersStage(props: Props) {
         getMeds();
     }, [])
 
-    const onOrderAddClickHandler = () => { 
+    const onOrderAddClickHandler = () => {
 
         //check if there is med 
-        if(!id) {console.error("No med selected"); return;}
-        if(orderType === OrderType.NA) {console.error("must select order type"); return;}
-        if(!marRef.current?.checkValidity()) return;
+        if (!id) { console.error("No med selected"); return; }
+        if (orderType === OrderType.NA) { console.error("must select order type"); return; }
+        if (!marRef.current?.checkValidity()) return;
 
         const order: MedicationOrder = {
             id: id,
@@ -59,7 +60,8 @@ export function OrdersStage(props: Props) {
             notes,
             orderType,
             PRNNote,
-            orderKind: OrderKind.med
+            orderKind: OrderKind.med,
+            completed
         }
 
         orders.push(order)
@@ -102,7 +104,7 @@ export function OrdersStage(props: Props) {
         <div className="relative w-screen">
             <BaseStage {...props} onNext={onNextClickHandler} title="Medication Orders" icon={faBookMedical} moveLeft={orders.length > 0}>
                 <div className="grid grid-cols-3 gap-x-8 max-w-[50vw]">
-                    <SearchableSelect label="Medication Name" options={meds} labelKey="genericName" valueKey="id" value={id} onChange={setId}/>
+                    <SearchableSelect label="Medication Name" options={meds} labelKey="genericName" valueKey="id" value={id} onChange={setId} />
 
                     <Input label="Dose" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional placeholder="ex: 20mg/kg" />
                     <Input label="Route" onChange={e => setRoute(e.currentTarget.value)} value={route} optional />
@@ -119,14 +121,19 @@ export function OrdersStage(props: Props) {
 
 
                     <Input label="Mar" onChange={e => setMarString(e.currentTarget.value)} value={marString}
-                    placeholder="01:00, 14:00, 16:00" pattern="(([0-2][0-9]:[0-6][0-9]),{0,1})+" ref={marRef} optional
-                    title="enter times in 24 hour format with commas in between, example: 01:00,14:00 which means it was administered at 1 am and 2 pm "
+                        placeholder="01:00, 14:00, 16:00" pattern="(([0-2][0-9]:[0-6][0-9]),{0,1})+" ref={marRef} optional
+                        title="enter times in 24 hour format with commas in between, example: 01:00,14:00 which means it was administered at 1 am and 2 pm "
                     />
 
 
                     <Input label="Notes" onChange={e => setNotes(e.currentTarget.value)} value={notes} optional />
                     <Select label="Order Type" value={orderType} onChange={e => setOrderType(e.currentTarget.value as OrderType)} optional>
                         {Object.values(OrderType).map((t, i) => <option value={t} key={i}>{t}</option>)}
+                    </Select>
+
+                    <Select label="Completed" onChange={e=>setCompleted(e.currentTarget.value === "true")}>
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
                     </Select>
 
                 </div>
@@ -154,14 +161,14 @@ export function OrdersStage(props: Props) {
 
 
 
-function marToTime(marString: string) :Time[] {
-    if(marString === "") return [];
+function marToTime(marString: string): Time[] {
+    if (marString === "") return [];
 
-    const output:Time[] = [];
+    const output: Time[] = [];
     const splitedTimes = marString.split(",")
-    const splitedByCommaAndColon = splitedTimes.map(time=>time.split(":"))
-    for(const timeString of splitedByCommaAndColon ) {
-        const time:Time = {
+    const splitedByCommaAndColon = splitedTimes.map(time => time.split(":"))
+    for (const timeString of splitedByCommaAndColon) {
+        const time: Time = {
             hour: Number.parseInt(timeString[0]),
             minutes: Number.parseInt(timeString[1])
         }

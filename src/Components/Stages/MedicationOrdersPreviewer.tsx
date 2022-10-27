@@ -34,8 +34,8 @@ export function MedicationOrdersPreviewer(props: Props) {
             <div>
                 <div className="text-center font-bold text-blue w-72"><MedicationOrderSyntax med={med} order={props.order} /></div>
                 <div>Type: {props.order.orderType}</div>
-                <div className="mt-3">Mar: {props.order.mar.length > 0 ? props.order.mar.map((time) => time.hour.toString().padStart(2,"0") + ":" + time.minutes.toString().padStart(2,"0")) : "No mar data added"}
-                </div>
+                <div className="mt-3">Mar: {props.order.mar.length > 0 ? props.order.mar.map((time) => time.hour.toString().padStart(2,"0") + ":" + time.minutes.toString().padStart(2,"0")) : "No mar data added"}</div>
+                <div className="text-blue font-bold mt-2">{props.order.completed ? "Completed" : null}</div>
             </div>
             <div className="text-red cursor-pointer grid items-center text-xl" onClick={props.onDelete}><FontAwesomeIcon icon={faTrash} /></div>
             <div className="grid text-xl items-center">
