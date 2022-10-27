@@ -74,7 +74,7 @@ export default class MarEntry extends React.Component<Props, State> {
                     <MedicationOrderSyntax order={this.props.order} />
                 </td>
                 {this.props.timeSlots.map((hour, i) => {
-                    return <td className='font-bold text-center line-through' key={i}>{this.getTimeSlotValue(hour)} </td>
+                    return <td className='font-bold text-center' key={i}>{this.getTimeSlotValue(hour)} </td>
                 }
                 )}
             </tr>
