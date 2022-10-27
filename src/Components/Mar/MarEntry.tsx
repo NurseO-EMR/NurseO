@@ -77,10 +77,12 @@ export function MarEntry(props: Props) {
                     <MedicationOrderSyntax med={med} order={props.order} />
                 </td>
                 {props.timeSlots.map((hour, i) => {
-                    return <td className='font-bold text-center'
-                        key={i}>{
-                            getTimeSlotValue(hour)
-                        } </td>
+                    if(hour === props.simTime.hour && !props.order.completed) {
+                        return <td className="font-bold text-center bg-primary/20" key={i}>{getTimeSlotValue(hour)}</td>
+                    } else {
+                        return <td className="font-bold text-center" key={i}>{getTimeSlotValue(hour)}</td>
+                    }
+                    
                 }
                 )}
                 <td className='w-36'>
