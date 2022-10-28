@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { MedicationOrder, Time, MedicationOrderSyntax, Medication } from 'nurse-o-core';
+import { MedicationOrder, Time, Medication } from 'nurse-o-core';
 import { Database } from '../../Services/Database';
 import { MedLocationModal } from './MedLocationModal';
+import {MedicationOrderSyntax} from "./temp"
 
 type Props = {
     order: MedicationOrder,
