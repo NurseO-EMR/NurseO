@@ -41,7 +41,7 @@ export function IssuesPage() {
                 <thead>
                     <Tr>
                         <th className="border">Barcode</th>
-                        <th>Found in the following medications</th>
+                        <th>Found in the following patients</th>
                     </Tr>
                 </thead>
                 <tbody>
