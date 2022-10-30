@@ -10,7 +10,8 @@
     "src/**/*"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "react-scripts test"
   },
   "author": "Mohammed Alkhafaji",
   "dependencies": {
