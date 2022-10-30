@@ -8,6 +8,7 @@ import PageView from "../PageView";
 import { findIndex } from "lodash";
 import { Input } from "../../Components/Form/Input";
 import { Button } from "../../Components/Form/Button";
+import {ButtonWConfirmBox} from "../../Components/Form/ButtonWConfirmBox"
 
 export function ViewLocationsPage() {
     const [locations, setLocations] = useState<LocationDefinition[]>([])
@@ -79,7 +80,9 @@ export function ViewLocationsPage() {
                             onChange={({target})=>onStationEdit(l.id, target.value)} /></Td>
 
                             <Td>{String(l.id)}</Td>
-                            <td><button className="bg-red text-white px-4 py-2 mx-auto w-full" onClick={() => onDeleteClickHandler(l)}>Delete</button></td>
+                            <td><ButtonWConfirmBox className="bg-red text-white px-4 py-2 mx-auto w-full rounded-none" 
+                            confirmPrompt={`Are you sure you want to delete ${l.building}-${l.station}? This will break any medication in that location`}
+                            onConfirm={() => onDeleteClickHandler(l)}>Delete</ButtonWConfirmBox></td>
                         </Tr>
                     )}
                 </tbody>
