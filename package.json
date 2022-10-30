@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "react-scripts test"
+    "test": "exit"
   },
   "author": "Mohammed Alkhafaji",
   "dependencies": {
