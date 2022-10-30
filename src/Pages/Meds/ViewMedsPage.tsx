@@ -7,6 +7,7 @@ import { Medication } from "nurse-o-core";
 import { Database } from "../../Services/Database";
 import PageView from "../PageView";
 import { Input } from "../../Components/Form/Input";
+import { ButtonWConfirmBox } from "../../Components/Form/ButtonWConfirmBox";
 
 export function ViewMedsPage() {
     const [meds, setMeds] = useState<Medication[]>([])
@@ -75,7 +76,9 @@ export function ViewMedsPage() {
                             <Td>{String(m.narcoticCountNeeded)}</Td>
                             <Td>{m.locations?.length}</Td>
                             <td><button className="bg-blue text-white px-4 py-2 mx-auto w-full" onClick={() => onEditClickHandler(m)}>Edit</button></td>
-                            <td><button className="bg-red text-white px-4 py-2 mx-auto w-full" onClick={() => onDeleteClickHandler(m)}>Delete</button></td>
+                            <td><ButtonWConfirmBox className="bg-red text-white px-4 py-2 mx-auto w-full rounded-none " 
+                            confirmPrompt={`Are you sure you want to delete ${m.genericName}? This will break any patient that uses this medication`}
+                            onConfirm={() => onDeleteClickHandler(m)}>Delete</ButtonWConfirmBox></td>
                         </Tr>
                     )}
                 </tbody>

@@ -23,7 +23,7 @@ export function ButtonWConfirmBox(props: Props) {
     return (
         <>
             <Button onClick={() => setShowConfirm(true)} className={props.className}>{props.children}</Button>
-            <PureModal isOpen={showConfirm} width='30vw' header="Confirm">
+            <PureModal isOpen={showConfirm} width='30vw' header="Confirm" onClose={()=>setShowConfirm(false)}>
                 <div>
                     <h1 className="text-center font-bold">{props.confirmPrompt}</h1>
                     <div className='mt-5 flex gap-4'>
