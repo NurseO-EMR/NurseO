@@ -2,7 +2,7 @@ import { getAuth } from 'firebase/auth';
 import { initializeApp } from "firebase/app";
 import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
-    limit, query, updateDoc, where, doc, getDoc, orderBy, connectFirestoreEmulator} from "firebase/firestore";
+    limit, query, updateDoc, where, doc, getDoc, orderBy} from "firebase/firestore";
 import { $error, $locationID, $patient, $settings } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";
 import { Medication, Settings,PatientChart, PatientNotFoundError } from "nurse-o-core";
@@ -21,7 +21,7 @@ export default class Database {
     constructor() {
         initializeApp(firebaseConfig);
         this.db = getFirestore();
-        connectFirestoreEmulator(this.db, 'localhost', 8080);
+        // connectFirestoreEmulator(this.db, 'localhost', 8080);
         this.patientDocRef = null;
         this.currentPatientID = null;
         this.cache = new Cache();
