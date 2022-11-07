@@ -46,7 +46,9 @@ export function ViewAdminsPage() {
                     {admins.map((a, i) =>
                         <Tr key={i}>
                             <Td>{a}</Td>
-                            <td><button className="bg-red text-white px-4 py-2 mx-auto w-full" onClick={() => onDeleteClickHandler(a)}>Remove</button></td>
+                            <td><button 
+                            className="bg-red text-white px-4 py-2 mx-auto w-full" 
+                            onClick={() => onDeleteClickHandler(a)}>Remove</button></td>
                         </Tr>
                     )}
                 </tbody>
