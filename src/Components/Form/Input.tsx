@@ -1,5 +1,5 @@
 import { motion, Variants } from "framer-motion";
-import { DetailedHTMLProps, ForwardedRef, forwardRef, InputHTMLAttributes } from "react";
+import { ChangeEvent, DetailedHTMLProps, ForwardedRef, forwardRef, InputHTMLAttributes, useState } from "react";
 
 export type Props = Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "id"> & {
     optional?: boolean,
@@ -33,7 +33,10 @@ function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
                 <span>{props.label}</span>
                 <span className="opacity-75 text-sm"> {props.optional ? "(optional)" : null}</span>
             </label>
-            <input id={id} {...getInputProps()} required={!props.optional} className={"border h-8  px-2 w-full"} ref={ref} />
+            <input id={id} {...getInputProps()} 
+            required={!props.optional} 
+            className={"border h-8  px-2 w-full"} ref={ref} />
+
             {props.suffix ? <div className="absolute top-7 left-78/100 tracking-wider opacity-75">| {props.suffix}</div>: null}
         </motion.div>
     )

@@ -34,17 +34,20 @@ export function ViewLocationsPage() {
         const index = findIndex(settings.locations, {id: location.id})
         settings.locations.splice(index, 1)
         await db.updateSettings(settings)
-        setLocations([...settings.locations])
+        const locations = settings.locations
+        setLocations([...locations])
     }
 
     const onBuildingEdit = (id:string, building: string) => {
         const index = findIndex(locations, {id})
         locations[index].building = building
+        setLocations([...locations])
     }
 
     const onStationEdit = (id:string, station: string) => {
         const index = findIndex(locations, {id})
         locations[index].station = station
+        setLocations([...locations])
     }
 
     const onSaveClickHandler = async () =>{
@@ -73,10 +76,10 @@ export function ViewLocationsPage() {
                 <tbody>
                     {locations.map((l, i) =>
                         <Tr key={i}>
-                            <Td className="w-28"><Input label="building name" hideLabel defaultValue={l.building} 
+                            <Td className="w-28"><Input label="building name" hideLabel value={l.building} 
                             onChange={({target})=>onBuildingEdit(l.id, target.value)} /></Td>
 
-                            <Td><Input label="station name" hideLabel defaultValue={l.station} 
+                            <Td><Input label="station name" hideLabel value={l.station} 
                             onChange={({target})=>onStationEdit(l.id, target.value)} /></Td>
 
                             <Td>{String(l.id)}</Td>
