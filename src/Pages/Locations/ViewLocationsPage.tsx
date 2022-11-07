@@ -62,7 +62,7 @@ export function ViewLocationsPage() {
 
 
     return <PageView>
-        <Card>
+        <Card className="overflow-auto">
             <h1 className="text-blue text-left font-bold text-lg pb-2">Locations:</h1>
             <table className="w-full">
                 <thead>
