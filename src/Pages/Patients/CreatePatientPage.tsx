@@ -19,6 +19,7 @@ import { ChartingStage } from "../../Stages/CreatePatient/ChartingStage";
 import { ReviewStage } from "../../Stages/CreatePatient/ReviewStage";
 import { Database } from "../../Services/Database";
 import { PatientFinalizeStage } from "../../Stages/CreatePatient/PatientFinalizeStage";
+import { Button } from "../../Components/Form/Button";
 
 
 export default function CreatePatientPage() {
@@ -147,6 +148,11 @@ export default function CreatePatientPage() {
                 <ReviewStage  onPrev={onPrevClickHandler} onNext={onAddPatientClickHandler} patient={patient}/>
                 <PatientFinalizeStage onPrev={console.log} />
             </Stages>
+            <Button 
+            className="absolute bottom-[10vh] w-formWidth left-1/2 -translate-x-1/2
+                       bg-red text-white shadow-lg
+            "
+            >Save for later</Button>
         </PageView>
     );
 }
