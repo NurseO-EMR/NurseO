@@ -18,9 +18,9 @@ export function ViewLocationsPage() {
     const getLocations = async () => {
         const db = Database.getInstance()
         const settings = await db.getSettings();
-        const locations = settings.locations;
-        locations.sort((a,b)=>a.building.localeCompare(b.building) + a.station.localeCompare(b.station))
-        setLocations(locations)
+        let locations = settings.locations;
+        locations = locations.sort((a,b)=>a.building.localeCompare(b.building))
+        setLocations([...locations])
     }
 
     useEffect(() => {
