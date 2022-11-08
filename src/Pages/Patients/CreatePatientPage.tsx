@@ -19,7 +19,7 @@ import { ChartingStage } from "../../Stages/CreatePatient/ChartingStage";
 import { ReviewStage } from "../../Stages/CreatePatient/ReviewStage";
 import { Database } from "../../Services/Database";
 import { PatientFinalizeStage } from "../../Stages/CreatePatient/PatientFinalizeStage";
-import { Button } from "../../Components/Form/Button";
+import { cloneDeep, isEqual } from "lodash";
 
 
 export default function CreatePatientPage() {
@@ -29,11 +29,19 @@ export default function CreatePatientPage() {
 
     
     const [patient, setPatient] = useState(createEmptyPatient());
+    const [oldPatient, setOldPatient] = useState(createEmptyPatient());
+    const db = Database.getInstance();
 
 
     const onNextClickHandler = () => {
         const stage = currentStage + 1;
         setCurrentStage(stage);
+        if(!isEqual(oldPatient,patient)) {
+            console.log("updated")
+            db.updateTemplatePatient(oldPatient,patient) // no await so it moves to the end of the stack
+            setOldPatient(cloneDeep(patient))
+        }
+        
     }
     const onPrevClickHandler = () => {
         let stage = currentStage - 1;
@@ -49,6 +57,8 @@ export default function CreatePatientPage() {
         patient.weight = basicInfo.weight
         setDOB(basicInfo.dob)
         setPatient(patient);
+        db.addTemplatePatient(patient) // no await so it moves to the end of the stack
+        setOldPatient(cloneDeep(patient))
         onNextClickHandler();
     }
 
@@ -113,7 +123,6 @@ export default function CreatePatientPage() {
 
 
     const onAddPatientClickHandler = async ()=>{
-        const db = Database.getInstance();
         await db.addTemplatePatient(patient)
         console.log("patient Added: ")
         console.log(patient)
@@ -153,11 +162,6 @@ export default function CreatePatientPage() {
                 <ReviewStage  onPrev={onPrevClickHandler} onNext={onAddPatientClickHandler} patient={patient}/>
                 <PatientFinalizeStage onPrev={console.log} />
             </Stages>
-            <Button 
-            className="absolute bottom-[10vh] w-formWidth left-1/2 -translate-x-1/2
-                       bg-red text-white shadow-lg
-            "
-            >Save for later</Button>
         </PageView>
     );
 }

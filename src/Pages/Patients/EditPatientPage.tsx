@@ -1,5 +1,5 @@
 import { faIdCard, faHouseChimneyUser, faHeadSideCough, faSyringe, faBookMedical, faHeart, faStethoscope, faMaskVentilator, faComputer, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import { clone } from "lodash";
+import { clone, cloneDeep, isEqual } from "lodash";
 import { Allergy, CustomOrder, MedicalHistory, MedicationOrder, PatientChart, StudentReport } from "nurse-o-core";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -27,15 +27,21 @@ type RouterState = {
 
 export function EditPatientPage() {
     const state = useLocation().state as RouterState;
-    const oldPatient = state.patient
+    const [oldPatient, setOldPatient] = useState(state.patient)
     const [patient, setPatient] = useState(clone(oldPatient));
     const [currentStage, setCurrentStage] = useState(0)
     const [dob, setDOB] = useState("")
+    const db = Database.getInstance();
 
 
     const onNextClickHandler = () => {
         const stage = currentStage + 1;
         setCurrentStage(stage);
+        if(!isEqual(oldPatient,patient)) {
+            console.log("updated")
+            db.updateTemplatePatient(oldPatient,patient) // no await so it moves to the end of the stack
+            setOldPatient(cloneDeep(patient))
+        }
     }
     const onPrevClickHandler = () => {
         let stage = currentStage - 1;
@@ -115,7 +121,6 @@ export function EditPatientPage() {
 
 
     const onUpdatePatientClickHandler = async () => {
-        const db = Database.getInstance();
         await db.updateTemplatePatient(oldPatient, patient)
         console.log("patient updated: ")
         console.log(patient)
