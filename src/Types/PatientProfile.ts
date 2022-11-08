@@ -35,6 +35,7 @@ export type Order = {
 
 export type CustomOrder = Order & {
     order: string,    
+    time?: Time
 }
 
 
@@ -93,26 +94,20 @@ export enum Frequency {
     q30m = "every 30 minutes",
     q1hr = "every hour",
     q2hr = "every two hours",
-    q3hr = "every two hours",
-    q4hr = "every two hours",
-    q5hr = "every two hours",
-    q6hr = "every two hours",
-    q7hr = "every two hours",
-    q8hr = "every two hours",
-    q9hr = "every two hours",
-    q10hr = "every two hours",
-    q11hr = "every two hours",
-    q12hr = "every two hours",
+    q4hr = "every four hours",
+    q6hr = "every six hours",
+    q8hr = "every eight hours",
+    q12hr = "every twelve hours",
     qhs = "daily at bedtime",
-    qd = "every day",
-    bid="two times a day",
+    qd = " daily",
+    bid="two times daily",
     qam="in the morning",
     qpm="in the evening",
     qac="before meals",
     qpc="after meals",
-    tid="three times a day",
-    qid="four times a day",
-
+    tid="three times daily",
+    qid="four times daily",
+    once = "once"
 }
 
 export class Allergy {
