@@ -1,6 +1,6 @@
 import { motion, Variants } from "framer-motion";
 import { DetailedHTMLProps, ForwardedRef, forwardRef, InputHTMLAttributes, useState } from "react";
-import {v1 as uuid} from "uuid"
+import {v4 as uuid} from "uuid"
 
 export type Props = Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "id"> & {
     optional?: boolean,
