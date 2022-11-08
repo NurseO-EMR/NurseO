@@ -4,16 +4,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export type Props = {
     icon: IconProp
     className?: string,
-    active?: boolean
+    active?: boolean,
 }
 
 export function Step(props:Props) {
     return( 
-    <div className={`p-0 bg-white rounded-full w-20 h-20 grid justify-center items-center 
-    transition-all duration-200 ${props.className}`} 
-    style={props.active ? {background: "#F63B3B"}: undefined}>
-                <FontAwesomeIcon className="text-4xl text-blue transition-all duration-200 hover:animate-bounce"
-                style={props.active ? {color: "#ffffff"}: undefined}
+    <div className={`p-0 bg-white rounded-full w-20 h-20 grid justify-center 
+    items-center text-blue text-4xl cursor-pointer
+    transition-all duration-100 ease-in-out hover:bg-red hover:text-white 
+    ${props.className}`} 
+    style={props.active ? {background: "#F63B3B"}: undefined}
+    >
+                <FontAwesomeIcon style={props.active ? {color: "#ffffff"}: undefined}
                 icon={props.icon}></FontAwesomeIcon>
             </div>
     )
