@@ -72,13 +72,13 @@ export function MedBasicInfoStage(props: Props) {
     return <BaseStage {...props} title="Let's start with the basics, brand, generic, and barcode please!" icon={faPills} onNext={onNextClickHandler}>
         <Input label="medID" value={id} disabled onChange={e => setId(e.currentTarget.value)} />
 
-        <SearchableSelect label="Generic Name" options={meds} labelKey="genericName" valueKey="id" onChange={onMedNameChangeHandler}
+        <SearchableSelect label="Generic Name" options={meds} labelKeys={["genericName"]} valueKey="id" onChange={onMedNameChangeHandler}
             creatable onCreateOption={(name) => onNewMedCreated(undefined, name)} value={id} />
         {switchBrandToFreeText ?
             <Input label="Brand Name" onChange={e => setBrandName(e.currentTarget.value)}
                 value={brandName} />
             :
-            <SearchableSelect label="Brand Name" options={meds} labelKey="brandName" valueKey="id" onChange={onMedNameChangeHandler} value={id} />
+            <SearchableSelect label="Brand Name" options={meds} labelKeys={["brandName"]} valueKey="id" onChange={onMedNameChangeHandler} value={id} />
         }
 
 
