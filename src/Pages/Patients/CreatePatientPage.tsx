@@ -119,9 +119,14 @@ export default function CreatePatientPage() {
         onNextClickHandler();
     }
 
+    const stageSkipFn = (stage:number)=>{
+        if(!(patient.name && patient.id)) console.error("first two stages are required, please use the next button to processed")
+        else setCurrentStage(stage)
+    }
+
     return (
         <PageView>
-            <Steps activeStep={currentStage}>
+            <Steps activeStep={currentStage} stageSwitchFn={stageSkipFn}>
                 <Step icon={faIdCard} />
                 <Step icon={faHouseChimneyUser} />
                 <Step icon={faHeadSideCough} />
@@ -135,15 +140,15 @@ export default function CreatePatientPage() {
             </Steps>
 
             <Stages stage={currentStage}>
-                <BasicInfoStage onPrev={onPrevClickHandler} onNext={onBasicInfoHandler} />
-                <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onSimInfoHandler} dob={dob} />
-                <AllergiesStage onPrev={onPrevClickHandler} onNext={onAllergiesHandler} />
-                <ImmunizationsStage onPrev={onPrevClickHandler} onNext={onImmunizationsHandler} />
-                <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onMedicalHistoryHandler} />
-                <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onSocialHistoryHandler} />
-                <OrdersStage onPrev={onPrevClickHandler} onNext={onMedicalOrdersHandler} />
-                <CustomOrdersStage onPrev={onPrevClickHandler} onNext={onCustomOrdersHandler} />
-                <ChartingStage onPrev={onPrevClickHandler} onNext={onReportSubmitHandler} />
+                <BasicInfoStage onPrev={onPrevClickHandler} onNext={onBasicInfoHandler} patient={patient}/>
+                <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onSimInfoHandler} dob={dob}  patient={patient}/>
+                <AllergiesStage onPrev={onPrevClickHandler} onNext={onAllergiesHandler}  patient={patient}/>
+                <ImmunizationsStage onPrev={onPrevClickHandler} onNext={onImmunizationsHandler}  patient={patient}/>
+                <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onMedicalHistoryHandler}  patient={patient}/>
+                <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onSocialHistoryHandler}  patient={patient}/>
+                <OrdersStage onPrev={onPrevClickHandler} onNext={onMedicalOrdersHandler}  patient={patient}/>
+                <CustomOrdersStage onPrev={onPrevClickHandler} onNext={onCustomOrdersHandler}  patient={patient}/>
+                <ChartingStage onPrev={onPrevClickHandler} onNext={onReportSubmitHandler}  patient={patient}/>
                 <ReviewStage  onPrev={onPrevClickHandler} onNext={onAddPatientClickHandler} patient={patient}/>
                 <PatientFinalizeStage onPrev={console.log} />
             </Stages>
