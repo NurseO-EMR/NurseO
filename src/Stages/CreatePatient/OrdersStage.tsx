@@ -75,7 +75,10 @@ export function OrdersStage(props: Props) {
     }
 
     const onLocationMoveHandler = (direction: "up" | "down", index: number) => {
-        if (index === 0 || index === orders.length - 1) { console.error("can't move this item"); return; }
+        if (index === 0 && direction === "up" || index === orders.length - 1 && direction === "down") {
+             console.error("can't move this item"); 
+             return; 
+        }
 
         const temp = orders[index]
 
@@ -146,7 +149,8 @@ export function OrdersStage(props: Props) {
                 <AnimatePresence>
                     {orders.map((order, i) =>
                         <MedicationOrdersPreviewer order={order} key={i}
-                            onUp={() => onLocationMoveHandler("up", i)} onDown={() => onLocationMoveHandler("down", i)}
+                            onUp={() => onLocationMoveHandler("up", i)}
+                            onDown={() => onLocationMoveHandler("down", i)}
                             onDelete={() => onDeleteHandler(i)} />
 
                     )}
