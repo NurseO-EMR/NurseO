@@ -10,6 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import { Database } from "../../Services/Database";
 import { SearchableSelect } from "../../Components/Form/SearchableSelect";
 import { Medication } from "nurse-o-core";
+import { broadcastError } from "../../Services/ErrorService";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,
@@ -46,8 +47,8 @@ export function OrdersStage(props: Props) {
     const onOrderAddClickHandler = () => {
 
         //check if there is med 
-        if (!id) { console.error("No med selected"); return; }
-        if (orderType === OrderType.NA) { console.error("must select order type"); return; }
+        if (!id) { broadcastError("No med selected"); return; }
+        if (orderType === OrderType.NA) {broadcastError("must select order type"); return; }
         if (!marRef.current?.checkValidity()) return;
 
         const order: MedicationOrder = {
@@ -75,7 +76,10 @@ export function OrdersStage(props: Props) {
     }
 
     const onLocationMoveHandler = (direction: "up" | "down", index: number) => {
-        if (index === 0 || index === orders.length - 1) { console.error("can't move this item"); return; }
+        if (index === 0 && direction === "up" || index === orders.length - 1 && direction === "down") {
+            broadcastError("can't move this item"); 
+             return; 
+        }
 
         const temp = orders[index]
 
@@ -134,7 +138,7 @@ export function OrdersStage(props: Props) {
         <div className="relative w-screen">
             <BaseStage {...props} onNext={onNextClickHandler} title="Medication Orders" icon={faBookMedical} moveLeft={orders.length > 0}>
                 <div className="grid grid-cols-3 gap-x-8 max-w-[50vw]">
-                    <SearchableSelect label="Medication Name" options={meds} labelKey="genericName" valueKey="id" value={id} onChange={setId} />
+                    <SearchableSelect label="Medication Name (generic)" options={meds} labelKeys={["genericName", "brandName"]} valueKey="id" value={id} onChange={setId} />
 
                     <Input label="Dose" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional placeholder="ex: 20mg/kg" />
                     <Input label="Route" onChange={e => setRoute(e.currentTarget.value)} value={route} optional />

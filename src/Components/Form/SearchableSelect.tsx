@@ -9,7 +9,7 @@ export type Props = {
     delay?: number,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options: any,
-    labelKey: string,
+    labelKeys: string[],
     valueKey: string,
     onChange: (value: string) => void,
     value?: string,
@@ -50,16 +50,21 @@ export function SearchableSelect(props: Props) {
 
 
     const getOptions = () => {
-        const output = [];
+        const output: Option[] = [];
         for (const option of props.options) {
-            if(!option[props.labelKey]) continue;
+            // if(!option[props.labelKey]) continue;
+            props.labelKeys.map(k=>{
+                if(option[k]) {
+                    const temp: Option = {
+                        value: option[props.valueKey],
+                        label: option[k]
+                    }
+                    
+                    output.push(temp);
+                }
+            })
 
-            const temp: Option = {
-                value: option[props.valueKey],
-                label: option[props.labelKey]
-            }
             
-            output.push(temp);
         }
         return output;
     }
@@ -97,21 +102,4 @@ export function SearchableSelect(props: Props) {
             }
         </motion.div>
     )
-
-
-
-
-    // return (
-    //     <motion.div className="grid text-left my-4 relative w-full" initial="hidden" animate="show" exit="exit" variants={animationVariants} >
-    //         <label htmlFor={id} className="font-normal">
-    //             <span>{props.label}</span>
-    //             <span className="opacity-75 text-sm"> {props.optional ? "(optional)" : null}</span>
-    //         </label>
-    //         <Select options={getOptions()} value={getValue()} 
-    //             onChange={(e)=>props.onChange((e as Option|undefined)?.value || "")}
-    //             isClearable={true} 
-    //             styles={customStyles} 
-    //         />
-    //     </motion.div>
-    // )
 }
