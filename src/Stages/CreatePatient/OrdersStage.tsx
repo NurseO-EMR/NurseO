@@ -10,6 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import { Database } from "../../Services/Database";
 import { SearchableSelect } from "../../Components/Form/SearchableSelect";
 import { Medication } from "nurse-o-core";
+import { broadcastError } from "../../Services/ErrorService";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,
@@ -46,8 +47,8 @@ export function OrdersStage(props: Props) {
     const onOrderAddClickHandler = () => {
 
         //check if there is med 
-        if (!id) { console.error("No med selected"); return; }
-        if (orderType === OrderType.NA) { console.error("must select order type"); return; }
+        if (!id) { broadcastError("No med selected"); return; }
+        if (orderType === OrderType.NA) {broadcastError("must select order type"); return; }
         if (!marRef.current?.checkValidity()) return;
 
         const order: MedicationOrder = {
@@ -76,7 +77,7 @@ export function OrdersStage(props: Props) {
 
     const onLocationMoveHandler = (direction: "up" | "down", index: number) => {
         if (index === 0 && direction === "up" || index === orders.length - 1 && direction === "down") {
-             console.error("can't move this item"); 
+            broadcastError("can't move this item"); 
              return; 
         }
 
