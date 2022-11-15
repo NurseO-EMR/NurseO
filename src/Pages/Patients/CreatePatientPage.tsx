@@ -20,6 +20,7 @@ import { ReviewStage } from "../../Stages/CreatePatient/ReviewStage";
 import { Database } from "../../Services/Database";
 import { PatientFinalizeStage } from "../../Stages/CreatePatient/PatientFinalizeStage";
 import { cloneDeep, isEqual } from "lodash";
+import { broadcastError } from "../../Services/ErrorService";
 
 
 export default function CreatePatientPage() {
@@ -130,7 +131,7 @@ export default function CreatePatientPage() {
     }
 
     const stageSkipFn = (stage:number)=>{
-        if(!(patient.name && patient.id)) console.error("first two stages are required, please use the next button to processed")
+        if(!(patient.name && patient.id)) broadcastError("first two stages are required, please use the next button to processed")
         else setCurrentStage(stage)
     }
 

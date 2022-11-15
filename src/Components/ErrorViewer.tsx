@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react"
+import { subscribeToErrorBroadcast, unsubscribeFromErrorBroadcast } from "../Services/ErrorService"
 
 export function ErrorViewer() {
     const [errors, setErrors] = useState<Array<string>>([])
+
+
     useEffect(()=>{
-        
+        const onErrorHandler = (e:string)=>{
+            errors.push(e)
+            setErrors([...errors])
+        }
+
+        subscribeToErrorBroadcast(onErrorHandler)
 
         setInterval(()=>{
             errors.pop()
             setErrors([...errors])
         },3000)
 
-       
+       return unsubscribeFromErrorBroadcast(onErrorHandler)
     }, [])
 
 
