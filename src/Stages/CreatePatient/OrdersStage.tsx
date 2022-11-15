@@ -102,6 +102,36 @@ export function OrdersStage(props: Props) {
         setOrders([...temp])
     }
 
+    const onEditClickHandler = (index: number) => {
+        // frequency
+        const order = orders[index];
+        const indexableFrequency:{[key: string]:string} = Frequency
+        const values = Object.values(Frequency)
+        const keys = Object.keys(Frequency)
+        const frequencyKeyIndex = values.indexOf(order.frequency as Frequency)
+        const frequencyKey = indexableFrequency[keys[frequencyKeyIndex]]
+
+        //mar
+        let marString = ""
+        for(const time of order.mar) {
+            const temp = `${time.hour.toString().padStart(2, "0")}:${time.minutes.toString().padStart(2, "0")}`
+            if(marString !== "") marString +=","
+            marString += temp
+        }
+
+        
+        setId(order.id)
+        setConcentration(order.concentration)
+        setRoute(order.route)
+        setRoutine(order.routine)
+        setPRNNote(order.PRNNote || "")
+        setFrequency(frequencyKey as Frequency)
+        setMarString(marString)
+        setNotes(order.notes)
+        setOrderType(order.orderType)
+        setCompleted(order.completed || false)
+        console.log(order.mar)
+    }
 
 
     return (
@@ -152,6 +182,7 @@ export function OrdersStage(props: Props) {
                         <MedicationOrdersPreviewer order={order} key={i}
                             onUp={() => onLocationMoveHandler("up", i)}
                             onDown={() => onLocationMoveHandler("down", i)}
+                            onEdit={() => onEditClickHandler(i)}
                             onDelete={() => onDeleteHandler(i)} />
 
                     )}
