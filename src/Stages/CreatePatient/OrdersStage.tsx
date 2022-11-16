@@ -10,7 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import { Database } from "../../Services/Database";
 import { SearchableSelect } from "../../Components/Form/SearchableSelect";
 import { Medication } from "nurse-o-core";
-import { broadcastError } from "../../Services/ErrorService";
+import { broadcastAnnouncement, Announcement } from "../../Services/ErrorService";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,
@@ -47,8 +47,8 @@ export function OrdersStage(props: Props) {
     const onOrderAddClickHandler = () => {
 
         //check if there is med 
-        if (!id) { broadcastError("No med selected"); return; }
-        if (orderType === OrderType.NA) {broadcastError("must select order type"); return; }
+        if (!id) { broadcastAnnouncement("No med selected", Announcement.error); return; }
+        if (orderType === OrderType.NA) {broadcastAnnouncement("must select order type", Announcement.error); return; }
         if (!marRef.current?.checkValidity()) return;
 
         const order: MedicationOrder = {
@@ -78,7 +78,7 @@ export function OrdersStage(props: Props) {
     const onIndexChangeHandler = (oldIndex:number, newIndex: number) => {
         console.log(oldIndex, newIndex)
         if (newIndex < 0 || newIndex >= orders.length - 1) {
-            broadcastError("can't move this item"); 
+            broadcastAnnouncement("can't move this item", Announcement.error); 
             return; 
         }
 
