@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { subscribeToAnnouncementBroadcast, unsubscribeFromAnnouncementBroadcast, Announcement } from "../Services/ErrorService"
-
+import { motion, AnimatePresence } from "framer-motion"
 type AnnouncementObject = {
     announcement: string,
     type: Announcement
@@ -14,9 +14,9 @@ export function ErrorViewer() {
         function startPopper() {
             popperStarted = true
             const interval = setInterval(() => {
-                announcements.pop()
+                announcements.splice(0, 1)
                 setAnnouncements([...announcements])
-                if(announcements.length === 0) {
+                if (announcements.length === 0) {
                     clearInterval(interval)
                     popperStarted = false
                 }
@@ -30,7 +30,7 @@ export function ErrorViewer() {
                 type
             })
             setAnnouncements([...announcements])
-            if(!popperStarted) startPopper()
+            if (!popperStarted) startPopper()
         }
 
 
@@ -39,34 +39,20 @@ export function ErrorViewer() {
 
         subscribeToAnnouncementBroadcast(onAnnouncementHandler)
 
-        return ()=>unsubscribeFromAnnouncementBroadcast(onAnnouncementHandler)
-        }, [])
+        return () => unsubscribeFromAnnouncementBroadcast(onAnnouncementHandler)
+    }, [])
 
 
-    return <div className="h-fit w-[30vw] absolute right-0 z-20 p-5 mt-24 grid gap-2">
-        {announcements.map((a, i) => {
-            if (a.type === Announcement.error) return (
-                <div key={i}
-                    className="bg-red rounded-lg min-h-max 
+    return <div className="h-fit w-[30vw] absolute right-0 z-20 p-5 mt-24 grid gap-2 overflow-x-hidden">
+        <AnimatePresence>
+            {announcements.map((a, i) => (
+                    <motion.div key={i} initial={{ x: 1000 }} animate={{ x: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="bg-red rounded-lg min-h-max 
                     break-words p-3 text-white text-lg">
-                    {a.announcement}
-                </div>
-            )
-            if (a.type === Announcement.info) return (
-                <div key={i}
-                    className="bg-info rounded-lg min-h-max 
-                    break-words p-3 text-white text-lg">
-                    {a.announcement}
-                </div>
-            )
-            if (a.type === Announcement.success) return (
-                <div key={i}
-                    className="bg-success rounded-lg min-h-max 
-                    break-words p-3 text-white text-lg">
-                    {a.announcement}
-                </div>
-            )
-        })}
-
+                        {a.announcement}
+                    </motion.div>
+            ))}
+        </AnimatePresence>
     </div>
 }
