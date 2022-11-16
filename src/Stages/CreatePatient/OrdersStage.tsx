@@ -75,23 +75,16 @@ export function OrdersStage(props: Props) {
         props.onNext(orders)
     }
 
-    const onLocationMoveHandler = (direction: "up" | "down", index: number) => {
-        if (index === 0 && direction === "up" || index === orders.length - 1 && direction === "down") {
+    const onIndexChangeHandler = (oldIndex:number, newIndex: number) => {
+        console.log(oldIndex, newIndex)
+        if (newIndex < 0 || newIndex >= orders.length - 1) {
             broadcastError("can't move this item"); 
-             return; 
+            return; 
         }
 
-        const temp = orders[index]
-
-        if (direction === "up") {
-            orders[index] = orders[index - 1];
-            orders[index - 1] = temp
-        }
-
-        if (direction === "down") {
-            orders[index] = orders[index + 1];
-            orders[index + 1] = temp
-        }
+        const temp = orders[oldIndex]
+        orders.splice(oldIndex,1)
+        orders.splice(newIndex, 0, temp)
 
         setOrders([...orders]);
     }
@@ -179,9 +172,8 @@ export function OrdersStage(props: Props) {
             <div className="absolute right-20 top-0 overflow-y-auto h-[65vh] overflow-x-hidden">
                 <AnimatePresence>
                     {orders.map((order, i) =>
-                        <MedicationOrdersPreviewer order={order} key={i}
-                            onUp={() => onLocationMoveHandler("up", i)}
-                            onDown={() => onLocationMoveHandler("down", i)}
+                        <MedicationOrdersPreviewer medOrder={order} key={i} index={i} 
+                            onIndexChangeHandler={onIndexChangeHandler}
                             onEdit={() => onEditClickHandler(i)}
                             onDelete={() => onDeleteHandler(i)} />
 

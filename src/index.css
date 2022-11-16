@@ -31,6 +31,14 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 
+/* hide them with this */
+input[type=number].hideInputArrows::-webkit-inner-spin-button , 
+input[type=number].hideInputArrows::-webkit-outer-spin-button {
+  opacity: 0;
+  display: none;
+}
+
+
 /* scroll styles */
 
 ::-webkit-scrollbar {

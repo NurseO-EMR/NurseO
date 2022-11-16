@@ -4,7 +4,7 @@ export function broadcastError(error: string) {
     for(const sup of sups) {
         sup(error)
     }
-    console.log(sups.length)
+    console.error(error)
 }
 
 
