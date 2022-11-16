@@ -134,7 +134,7 @@ export function OrdersStage(props: Props) {
                 <div className="grid grid-cols-3 gap-x-8 max-w-[50vw]">
                     <SearchableSelect label="Medication Name (generic)" options={meds} labelKeys={["genericName", "brandName"]} valueKey="id" value={id} onChange={setId} />
 
-                    <Input label="Dose" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional placeholder="ex: 20mg/kg" />
+                    <Input label="Concentration" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional placeholder="ex: 20mg/kg" />
                     <Input label="Route" onChange={e => setRoute(e.currentTarget.value)} value={route} optional />
 
                     <Select label="Routine" onChange={e => setRoutine(e.currentTarget.value as Routine)} value={routine} optional>

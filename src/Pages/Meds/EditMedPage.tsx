@@ -89,7 +89,7 @@ export function EditMedPage() {
                         <th className="border px-6">Drawer</th>
                         <th className="border px-6">Slot</th>
                         <th className="border px-6">Type</th>
-                        <th className="border px-6">Dose</th>
+                        <th className="border px-6">Concentration</th>
                         <th className="border px-6">Barcode</th>
                         <th className="border px-6">Delete</th>
                     </Tr>
