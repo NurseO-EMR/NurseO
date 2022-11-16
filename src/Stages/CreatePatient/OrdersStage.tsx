@@ -10,7 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import { Database } from "../../Services/Database";
 import { SearchableSelect } from "../../Components/Form/SearchableSelect";
 import { Medication } from "nurse-o-core";
-import { broadcastError } from "../../Services/ErrorService";
+import { broadcastAnnouncement, Announcement } from "../../Services/ErrorService";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,
@@ -47,8 +47,8 @@ export function OrdersStage(props: Props) {
     const onOrderAddClickHandler = () => {
 
         //check if there is med 
-        if (!id) { broadcastError("No med selected"); return; }
-        if (orderType === OrderType.NA) {broadcastError("must select order type"); return; }
+        if (!id) { broadcastAnnouncement("No med selected", Announcement.error); return; }
+        if (orderType === OrderType.NA) {broadcastAnnouncement("must select order type", Announcement.error); return; }
         if (!marRef.current?.checkValidity()) return;
 
         const order: MedicationOrder = {
@@ -75,25 +75,19 @@ export function OrdersStage(props: Props) {
         props.onNext(orders)
     }
 
-    const onLocationMoveHandler = (direction: "up" | "down", index: number) => {
-        if (index === 0 && direction === "up" || index === orders.length - 1 && direction === "down") {
-            broadcastError("can't move this item"); 
-             return; 
+    const onIndexChangeHandler = (oldIndex:number, newIndex: number) => {
+        console.log(oldIndex, newIndex)
+        if (newIndex < 0 || newIndex >= orders.length - 1) {
+            broadcastAnnouncement("can't move this item", Announcement.error); 
+            return; 
         }
 
-        const temp = orders[index]
-
-        if (direction === "up") {
-            orders[index] = orders[index - 1];
-            orders[index - 1] = temp
-        }
-
-        if (direction === "down") {
-            orders[index] = orders[index + 1];
-            orders[index + 1] = temp
-        }
+        const temp = orders[oldIndex]
+        orders.splice(oldIndex,1)
+        orders.splice(newIndex, 0, temp)
 
         setOrders([...orders]);
+        broadcastAnnouncement("Order Moved", Announcement.success)
     }
 
     const onDeleteHandler = (index: number) => {
@@ -179,9 +173,8 @@ export function OrdersStage(props: Props) {
             <div className="absolute right-20 top-0 overflow-y-auto h-[65vh] overflow-x-hidden">
                 <AnimatePresence>
                     {orders.map((order, i) =>
-                        <MedicationOrdersPreviewer order={order} key={i}
-                            onUp={() => onLocationMoveHandler("up", i)}
-                            onDown={() => onLocationMoveHandler("down", i)}
+                        <MedicationOrdersPreviewer medOrder={order} key={i} index={i} 
+                            onIndexChangeHandler={onIndexChangeHandler}
                             onEdit={() => onEditClickHandler(i)}
                             onDelete={() => onDeleteHandler(i)} />
 
