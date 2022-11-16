@@ -6,7 +6,7 @@ type AnnouncementObject = {
     type: Announcement
 }
 
-export function ErrorViewer() {
+export function AnnouncementViewer() {
     const [announcements, setAnnouncements] = useState<Array<AnnouncementObject>>([])
 
     useEffect(() => {
@@ -48,8 +48,12 @@ export function ErrorViewer() {
             {announcements.map((a, i) => (
                     <motion.div key={i} initial={{ x: 1000 }} animate={{ x: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="bg-red rounded-lg min-h-max 
-                    break-words p-3 text-white text-lg">
+                        className={`rounded-lg min-h-max 
+                    break-words p-3 text-white text-lg
+                    ${a.type === Announcement.error ? "bg-red" : null}
+                    ${a.type === Announcement.info ? "bg-info" : null}
+                    ${a.type === Announcement.success ? "bg-success" : null}
+                    `}>
                         {a.announcement}
                     </motion.div>
             ))}

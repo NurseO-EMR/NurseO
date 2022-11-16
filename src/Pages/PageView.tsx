@@ -3,7 +3,7 @@ import {getAuth} from "firebase/auth"
 import { Background } from "../Components/Background";
 import { Nav } from "../Components/Nav/Nav";
 import { useNavigate } from "react-router-dom";
-import { ErrorViewer } from "../Components/ErrorViewer";
+import { AnnouncementViewer } from "../Components/AnnouncementViewer";
 
 type Props = {
     children: ReactNode
@@ -34,7 +34,7 @@ export default function PageView(props: Props) {
             </footer>
 
 
-            <ErrorViewer />
+            <AnnouncementViewer />
 
         </div>
 

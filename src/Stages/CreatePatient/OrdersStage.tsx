@@ -87,6 +87,7 @@ export function OrdersStage(props: Props) {
         orders.splice(newIndex, 0, temp)
 
         setOrders([...orders]);
+        broadcastAnnouncement("Order Moved", Announcement.success)
     }
 
     const onDeleteHandler = (index: number) => {
