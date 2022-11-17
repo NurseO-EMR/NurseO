@@ -51,7 +51,7 @@ export function CustomOrdersStage(props: Props) {
                  onChange={e=>setTime(e.currentTarget.value)} />
 
                 <label className="block text-left">Entry: </label>
-                <textarea className="border p-2" cols={45} rows={5}
+                <textarea className="border p-2" cols={45} rows={5} value={order}
                  onChange={e=>setOrder(e.currentTarget.value)} />
 
                 <Select label="Order Type" value={orderType}
