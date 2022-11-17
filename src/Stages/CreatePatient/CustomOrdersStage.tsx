@@ -1,15 +1,13 @@
-import { faMaskVentilator, faSquareCaretDown, faSquareCaretUp } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMaskVentilator } from "@fortawesome/free-solid-svg-icons";
 import { CustomOrder, OrderKind, OrderType, PatientChart } from "nurse-o-core";
 import { useState } from "react";
 import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
-import { ArrayPreviewer } from "../../Components/Stages/ArrayPreviewer";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { Td } from "../../Components/Table/Td";
-import { Tr } from "../../Components/Table/Tr";
-import { makeTimeObject, convertTimeToString } from "../../Services/Util";
+import { CustomOrderPreviewer } from "../../Components/Stages/CustomOrders/CustomOrderPreviewer";
+import { broadcastAnnouncement, Announcement } from "../../Services/ErrorService";
+import { makeTimeObject } from "../../Services/Util";
 
 export type Props = BaseStageProps & {
     onNext: (orders: CustomOrder[]) => void,
@@ -33,6 +31,20 @@ export function CustomOrdersStage(props: Props) {
         })
         setOrders([...orders]);
         setOrder("");
+    }
+
+    const onIndexChangeHandler = (oldIndex:number, newIndex: number) => {
+        if (newIndex < 0 || newIndex > orders.length - 1) {
+            broadcastAnnouncement("can't move this item", Announcement.error); 
+            return; 
+        }
+
+        const temp = orders[oldIndex]
+        orders.splice(oldIndex,1)
+        orders.splice(newIndex, 0, temp)
+
+        setOrders([...orders]);
+        broadcastAnnouncement("Order Moved", Announcement.success)
     }
 
 
@@ -64,37 +76,10 @@ export function CustomOrdersStage(props: Props) {
                     className="bg-blue my-4">Add Custom Order Entry</Button>
             </BaseStage>
 
+            <CustomOrderPreviewer orders={orders}
+             onDeleteClickHandler={onDeleteClickHandler} 
+             onIndexChangeHandler={onIndexChangeHandler}/>
 
-
-            <ArrayPreviewer headerItems={["Type", "Time", "Order", "Delete", ""]} show={orders.length > 0} title="Added Custom Orders"
-                className="hover:w-[60rem] transition-all">
-                {orders.map((entry, i) =>
-                    <Tr key={i}>
-                        <Td><pre>{entry.orderType}</pre></Td>
-                        <Td><pre>{entry.time ? convertTimeToString(entry.time) : null}</pre></Td>
-                        <Td><pre className="whitespace-pre-wrap w-[33rem]">{entry.order}</pre></Td>
-                        <Td className="px-0">
-                            <button className="bg-red min-w-full h-10 text-white font-bold"
-                                onClick={() => onDeleteClickHandler(i)}>Delete</button>
-                        </Td>
-                        <Td>
-                            <div className="grid text-xl items-center w-10 justify-items-center">
-                                <FontAwesomeIcon className="cursor-pointer"
-                                    onClick={console.log} icon={faSquareCaretUp} />
-
-                                <input type={"number"} className="w-full hideInputArrows border text-center"
-                                    value={i} onBlur={console.log}
-                                    onChange={console.log}
-                                />
-
-                                <FontAwesomeIcon className="cursor-pointer"
-                                    onClick={console.log} icon={faSquareCaretDown} />
-                            </div>
-
-                        </Td>
-                    </Tr>
-                )}
-            </ArrayPreviewer>
 
         </div>
     )
