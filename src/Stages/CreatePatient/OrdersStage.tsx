@@ -67,6 +67,16 @@ export function OrdersStage(props: Props) {
 
         orders.push(order)
         setOrders([...orders]);
+        setId("")
+        setConcentration("")
+        setRoute("")
+        setRoutine(Routine.NA)
+        setPRNNote("")
+        setFrequency(Frequency.NA)
+        setMarString("")
+        setNotes("")
+        setOrderType(OrderType.NA)
+        setCompleted(false)
 
     }
 
