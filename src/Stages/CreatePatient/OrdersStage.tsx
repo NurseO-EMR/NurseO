@@ -76,8 +76,7 @@ export function OrdersStage(props: Props) {
     }
 
     const onIndexChangeHandler = (oldIndex:number, newIndex: number) => {
-        console.log(oldIndex, newIndex)
-        if (newIndex < 0 || newIndex >= orders.length - 1) {
+        if (newIndex < 0 || newIndex > orders.length - 1) {
             broadcastAnnouncement("can't move this item", Announcement.error); 
             return; 
         }
