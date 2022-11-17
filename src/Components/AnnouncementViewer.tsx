@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { subscribeToAnnouncementBroadcast, unsubscribeFromAnnouncementBroadcast, Announcement } from "../Services/ErrorService"
+import { subscribeToAnnouncementBroadcast, unsubscribeFromAnnouncementBroadcast, Announcement } from "../Services/AnnouncementService"
 import { motion, AnimatePresence } from "framer-motion"
 type AnnouncementObject = {
     announcement: string,

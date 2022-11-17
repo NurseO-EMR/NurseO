@@ -10,7 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import { Database } from "../../Services/Database";
 import { SearchableSelect } from "../../Components/Form/SearchableSelect";
 import { Medication } from "nurse-o-core";
-import { broadcastAnnouncement, Announcement } from "../../Services/ErrorService";
+import { broadcastAnnouncement, Announcement } from "../../Services/AnnouncementService";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,

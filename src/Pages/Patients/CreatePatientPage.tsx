@@ -20,7 +20,7 @@ import { ReviewStage } from "../../Stages/CreatePatient/ReviewStage";
 import { Database } from "../../Services/Database";
 import { PatientFinalizeStage } from "../../Stages/CreatePatient/PatientFinalizeStage";
 import { cloneDeep, isEqual } from "lodash";
-import { Announcement, broadcastAnnouncement } from "../../Services/ErrorService";
+import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
 
 
 export default function CreatePatientPage() {

@@ -6,7 +6,7 @@ import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
 import { CustomOrderPreviewer } from "../../Components/Stages/CustomOrders/CustomOrderPreviewer";
-import { broadcastAnnouncement, Announcement } from "../../Services/ErrorService";
+import { broadcastAnnouncement, Announcement } from "../../Services/AnnouncementService";
 import { makeTimeObject } from "../../Services/Util";
 
 export type Props = BaseStageProps & {
