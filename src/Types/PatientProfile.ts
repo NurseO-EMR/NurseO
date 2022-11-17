@@ -43,7 +43,7 @@ export type MedicationOrder  = Order & {
     id: string;
     concentration:string;
     route: string;
-    frequency: string;
+    frequency: Frequency;
     routine: Routine;
     PRNNote: string | null;
     notes: string;
@@ -107,7 +107,8 @@ export enum Frequency {
     qpc="after meals",
     tid="three times daily",
     qid="four times daily",
-    once = "once"
+    once = "once",
+    continuous  = "continuous"
 }
 
 export class Allergy {
