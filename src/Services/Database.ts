@@ -9,6 +9,7 @@ import { findIndex } from "lodash";
 import {PatientChart} from "nurse-o-core"
 import { Cache } from "./Cache";
 import { Medication, Settings } from "nurse-o-core";
+import { Announcement, broadcastAnnouncement } from "./AnnouncementService";
 
 export class Database {
     private static instance: Database;
@@ -104,6 +105,7 @@ export class Database {
     async addTemplatePatient(patient: PatientChart) {
         this.patientListCached = false;
         await addDoc(collection(this.db, "templatePatients"), patient);
+        broadcastAnnouncement("Patient Added", Announcement.success)
     }
 
     async getTemplatePatients(): Promise<PatientChart[]> {
@@ -132,6 +134,7 @@ export class Database {
         const patient = { ...newPatient };
         this.patientListCached = false;
         await updateDoc(ref, patient);
+        broadcastAnnouncement("Patient Updated", Announcement.success)
     }
 
     private async getTemplatePatientRef(patient: PatientChart): Promise<DocumentReference> {
