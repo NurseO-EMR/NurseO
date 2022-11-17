@@ -1,4 +1,4 @@
-import { faIdCard, faHouseChimneyUser, faHeadSideCough, faSyringe, faBookMedical, faHeart, faStethoscope, faMaskVentilator, faComputer, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
+import { faIdCard, faHouseChimneyUser, faHeadSideCough, faSyringe, faBookMedical, faHeart, faStethoscope, faComputer, faFileInvoice, faPills } from "@fortawesome/free-solid-svg-icons";
 import { clone, cloneDeep, isEqual } from "lodash";
 import { Allergy, CustomOrder, MedicalHistory, MedicationOrder, PatientChart, StudentReport } from "nurse-o-core";
 import { useState } from "react";
@@ -136,8 +136,8 @@ export function EditPatientPage() {
             <Step icon={faSyringe} />
             <Step icon={faBookMedical} />
             <Step icon={faHeart} />
+            <Step icon={faPills} />
             <Step icon={faStethoscope} />
-            <Step icon={faMaskVentilator} />
             <Step icon={faComputer} />
             <Step icon={faFileInvoice} />
         </Steps>

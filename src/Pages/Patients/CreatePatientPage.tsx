@@ -1,5 +1,5 @@
 import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough,
-     faHouseChimneyUser, faSyringe, faMaskVentilator, faComputer, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
+     faHouseChimneyUser, faSyringe, faComputer, faFileInvoice, faPills } from "@fortawesome/free-solid-svg-icons";
 import PageView from "../PageView";
 import { Step } from "../../Components/Steps/Step";
 import { Steps } from "../../Components/Steps/Steps";
@@ -144,8 +144,8 @@ export default function CreatePatientPage() {
                 <Step icon={faSyringe} />
                 <Step icon={faBookMedical} />
                 <Step icon={faHeart} />
+                <Step icon={faPills} />
                 <Step icon={faStethoscope} />
-                <Step icon={faMaskVentilator} />
                 <Step icon={faComputer} />       
                 <Step icon={faFileInvoice} />       
             </Steps>
