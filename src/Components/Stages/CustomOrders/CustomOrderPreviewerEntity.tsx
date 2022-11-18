@@ -2,7 +2,6 @@ import { faSquareCaretUp, faSquareCaretDown } from "@fortawesome/free-solid-svg-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CustomOrder } from "nurse-o-core";
 import { useState, FocusEvent } from "react";
-import { convertTimeToString } from "../../../Services/Util";
 import { Td } from "../../Table/Td";
 import { Tr } from "../../Table/Tr";
 
@@ -23,7 +22,7 @@ export function CustomOrderPreviewerEntity(props:Props) {
 
     return <Tr>
         <Td><pre>{props.order.orderType}</pre></Td>
-        <Td><pre>{props.order.time ? convertTimeToString(props.order.time) : null}</pre></Td>
+        <Td><pre>{props.order.time}</pre></Td>
         <Td><pre className="whitespace-pre-wrap w-[33rem]">{props.order.order}</pre></Td>
         <Td className="px-0">
             <button className="bg-red min-w-full h-10 text-white font-bold"

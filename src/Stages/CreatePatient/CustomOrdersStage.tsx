@@ -7,7 +7,6 @@ import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
 import { CustomOrderPreviewer } from "../../Components/Stages/CustomOrders/CustomOrderPreviewer";
 import { broadcastAnnouncement, Announcement } from "../../Services/AnnouncementService";
-import { makeTimeObject } from "../../Services/Util";
 
 export type Props = BaseStageProps & {
     onNext: (orders: CustomOrder[]) => void,
@@ -27,7 +26,7 @@ export function CustomOrdersStage(props: Props) {
             order,
             orderType,
             orderKind: OrderKind.custom,
-            time: makeTimeObject(time)
+            time,
         })
         setOrders([...orders]);
         setOrder("");
@@ -60,7 +59,7 @@ export function CustomOrdersStage(props: Props) {
     return (
         <div className="overflow-hidden relative">
             <BaseStage {...props} onNext={onNextClickHandler} title="Custom Orders" icon={faMaskVentilator} moveLeft={orders.length > 0}>
-                <Input label="Time" type={"time"} value={time}
+                <Input label="Time" value={time}
                     onChange={e => setTime(e.currentTarget.value)} />
 
                 <label className="block text-left">Entry: </label>
