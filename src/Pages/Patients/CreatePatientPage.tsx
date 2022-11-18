@@ -56,6 +56,7 @@ export default function CreatePatientPage() {
         patient.gender = basicInfo.gender
         patient.height = basicInfo.height
         patient.weight = basicInfo.weight
+        patient.diagnosis = basicInfo.diagnosis
         setDOB(basicInfo.dob)
         setPatient(patient);
         db.addTemplatePatient(patient) // no await so it moves to the end of the stack

@@ -12,7 +12,7 @@ export type BasicInfo = {
     gender: Gender,
     height: string,
     weight: string
-    
+    diagnosis: string
 }
 
 export type Props = BaseStageProps & {
@@ -28,6 +28,7 @@ export function BasicInfoStage(props: Props) {
     const [gender, setGender] = useState(patient?.gender || "" as Gender)
     const [height, setHeight] = useState<number>(breakUnitFromNumber("cm",patient?.height))
     const [weight, setWeight] = useState<number>(breakUnitFromNumber("kg",patient?.weight))
+    const [diagnosis, setDiagnosis] = useState(patient?.diagnosis || "")
     
     const onNextClickHandler = ()=>{
         const basicInfo:BasicInfo = {
@@ -36,6 +37,7 @@ export function BasicInfoStage(props: Props) {
             gender,
             height: height + "cm",
             weight: weight + "kg",
+            diagnosis
         }
         props.onNext(basicInfo)
     }
@@ -53,7 +55,10 @@ export function BasicInfoStage(props: Props) {
                 </Select>
                 <Input label="Height" suffix="cm" type="number" onChange={e=>setHeight(Number.parseInt(e.currentTarget.value))} value={height}/>
                 <Input label="Weight" suffix="kg" type="number" step={0.5} onChange={e=>setWeight(Number.parseFloat(e.currentTarget.value))} value={weight}/> 
-                              
+                <label className="block text-left">Diagnosis: </label>
+                <textarea className="border w-full p-2" cols={45} rows={5} 
+                    value={diagnosis} onChange={e=>setDiagnosis(e.currentTarget.value)} 
+                />
         </BaseStage>
     )
 
