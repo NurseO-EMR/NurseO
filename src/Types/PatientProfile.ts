@@ -31,12 +31,12 @@ export class PatientChart {
 
 export type Order = {
     orderKind: OrderKind,
-    orderType: OrderType
+    orderType: OrderType,
+    time?: string
 }
 
 export type CustomOrder = Order & {
     order: string,    
-    time?: string
 }
 
 
