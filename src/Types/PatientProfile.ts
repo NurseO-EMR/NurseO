@@ -26,6 +26,7 @@ export class PatientChart {
     notes: Note[] = [];
     studentUID: string = "";
     labDocURL: string = "";
+    diagnosis?: string = ""
 };
 
 export type Order = {
@@ -35,7 +36,7 @@ export type Order = {
 
 export type CustomOrder = Order & {
     order: string,    
-    time?: Time
+    time?: string
 }
 
 
@@ -79,6 +80,7 @@ export enum OrderType {
     NA = "",
     admission = "Admission",
     standing = "Standing",
+    provider = "Provider",
 }
 
 export enum Routine {
