@@ -3,6 +3,10 @@ import { Database } from "./../Services/Database"
 import { useNavigate } from 'react-router-dom';
 import { Background } from '../Components/Background';
 import { PatientChart } from 'nurse-o-core';
+import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { $locationID } from '../Services/State';
+import { getAuth } from 'firebase/auth';
 
 
 export function SelectPatient() {
@@ -27,6 +31,12 @@ export function SelectPatient() {
         if (patientExist) navigate("/dashboard");
     }
 
+    const onLogoutClickHandler = async () => {
+        const auth = getAuth()
+        await auth.signOut();
+        navigate("/?location=" + $locationID.value)
+        window.location.reload();
+    }
 
     return (
         <div>
@@ -34,6 +44,8 @@ export function SelectPatient() {
             <div className="grid justify-center h-screen w-screen content-center text-center">
                 <div className="bg-white p-10 rounded-4xl border-red-500 border-8 w-[60vw] max-h-[80vh] overflow-y-auto"
                  onSubmit={e => e.preventDefault()}>
+                    <FontAwesomeIcon icon={faArrowLeftLong} onClick={onLogoutClickHandler}
+                    className="text-2xl mr-10 cursor-pointer block" /> 
                     <h1 className='my-4 font-bold text-3xl'>Select your patient from the list here</h1>
                     <table className='w-full border text-left'>
                         <thead>
