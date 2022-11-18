@@ -133,7 +133,6 @@ export function OrdersStage(props: Props) {
         setNotes(order.notes)
         setOrderType(order.orderType)
         setCompleted(order.completed || false)
-        console.log(order.mar)
     }
 
 
