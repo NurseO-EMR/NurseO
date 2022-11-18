@@ -43,7 +43,7 @@ export function MedFinalizeStage(props: Props) {
                         <th className="border px-2">Drawer</th>
                         <th className="border px-2">Slot</th>
                         <th className="border px-2">Type</th>
-                        <th className="border px-2">Dose</th>
+                        <th className="border px-2">Concentration</th>
                         <th className="border px-2">Barcode</th>
                     </Tr>
                 </thead>
