@@ -20,22 +20,17 @@ export default class Orders extends React.Component<Props, State> {
         super(props)
         let filteredOrders: Order[] = [];
 
-        //remove ones with no order type
-
         // if the order type prop provided then show only that order type
         if(this.props.orderType) {
             filteredOrders = filter(this.props.orders, order => order.orderType !== OrderType.NA && order.orderType === this.props.orderType)
         } else {
             filteredOrders = filter(this.props.orders, order=>order.orderType !== OrderType.NA)
         }
-        // the provider order tab is protected by its own component
 
         this.state = {filteredOrders}
     }
 
     public render() {	
-        console.log(this.props.orders)
-
         return (
             <Card className={this.props.className} title={this.props.orderType? this.props.orderType + " Orders" : "Orders"}>
             <thead className="font-bold">
@@ -45,9 +40,9 @@ export default class Orders extends React.Component<Props, State> {
                 </tr>
             </thead>
             <tbody>
-                {this.state.filteredOrders ? 
+                {this.state.filteredOrders && this.state.filteredOrders.length > 0 ? 
                     this.state.filteredOrders.map((order,i) => <OrderEntry key={i} order={order}></OrderEntry>): 
-                    <tr><td><h1>No orders added</h1></td></tr>
+                    <tr><td className='p-2'><h1>No orders added</h1></td></tr>
                 }
             </tbody>
         </Card>

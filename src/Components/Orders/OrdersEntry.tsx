@@ -33,6 +33,7 @@ export default class OrderEntry extends React.Component<Props, State> {
             <>
             <tr onClick={this.onClickHandler.bind(this)} 
               className="hover:bg-primary hover:text-white transition-all duration-200  even:bg-gray-300 cursor-pointer">
+                <td className="border-2 p-2">{this.props.order.time}</td>
                 <td className="border-2 p-2">{this.props.order.orderType}</td>
                 <td className="border-2 p-2">
                     {this.props.order.orderKind === OrderKind.med ? 

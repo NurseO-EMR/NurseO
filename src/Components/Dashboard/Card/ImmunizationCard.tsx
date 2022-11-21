@@ -19,7 +19,9 @@ export default class ImmunizationCard extends React.Component<Props> {
             <tbody>
                 {this.props.immunizations?.length === 0 ? 
                     <tr><td colSpan={2} className='text-center p-2'><h1>No immunizations record found</h1></td></tr>:
-                    this.props.immunizations!.map((immunization,i) => <td key={i}>{immunization}</td> )
+                    this.props.immunizations!.map((immunization,i) => <tr className='border'>
+                        <td className='px-4 py-2' key={i}>{immunization}</td>
+                    </tr> )
                 }
             </tbody>
         </Card>

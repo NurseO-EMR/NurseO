@@ -26,9 +26,13 @@ export default class MedicationOrderSyntax extends React.Component<Props, State>
     }
 
     public render() {	
-        return (
-            <BaseMedicationOrderSyntax medName={this.state.medication?.name || "Loading..."} order={this.props.order} />
+        if(this.state.medication) {
+            return (
+                <BaseMedicationOrderSyntax med={this.state.medication} order={this.props.order} />
 
-        );
+            );
+        } else {
+            return "loading..."
+        }
     }	
 }

@@ -35,6 +35,7 @@ export default class StudentViewPage extends React.Component<Props> {
                     <SideNavHeader href="/studentView/orders/all">Orders</SideNavHeader>
                     <SideNavItem href="/studentView/orders/admission">Admission Orders</SideNavItem>
                     <SideNavItem href="/studentView/orders/standing">Standing Orders</SideNavItem>
+                    <SideNavItem href="/studentView/orders/provider">Provider Orders</SideNavItem>
 
                     <SideNavHeader href="/studentView/mar">Mar</SideNavHeader>
                     <SideNavItem href="/studentView/mar">View Mar</SideNavItem>

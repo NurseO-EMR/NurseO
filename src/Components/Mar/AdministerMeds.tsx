@@ -27,7 +27,7 @@ export default function AdministerMeds(props: Props) {
         if (medIndex > -1) {
             const med = await db.getMedicationById(patient!.medicationOrders[medIndex].id);
             setScannedMedicationOrder(patient?.medicationOrders[medIndex])
-            if (med) setScannedMedicationName(med.name)
+            if (med) setScannedMedicationName(med.genericName || med.brandName || "")
         } else {
             setMedicationNotFound(true)
         }

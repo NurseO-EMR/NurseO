@@ -22,6 +22,7 @@ export default class Mar extends React.Component<Props, State> {
         this.state = {
             filteredOrders: this.props.orders
         }
+        console.log("init")
     }
 
     getTimeSlots() {
@@ -31,6 +32,8 @@ export default class Mar extends React.Component<Props, State> {
         output.push(this.props.simTime.hour)
         output = uniq(output);
         output = output.sort((a,b) => a - b);
+        const lastSlot = output[output.length-1]
+        output.push(...[lastSlot+1, lastSlot+2])
         return output;
     }
 

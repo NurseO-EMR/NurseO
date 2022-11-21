@@ -29,6 +29,7 @@ export default class OrdersCard extends React.Component<Props, State> {
             <Card title="Orders" className={this.props.className}>
                 <thead className="font-bold">
                     <tr>
+                        <td className="border-2 p-2">Time</td>
                         <td className="border-2 p-2">Order Type</td>
                         <td className="border-2 p-2">Order</td>
                     </tr>
