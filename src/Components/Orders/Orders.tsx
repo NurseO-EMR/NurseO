@@ -34,8 +34,6 @@ export default class Orders extends React.Component<Props, State> {
     }
 
     public render() {	
-        console.log(this.props.orders)
-
         return (
             <Card className={this.props.className} title={this.props.orderType? this.props.orderType + " Orders" : "Orders"}>
             <thead className="font-bold">
@@ -45,9 +43,9 @@ export default class Orders extends React.Component<Props, State> {
                 </tr>
             </thead>
             <tbody>
-                {this.state.filteredOrders ? 
+                {this.state.filteredOrders && this.state.filteredOrders.length > 0 ? 
                     this.state.filteredOrders.map((order,i) => <OrderEntry key={i} order={order}></OrderEntry>): 
-                    <tr><td><h1>No orders added</h1></td></tr>
+                    <tr><td className='p-2'><h1>No orders added</h1></td></tr>
                 }
             </tbody>
         </Card>
