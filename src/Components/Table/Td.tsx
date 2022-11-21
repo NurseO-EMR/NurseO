@@ -1,7 +1,7 @@
 import { ReactChild } from "react"
 
 type Props = {
-    children: ReactChild,
+    children: ReactChild | ReactChild[],
     className?:string
 }
 export function Td(props:Props) {

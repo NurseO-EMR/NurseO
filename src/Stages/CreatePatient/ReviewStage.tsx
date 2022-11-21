@@ -1,5 +1,5 @@
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import { MedicationOrderSyntax, PatientChart } from "nurse-o-core";
+import {PatientChart } from "nurse-o-core";
 import { useState } from "react";
 import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
 import { ReviewItem } from "../../Components/Stages/Review/ReviewItem";
@@ -18,12 +18,13 @@ export function ReviewStage(props: Props) {
 
     const [loading, setLoading] = useState(false)
 
-    const onNextClickHandler = ()=>{
+
+    const onNextClickHandler = () => {
         setLoading(true)
         props.onNext()
     }
 
-    return <BaseStage {...props} title="Review" icon={faFileInvoice} onNext={onNextClickHandler} customNextText={loading ? "Loading..." : props.customNextText  || "Add Patient"}>
+    return <BaseStage {...props} title="Review" icon={faFileInvoice} onNext={onNextClickHandler} customNextText={loading ? "Loading..." : props.customNextText || "Add Patient"}>
         <ReviewSection title="Basic Info">
             <ReviewItem label="Name" value={props.patient.name} />
             <ReviewItem label="DOB" value={props.patient.dob} />
@@ -83,16 +84,19 @@ export function ReviewStage(props: Props) {
 
             : <></>}
 
-        {props.patient.medicationOrders.length > 0 ?
+        {/* {props.patient.medicationOrders.length > 0 ?
             <ReviewSection title="Medication Order">
-                {props.patient.medicationOrders.map((o, i) =>
-                    <div key={i}>
-                        <ReviewItem label={"Order" + i} value={<MedicationOrderSyntax medName="sample" order={o} />} />
+                {props.patient.medicationOrders.map((o, i) =>{
+                    const db = Database.getInstance()
+                    const med = db.getMedication(o.id)
+                    return <div key={i}>
+                        <ReviewItem label={"Order" + i} value={<MedicationOrderSyntax  med={med} order={o} />} />
                         <ReviewItem label={"Order" + i + "Type"} value={o.orderType} />
                     </div>
+                }
                 )}
             </ReviewSection>
-            : <></>}
+            : <></>} */}
         {props.patient.customOrders.length > 0 ?
             <ReviewSection title="Custom Order">
                 {props.patient.customOrders.map((o, i) =>
@@ -117,14 +121,14 @@ export function ReviewStage(props: Props) {
                         </Tr>
                     </thead>
                     <tbody>
-                        {props.patient.studentReports.map((r, i) => 
-                        <Tr key={i}>
-                            <Td>{r.date}</Td>
-                            <Td>{r.time}</Td>
-                            <Td>{r.setName}</Td>
-                            <Td>{r.vitalName}</Td>
-                            <Td>{r.value}</Td>
-                        </Tr>
+                        {props.patient.studentReports.map((r, i) =>
+                            <Tr key={i}>
+                                <Td>{r.date}</Td>
+                                <Td>{r.time}</Td>
+                                <Td>{r.setName}</Td>
+                                <Td>{r.vitalName}</Td>
+                                <Td>{r.value}</Td>
+                            </Tr>
 
                         )}
                     </tbody>

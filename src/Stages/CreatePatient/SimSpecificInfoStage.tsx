@@ -5,6 +5,7 @@ import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
 import { DateFormat } from "../../Services/DateFormat";
+import { makeTimeObject, convertTimeToString } from "../../Services/Util";
 
 
 export type SimSpecificInfo = {
@@ -80,18 +81,6 @@ function changeDOBFormat(dob: string, format: DateFormat) {
 }
 
 
-function makeTimeObject(timeString: string) {
-    const splited = timeString.split(":");
-    const output: Time = {
-        hour: Number.parseInt(splited[0]),
-        minutes: Number.parseInt(splited[1]),
-    }
-    return output
-}
-
-function convertTimeToString(time:Time):string {
-    return `${time.hour.toString().padStart(2,"0")}:${time.minutes.toString().padStart(2,"0")}`
-}
 
 
 function getDateFormat(dob: string):DateFormat {

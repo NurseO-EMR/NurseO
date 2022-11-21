@@ -64,7 +64,7 @@ export function MedLocationStage(props: Props) {
 
             <Input label="Drawer Name" onChange={e=>setDrawerName(e.currentTarget.value)} value={drawerName} placeholder="A1, A2, C2"/>
             <Input label="Slot Name" onChange={e=>setSlotName(e.currentTarget.value)} value={slotName} placeholder="slot 1, slot A, ...etc"/>
-            <Input label="Dose" onChange={e => setDose(e.currentTarget.value)} value={dose} placeholder="20mg, 40mg, 20ml"/>
+            <Input label="Concentration" onChange={e => setDose(e.currentTarget.value)} value={dose} placeholder="20mg, 40mg, 20ml"/>
             <Input label="Type" onChange={e => setType(e.currentTarget.value)} value={type} placeholder="tablet, pill, suppository, ...etc."/>
             <Input label="Barcode" onChange={e => setBarcode(e.currentTarget.value)} value={barcode} />
         </div>

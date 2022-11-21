@@ -1,5 +1,6 @@
 import { faBuilding, faGear, faIdCard, faPills } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { AutoChecker } from "../Components/AutoChecker";
 import { DashboardNavCard } from "../Components/DashboardNavCard";
 import PageView from "./PageView";
 
@@ -34,6 +35,9 @@ export default function DashboardPage() {
                     <DashboardNavCard icon={faGear} title="Settings ( DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING)">
                         <Link to={"/settings/rawEdit"}>RAW Settings Editor</Link>
                     </DashboardNavCard>
+                    <Link to={"/issues"} className="mx-auto min-w-[20vw]">
+                        <AutoChecker />
+                    </Link>
                 </div>
 
             </div>

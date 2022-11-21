@@ -14,7 +14,7 @@ export function PatientFinalizeStage(props: Props) {
         navigate("/")
     }
 
-    return <BaseStage {...props} title="Cognations" icon={faFileInvoice} onNext={onNextClickHandler} customNextText="Go Home" hideBackButton>
+    return <BaseStage {...props} title="Congratulations" icon={faFileInvoice} onNext={onNextClickHandler} customNextText="Go Home" hideBackButton>
         <div>
             <h1>
                 {props.customMessage || "Your patient has been added!"}

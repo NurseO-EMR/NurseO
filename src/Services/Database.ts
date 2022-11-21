@@ -3,29 +3,27 @@ import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
     limit, query, updateDoc, where, doc, getDoc, orderBy, deleteDoc,
      Firestore
+     
 } from "firebase/firestore";
 import { findIndex } from "lodash";
 import {PatientChart} from "nurse-o-core"
 import { Cache } from "./Cache";
 import { Medication, Settings } from "nurse-o-core";
+import { Announcement, broadcastAnnouncement } from "./AnnouncementService";
 
 export class Database {
     private static instance: Database;
     // private patient: PatientChart;
     private db: Firestore;
-    private patientDocRef: DocumentReference | null;
-    private currentPatientID: string | null | undefined;
+
     private cache: Cache;
     private medListCached: boolean;
     private patientListCached: boolean;
-
     constructor(firebaseConfig: any) {
         initializeApp(firebaseConfig);
         this.db = getFirestore();
         // connectFirestoreEmulator(this.db, "localhost", 8080);
-        this.patientDocRef = null;
-        this.currentPatientID = null;
-        this.cache = new Cache();
+        this.cache = Cache.initialize();
         this.medListCached = false;
         this.patientListCached = false
 
@@ -51,13 +49,8 @@ export class Database {
 
 
     async getMedications(): Promise<Medication[]> {
-        if (this.medListCached) {
-            const cachedMeds = this.cache.getMeds();
-            return cachedMeds;
-        }
-        
         console.log("getting medications from db")
-        const q = query(collection(this.db, "medications"), orderBy("name"));
+        const q = query(collection(this.db, "medications"));
         const docs = (await getDocs(q)).docs
         const medications = docs.map(doc => doc.data()) as Medication[];
         this.cache.cacheMultipleMeds(medications);
@@ -112,6 +105,7 @@ export class Database {
     async addTemplatePatient(patient: PatientChart) {
         this.patientListCached = false;
         await addDoc(collection(this.db, "templatePatients"), patient);
+        broadcastAnnouncement("Patient Added", Announcement.success)
     }
 
     async getTemplatePatients(): Promise<PatientChart[]> {
@@ -140,6 +134,7 @@ export class Database {
         const patient = { ...newPatient };
         this.patientListCached = false;
         await updateDoc(ref, patient);
+        broadcastAnnouncement("Patient Updated", Announcement.success)
     }
 
     private async getTemplatePatientRef(patient: PatientChart): Promise<DocumentReference> {

@@ -10,7 +10,9 @@ module.exports = {
       blue: "#3b81fa",
       red: "#f53c3a",
       darkGray: "#7a7a7a",
-      disabled: "#f3f6f8"
+      disabled: "#f3f6f8",
+      info: "#075985",
+      success: "#059669"
     },
     extend: {
       width: {

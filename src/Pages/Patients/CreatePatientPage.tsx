@@ -1,5 +1,5 @@
 import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough,
-     faHouseChimneyUser, faSyringe, faMaskVentilator, faComputer, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
+     faHouseChimneyUser, faSyringe, faComputer, faFileInvoice, faPills } from "@fortawesome/free-solid-svg-icons";
 import PageView from "../PageView";
 import { Step } from "../../Components/Steps/Step";
 import { Steps } from "../../Components/Steps/Steps";
@@ -19,6 +19,8 @@ import { ChartingStage } from "../../Stages/CreatePatient/ChartingStage";
 import { ReviewStage } from "../../Stages/CreatePatient/ReviewStage";
 import { Database } from "../../Services/Database";
 import { PatientFinalizeStage } from "../../Stages/CreatePatient/PatientFinalizeStage";
+import { cloneDeep, isEqual } from "lodash";
+import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
 
 
 export default function CreatePatientPage() {
@@ -28,11 +30,19 @@ export default function CreatePatientPage() {
 
     
     const [patient, setPatient] = useState(createEmptyPatient());
+    const [oldPatient, setOldPatient] = useState(createEmptyPatient());
+    const db = Database.getInstance();
 
 
     const onNextClickHandler = () => {
         const stage = currentStage + 1;
         setCurrentStage(stage);
+        if(!isEqual(oldPatient,patient)) {
+            console.log("updated")
+            db.updateTemplatePatient(oldPatient,patient) // no await so it moves to the end of the stack
+            setOldPatient(cloneDeep(patient))
+        }
+        
     }
     const onPrevClickHandler = () => {
         let stage = currentStage - 1;
@@ -46,8 +56,11 @@ export default function CreatePatientPage() {
         patient.gender = basicInfo.gender
         patient.height = basicInfo.height
         patient.weight = basicInfo.weight
+        patient.diagnosis = basicInfo.diagnosis
         setDOB(basicInfo.dob)
         setPatient(patient);
+        db.addTemplatePatient(patient) // no await so it moves to the end of the stack
+        setOldPatient(cloneDeep(patient))
         onNextClickHandler();
     }
 
@@ -112,38 +125,42 @@ export default function CreatePatientPage() {
 
 
     const onAddPatientClickHandler = async ()=>{
-        const db = Database.getInstance();
         await db.addTemplatePatient(patient)
         console.log("patient Added: ")
         console.log(patient)
         onNextClickHandler();
     }
 
+    const stageSkipFn = (stage:number)=>{
+        if(!(patient.name && patient.id)) broadcastAnnouncement("first two stages are required, please use the next button to processed", Announcement.error)
+        else setCurrentStage(stage)
+    }
+
     return (
         <PageView>
-            <Steps activeStep={currentStage}>
+            <Steps activeStep={currentStage} stageSwitchFn={stageSkipFn}>
                 <Step icon={faIdCard} />
                 <Step icon={faHouseChimneyUser} />
                 <Step icon={faHeadSideCough} />
                 <Step icon={faSyringe} />
                 <Step icon={faBookMedical} />
                 <Step icon={faHeart} />
+                <Step icon={faPills} />
                 <Step icon={faStethoscope} />
-                <Step icon={faMaskVentilator} />
                 <Step icon={faComputer} />       
                 <Step icon={faFileInvoice} />       
             </Steps>
 
             <Stages stage={currentStage}>
-                <BasicInfoStage onPrev={onPrevClickHandler} onNext={onBasicInfoHandler} />
-                <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onSimInfoHandler} dob={dob} />
-                <AllergiesStage onPrev={onPrevClickHandler} onNext={onAllergiesHandler} />
-                <ImmunizationsStage onPrev={onPrevClickHandler} onNext={onImmunizationsHandler} />
-                <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onMedicalHistoryHandler} />
-                <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onSocialHistoryHandler} />
-                <OrdersStage onPrev={onPrevClickHandler} onNext={onMedicalOrdersHandler} />
-                <CustomOrdersStage onPrev={onPrevClickHandler} onNext={onCustomOrdersHandler} />
-                <ChartingStage onPrev={onPrevClickHandler} onNext={onReportSubmitHandler} />
+                <BasicInfoStage onPrev={onPrevClickHandler} onNext={onBasicInfoHandler} patient={patient}/>
+                <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onSimInfoHandler} dob={dob}  patient={patient}/>
+                <AllergiesStage onPrev={onPrevClickHandler} onNext={onAllergiesHandler}  patient={patient}/>
+                <ImmunizationsStage onPrev={onPrevClickHandler} onNext={onImmunizationsHandler}  patient={patient}/>
+                <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onMedicalHistoryHandler}  patient={patient}/>
+                <SocialHistoryStage onPrev={onPrevClickHandler} onNext={onSocialHistoryHandler}  patient={patient}/>
+                <OrdersStage onPrev={onPrevClickHandler} onNext={onMedicalOrdersHandler}  patient={patient}/>
+                <CustomOrdersStage onPrev={onPrevClickHandler} onNext={onCustomOrdersHandler}  patient={patient}/>
+                <ChartingStage onPrev={onPrevClickHandler} onNext={onReportSubmitHandler}  patient={patient}/>
                 <ReviewStage  onPrev={onPrevClickHandler} onNext={onAddPatientClickHandler} patient={patient}/>
                 <PatientFinalizeStage onPrev={console.log} />
             </Stages>

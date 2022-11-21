@@ -6,8 +6,9 @@ export class Cache {
     private cachedMeds: Medication[];
     private cachedSettings: Settings | null;
     private patients: PatientChart[];
-
-    constructor() {
+    private static instance: Cache;
+    private triggerCacheUpdateEvent:()=>void = ()=>null;
+    private constructor() {
         this.cachedMeds = [];
         this.cachedSettings = null;
         this.patients = []
@@ -18,6 +19,7 @@ export class Cache {
         const index = findIndex(this.cachedMeds, {id:med.id});
         if(index > -1) return;
         this.cachedMeds.push(med);
+        this.triggerCacheUpdateEvent()
     }
 
     cacheMultipleMeds(meds: Medication[]) {
@@ -32,6 +34,7 @@ export class Cache {
 
     cacheSettings(settings: Settings) {
         this.cachedSettings = settings;
+        this.triggerCacheUpdateEvent()
     }
 
     getSettings(): Settings | null{
@@ -39,9 +42,10 @@ export class Cache {
     }
 
     cachePatient(patient:PatientChart) {
-        const index = findIndex(this.patients, {id: patient.id});
+        const index = findIndex(this.patients, patient);
         if(index > -1) return;
         this.patients.push(patient);
+        this.triggerCacheUpdateEvent()
     }
     cacheMultiplePatients(patients: PatientChart[]) {
         for(const patient of patients) {
@@ -50,6 +54,26 @@ export class Cache {
     }
     getPatients():PatientChart[] {
         return this.patients;
+    }
+
+    addOnCacheUpdateEventListener(fn:()=>void) {
+        this.triggerCacheUpdateEvent = fn
+    }
+
+
+    public static getInstance(): Cache {
+        if (Cache.instance) {
+            return Cache.instance;
+        } else {
+            throw new Error("Can't get an instance without initializing first")
+        }
+    }
+
+    public static initialize() {
+        if (!Cache.instance) {
+            Cache.instance = new Cache();
+        }
+        return Cache.instance;
     }
 
 }
