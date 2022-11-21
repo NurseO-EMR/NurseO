@@ -10,7 +10,7 @@
     "firebase": "^9.6.11",
     "framer-motion": "^6.3.3",
     "lodash": "^4.17.21",
-    "nurse-o-core": "^0.21.1",
+    "nurse-o-core": "^0.21.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-google-button": "^0.7.2",
