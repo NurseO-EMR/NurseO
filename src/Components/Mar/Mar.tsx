@@ -33,6 +33,8 @@ export function Mar(props: Props) {
         output.push(props.simTime.hour)
         output = uniq(output);
         output = output.sort((a, b) => a - b);
+        const lastHour = output[output.length-1]
+        output.push(...[lastHour+1, lastHour+2])
         return output;
     }
 

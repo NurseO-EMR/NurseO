@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MedicationOrder, Time, MedicationOrderSyntax, Medication } from 'nurse-o-core';
+import { MedicationOrder, Time, Medication, MedicationOrderSyntax } from 'nurse-o-core';
 import { Database } from '../../Services/Database';
 import { MedLocationModal } from './MedLocationModal';
 
@@ -67,15 +67,22 @@ export function MarEntry(props: Props) {
 
     return (
         <>
-            <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
-                <td className="w-80 pl-16 font-semibold">
+            <tr className={`odd:bg-gray-100 even:bg-gray-300 h-32 relative
+            ${props.order.completed ? `
+            after:bg-green-700 after:opacity-30 after:h-full after:w-[calc(100%-9rem)] 
+            after:absolute after:inset-0 after:border-2 after:content-['Completed'] after:text-center 
+            after:items-center after:grid after:font-bold after:text-5xl after:z-10` : null}
+            `}>
+                <td className={`w-80 pl-16 font-semibold ${props.order.completed ? "line-through" : null}`}>
                     <MedicationOrderSyntax med={med} order={props.order} />
                 </td>
                 {props.timeSlots.map((hour, i) => {
-                    return <td className='font-bold text-center'
-                        key={i}>{
-                            getTimeSlotValue(hour)
-                        } </td>
+                    if(hour === props.simTime.hour && !props.order.completed) {
+                        return <td className="font-bold text-center bg-primary/20" key={i}>{getTimeSlotValue(hour)}</td>
+                    } else {
+                        return <td className="font-bold text-center" key={i}>{getTimeSlotValue(hour)}</td>
+                    }
+                    
                 }
                 )}
                 <td className='w-36'>

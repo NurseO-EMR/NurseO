@@ -55,7 +55,7 @@ export function AZListing() {
                                     transition-all cursor-pointer
                          ">
                             <div>
-                                {med.genericName} 
+                                {med.genericName} {" "}
                                 {med.brandName ? "(" + med.brandName + " )" : null}
                             
                             </div>
