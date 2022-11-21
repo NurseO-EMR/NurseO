@@ -20,15 +20,12 @@ export default class Orders extends React.Component<Props, State> {
         super(props)
         let filteredOrders: Order[] = [];
 
-        //remove ones with no order type
-
         // if the order type prop provided then show only that order type
         if(this.props.orderType) {
             filteredOrders = filter(this.props.orders, order => order.orderType !== OrderType.NA && order.orderType === this.props.orderType)
         } else {
             filteredOrders = filter(this.props.orders, order=>order.orderType !== OrderType.NA)
         }
-        // the provider order tab is protected by its own component
 
         this.state = {filteredOrders}
     }
