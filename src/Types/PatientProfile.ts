@@ -81,6 +81,7 @@ export enum OrderType {
     admission = "Admission",
     standing = "Standing",
     provider = "Provider",
+    protocol = "Protocol/Pathway",
 }
 
 export enum Routine {
