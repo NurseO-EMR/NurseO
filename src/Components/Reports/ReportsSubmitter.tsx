@@ -22,7 +22,8 @@ export default function ReportsSubmitter(props: Props) {
     const [time, setTime] = useState("")
     const [date, setDate] = useState("");
 
-    // console.log(props.reportSets.length)
+    if(selectedTab > props.reportSets.length) setSelectedTab(0)
+    
 
     const onReportChangeHandler = (filedName: string, value: string) => {
         const temp: StudentReport = {
