@@ -14,7 +14,7 @@ type Props = {
 }
 
 export function ReportDynamicInput(props: Props) {
-    const inputStyle = "w-9/12 max-w-xs border border-black disabled:bg-gray-300 disabled:cursor-not-allowed";
+    const inputStyle = "disabled:bg-gray-300 disabled:cursor-not-allowed";
     const checkBoxChecked = new Set<string>();
 
     const onInputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {

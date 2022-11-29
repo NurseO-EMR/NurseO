@@ -22,6 +22,7 @@ export default function ReportsSubmitter(props: Props) {
     const [time, setTime] = useState("")
     const [date, setDate] = useState("");
 
+    console.log(props.reportSets.length)
 
     const onReportChangeHandler = (filedName: string, value: string) => {
         const temp: StudentReport = {
@@ -53,8 +54,8 @@ export default function ReportsSubmitter(props: Props) {
         <div className="px-3.5 bg-gray w-[50rem] h-[26rem] overflow-auto">
             <ReportTabs onTabSelectionHandler={setSelectedTab} reportSets={props.reportSets?.map(report => report.name)}
                 selectedTab={selectedTab} />
-            <div className="flex gap-2">
-                <Input label='Date' type="date" onChange={e => setDate(e.currentTarget.value)} value={date} optional/>
+            <div className="flex gap-10">
+                <Input label='Date' type="text" onChange={e => setDate(e.currentTarget.value)} value={date} optional/>
                 <Input type="time" label="Time" onChange={(value) => setTime(value.currentTarget.value)} optional/>
             </div>
             {props.reportSets && props.reportSets[0] ?

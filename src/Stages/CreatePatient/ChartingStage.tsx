@@ -1,7 +1,7 @@
 import { faBedPulse, faBong, faComputer, faDroplet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { filter } from "lodash";
-import { PatientChart, ReportSet, StudentReport } from "nurse-o-core";
+import { PatientChart, ReportSet, ReportType, StudentReport } from "nurse-o-core";
 import { useEffect, useState } from "react";
 import ReportsSubmitter from "../../Components/Reports/ReportsSubmitter";
 import { ArrayPreviewer } from "../../Components/Stages/ArrayPreviewer";
@@ -21,13 +21,14 @@ export function ChartingStage(props: Props) {
     const [reportSets, setReportSets] = useState([] as ReportSet[])
     const [studentReports, setStudentReports] = useState(props.patient?.studentReports || [] as StudentReport[])
     const [activeReportSet, setActiveReportSet] = useState(0)
+    const [reportType, setReportType] = useState<ReportType>("studentVitalsReport")
 
 
     useEffect(() => {
         const db = Database.getInstance();
         db.getSettings().then(v => {
             setAllReports(v.reportSet)
-            const firstReport = filter(allReports, {type:"studentVitalsReport"});
+            const firstReport = filter(allReports, {type:reportType});
             setReportSets(firstReport);
         })
     }, [allReports])
@@ -39,15 +40,16 @@ export function ChartingStage(props: Props) {
 
     const onReportSetChangeHandler= (reportSetIndex:number)=>{
         setActiveReportSet(reportSetIndex);
-        let reports:ReportSet[];
         switch(reportSetIndex) {
-            case 0: reports = filter(allReports, {type:"studentVitalsReport"}); break;
-            case 1: reports = filter(allReports, {type:"studentAssessmentReport"}); break;
-            case 2: reports = filter(allReports, {type:"studentIOReport"}); break;
-            default: reports = filter(allReports, {type:"studentVitalsReport"}); break;
+            case 0:  setReportType("studentVitalsReport"); break;
+            case 1:  setReportType("studentAssessmentReport"); break;
+            case 2:  setReportType("studentIOReport"); break;
+            default: setReportType("studentVitalsReport"); break;
         }
 
-        setReportSets(reports);
+
+        const reports = filter(allReports, {type:reportType});
+        setReportSets([...reports]);
     }
 
 
@@ -68,7 +70,7 @@ export function ChartingStage(props: Props) {
                         <h1 className="font-bold mt-4">I/O Record</h1>
                     </div>
                 </div>
-                <ReportsSubmitter reportType="studentAssessmentReport" title="Assessment" reportSets={reportSets} onSave={setStudentReports} />
+                <ReportsSubmitter reportType={reportType} title="Assessment" reportSets={reportSets} onSave={setStudentReports} />
             </BaseStage>
 
             <ArrayPreviewer headerItems={["Date", "Time", "Set Name", "Field", "Value"]} show={studentReports.length > 0} title="Added History" className="hover:w-[50rem] transition-all h-full overflow-clip">
