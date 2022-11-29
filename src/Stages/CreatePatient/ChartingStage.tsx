@@ -40,15 +40,16 @@ export function ChartingStage(props: Props) {
 
     const onReportSetChangeHandler= (reportSetIndex:number)=>{
         setActiveReportSet(reportSetIndex);
+        let tempReportType:ReportType = "studentVitalsReport"
         switch(reportSetIndex) {
-            case 0:  setReportType("studentVitalsReport"); break;
-            case 1:  setReportType("studentAssessmentReport"); break;
-            case 2:  setReportType("studentIOReport"); break;
-            default: setReportType("studentVitalsReport"); break;
+            case 0:  tempReportType = "studentVitalsReport"; break;
+            case 1:  tempReportType = "studentAssessmentReport"; break;
+            case 2:  tempReportType = "studentIOReport"; break;
+            default: tempReportType = "studentVitalsReport"; break;
         }
 
-
-        const reports = filter(allReports, {type:reportType});
+        const reports = filter(allReports, {type:tempReportType});
+        setReportType(tempReportType)
         setReportSets([...reports]);
     }
 

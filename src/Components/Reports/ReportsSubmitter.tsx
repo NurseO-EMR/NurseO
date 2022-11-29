@@ -22,7 +22,7 @@ export default function ReportsSubmitter(props: Props) {
     const [time, setTime] = useState("")
     const [date, setDate] = useState("");
 
-    console.log(props.reportSets.length)
+    // console.log(props.reportSets.length)
 
     const onReportChangeHandler = (filedName: string, value: string) => {
         const temp: StudentReport = {
