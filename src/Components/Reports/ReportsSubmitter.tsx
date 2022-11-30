@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReportType, ReportSet, StudentReport } from "nurse-o-core";
 import { Button } from "../Form/Button";
 import { Input } from "../Form/Input";
@@ -8,9 +8,9 @@ import { findIndex } from "lodash";
 
 type Props = {
     reportType: ReportType,
-    title: string,
     reportSets: ReportSet[],
-    onSave: (reports: StudentReport[]) => void
+    onSave: (reports: StudentReport[]) => void,
+    studentReports: StudentReport[]
 }
 
 export default function ReportsSubmitter(props: Props) {
@@ -18,10 +18,16 @@ export default function ReportsSubmitter(props: Props) {
 
     const [selectedTab, setSelectedTab] = useState(0)
     const [note, setNote] = useState("")
-    const [submittedReports, setSubmittedReports] = useState([] as StudentReport[])
+    const [submittedReports, setSubmittedReports] = useState(props.studentReports)
     const [time, setTime] = useState("")
     const [date, setDate] = useState("");
 
+    if(selectedTab > props.reportSets.length) setSelectedTab(0)
+
+    useEffect(()=>{
+        setDate("")
+        setTime("")
+    }, [props.reportSets, selectedTab])
 
     const onReportChangeHandler = (filedName: string, value: string) => {
         const temp: StudentReport = {
@@ -53,9 +59,9 @@ export default function ReportsSubmitter(props: Props) {
         <div className="px-3.5 bg-gray w-[50rem] h-[26rem] overflow-auto">
             <ReportTabs onTabSelectionHandler={setSelectedTab} reportSets={props.reportSets?.map(report => report.name)}
                 selectedTab={selectedTab} />
-            <div className="flex gap-2">
-                <Input label='Date' type="date" onChange={e => setDate(e.currentTarget.value)} value={date} optional/>
-                <Input type="time" label="Time" onChange={(value) => setTime(value.currentTarget.value)} optional/>
+            <div className="flex gap-10">
+                <Input label='Date' type="text" onChange={e => setDate(e.currentTarget.value)} value={date} optional/>
+                <Input type="time" label="Time" onChange={(value) => setTime(value.currentTarget.value)} value={time} optional/>
             </div>
             {props.reportSets && props.reportSets[0] ?
                 <ReportsSubmitterTabContent

@@ -1,7 +1,7 @@
 import { faBedPulse, faBong, faComputer, faDroplet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { filter } from "lodash";
-import { PatientChart, ReportSet, StudentReport } from "nurse-o-core";
+import { PatientChart, ReportSet, ReportType, StudentReport } from "nurse-o-core";
 import { useEffect, useState } from "react";
 import ReportsSubmitter from "../../Components/Reports/ReportsSubmitter";
 import { ArrayPreviewer } from "../../Components/Stages/ArrayPreviewer";
@@ -21,16 +21,20 @@ export function ChartingStage(props: Props) {
     const [reportSets, setReportSets] = useState([] as ReportSet[])
     const [studentReports, setStudentReports] = useState(props.patient?.studentReports || [] as StudentReport[])
     const [activeReportSet, setActiveReportSet] = useState(0)
+    const [reportType, setReportType] = useState<ReportType>("studentVitalsReport")
+    const [hoveringOnArrayPreviewer, setHoveringOnArrayPreviewer] = useState(false)
+
+    console.log(studentReports)
 
 
     useEffect(() => {
         const db = Database.getInstance();
         db.getSettings().then(v => {
             setAllReports(v.reportSet)
-            const firstReport = filter(allReports, {type:"studentVitalsReport"});
+            const firstReport = filter(allReports, {type:reportType});
             setReportSets(firstReport);
         })
-    }, [allReports])
+    }, [allReports, reportType])
 
 
     const onNextClickHandler = () => {
@@ -39,17 +43,23 @@ export function ChartingStage(props: Props) {
 
     const onReportSetChangeHandler= (reportSetIndex:number)=>{
         setActiveReportSet(reportSetIndex);
-        let reports:ReportSet[];
+        let tempReportType:ReportType = "studentVitalsReport"
         switch(reportSetIndex) {
-            case 0: reports = filter(allReports, {type:"studentVitalsReport"}); break;
-            case 1: reports = filter(allReports, {type:"studentAssessmentReport"}); break;
-            case 2: reports = filter(allReports, {type:"studentIOReport"}); break;
-            default: reports = filter(allReports, {type:"studentVitalsReport"}); break;
+            case 0:  tempReportType = "studentVitalsReport"; break;
+            case 1:  tempReportType = "studentAssessmentReport"; break;
+            case 2:  tempReportType = "studentIOReport"; break;
+            default: tempReportType = "studentVitalsReport"; break;
         }
 
-        setReportSets(reports);
+        const reports = filter(allReports, {type:tempReportType});
+        setReportType(tempReportType)
+        setReportSets([...reports]);
     }
 
+    const onDeleteClickHandler = (index:number)=>{
+        studentReports.splice(index, 1)
+        setStudentReports([...studentReports])
+    }
 
     return (
         <div className="overflow-hidden relative">
@@ -68,10 +78,15 @@ export function ChartingStage(props: Props) {
                         <h1 className="font-bold mt-4">I/O Record</h1>
                     </div>
                 </div>
-                <ReportsSubmitter reportType="studentAssessmentReport" title="Assessment" reportSets={reportSets} onSave={setStudentReports} />
+                <ReportsSubmitter reportType={reportType} reportSets={reportSets} 
+                studentReports={studentReports} onSave={setStudentReports} />
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["Date", "Time", "Set Name", "Field", "Value"]} show={studentReports.length > 0} title="Added History" className="hover:w-[50rem] transition-all h-full overflow-clip">
+            <ArrayPreviewer headerItems={["Date", "Time", "Set Name", "Field", "Value"]} show={studentReports.length > 0} title="Added History"
+             className="hover:w-[50rem] transition-all h-full overflow-clip"
+             onHoverStart={()=>setHoveringOnArrayPreviewer(true)}
+             onHoverEnd={()=>setHoveringOnArrayPreviewer(false)}
+             >
                 {studentReports.map((r,i)=>
                     <Tr key={i}>
                         <Td>{r.date}</Td>
@@ -79,6 +94,12 @@ export function ChartingStage(props: Props) {
                         <Td>{r.setName}</Td>
                         <Td>{r.vitalName}</Td>
                         <Td>{r.value}</Td>
+                        {hoveringOnArrayPreviewer ? 
+                            <Td className="w-40">
+                                <button className="bg-red w-full h-10 text-white font-bold"
+                                onClick={()=>onDeleteClickHandler(i)}>Delete</button>
+                            </Td>
+                        : <></> }
                     </Tr>
                 )}
             </ArrayPreviewer>

@@ -12,7 +12,7 @@ export function ReportsSubmitterTabContent(props: Props) {
 
     return (
         <div>
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-2 gap-x-10">
                 {props.reportSet.reportFields?.map((val, i) =>
                     <ReportInput
                         enabled={props.enabled}
