@@ -75,7 +75,7 @@ export function ReportDynamicInput(props: Props) {
                     <div className="flex flex-wrap gap-5 w-[90%] m-auto justify-center">
                         {props.options?.map((val, j) =>
                             <div key={props.index + j} className="flex items-center gap-2" >
-                                <input type="checkbox" disabled={!!props.enabled} onChange={e => onCheckBoxChecked(val.name, e.target.checked, props.index)} />
+                                <input type="checkbox" disabled={!props.enabled} onChange={e => onCheckBoxChecked(val.name, e.target.checked, props.index)} />
                                 <label>{val.name}</label>
                             </div>
                         )}
