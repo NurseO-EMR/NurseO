@@ -23,6 +23,8 @@ export function ChartingStage(props: Props) {
     const [activeReportSet, setActiveReportSet] = useState(0)
     const [reportType, setReportType] = useState<ReportType>("studentVitalsReport")
 
+    console.log(studentReports)
+
 
     useEffect(() => {
         const db = Database.getInstance();
@@ -31,7 +33,7 @@ export function ChartingStage(props: Props) {
             const firstReport = filter(allReports, {type:reportType});
             setReportSets(firstReport);
         })
-    }, [allReports])
+    }, [allReports, reportType])
 
 
     const onNextClickHandler = () => {

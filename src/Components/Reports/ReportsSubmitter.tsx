@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReportType, ReportSet, StudentReport } from "nurse-o-core";
 import { Button } from "../Form/Button";
 import { Input } from "../Form/Input";
@@ -23,7 +23,11 @@ export default function ReportsSubmitter(props: Props) {
     const [date, setDate] = useState("");
 
     if(selectedTab > props.reportSets.length) setSelectedTab(0)
-    
+
+    useEffect(()=>{
+        setDate("")
+        setTime("")
+    }, [props.reportSets, selectedTab])
 
     const onReportChangeHandler = (filedName: string, value: string) => {
         const temp: StudentReport = {
@@ -57,7 +61,7 @@ export default function ReportsSubmitter(props: Props) {
                 selectedTab={selectedTab} />
             <div className="flex gap-10">
                 <Input label='Date' type="text" onChange={e => setDate(e.currentTarget.value)} value={date} optional/>
-                <Input type="time" label="Time" onChange={(value) => setTime(value.currentTarget.value)} optional/>
+                <Input type="time" label="Time" onChange={(value) => setTime(value.currentTarget.value)} value={time} optional/>
             </div>
             {props.reportSets && props.reportSets[0] ?
                 <ReportsSubmitterTabContent
