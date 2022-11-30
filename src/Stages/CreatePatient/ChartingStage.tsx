@@ -22,6 +22,7 @@ export function ChartingStage(props: Props) {
     const [studentReports, setStudentReports] = useState(props.patient?.studentReports || [] as StudentReport[])
     const [activeReportSet, setActiveReportSet] = useState(0)
     const [reportType, setReportType] = useState<ReportType>("studentVitalsReport")
+    const [hoveringOnArrayPreviewer, setHoveringOnArrayPreviewer] = useState(false)
 
     console.log(studentReports)
 
@@ -55,6 +56,10 @@ export function ChartingStage(props: Props) {
         setReportSets([...reports]);
     }
 
+    const onDeleteClickHandler = (index:number)=>{
+        studentReports.splice(index, 1)
+        setStudentReports([...studentReports])
+    }
 
     return (
         <div className="overflow-hidden relative">
@@ -77,7 +82,11 @@ export function ChartingStage(props: Props) {
                 studentReports={studentReports} onSave={setStudentReports} />
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["Date", "Time", "Set Name", "Field", "Value"]} show={studentReports.length > 0} title="Added History" className="hover:w-[50rem] transition-all h-full overflow-clip">
+            <ArrayPreviewer headerItems={["Date", "Time", "Set Name", "Field", "Value"]} show={studentReports.length > 0} title="Added History"
+             className="hover:w-[50rem] transition-all h-full overflow-clip"
+             onHoverStart={()=>setHoveringOnArrayPreviewer(true)}
+             onHoverEnd={()=>setHoveringOnArrayPreviewer(false)}
+             >
                 {studentReports.map((r,i)=>
                     <Tr key={i}>
                         <Td>{r.date}</Td>
@@ -85,6 +94,12 @@ export function ChartingStage(props: Props) {
                         <Td>{r.setName}</Td>
                         <Td>{r.vitalName}</Td>
                         <Td>{r.value}</Td>
+                        {hoveringOnArrayPreviewer ? 
+                            <Td className="w-40">
+                                <button className="bg-red w-full h-10 text-white font-bold"
+                                onClick={()=>onDeleteClickHandler(i)}>Delete</button>
+                            </Td>
+                        : <></> }
                     </Tr>
                 )}
             </ArrayPreviewer>
