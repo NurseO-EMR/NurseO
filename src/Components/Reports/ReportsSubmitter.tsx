@@ -8,9 +8,9 @@ import { findIndex } from "lodash";
 
 type Props = {
     reportType: ReportType,
-    title: string,
     reportSets: ReportSet[],
-    onSave: (reports: StudentReport[]) => void
+    onSave: (reports: StudentReport[]) => void,
+    studentReports: StudentReport[]
 }
 
 export default function ReportsSubmitter(props: Props) {
@@ -18,7 +18,7 @@ export default function ReportsSubmitter(props: Props) {
 
     const [selectedTab, setSelectedTab] = useState(0)
     const [note, setNote] = useState("")
-    const [submittedReports, setSubmittedReports] = useState([] as StudentReport[])
+    const [submittedReports, setSubmittedReports] = useState(props.studentReports)
     const [time, setTime] = useState("")
     const [date, setDate] = useState("");
 

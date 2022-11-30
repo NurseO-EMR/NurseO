@@ -73,7 +73,8 @@ export function ChartingStage(props: Props) {
                         <h1 className="font-bold mt-4">I/O Record</h1>
                     </div>
                 </div>
-                <ReportsSubmitter reportType={reportType} title="Assessment" reportSets={reportSets} onSave={setStudentReports} />
+                <ReportsSubmitter reportType={reportType} reportSets={reportSets} 
+                studentReports={studentReports} onSave={setStudentReports} />
             </BaseStage>
 
             <ArrayPreviewer headerItems={["Date", "Time", "Set Name", "Field", "Value"]} show={studentReports.length > 0} title="Added History" className="hover:w-[50rem] transition-all h-full overflow-clip">
