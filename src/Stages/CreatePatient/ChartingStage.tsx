@@ -4,10 +4,8 @@ import { filter } from "lodash";
 import { PatientChart, ReportSet, ReportType, StudentReport } from "nurse-o-core";
 import { useEffect, useState } from "react";
 import ReportsSubmitter from "../../Components/Reports/ReportsSubmitter";
-import { ArrayPreviewer } from "../../Components/Stages/ArrayPreviewer";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { Td } from "../../Components/Table/Td";
-import { Tr } from "../../Components/Table/Tr";
+import { ChartPreviewer } from "../../Components/Reports/Viewer/ChartPreviewer";
 import { Database } from "../../Services/Database";
 
 export type Props = BaseStageProps & {
@@ -82,27 +80,7 @@ export function ChartingStage(props: Props) {
                 studentReports={studentReports} onSave={setStudentReports} />
             </BaseStage>
 
-            <ArrayPreviewer headerItems={["Date", "Time", "Set Name", "Field", "Value"]} show={studentReports.length > 0} title="Added History"
-             className="hover:w-[50rem] transition-all h-full overflow-clip"
-             onHoverStart={()=>setHoveringOnArrayPreviewer(true)}
-             onHoverEnd={()=>setHoveringOnArrayPreviewer(false)}
-             >
-                {studentReports.map((r,i)=>
-                    <Tr key={i}>
-                        <Td>{r.date}</Td>
-                        <Td>{r.time}</Td>
-                        <Td>{r.setName}</Td>
-                        <Td>{r.vitalName}</Td>
-                        <Td>{r.value}</Td>
-                        {hoveringOnArrayPreviewer ? 
-                            <Td className="w-40">
-                                <button className="bg-red w-full h-10 text-white font-bold"
-                                onClick={()=>onDeleteClickHandler(i)}>Delete</button>
-                            </Td>
-                        : <></> }
-                    </Tr>
-                )}
-            </ArrayPreviewer>
+            <ChartPreviewer show={studentReports.length > 0} studentReports={studentReports}/>
 
         </div>
     )
