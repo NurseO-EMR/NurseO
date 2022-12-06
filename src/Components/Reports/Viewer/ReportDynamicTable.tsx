@@ -1,5 +1,5 @@
-import { Report } from "nurse-o-core";
-import { useState } from "react";
+import { Report, StudentReport } from "nurse-o-core";
+import { useEffect, useState } from "react";
 import { Input } from "../../Form/Input";
 import { SearchableSelect } from "../../Form/SearchableSelect";
 import { Td } from "../../Table/Td";
@@ -7,7 +7,8 @@ import { Tr } from "../../Table/Tr";
 
 type Props = {
     setName: string,
-    options: Report[]
+    options: Report[],
+    onChange: (report:StudentReport) => void
 }
 
 export function ReportDynamicTable(props: Props) {
@@ -17,7 +18,11 @@ export function ReportDynamicTable(props: Props) {
         ["","5","6"]
     ]
     const [table, setTable] = useState(sampleTable)
-    const [options, setOptions] = useState(props.options.map(o=>{return {name:o.name}}))
+    const [options, setOptions] = useState<{name:string}[]>(props.options.map(o=>{return {name:o.name}}))
+
+    useEffect(()=>{
+        setOptions([...props.options.map(o=>{return {name:o.name}})])
+    },[props.options])
 
     const onKeyChangeHandler = (row:number, value:string)=>{
         table[row][0] = value
@@ -34,7 +39,6 @@ export function ReportDynamicTable(props: Props) {
     }
 
     const onTimeupdateHandler=(column:number, value:string) => {
-        console.log(value)
         table[0][column] = value
         updateTable(table)
     }
@@ -46,7 +50,8 @@ export function ReportDynamicTable(props: Props) {
 
     const updateTable = (table:string[][])=>{
         // if last row has a key add an empty row
-        if(table[table.length-1][0].length > 0) table.push(new Array<string>(3).fill("",0,3))
+        if(table[table.length-1][0].length > 0) table.push(new Array<string>(table[0].length).fill("",0,table[0].length))
+        
         
         // if the last column is filled add another column
         if(table[0][table[0].length-1].length > 0) {

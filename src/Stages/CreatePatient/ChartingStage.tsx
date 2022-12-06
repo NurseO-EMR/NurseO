@@ -22,9 +22,6 @@ export function ChartingStage(props: Props) {
     const [reportType, setReportType] = useState<ReportType>("studentVitalsReport")
     const [hoveringOnArrayPreviewer, setHoveringOnArrayPreviewer] = useState(false)
 
-    console.log(studentReports)
-
-
     useEffect(() => {
         const db = Database.getInstance();
         db.getSettings().then(v => {

@@ -31,7 +31,7 @@ export function ChartPreviewer(props: Props) {
         transition={{ delay: STAGE_ANIMATION_DURATION }}
     >
         <h1 className="text-center text-2xl font-bold my-4">Vitals - Skin</h1>
-        <ReportDynamicTable setName={"Vital"} options={options}/>
+        <ReportDynamicTable setName={"Vital"} options={options} onChange={console.log}/>
 
     </motion.div>
 }
