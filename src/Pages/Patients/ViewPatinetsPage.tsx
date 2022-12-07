@@ -19,8 +19,8 @@ export function ViewPatientsPage() {
         const db = Database.getInstance()
         const patients = await db.getTemplatePatients();
         patients.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-        setPatients(patients)
-        setFilteredPatients(patients)
+        setPatients([...patients])
+        setFilteredPatients([...patients])
     }
 
     useEffect(() => {

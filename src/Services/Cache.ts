@@ -48,6 +48,7 @@ export class Cache {
         this.triggerCacheUpdateEvent()
     }
     cacheMultiplePatients(patients: PatientChart[]) {
+        this.patients = []
         for(const patient of patients) {
             this.cachePatient(patient);
         }
