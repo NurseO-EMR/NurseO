@@ -9,7 +9,8 @@ import { ReportDynamicTable } from "./ReportDynamicTable";
 type Props = {
     show: boolean,
     className?: string,
-    studentReports: StudentReport[]
+    studentReports: StudentReport[],
+    onSave: (report:StudentReport[]) => void
 }
 
 export function ChartPreviewer(props: Props) {
@@ -31,7 +32,7 @@ export function ChartPreviewer(props: Props) {
         transition={{ delay: STAGE_ANIMATION_DURATION }}
     >
         <h1 className="text-center text-2xl font-bold my-4">Vitals - Skin</h1>
-        <ReportDynamicTable setName={"Vital"} options={options} onChange={console.log}/>
+        <ReportDynamicTable setName={"Vital"} options={options} onSave={props.onSave}/>
 
     </motion.div>
 }

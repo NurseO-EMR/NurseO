@@ -56,6 +56,18 @@ export function ChartingStage(props: Props) {
         setStudentReports([...studentReports])
     }
 
+    const onReportsSaveClickHandler = (updatedReports:StudentReport[])=>{
+        console.log(updatedReports)
+        if(updatedReports.length>0) {
+            const {setName, reportType} = updatedReports[0]
+            //remove the current version of the reports
+            const filtered = studentReports.filter(r=>r.setName !== setName && r.reportType !== reportType)
+            // add the new reports
+            const output = [...filtered, ...updatedReports]
+            setStudentReports(output)
+        }
+    }
+
     return (
         <div className="overflow-hidden relative">
             <BaseStage {...props} onNext={onNextClickHandler} title="Charting" icon={faComputer} moveLeft={studentReports.length > 0} customIconNTitle>
@@ -77,7 +89,7 @@ export function ChartingStage(props: Props) {
                 studentReports={studentReports} onSave={setStudentReports} />
             </BaseStage>
 
-            <ChartPreviewer show={studentReports.length > 0} studentReports={studentReports}/>
+            <ChartPreviewer show={studentReports.length > 0} studentReports={studentReports} onSave={onReportsSaveClickHandler}/>
 
         </div>
     )

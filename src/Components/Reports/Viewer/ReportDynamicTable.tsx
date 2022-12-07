@@ -9,7 +9,7 @@ import { Tr } from "../../Table/Tr";
 type Props = {
     setName: string,
     options: Report[],
-    onChange: (report:StudentReport[]) => void
+    onSave: (report:StudentReport[]) => void
 }
 
 export function ReportDynamicTable(props: Props) {
@@ -88,10 +88,10 @@ export function ReportDynamicTable(props: Props) {
                 }
                 reports.push(report)
             }
-            
+
         }
 
-        props.onChange(reports)
+        props.onSave(reports)
         
     }
 
