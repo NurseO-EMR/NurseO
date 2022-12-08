@@ -1,4 +1,4 @@
-import { Report, StudentReport } from "nurse-o-core";
+import { Report, ReportType, StudentReport } from "nurse-o-core";
 import { useEffect, useState } from "react";
 import { Button } from "../../Form/Button";
 import { Input } from "../../Form/Input";
@@ -7,7 +7,7 @@ import { Td } from "../../Table/Td";
 import { Tr } from "../../Table/Tr";
 
 type Props = {
-    setName: string,
+    type: ReportType,
     options: Report[],
     onSave: (report:StudentReport[]) => void
 }
@@ -80,8 +80,8 @@ export function ReportDynamicTable(props: Props) {
 
                 const report:StudentReport = {
                     date: times[column],
-                    reportType: "studentVitalsReport",
-                    setName: props.setName,
+                    reportType: props.type,
+                    setName: "",
                     time: "",
                     value: table[row][column],
                     vitalName: key
@@ -95,13 +95,13 @@ export function ReportDynamicTable(props: Props) {
         
     }
 
-    return <div>
+    return <div className="my-2">
         <table className="w-full relative">
             <tbody>
                 {table.map((row,rowIndex)=><Tr key={rowIndex}>
                     {row.map((cell,columnIndex)=>{
                         // top left corner should have nothing 
-                        if(rowIndex+columnIndex === 0) return <Td key={columnIndex}><Input hideLabel label={"Empty"} value={`Time/${props.setName}`} readOnly disabled/></Td>
+                        if(rowIndex+columnIndex === 0) return <Td key={columnIndex}><Input hideLabel label={"Empty"} value={`Time/${reportTypeToWords(props.type)}`} readOnly disabled/></Td>
                         //keys
                         else if (columnIndex === 0) return <Td key={columnIndex}><SearchableSelect hideLabel
                                                                  label={""} options={options} value={cell}
@@ -112,11 +112,11 @@ export function ReportDynamicTable(props: Props) {
 
                         // time
                         if(rowIndex === 0) return <Td key={columnIndex}><Input hideLabel label="Day/Time" placeholder="Day/Time"
-                         value={cell} onChange={e=>onTimeupdateHandler(columnIndex, e.currentTarget.value)}/></Td>
+                         value={cell} onChange={e=>onTimeupdateHandler(columnIndex, e.currentTarget.value)} optional/></Td>
 
                         // values
                         else return <Td key={columnIndex}><Input hideLabel label={"value"} value={cell}
-                                        disabled={table[0][columnIndex].length===0}
+                                        disabled={table[0][columnIndex].length===0} optional
                                         onChange={e=>onValueChangeHandler(rowIndex, columnIndex,e.currentTarget.value)}/></Td>
                     })}
                 </Tr>)}
@@ -124,4 +124,14 @@ export function ReportDynamicTable(props: Props) {
         </table>
         <Button className="w-full bg-blue mt-5" onClick={onSaveClickHandler}>Save</Button>
     </div>
+}
+
+
+function reportTypeToWords(type:ReportType) {
+    switch(type) {
+        case "studentAssessmentReport": return "Assessment";
+        case "studentIOReport": return "Record";
+        case "studentVitalsReport": return "Vital";
+        case "studentLabReport": return "Lab";    
+    }
 }

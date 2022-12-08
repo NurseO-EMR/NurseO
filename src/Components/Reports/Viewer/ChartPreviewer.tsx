@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Report, ReportSet, StudentReport } from "nurse-o-core";
+import { Report, StudentReport } from "nurse-o-core";
 import { useEffect, useState } from "react";
 import { STAGE_ANIMATION_DURATION } from "../../../Services/AnimationConfig";
 import { Database } from "../../../Services/Database";
@@ -14,7 +14,6 @@ type Props = {
 }
 
 export function ChartPreviewer(props: Props) {
-    const [reportSets, setReportSets] = useState<ReportSet[]>([])
     const [options, setOptions] = useState<Report[]>([])
 
     useEffect(()=>{
@@ -23,7 +22,6 @@ export function ChartPreviewer(props: Props) {
             const {reportSet} = s
             const sets = reportSet.filter(r => r.type === "studentVitalsReport" && r.name === "Initial Vitals")
             const options = sets[0].reportFields
-            setReportSets(reportSet)
             setOptions([...options])
         })
     }, [])
@@ -33,10 +31,8 @@ export function ChartPreviewer(props: Props) {
         initial={{ x: 3000, y: 0 }} animate={{ x: 0, y: 0 }}
         transition={{ delay: STAGE_ANIMATION_DURATION }}
     >
-        
-
-        {/* <h1 className="text-center text-2xl font-bold my-4">Vitals - Skin</h1>
-        <ReportDynamicTable setName={"Vital"} options={options} onSave={props.onSave}/> */}
+        <h1 className="text-center text-2xl font-bold my-4">Vitals - Skin</h1>
+        {/* <ReportDynamicTable setName={"Vital"} options={options} onSave={props.onSave}/> */}
 
     </motion.div>
 }

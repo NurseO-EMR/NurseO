@@ -7,10 +7,12 @@ import ReportsSubmitter from "../../Components/Reports/ReportsSubmitter";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
 import { ChartPreviewer } from "../../Components/Reports/Viewer/ChartPreviewer";
 import { Database } from "../../Services/Database";
+import { ReportDynamicTable } from "../../Components/Reports/Viewer/ReportDynamicTable";
+import { ReportTabs } from "../../Components/Reports/ReportTabs";
 
 export type Props = BaseStageProps & {
     onNext: (studentReports: StudentReport[]) => void,
-    patient?:PatientChart
+    patient?: PatientChart
 }
 
 export function ChartingStage(props: Props) {
@@ -20,78 +22,94 @@ export function ChartingStage(props: Props) {
     const [studentReports, setStudentReports] = useState(props.patient?.studentReports || [] as StudentReport[])
     const [activeReportSet, setActiveReportSet] = useState(0)
     const [reportType, setReportType] = useState<ReportType>("studentVitalsReport")
+    const [selectedTab, setSelectedTab] = useState(0)
     const [hoveringOnArrayPreviewer, setHoveringOnArrayPreviewer] = useState(false)
 
     useEffect(() => {
         const db = Database.getInstance();
         db.getSettings().then(v => {
             setAllReports(v.reportSet)
-            const firstReport = filter(allReports, {type:reportType});
+            const firstReport = filter(allReports, { type: reportType });
             setReportSets(firstReport);
+            setSelectedTab(0);
         })
+        
     }, [allReports, reportType])
+
 
 
     const onNextClickHandler = () => {
         props.onNext(studentReports)
     }
 
-    const onReportSetChangeHandler= (reportSetIndex:number)=>{
+    const onReportSetChangeHandler = (reportSetIndex: number) => {
         setActiveReportSet(reportSetIndex);
-        let tempReportType:ReportType = "studentVitalsReport"
-        switch(reportSetIndex) {
-            case 0:  tempReportType = "studentVitalsReport"; break;
-            case 1:  tempReportType = "studentAssessmentReport"; break;
-            case 2:  tempReportType = "studentIOReport"; break;
-            default: tempReportType = "studentVitalsReport"; break;
-        }
+        const reportType = getReportTypeFromIndex(reportSetIndex)
 
-        const reports = filter(allReports, {type:tempReportType});
-        setReportType(tempReportType)
+        const reports = filter(allReports, { type: reportType });
+        setReportType(reportType)
         setReportSets([...reports]);
     }
 
-    const onDeleteClickHandler = (index:number)=>{
+    const onDeleteClickHandler = (index: number) => {
         studentReports.splice(index, 1)
         setStudentReports([...studentReports])
     }
 
-    const onReportsSaveClickHandler = (updatedReports:StudentReport[])=>{
-        console.log(updatedReports)
-        if(updatedReports.length>0) {
-            const {setName, reportType} = updatedReports[0]
+    const onReportsSaveClickHandler = (updatedReports: StudentReport[]) => {
+        if (updatedReports.length > 0) {
+            const { setName, reportType } = updatedReports[0]
             //remove the current version of the reports
-            const filtered = studentReports.filter(r=>r.setName !== setName && r.reportType !== reportType)
+            const filtered = studentReports.filter(r => r.setName !== setName && r.reportType !== reportType)
             // add the new reports
             const output = [...filtered, ...updatedReports]
             setStudentReports(output)
+            console.table(output)
         }
     }
 
     return (
         <div className="overflow-hidden relative">
-            <BaseStage {...props} onNext={onNextClickHandler} title="Charting" icon={faComputer} moveLeft={studentReports.length > 0} customIconNTitle>
+            <BaseStage {...props} onNext={onNextClickHandler} title="Charting" icon={faComputer} customIconNTitle>
                 <div className="flex justify-around text-darkGray">
-                    <div className={"cursor-pointer " + (activeReportSet === 0 ? "text-blue" : null)} onClick={()=>onReportSetChangeHandler(0)}>
+                    <div className={"cursor-pointer " + (activeReportSet === 0 ? "text-blue" : null)} onClick={() => onReportSetChangeHandler(0)}>
                         <FontAwesomeIcon icon={faBedPulse} className="text-3xl text-center" />
                         <h1 className="font-bold mt-4">Vitals</h1>
                     </div>
-                    <div className={"cursor-pointer " + (activeReportSet === 1 ? "text-blue" : null)} onClick={()=>onReportSetChangeHandler(1)}>
+                    <div className={"cursor-pointer " + (activeReportSet === 1 ? "text-blue" : null)} onClick={() => onReportSetChangeHandler(1)}>
                         <FontAwesomeIcon icon={faBong} className="text-3xl text-center" />
                         <h1 className="font-bold mt-4">Assessment</h1>
                     </div>
-                    <div className={"cursor-pointer " + (activeReportSet === 2 ? "text-blue" : null)} onClick={()=>onReportSetChangeHandler(2)}>
+                    <div className={"cursor-pointer " + (activeReportSet === 2 ? "text-blue" : null)} onClick={() => onReportSetChangeHandler(2)}>
                         <FontAwesomeIcon icon={faDroplet} className="text-3xl text-center" />
                         <h1 className="font-bold mt-4">I/O Record</h1>
                     </div>
                 </div>
-                <ReportsSubmitter reportType={reportType} reportSets={reportSets} 
-                studentReports={studentReports} onSave={setStudentReports} />
+
+                {reportSets && reportSets.length > 0 && selectedTab < reportSets.length ?
+                    <>
+                        <ReportTabs onTabSelectionHandler={setSelectedTab} reportSets={reportSets.map(report => report.name)}
+                            selectedTab={selectedTab} />
+                        <ReportDynamicTable onSave={onReportsSaveClickHandler}
+                            options={reportSets[selectedTab].reportFields}
+                            type={reportType} />
+                    </>
+                    : <h1>Loading...</h1>}
             </BaseStage>
-
-            <ChartPreviewer show={studentReports.length > 0} studentReports={studentReports} onSave={onReportsSaveClickHandler}/>
-
         </div>
     )
 
+}
+
+
+function getReportTypeFromIndex(reportSetIndex: number) {
+    let tempReportType: ReportType = "studentVitalsReport"
+    switch (reportSetIndex) {
+        case 0: tempReportType = "studentVitalsReport"; break;
+        case 1: tempReportType = "studentAssessmentReport"; break;
+        case 2: tempReportType = "studentIOReport"; break;
+        default: tempReportType = "studentVitalsReport"; break;
+    }
+
+    return tempReportType;
 }
