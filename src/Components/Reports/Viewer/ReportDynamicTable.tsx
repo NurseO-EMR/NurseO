@@ -13,17 +13,21 @@ type Props = {
 }
 
 export function ReportDynamicTable(props: Props) {
-    const InitialTable = [
-        ["", "", ""],
-        ["", "", ""],
-        ["","",""]
-    ]
-    const [table, setTable] = useState<string[][]>(InitialTable)
+    
+    const [table, setTable] = useState<string[][]>([])
     const [options, setOptions] = useState<{name:string}[]>(props.options.map(o=>{return {name:o.name}}))
 
     useEffect(()=>{
+        const InitialTable = [
+            ["", "", ""],
+            ["", "", ""],
+            ["","",""]
+        ]
+        
         setOptions([...props.options.map(o=>{return {name:o.name}})])
+        setTable([...InitialTable])
     },[props.options])
+
 
     const onKeyChangeHandler = (row:number, value:string)=>{
         table[row][0] = value
