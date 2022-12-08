@@ -10,6 +10,7 @@ type Props = {
     type: ReportType,
     options: Report[],
     onSave: (report:StudentReport[]) => void
+    setName: string,
 }
 
 export function ReportDynamicTable(props: Props) {
@@ -23,7 +24,7 @@ export function ReportDynamicTable(props: Props) {
             ["", "", ""],
             ["","",""]
         ]
-        
+
         setOptions([...props.options.map(o=>{return {name:o.name}})])
         setTable([...InitialTable])
     },[props.options])
@@ -85,7 +86,7 @@ export function ReportDynamicTable(props: Props) {
                 const report:StudentReport = {
                     date: times[column],
                     reportType: props.type,
-                    setName: "",
+                    setName: props.setName,
                     time: "",
                     value: table[row][column],
                     vitalName: key

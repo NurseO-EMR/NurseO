@@ -92,7 +92,7 @@ export function ChartingStage(props: Props) {
                             selectedTab={selectedTab} />
                         <ReportDynamicTable onSave={onReportsSaveClickHandler}
                             options={reportSets[selectedTab].reportFields}
-                            type={reportType} />
+                            type={reportType} setName={reportSets[selectedTab].name} />
                     </>
                     : <h1>Loading...</h1>}
             </BaseStage>
