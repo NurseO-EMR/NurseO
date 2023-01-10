@@ -4,9 +4,9 @@ import { filter } from "lodash";
 import { PatientChart, ReportSet, ReportType, StudentReport } from "nurse-o-core";
 import { useEffect, useState } from "react";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { ChartPreviewer } from "../../Components/Reports/Viewer/ChartPreviewer";
+import { ChartPreviewer } from "../../Components/Reports/ChartPreviewer";
 import { Database } from "../../Services/Database";
-import { ReportDynamicTable } from "../../Components/Reports/Viewer/ReportDynamicTable";
+import { ReportDynamicTable } from "../../Components/Reports/ReportDynamicTable";
 import { ReportTabs } from "../../Components/Reports/ReportTabs";
 
 export type Props = BaseStageProps & {

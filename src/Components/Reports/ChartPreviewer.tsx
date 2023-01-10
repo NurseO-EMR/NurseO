@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { countBy} from "lodash";
 import { StudentReport } from "nurse-o-core";
 import { useEffect, useState } from "react";
-import { STAGE_ANIMATION_DURATION } from "../../../Services/AnimationConfig";
+import { STAGE_ANIMATION_DURATION } from "../../Services/AnimationConfig";
 
 
 type Props = {

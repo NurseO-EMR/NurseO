@@ -1,10 +1,10 @@
 import { Report, ReportType, StudentReport } from "nurse-o-core";
 import { useEffect, useState } from "react";
-import { Button } from "../../Form/Button";
-import { Input } from "../../Form/Input";
-import { SearchableSelect } from "../../Form/SearchableSelect";
-import { Td } from "../../Table/Td";
-import { Tr } from "../../Table/Tr";
+import { Button } from "../Form/Button";
+import { Input } from "../Form/Input";
+import { SearchableSelect } from "../Form/SearchableSelect";
+import { Td } from "../Table/Td";
+import { Tr } from "../Table/Tr";
 
 type Props = {
     type: ReportType,
