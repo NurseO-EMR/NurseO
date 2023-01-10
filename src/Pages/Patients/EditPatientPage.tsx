@@ -55,6 +55,7 @@ export function EditPatientPage() {
         patient.gender = basicInfo.gender
         patient.height = basicInfo.height
         patient.weight = basicInfo.weight
+        patient.diagnosis = basicInfo.diagnosis
         setDOB(basicInfo.dob)
         setPatient(patient);
         onNextClickHandler();

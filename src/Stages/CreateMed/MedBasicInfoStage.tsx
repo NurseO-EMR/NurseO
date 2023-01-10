@@ -75,7 +75,7 @@ export function MedBasicInfoStage(props: Props) {
         <SearchableSelect label="Generic Name" options={meds} labelKeys={["genericName"]} valueKey="id" onChange={onMedNameChangeHandler}
             creatable onCreateOption={(name) => onNewMedCreated(undefined, name)} value={id} />
         {switchBrandToFreeText ?
-            <Input label="Brand Name" onChange={e => setBrandName(e.currentTarget.value)}
+            <Input label="Brand Name" disabled onChange={e => setBrandName(e.currentTarget.value)}
                 value={brandName} />
             :
             <SearchableSelect label="Brand Name" options={meds} labelKeys={["brandName"]} valueKey="id" onChange={onMedNameChangeHandler} value={id} />

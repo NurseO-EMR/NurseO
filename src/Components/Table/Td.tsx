@@ -1,6 +1,6 @@
 import { ReactChild } from "react"
 
-type Props = {
+export type Props = {
     children: ReactChild | ReactChild[],
     className?:string
 }

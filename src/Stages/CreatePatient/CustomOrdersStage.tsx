@@ -59,7 +59,7 @@ export function CustomOrdersStage(props: Props) {
     return (
         <div className="overflow-hidden relative">
             <BaseStage {...props} onNext={onNextClickHandler} title="Custom Orders" icon={faMaskVentilator} moveLeft={orders.length > 0}>
-                <Input label="Time" value={time}
+                <Input label="Time" value={time} optional
                     onChange={e => setTime(e.currentTarget.value)} />
 
                 <label className="block text-left">Entry: </label>

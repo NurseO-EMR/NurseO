@@ -9,6 +9,8 @@ import { faBuilding, faFileInvoice, faPills } from "@fortawesome/free-solid-svg-
 import { MedLocationStage } from "../../Stages/CreateMed/MedLocationStage";
 import { MedFinalizeStage } from "../../Stages/CreateMed/MedFinalizeStage";
 import { Database } from "../../Services/Database";
+import { useNavigate } from "react-router-dom";
+import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
 
 
 export default function CreateMedicationPage() {
@@ -24,19 +26,24 @@ export default function CreateMedicationPage() {
     }
 
     const [med, setMed] = useState<Medication>(emptyMed)
-
+    const navigate = useNavigate()
 
     const moveStage = () => {
         const stage = currentStage + 1;
         setCurrentStage(stage);
     }
     const onPrevClickHandler = () => {
-        let stage = currentStage - 1;
-        if (stage < 0) stage = 0;
+        const stage = currentStage - 1;
+        if (stage < 0) navigate("/")
         setCurrentStage(stage);
     }
 
     const onMedBasicInfo = async (id: string, brandName: string, genericName: string, narcoticCountNeeded: boolean)=>{
+        if(!id) {
+            broadcastAnnouncement("Can't move to the next stage without entering med info first", Announcement.error)
+            return
+        }
+        
         const db = Database.getInstance()
         med.id = id
         med.brandName = brandName
