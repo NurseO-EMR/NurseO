@@ -6,6 +6,7 @@ import Creatable from "react-select/creatable"
 export type Props = {
     optional?: boolean,
     label: string,
+    hideLabel?: boolean,
     delay?: number,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options: any,
@@ -80,7 +81,7 @@ export function SearchableSelect(props: Props) {
 
     return (
         <motion.div className="grid text-left my-4 relative w-full" initial="hidden" animate="show" exit="exit" variants={animationVariants} >
-            <label htmlFor={id} className="font-normal">
+            <label htmlFor={id} className={`font-normal ${props.hideLabel ? "hidden" : null}`}>
                 <span>{props.label}</span>
                 <span className="opacity-75 text-sm"> {props.optional ? "(optional)" : null}</span>
             </label>
