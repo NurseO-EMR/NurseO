@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { filter } from "lodash";
 import { PatientChart, ReportSet, ReportType, StudentReport } from "nurse-o-core";
 import { useEffect, useState } from "react";
-import ReportsSubmitter from "../../Components/Reports/ReportsSubmitter";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
 import { ChartPreviewer } from "../../Components/Reports/Viewer/ChartPreviewer";
 import { Database } from "../../Services/Database";
@@ -23,7 +22,6 @@ export function ChartingStage(props: Props) {
     const [activeReportSet, setActiveReportSet] = useState(0)
     const [reportType, setReportType] = useState<ReportType>("studentVitalsReport")
     const [selectedTab, setSelectedTab] = useState(0)
-    const [hoveringOnArrayPreviewer, setHoveringOnArrayPreviewer] = useState(false)
 
     useEffect(() => {
         const db = Database.getInstance();
@@ -51,11 +49,6 @@ export function ChartingStage(props: Props) {
         setReportSets([...reports]);
     }
 
-    const onDeleteClickHandler = (index: number) => {
-        studentReports.splice(index, 1)
-        setStudentReports([...studentReports])
-    }
-
     const onReportsSaveClickHandler = (updatedReports: StudentReport[]) => {
         if (updatedReports.length > 0) {
             const { setName, reportType } = updatedReports[0]
@@ -70,7 +63,7 @@ export function ChartingStage(props: Props) {
 
     return (
         <div className="overflow-hidden relative">
-            <BaseStage {...props} onNext={onNextClickHandler} title="Charting" icon={faComputer} customIconNTitle>
+            <BaseStage {...props} onNext={onNextClickHandler} title="Charting" icon={faComputer} customIconNTitle moveLeft={studentReports.length>0}>
                 <div className="flex justify-around text-darkGray">
                     <div className={"cursor-pointer " + (activeReportSet === 0 ? "text-blue" : null)} onClick={() => onReportSetChangeHandler(0)}>
                         <FontAwesomeIcon icon={faBedPulse} className="text-3xl text-center" />
@@ -96,9 +89,13 @@ export function ChartingStage(props: Props) {
                     </>
                     : <h1>Loading...</h1>}
             </BaseStage>
+
+
+            <ChartPreviewer studentReports={studentReports} />
+
         </div>
     )
-
+ 
 }
 
 

@@ -11,7 +11,7 @@ export function ReportTabs(props: Props) {
     };
 
     return (
-        <div className='overflow-x-auto '>
+        <div className='overflow-x-auto max-w-[60vw]'>
             <div className="flex gap-3 w-max">
                 {props.reportSets ?
                     <>
