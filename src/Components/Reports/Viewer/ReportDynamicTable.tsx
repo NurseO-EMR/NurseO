@@ -66,6 +66,14 @@ export function ReportDynamicTable(props: Props) {
             }
         }
 
+        // if a row is empty remove it
+        for(let rowIndex = 1; rowIndex<table.length-1; rowIndex++) {
+            if(table[rowIndex][0] === "") {
+                table.splice(rowIndex, 1)
+            }
+        }
+
+        // console.table(table)
         setTable([...table])
     }
 
@@ -106,7 +114,8 @@ export function ReportDynamicTable(props: Props) {
                 {table.map((row,rowIndex)=><Tr key={rowIndex}>
                     {row.map((cell,columnIndex)=>{
                         // top left corner should have nothing 
-                        if(rowIndex+columnIndex === 0) return <Td key={columnIndex}><Input hideLabel label={"Empty"} value={`Time/${reportTypeToWords(props.type)}`} readOnly disabled/></Td>
+                        if(rowIndex+columnIndex === 0) return <Td key={columnIndex}><Input hideLabel 
+                        label={"Empty"} value={`Time/${reportTypeToWords(props.type)}`} readOnly disabled/></Td>
                         //keys
                         else if (columnIndex === 0) return <Td key={columnIndex}><SearchableSelect hideLabel
                                                                  label={""} options={options} value={cell}
