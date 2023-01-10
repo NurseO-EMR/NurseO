@@ -51,13 +51,12 @@ export function ChartingStage(props: Props) {
 
     const onReportsSaveClickHandler = (updatedReports: StudentReport[]) => {
         if (updatedReports.length > 0) {
-            const { setName, reportType } = updatedReports[0]
+            const { setName } = updatedReports[0]
             //remove the current version of the reports
-            const filtered = studentReports.filter(r => r.setName !== setName && r.reportType !== reportType)
+            const filtered = studentReports.filter(r => r.setName !== setName)
             // add the new reports
             const output = [...filtered, ...updatedReports]
             setStudentReports(output)
-            console.table(output)
         }
     }
 
@@ -84,6 +83,7 @@ export function ChartingStage(props: Props) {
                         <ReportTabs onTabSelectionHandler={setSelectedTab} reportSets={reportSets.map(report => report.name)}
                             selectedTab={selectedTab} />
                         <ReportDynamicTable onSave={onReportsSaveClickHandler}
+                            studentReports={props.patient?.studentReports}
                             options={reportSets[selectedTab].reportFields}
                             type={reportType} setName={reportSets[selectedTab].name} />
                     </>

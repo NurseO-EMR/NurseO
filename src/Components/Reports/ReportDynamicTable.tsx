@@ -1,3 +1,4 @@
+import { groupBy, uniq } from "lodash";
 import { Report, ReportType, StudentReport } from "nurse-o-core";
 import { useEffect, useState } from "react";
 import { Button } from "../Form/Button";
@@ -11,6 +12,7 @@ type Props = {
     options: Report[],
     onSave: (report:StudentReport[]) => void
     setName: string,
+    studentReports: StudentReport[] | undefined
 }
 
 export function ReportDynamicTable(props: Props) {
@@ -19,14 +21,11 @@ export function ReportDynamicTable(props: Props) {
     const [options, setOptions] = useState<{name:string}[]>(props.options.map(o=>{return {name:o.name}}))
 
     useEffect(()=>{
-        const InitialTable = [
-            ["", "", ""],
-            ["", "", ""],
-            ["","",""]
-        ]
+        const initialTable = getInitialTable(props.studentReports?.filter(r=> r.setName === props.setName && r.reportType === props.type))
+        updateTable(initialTable)
 
         setOptions([...props.options.map(o=>{return {name:o.name}})])
-        setTable([...InitialTable])
+        setTable([...initialTable])
     },[props.options])
 
 
@@ -95,7 +94,7 @@ export function ReportDynamicTable(props: Props) {
                     date: times[column],
                     reportType: props.type,
                     setName: props.setName,
-                    time: "",
+                    time: table[0][column],
                     value: table[row][column],
                     vitalName: key
                 }
@@ -108,7 +107,7 @@ export function ReportDynamicTable(props: Props) {
         
     }
 
-    return <div className="my-2">
+    return <div className="my-2 max-w-[56vw]">
         <table className="w-full relative">
             <tbody>
                 {table.map((row,rowIndex)=><Tr key={rowIndex}>
@@ -148,4 +147,43 @@ function reportTypeToWords(type:ReportType) {
         case "studentVitalsReport": return "Vital";
         case "studentLabReport": return "Lab";    
     }
+}
+
+
+
+function getInitialTable(studentReports: StudentReport[] | undefined): string[][] {
+    // if no student reports return default table
+    if(!studentReports || studentReports.length === 0) return [
+        ["", "", ""],
+        ["", "", ""],
+        ["","",""]
+    ]
+
+    const output:string[][] = []
+    const rows = Object.entries(groupBy(studentReports, "vitalName"))
+
+    // get the times row
+    let times:string[] = []
+    for(const row of rows) {
+        row[1].forEach(r=>times.push(r.time))
+    }
+
+    times = uniq(times).sort()
+    times.unshift("")
+    output.push(times)
+
+    // get the reports and populate them into a table 
+    for(let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+        const rowName = rows[rowIndex][0]
+        const rowEntries = rows[rowIndex][1].map<string>(r=>r.value)
+
+
+        const rowArray = [rowName, ...rowEntries]
+
+        output.push(rowArray)
+    }
+
+    
+    return output
+
 }
