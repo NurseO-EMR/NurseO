@@ -30,6 +30,8 @@ export function OrdersStage(props: Props) {
     const [notes, setNotes] = useState("");
     const [orderType, setOrderType] = useState(OrderType.NA);
     const [completed, setCompleted] = useState(false);
+    const [hold, setHold] = useState(false);
+    const [holdReason, setHoldReason] = useState("");
     const [showMar, setShowMar] = useState(false);
 
     const [orders, setOrders] = useState(props.patient?.medicationOrders || [] as MedicationOrder[]);
@@ -78,6 +80,7 @@ export function OrdersStage(props: Props) {
         setNotes("")
         setOrderType(OrderType.NA)
         setCompleted(false)
+        setHold(false)
     }
 
 
@@ -133,6 +136,7 @@ export function OrdersStage(props: Props) {
         setNotes(order.notes)
         setOrderType(order.orderType)
         setCompleted(order.completed || false)
+        setHold(order.holdReason && order.holdReason.length > 0 || false)
     }
 
 
@@ -165,6 +169,13 @@ export function OrdersStage(props: Props) {
                         <option value="false">No</option>
                         <option value="true">Yes</option>
                     </Select>
+
+                    <Select label="Hold" onChange={e=>setHold(e.currentTarget.value === "true")}>
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                    </Select>
+
+                    {hold ? <Input label="Hold Reason" onChange={e => setHoldReason(e.currentTarget.value)} value={holdReason} optional /> : null}
 
                 </div>
 
