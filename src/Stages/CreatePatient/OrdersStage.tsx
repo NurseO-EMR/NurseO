@@ -1,5 +1,5 @@
 import { faBookMedical } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
@@ -18,7 +18,6 @@ export type Props = BaseStageProps & {
 }
 
 export function OrdersStage(props: Props) {
-    const marRef = useRef<HTMLInputElement>(null);
     const [meds, setMeds] = useState([] as Medication[])
 
     const [id, setId] = useState("");
@@ -27,10 +26,11 @@ export function OrdersStage(props: Props) {
     const [routine, setRoutine] = useState(Routine.NA);
     const [PRNNote, setPRNNote] = useState("");
     const [frequency, setFrequency] = useState(Frequency.NA);
-    const [marString, setMarString] = useState("");
+    const [mar, setMar] = useState<MarRecord[]>([]);
     const [notes, setNotes] = useState("");
     const [orderType, setOrderType] = useState(OrderType.NA);
     const [completed, setCompleted] = useState(false);
+    const [showMar, setShowMar] = useState(false);
 
     const [orders, setOrders] = useState(props.patient?.medicationOrders || [] as MedicationOrder[]);
 
@@ -49,7 +49,6 @@ export function OrdersStage(props: Props) {
         //check if there is med 
         if (!id) { broadcastAnnouncement("No med selected", Announcement.error); return; }
         if (orderType === OrderType.NA) {broadcastAnnouncement("must select order type", Announcement.error); return; }
-        if (!marRef.current?.checkValidity()) return;
 
         const order: MedicationOrder = {
             id: id,
@@ -57,7 +56,7 @@ export function OrdersStage(props: Props) {
             route,
             routine,
             frequency,
-            mar: marToTime(marString),
+            mar,
             notes,
             orderType,
             PRNNote,
@@ -67,17 +66,18 @@ export function OrdersStage(props: Props) {
 
         orders.push(order)
         setOrders([...orders]);
+        console.log(orders)
+
         setId("")
         setConcentration("")
         setRoute("")
         setRoutine(Routine.NA)
         setPRNNote("")
         setFrequency(Frequency.NA)
-        setMarString("")
+        setMar([])
         setNotes("")
         setOrderType(OrderType.NA)
         setCompleted(false)
-
     }
 
 
@@ -129,7 +129,7 @@ export function OrdersStage(props: Props) {
         setRoutine(order.routine)
         setPRNNote(order.PRNNote || "")
         setFrequency(frequencyKey as Frequency)
-        setMarString(marString)
+        setMar(order.mar)
         setNotes(order.notes)
         setOrderType(order.orderType)
         setCompleted(order.completed || false)
@@ -155,7 +155,7 @@ export function OrdersStage(props: Props) {
                         {Object.values(Frequency).map((f, i) => <option value={f} key={i}>{f}</option>)}
                     </Select>
 
-                    <div className="grid items-center"><Button className="bg-red h-10 mt-4 py-0">Add Mar Record</Button></div>
+                    <div className="grid items-center"><Button className="bg-red h-10 mt-4 py-0" onClick={()=>setShowMar(true)}>Add/Edit Mar Record</Button></div>
                     <Input label="Notes" onChange={e => setNotes(e.currentTarget.value)} value={notes} optional />
                     <Select label="Order Type" value={orderType} onChange={e => setOrderType(e.currentTarget.value as OrderType)} optional>
                         {Object.values(OrderType).map((t, i) => <option value={t} key={i}>{t}</option>)}
@@ -185,28 +185,9 @@ export function OrdersStage(props: Props) {
             </div>
 
 
-            <MarRecordEditor />
+            <MarRecordEditor show={showMar} onClose={()=>setShowMar(false)} marRecords={mar} onSave={setMar}/>
 
         </div>
     )
 
-}
-
-
-
-
-function marToTime(marString: string): MarRecord[] {
-    if (marString === "") return [];
-
-    const output: MarRecord[] = [];
-    const splitedTimes = marString.split(",")
-    const splitedByCommaAndColon = splitedTimes.map(time => time.split(":"))
-    for (const timeString of splitedByCommaAndColon) {
-        const time: MarRecord = {
-            hour: Number.parseInt(timeString[0]),
-            minutes: Number.parseInt(timeString[1])
-        }
-        output.push(time)
-    }
-    return output
 }
