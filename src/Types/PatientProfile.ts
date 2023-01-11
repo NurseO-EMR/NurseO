@@ -48,10 +48,14 @@ export type MedicationOrder  = Order & {
     routine: Routine;
     PRNNote: string | null;
     notes: string;
-    mar: Time[];
+    mar: MarRecord[];
     completed?: boolean
 }
 
+export type MarRecord = {
+    time: Time,
+    dose: string
+}
 
 export type MedicalHistory = {
     date: string
