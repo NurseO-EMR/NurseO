@@ -10,6 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import { Database } from "../../Services/Database";
 import { SearchableSelect } from "../../Components/Form/SearchableSelect";
 import { broadcastAnnouncement, Announcement } from "../../Services/AnnouncementService";
+import { MarRecordEditor } from "../../Components/Stages/MarRecordEditor";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,
@@ -154,13 +155,7 @@ export function OrdersStage(props: Props) {
                         {Object.values(Frequency).map((f, i) => <option value={f} key={i}>{f}</option>)}
                     </Select>
 
-
-                    <Input label="Mar" onChange={e => setMarString(e.currentTarget.value)} value={marString}
-                        placeholder="01:00, 14:00, 16:00" pattern="(([0-2][0-9]:[0-6][0-9]),{0,1})+" ref={marRef} optional
-                        title="enter times in 24 hour format with commas in between, example: 01:00,14:00 which means it was administered at 1 am and 2 pm "
-                    />
-
-
+                    <div className="grid items-center"><Button className="bg-red h-10 mt-4 py-0">Add Mar Record</Button></div>
                     <Input label="Notes" onChange={e => setNotes(e.currentTarget.value)} value={notes} optional />
                     <Select label="Order Type" value={orderType} onChange={e => setOrderType(e.currentTarget.value as OrderType)} optional>
                         {Object.values(OrderType).map((t, i) => <option value={t} key={i}>{t}</option>)}
@@ -188,6 +183,9 @@ export function OrdersStage(props: Props) {
                     )}
                 </AnimatePresence>
             </div>
+
+
+            <MarRecordEditor />
 
         </div>
     )
