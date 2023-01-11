@@ -1,16 +1,16 @@
 import { faBookMedical } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { MedicationOrder, OrderKind, OrderType, Frequency, Routine, Time, PatientChart } from "nurse-o-core"
+import { MedicationOrder, OrderKind, OrderType, Frequency, Routine, PatientChart, MarRecord, Medication } from "nurse-o-core"
 import { MedicationOrdersPreviewer } from "../../Components/Stages/MedicationOrdersPreviewer";
 import { AnimatePresence } from "framer-motion";
 import { Database } from "../../Services/Database";
 import { SearchableSelect } from "../../Components/Form/SearchableSelect";
-import { Medication } from "nurse-o-core";
 import { broadcastAnnouncement, Announcement } from "../../Services/AnnouncementService";
+import { MarRecordEditor } from "../../Components/Stages/MarRecordEditor";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,
@@ -18,7 +18,6 @@ export type Props = BaseStageProps & {
 }
 
 export function OrdersStage(props: Props) {
-    const marRef = useRef<HTMLInputElement>(null);
     const [meds, setMeds] = useState([] as Medication[])
 
     const [id, setId] = useState("");
@@ -27,10 +26,11 @@ export function OrdersStage(props: Props) {
     const [routine, setRoutine] = useState(Routine.NA);
     const [PRNNote, setPRNNote] = useState("");
     const [frequency, setFrequency] = useState(Frequency.NA);
-    const [marString, setMarString] = useState("");
+    const [mar, setMar] = useState<MarRecord[]>([]);
     const [notes, setNotes] = useState("");
     const [orderType, setOrderType] = useState(OrderType.NA);
     const [completed, setCompleted] = useState(false);
+    const [showMar, setShowMar] = useState(false);
 
     const [orders, setOrders] = useState(props.patient?.medicationOrders || [] as MedicationOrder[]);
 
@@ -49,7 +49,6 @@ export function OrdersStage(props: Props) {
         //check if there is med 
         if (!id) { broadcastAnnouncement("No med selected", Announcement.error); return; }
         if (orderType === OrderType.NA) {broadcastAnnouncement("must select order type", Announcement.error); return; }
-        if (!marRef.current?.checkValidity()) return;
 
         const order: MedicationOrder = {
             id: id,
@@ -57,7 +56,7 @@ export function OrdersStage(props: Props) {
             route,
             routine,
             frequency,
-            mar: marToTime(marString),
+            mar,
             notes,
             orderType,
             PRNNote,
@@ -67,17 +66,18 @@ export function OrdersStage(props: Props) {
 
         orders.push(order)
         setOrders([...orders]);
+        console.log(orders)
+
         setId("")
         setConcentration("")
         setRoute("")
         setRoutine(Routine.NA)
         setPRNNote("")
         setFrequency(Frequency.NA)
-        setMarString("")
+        setMar([])
         setNotes("")
         setOrderType(OrderType.NA)
         setCompleted(false)
-
     }
 
 
@@ -129,7 +129,7 @@ export function OrdersStage(props: Props) {
         setRoutine(order.routine)
         setPRNNote(order.PRNNote || "")
         setFrequency(frequencyKey as Frequency)
-        setMarString(marString)
+        setMar(order.mar)
         setNotes(order.notes)
         setOrderType(order.orderType)
         setCompleted(order.completed || false)
@@ -155,13 +155,7 @@ export function OrdersStage(props: Props) {
                         {Object.values(Frequency).map((f, i) => <option value={f} key={i}>{f}</option>)}
                     </Select>
 
-
-                    <Input label="Mar" onChange={e => setMarString(e.currentTarget.value)} value={marString}
-                        placeholder="01:00, 14:00, 16:00" pattern="(([0-2][0-9]:[0-6][0-9]),{0,1})+" ref={marRef} optional
-                        title="enter times in 24 hour format with commas in between, example: 01:00,14:00 which means it was administered at 1 am and 2 pm "
-                    />
-
-
+                    <div className="grid items-center"><Button className="bg-red h-10 mt-4 py-0" onClick={()=>setShowMar(true)}>Add/Edit Mar Record</Button></div>
                     <Input label="Notes" onChange={e => setNotes(e.currentTarget.value)} value={notes} optional />
                     <Select label="Order Type" value={orderType} onChange={e => setOrderType(e.currentTarget.value as OrderType)} optional>
                         {Object.values(OrderType).map((t, i) => <option value={t} key={i}>{t}</option>)}
@@ -190,26 +184,10 @@ export function OrdersStage(props: Props) {
                 </AnimatePresence>
             </div>
 
+
+            <MarRecordEditor show={showMar} onClose={()=>setShowMar(false)} marRecords={mar} onSave={setMar}/>
+
         </div>
     )
 
-}
-
-
-
-
-function marToTime(marString: string): Time[] {
-    if (marString === "") return [];
-
-    const output: Time[] = [];
-    const splitedTimes = marString.split(",")
-    const splitedByCommaAndColon = splitedTimes.map(time => time.split(":"))
-    for (const timeString of splitedByCommaAndColon) {
-        const time: Time = {
-            hour: Number.parseInt(timeString[0]),
-            minutes: Number.parseInt(timeString[1])
-        }
-        output.push(time)
-    }
-    return output
 }
