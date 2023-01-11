@@ -50,6 +50,7 @@ export type MedicationOrder  = Order & {
     notes: string;
     mar: MarRecord[];
     completed?: boolean
+    holdReason?: string
 }
 
 export type MarRecord = Time & {
