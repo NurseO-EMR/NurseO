@@ -4,12 +4,11 @@ import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { MedicationOrder, OrderKind, OrderType, Frequency, Routine, Time, PatientChart } from "nurse-o-core"
+import { MedicationOrder, OrderKind, OrderType, Frequency, Routine, PatientChart, MarRecord, Medication } from "nurse-o-core"
 import { MedicationOrdersPreviewer } from "../../Components/Stages/MedicationOrdersPreviewer";
 import { AnimatePresence } from "framer-motion";
 import { Database } from "../../Services/Database";
 import { SearchableSelect } from "../../Components/Form/SearchableSelect";
-import { Medication } from "nurse-o-core";
 import { broadcastAnnouncement, Announcement } from "../../Services/AnnouncementService";
 
 export type Props = BaseStageProps & {
@@ -198,14 +197,14 @@ export function OrdersStage(props: Props) {
 
 
 
-function marToTime(marString: string): Time[] {
+function marToTime(marString: string): MarRecord[] {
     if (marString === "") return [];
 
-    const output: Time[] = [];
+    const output: MarRecord[] = [];
     const splitedTimes = marString.split(",")
     const splitedByCommaAndColon = splitedTimes.map(time => time.split(":"))
     for (const timeString of splitedByCommaAndColon) {
-        const time: Time = {
+        const time: MarRecord = {
             hour: Number.parseInt(timeString[0]),
             minutes: Number.parseInt(timeString[1])
         }
