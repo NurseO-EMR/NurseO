@@ -52,9 +52,8 @@ export type MedicationOrder  = Order & {
     completed?: boolean
 }
 
-export type MarRecord = {
-    time: Time,
-    dose: string
+export type MarRecord = Time & {
+    dose?: string
 }
 
 export type MedicalHistory = {
