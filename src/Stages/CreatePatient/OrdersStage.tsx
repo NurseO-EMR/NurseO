@@ -74,7 +74,7 @@ export function OrdersStage(props: Props) {
         setRoutine(Routine.NA)
         setPRNNote("")
         setFrequency(Frequency.NA)
-        setMar([])
+        setMar(new Array<MarRecord>())
         setNotes("")
         setOrderType(OrderType.NA)
         setCompleted(false)

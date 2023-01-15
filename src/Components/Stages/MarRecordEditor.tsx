@@ -1,5 +1,5 @@
 import { MarRecord, Time } from "nurse-o-core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PureModal from "react-pure-modal";
 import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
 import { Button } from "../Form/Button";
@@ -19,7 +19,12 @@ export function MarRecordEditor(props:Props) {
 
     const [time, setTime] = useState("")
     const [dose, setDose] = useState("")
-    const [records, setRecords] = useState<MarRecord[]>([])
+    const [records, setRecords] = useState<MarRecord[]>(props.marRecords)
+
+
+    useEffect(()=>{
+        setRecords(props.marRecords)
+    }, [props.marRecords])
 
     const onAddRecordHandler = ()=>{
         if(!time) {
