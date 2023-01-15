@@ -91,10 +91,10 @@ export function ReportDynamicTable(props: Props) {
             for(let column = 1; column<table[row].length-1; column++) {
 
                 const report:StudentReport = {
-                    date: times[column],
+                    date: "",
                     reportType: props.type,
                     setName: props.setName,
-                    time: "",
+                    time: table[0][column],
                     value: table[row][column],
                     vitalName: key
                 }
