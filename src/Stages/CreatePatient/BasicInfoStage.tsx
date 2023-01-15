@@ -53,8 +53,8 @@ export function BasicInfoStage(props: Props) {
                     <option value={Gender.Female}>Female</option>
                     <option value={Gender.Other}>Other</option>
                 </Select>
-                <Input label="Height" suffix={["cm"]} type="number" step={0.5} onChange={e=>setHeight(e.currentTarget.value)} value={height}/>
-                <Input label="Weight" suffix={["kg", "lb"]} type="number" step={0.5} onChange={e=>setWeight(e.currentTarget.value)} value={weight}/> 
+                <Input label="Height" suffix={["cm"]} type="number" step={0.5} onChangeWSuffix={e=>setHeight(e)} value={height}/>
+                <Input label="Weight" suffix={["kg", "lb"]} type="number" step={0.5} onChangeWSuffix={e=>setWeight(e)} value={weight}/> 
                 <label className="block text-left">Diagnosis: </label>
                 <textarea className="border w-full p-2" cols={45} rows={5} 
                     value={diagnosis} onChange={e=>setDiagnosis(e.currentTarget.value)} 
@@ -68,7 +68,5 @@ export function BasicInfoStage(props: Props) {
 function convertDateToValue(date:string) {
     const stars = date.replaceAll("x","1");
     const d = new Date(stars);
-    
-
     return `${d.getFullYear()}-${(d.getMonth()+1).toString().padStart(2,"0")}-${d.getDate().toString().padStart(2,"0")}`
 }

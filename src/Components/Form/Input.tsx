@@ -12,11 +12,13 @@ export type Props = Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>
     suffix?: string[],
     hideLabel?: boolean,
     inputClassName?: string,
+    onChangeWSuffix?: (value:string)=>void
 }
 
 function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
     const [id] = useState(uuid())
     const [suffixIndex, setSuffixIndex] = useState(0)
+    const [value, setValue]= useState(props.value)
     const animationVariants:Variants = { 
         hidden: { opacity: 0 },
         show: { 
@@ -27,26 +29,26 @@ function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
     }
 
 
-    // useEffect(()=>{
-    //     if(props.suffix && props.suffix.length > 0 && props.value) {
-    //         const value = props.value.toString()
-    //         let numberValue = "";
-    //         let suffixValue = "";
-    //         for(const char of value) {
-    //             if(char === "." || !isNaN(parseInt(char))) numberValue += char
-    //             else suffixValue+="";
-    //         }
+    useEffect(()=>{
+        if(props.suffix && props.suffix.length > 0 && props.value) {
+            const value = props.value.toString()
+            let numberValue = "";
+            let suffixValue = "";
+            for(const char of value) {
+                if(char === "." || !isNaN(parseInt(char))) numberValue += char
+                else suffixValue+="";
+            }
 
-    //         const index = props.suffix.indexOf(suffixValue)
-    //         if(index > -1) setSuffixIndex(index)
-    //         setValue(numberValue)
+            const index = props.suffix.indexOf(suffixValue)
+            if(index > -1) setSuffixIndex(index)
+            setValue(numberValue)
 
-    //     }
-    // }, [props.suffix, props.value])
+        }
+    }, [props.suffix, props.value])
 
     const getInputProps = () =>{
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { optional, label, delay, required, className, hideLabel, ...inputProps} = props
+        const { optional, label, delay, required, className, hideLabel, onChange, onChangeWSuffix, value, ...inputProps} = props
         return inputProps
     }
 
@@ -61,7 +63,13 @@ function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
         else index++;
 
         setSuffixIndex(index)
+    }
 
+    const onChangeHandler = (e:ChangeEvent<HTMLInputElement>)=>{
+        if(props.suffix && props.suffix.length > 0) {
+            const value = e.currentTarget.value + props.suffix[suffixIndex]
+            if(props.onChangeWSuffix) props.onChangeWSuffix(value)
+        } else if(props.onChange) props.onChange(e)
     }
 
     return (
@@ -74,12 +82,13 @@ function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
             <input id={id} {...getInputProps()} 
                 required={!props.optional} 
                 className={`border h-8  px-2 w-full ${props.inputClassName}`} ref={ref} 
-
+                onChange={onChangeHandler}
+                value={value}
             />
 
             {props.suffix ? <div className="absolute top-7 left-78/100 tracking-wider opacity-75"> | 
                 {props.suffix.length > 1 ? <> {props.suffix[suffixIndex]} <FontAwesomeIcon className="cursor-pointer" onClick={onSuffixSwitchHandler}  icon={faArrowsRotate} /></> 
-                    : props.suffix[suffixIndex] }
+                    : <>{props.suffix[suffixIndex]}</> }
             </div>: null}
         </motion.div>
     )
@@ -87,3 +96,4 @@ function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
 
 
 export const Input = forwardRef(InputEle)
+
