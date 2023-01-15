@@ -63,7 +63,8 @@ export function OrdersStage(props: Props) {
             orderType,
             PRNNote,
             orderKind: OrderKind.med,
-            completed
+            completed,
+            holdReason
         }
 
         orders.push(order)
@@ -81,6 +82,7 @@ export function OrdersStage(props: Props) {
         setOrderType(OrderType.NA)
         setCompleted(false)
         setHold(false)
+        setHoldReason("")
     }
 
 
@@ -137,6 +139,7 @@ export function OrdersStage(props: Props) {
         setOrderType(order.orderType)
         setCompleted(order.completed || false)
         setHold(order.holdReason && order.holdReason.length > 0 || false)
+        setHoldReason(order.holdReason || "")
     }
 
 
@@ -165,12 +168,12 @@ export function OrdersStage(props: Props) {
                         {Object.values(OrderType).map((t, i) => <option value={t} key={i}>{t}</option>)}
                     </Select>
 
-                    <Select label="Completed" onChange={e=>setCompleted(e.currentTarget.value === "true")}>
+                    <Select label="Completed" onChange={e=>setCompleted(e.currentTarget.value === "true")} value={completed as unknown as string}>
                         <option value="false">No</option>
                         <option value="true">Yes</option>
                     </Select>
 
-                    <Select label="Hold" onChange={e=>setHold(e.currentTarget.value === "true")}>
+                    <Select label="Hold" onChange={e=>setHold(e.currentTarget.value === "true")} value={hold as unknown as string}>
                         <option value="false">No</option>
                         <option value="true">Yes</option>
                     </Select>
@@ -200,5 +203,4 @@ export function OrdersStage(props: Props) {
 
         </div>
     )
-
 }
