@@ -42,8 +42,7 @@ function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
             const index = props.suffix.indexOf(suffixValue)
             if(index > -1) setSuffixIndex(index)
             setValue(numberValue)
-
-        }
+        } else setValue(props.value)
     }, [props.suffix, props.value])
 
     const getInputProps = () =>{
@@ -69,7 +68,8 @@ function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
         if(props.suffix && props.suffix.length > 0) {
             const value = e.currentTarget.value + props.suffix[suffixIndex]
             if(props.onChangeWSuffix) props.onChangeWSuffix(value)
-        } else if(props.onChange) props.onChange(e)
+        } 
+        if(props.onChange) props.onChange(e)
     }
 
     return (
