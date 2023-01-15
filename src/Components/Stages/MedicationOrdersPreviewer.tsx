@@ -51,7 +51,6 @@ export function MedicationOrdersPreviewer(props: Props) {
                 <div>Type: {props.medOrder.orderType}</div>
                 <div className="mt-3">Mar: {props.medOrder.mar.length > 0 ? props.medOrder.mar.map((time) => time.hour.toString().padStart(2,"0") + ":" + time.minutes.toString().padStart(2,"0") + " ") : "No mar data added"}</div>
                 <div className="text-blue font-bold mt-2">{props.medOrder.completed ? "Completed" : null}</div>
-                <div className="text-red font-bold mt-2">{props.medOrder.holdReason && props.medOrder.holdReason.length > 0 ? "Hold: " + props.medOrder.holdReason : null}</div>
             </div>
             <div className="cursor-pointer grid items-center text-xl">
                 <FontAwesomeIcon icon={faPenToSquare} onClick={props.onEdit} />
