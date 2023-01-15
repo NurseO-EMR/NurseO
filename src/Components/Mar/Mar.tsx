@@ -22,7 +22,6 @@ export default class Mar extends React.Component<Props, State> {
         this.state = {
             filteredOrders: this.props.orders
         }
-        console.log("init")
     }
 
     getTimeSlots() {
