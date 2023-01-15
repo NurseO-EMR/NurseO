@@ -94,7 +94,7 @@ export function ReportDynamicTable(props: Props) {
                     date: "",
                     reportType: props.type,
                     setName: props.setName,
-                    time: table[0][column],
+                    time: times[column],
                     value: table[row][column],
                     vitalName: key
                 }
