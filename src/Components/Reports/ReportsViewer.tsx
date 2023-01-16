@@ -52,7 +52,15 @@ export default class ReportsViewer extends React.Component<Props, State> {
 
         const vitals = this.filteredSets[this.state.selectedTab][1];
         const times = vitals.map(vital => `${vital.date} ${vital.time}`);
-        return uniq(times.sort());
+        let uniqTimes = uniq(times)
+        for(const time of uniqTimes) {
+            if(!isNaN(Date.parse(time))) {
+                uniqTimes =  uniqTimes.sort()
+                break
+            }
+        }
+
+        return uniqTimes
     }
 
     //this function is expensive and might require optimization letter

@@ -48,8 +48,6 @@ export default function ReportInput(props: Props) {
         props.onChange(vitalName, key - 1, output);
     }
 
-    console.log(props.vital.labels?.length)
-
     return (
         <tr className="w-9/12 odd:bg-gray-100 even:bg-gray-300 h-14">
             <td className="font-bold pl-4 w-3/12">{props.vital.name}</td>
