@@ -1,31 +1,35 @@
 import { getAuth } from 'firebase/auth';
-import React from 'react';
+import { ReactChild, useEffect } from 'react';
 import ArmBand from '../../Components/ArmBand/ArmBand';
 import SideNav from '../../Components/Nav/SideBar/SideNav';
 import SideNavHeader from '../../Components/Nav/SideBar/SideNavHeader';
 import SideNavItem from '../../Components/Nav/SideBar/SideNavItem';
 import TopNav from '../../Components/Nav/TopMenu/TopNav';
-import { $history, $patient } from '../../Services/State';
+import { $patient } from '../../Services/State';
 import TapOutService from '../../Services/TapOutService';
 import { PatientChart } from 'nurse-o-core';
+import {Redirect} from "react-router-dom"
+import { getApps } from 'firebase/app';
 
 type Props = {
-    patient: PatientChart
+    patient: PatientChart,
+    children: Element | Element[] | ReactChild | ReactChild[] | null
 }
 
-export default class StudentViewPage extends React.Component<Props> {
+export default function StudentViewPage(props:Props) {
+        useEffect(()=>TapOutService.initialize(),[])
 
-    componentDidMount() {
-        if (!getAuth().currentUser) $history.value.push("/")
-        if (!$patient.value) $history.value.push("/studentView/selectPatient")
-        TapOutService.initialize();
-    }
+        if(getApps().length === 0) {
+            window.location.href = "/"
+        }
+        
+        if (!getAuth().currentUser) return <Redirect to="/" />
+        if (!$patient.value)  return <Redirect to="/studentView/selectPatient" />
 
-    public render() {
         return (
             <div className="grid grid-areas-main min-h-screen grid-cols-twoSections grid-rows-threeSections">
                 <TopNav className="grid-in-topNav"></TopNav>
-                <ArmBand patient={this.props.patient} className="grid-in-armBand"></ArmBand>
+                <ArmBand patient={props.patient} className="grid-in-armBand"></ArmBand>
                 <SideNav className="grid-in-sideBar">
                     <SideNavHeader href="/studentView/dashboard">Dashboard</SideNavHeader>
                     <SideNavItem href="/studentView/dashboard/medications">Medications</SideNavItem>
@@ -58,9 +62,8 @@ export default class StudentViewPage extends React.Component<Props> {
 
                 </SideNav>
                 <div className="grid-in-main mb-4">
-                    {this.props.children}
+                    {props.children}
                 </div>
             </div>
         );
     }
-}

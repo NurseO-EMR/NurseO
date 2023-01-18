@@ -3,8 +3,7 @@ import { initializeApp } from "firebase/app";
 import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
     limit, query, updateDoc, where, doc, getDoc, orderBy,
-    connectFirestoreEmulator
-
+    // connectFirestoreEmulator
 } from "firebase/firestore";
 import { $error, $locationID, $patient, $settings } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";

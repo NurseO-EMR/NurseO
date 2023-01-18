@@ -24,6 +24,7 @@ export default class Login extends React.Component<Props,State> {
         super(props);
         this.app = initializeApp(firebaseConfig);
         this.auth = getAuth(this.app);
+        if(this.auth.currentUser) this.auth.signOut().then(()=>console.log(this.auth.currentUser))
         this.state = {
             badgeNumber: "",
             error: ""
