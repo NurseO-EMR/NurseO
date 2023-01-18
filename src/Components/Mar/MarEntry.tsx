@@ -12,7 +12,7 @@ type State = {
     timeSlots: Map<number, TimeSlotStatus>
 }
 
-type TimeSlotStatus = string | "Available" | "-" | "Due"
+type TimeSlotStatus = JSX.Element | "-" 
 export default class MarEntry extends React.Component<Props, State> {
 
     private timeSlots: Map<number, TimeSlotStatus>;
@@ -35,15 +35,15 @@ export default class MarEntry extends React.Component<Props, State> {
     }
 
     checkForRecordedMarData() {
-        for (const recordTime of this.props.order.mar) {
-            const { hour, minutes } = recordTime;
-            this.timeSlots.set(hour, `${hour.toString().padStart(2,"0")}:${minutes.toString().padStart(2,"0")}`);                
+        for (const record of this.props.order.mar) {
+            const { hour, minutes, dose } = record;
+            this.timeSlots.set(hour, <span>{hour.toString().padStart(2,"0")}:{minutes.toString().padStart(2,"0")} <br /> {dose} </span>)
         }
     }
 
 
     isMedGivin(status:TimeSlotStatus) {
-        return status!=="Available" && status!=="-" && status !== "Due"
+        return status!=="-" 
     }
 
     getTimeSlotValue(hour:number) {

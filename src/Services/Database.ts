@@ -23,7 +23,7 @@ export default class Database {
     constructor() {
         initializeApp(firebaseConfig);
         this.db = getFirestore();
-        // connectFirestoreEmulator(this.db, 'localhost', 8080);
+        connectFirestoreEmulator(this.db, 'localhost', 8080);
         this.patientDocRef = null;
         this.currentPatientID = null;
         this.cache = new Cache();
