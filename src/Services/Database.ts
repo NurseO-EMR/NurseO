@@ -129,12 +129,17 @@ export class Database {
         this.patientListCached = false;
     }
 
-    async updateTemplatePatient(oldPatient: PatientChart, newPatient: PatientChart) {
-        const ref = await this.getTemplatePatientRef(oldPatient);
-        const patient = { ...newPatient };
-        this.patientListCached = false;
-        await updateDoc(ref, patient);
-        broadcastAnnouncement("Patient Updated", Announcement.success)
+    async updateTemplatePatient(oldPatient: PatientChart, newPatient: PatientChart):Promise<void> {
+        try {
+            const ref = await this.getTemplatePatientRef(oldPatient);
+            const patient = { ...newPatient };
+            this.patientListCached = false;
+            await updateDoc(ref, patient);
+            broadcastAnnouncement("Patient Updated", Announcement.success)
+        } catch {
+            broadcastAnnouncement("Error Saving this patient", Announcement.error )
+        }
+        
     }
 
     private async getTemplatePatientRef(patient: PatientChart): Promise<DocumentReference> {
