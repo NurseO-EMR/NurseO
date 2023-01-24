@@ -2,7 +2,9 @@ import { getAuth } from 'firebase/auth';
 import { initializeApp } from "firebase/app";
 import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
-    limit, query, updateDoc, where, doc, getDoc, orderBy} from "firebase/firestore";
+    limit, query, updateDoc, where, doc, getDoc, orderBy,
+    // connectFirestoreEmulator
+} from "firebase/firestore";
 import { $error, $locationID, $patient, $settings } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";
 import { Medication, Settings,PatientChart, PatientNotFoundError } from "nurse-o-core";
