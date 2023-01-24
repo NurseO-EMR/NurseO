@@ -11,7 +11,7 @@ type Props = {
 }
 
 
-type TimeSlotStatus = string | "Available" | "-" | "Due"
+type TimeSlotStatus = JSX.Element | "-" 
 export function MarEntry(props: Props) {
 
     const [timeSlots, setTimeSlots] = useState(new Map<number, TimeSlotStatus>())
@@ -27,9 +27,9 @@ export function MarEntry(props: Props) {
         }
 
         function checkForRecordedMarData() {
-            for (const recordTime of props.order.mar) {
-                const { hour, minutes } = recordTime;
-                timeSlots.set(hour, `${hour.toString().padStart(2,"0")}:${minutes.toString().padStart(2,"0")}`);                
+            for (const record of props.order.mar) {
+                const { hour, minutes, dose } = record;
+                timeSlots.set(hour, <span>{hour.toString().padStart(2,"0")}:{minutes.toString().padStart(2,"0")} <br /> {dose} </span>)      
             }
         }
 
@@ -50,7 +50,7 @@ export function MarEntry(props: Props) {
 
 
     const isMedGivin = (status:TimeSlotStatus) => {
-        return status!=="Available" && status!=="-" && status !== "Due"
+        return status!=="-" 
     }
 
     const getTimeSlotValue = (hour:number)=>{

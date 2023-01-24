@@ -2,7 +2,8 @@ import { getAuth } from '@firebase/auth';
 import { initializeApp } from "@firebase/app";
 import {
     addDoc, collection, getDocs, getFirestore,
-    limit, query, where, doc, getDoc, Firestore, orderBy
+    limit, query, where, doc, getDoc, Firestore, orderBy,
+    // connectFirestoreEmulator
 } from "@firebase/firestore";
 import { findIndex } from "lodash";
 import {PatientChart, Medication, Settings} from "nurse-o-core"
