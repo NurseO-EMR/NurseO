@@ -98,6 +98,7 @@ export enum Frequency {
     q1hr = "every hour",
     q2hr = "every two hours",
     q4hr = "every four hours",
+    q5hr = "every five hours",
     q6hr = "every six hours",
     q8hr = "every eight hours",
     q12hr = "every twelve hours",
