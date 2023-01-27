@@ -1,6 +1,6 @@
-import { faIdCard, faHouseChimneyUser, faHeadSideCough, faSyringe, faBookMedical, faHeart, faStethoscope, faComputer, faFileInvoice, faPills } from "@fortawesome/free-solid-svg-icons";
+import { faIdCard, faHouseChimneyUser, faHeadSideCough, faSyringe, faBookMedical, faHeart, faStethoscope, faComputer, faFileInvoice, faPills, faFlag } from "@fortawesome/free-solid-svg-icons";
 import { clone, cloneDeep, isEqual } from "lodash";
-import { Allergy, CustomOrder, MedicalHistory, MedicationOrder, PatientChart, StudentReport } from "nurse-o-core";
+import { Allergy, CustomOrder, Flag, MedicalHistory, MedicationOrder, PatientChart, StudentReport } from "nurse-o-core";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Stages } from "../../Components/Stages/Stages";
@@ -11,6 +11,7 @@ import { AllergiesStage } from "../../Stages/CreatePatient/AllergiesStage";
 import { BasicInfo, BasicInfoStage } from "../../Stages/CreatePatient/BasicInfoStage";
 import { ChartingStage } from "../../Stages/CreatePatient/ChartingStage";
 import { CustomOrdersStage } from "../../Stages/CreatePatient/CustomOrdersStage";
+import { FlagsStage } from "../../Stages/CreatePatient/FlagsStage";
 import { ImmunizationsStage } from "../../Stages/CreatePatient/ImmunizationsStage";
 import { MedicalHistoryStage } from "../../Stages/CreatePatient/MedicalHistoryStage";
 import { OrdersStage } from "../../Stages/CreatePatient/OrdersStage";
@@ -41,7 +42,7 @@ export function EditPatientPage() {
             console.log("updated")
             db.updateTemplatePatient(oldPatient,patient) // no await so it moves to the end of the stack
             setOldPatient(cloneDeep(patient))
-        }
+        } else {console.log("no update")}
     }
     const onPrevClickHandler = () => {
         let stage = currentStage - 1;
@@ -74,6 +75,13 @@ export function EditPatientPage() {
 
     const onAllergiesHandler = (allergies: Allergy[]) => {
         patient.allergies = allergies;
+        setPatient(patient);
+
+        onNextClickHandler();
+    }
+
+    const onFlagsHandler = (flags:Flag[])=>{
+        patient.flags  = flags;
         setPatient(patient);
 
         onNextClickHandler();
@@ -133,6 +141,7 @@ export function EditPatientPage() {
         <Steps activeStep={currentStage} stageSwitchFn={setCurrentStage}>
             <Step icon={faIdCard} />
             <Step icon={faHouseChimneyUser} />
+            <Step icon={faFlag} />
             <Step icon={faHeadSideCough} />
             <Step icon={faSyringe} />
             <Step icon={faBookMedical} />
@@ -146,6 +155,7 @@ export function EditPatientPage() {
         <Stages stage={currentStage}>
             <BasicInfoStage onPrev={onPrevClickHandler} onNext={onBasicInfoHandler} patient={patient} />
             <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onSimInfoHandler} dob={dob} patient={patient} />
+            <FlagsStage onPrev={onPrevClickHandler} onNext={onFlagsHandler} patient={patient} />
             <AllergiesStage onPrev={onPrevClickHandler} onNext={onAllergiesHandler} patient={patient} />
             <ImmunizationsStage onPrev={onPrevClickHandler} onNext={onImmunizationsHandler} patient={patient} />
             <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onMedicalHistoryHandler} patient={patient} />
