@@ -13,10 +13,10 @@ export function MedicationOrderSyntax(props: Props) {
     const frequency = indexableFrequency[props.order.frequency] || props.order.frequency
     return (
         <>
-            {props.med.genericName ? props.med.genericName + " ": ""}
-            {props.med.genericName && props.med.brandName ? "(" : null}
-            {props.med.brandName ? props.med.brandName: ""}
-            {props.med.genericName && props.med.brandName ? ")" : null}
+            {props.med.genericName && props.med.genericName.length > 0 ? props.med.genericName + " ": ""}
+            {props.med.genericName && props.med.genericName.length > 0 && props.med.brandName && props.med.brandName.length > 0 ? "(" : null}
+            {props.med.brandName && props.med.brandName.length > 0 ? props.med.brandName: ""}
+            {props.med.genericName && props.med.genericName.length > 0 && props.med.brandName && props.med.brandName.length > 0  ? ")" : null}
             {" "}
             {props.order.concentration}{" "}
             {props.order.route}{" "}
