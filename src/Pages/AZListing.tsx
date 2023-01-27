@@ -30,8 +30,13 @@ export function AZListing() {
 
 
     const onSearchedTextChangeHandler=(text:string)=>{
-        const filtered = fullMeds.filter(m=>(m.genericName || "").toLowerCase().startsWith(text.toLowerCase()))
-        setMeds(filtered);
+        const filtered = fullMeds.filter(m=>{
+            // (m.genericName || "").toLowerCase().startsWith(text.toLowerCase())
+            if(m.brandName && m.brandName.toLowerCase().startsWith(text.toLowerCase())) return true
+            if(m.genericName && m.genericName.toLowerCase().startsWith(text.toLowerCase())) return true
+            return false
+        })
+        setMeds([...filtered]);
     }
 
     return <div className="overflow-x-hidden ">
@@ -56,7 +61,7 @@ export function AZListing() {
                          ">
                             <div>
                                 {med.genericName} {" "}
-                                {med.brandName ? "(" + med.brandName + " )" : null}
+                                {med.brandName ? "(" + med.brandName + ")" : null}
                             
                             </div>
                             <button className="bg-red-700 text-white h-full w-40 
