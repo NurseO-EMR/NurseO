@@ -5,7 +5,7 @@ import firebaseConfig from "./firebaseConfig.json"
 import CreatePatientPage from "./Pages/Patients/CreatePatientPage";
 import CreateMedicationPage from "./Pages/Meds/CreateMedicationPage";
 import CreateLocationPage from "./Pages/Locations/CreateLocationPage";
-import { ViewPatientsPage } from "./Pages/Patients/ViewPatinetsPage";
+import { ViewPatientsPage } from "./Pages/Patients/ViewPatientsPage";
 import { EditPatientPage } from "./Pages/Patients/EditPatientPage";
 import { ViewMedsPage } from "./Pages/Meds/ViewMedsPage";
 import { EditMedPage } from "./Pages/Meds/EditMedPage";
@@ -17,6 +17,7 @@ import { LoginPage } from "./Pages/LoginPage";
 import { IssuesPage } from "./Pages/IssuesPage";
 import CreateCoursePage from "./Pages/Courses/CreateCoursePage";
 import { ViewCoursesPage } from "./Pages/Courses/ViewCoursesPage";
+import { AddLocationToCoursePage } from "./Pages/Locations/AddLocationToCoursePage";
 
 export default function App() {
   Database.initialize(firebaseConfig);
@@ -40,6 +41,7 @@ export default function App() {
 
           <Route path="/courses/create" element={<CreateCoursePage />}></Route>
           <Route path="/courses/view" element={<ViewCoursesPage />}></Route>
+          <Route path="/courses/addLocation" element={<AddLocationToCoursePage />}></Route>
 
           <Route path="/admins/create" element={<CreateAdminPage />}></Route>
           <Route path="/admins/view" element={<ViewAdminsPage />}></Route>
