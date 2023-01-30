@@ -22,7 +22,7 @@ export function CreateCourseBasicInfoStage(props:Props) {
 
 
     return <BaseStage {...props} title="Course Info" icon={faBook} onNext={onNextClickHandler} customNextText={waiting ? "Loading..." : "Next"}>
-        <Input label="Course Name"  value={courseId} disabled/>
+        <Input label="Course ID"  value={courseId} disabled/>
         <Input label="Course Name" onChange={e=>setCourseName(e.currentTarget.value)} value={courseName} />
     </BaseStage>
 }
