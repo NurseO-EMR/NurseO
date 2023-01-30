@@ -21,6 +21,7 @@ export function createEmptyPatient():PatientChart {
         medicationOrders: [],
         immunizations: [],
         customOrders: [],
+        courseIds: []
     }
 
     return patient;

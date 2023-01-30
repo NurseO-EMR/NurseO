@@ -15,6 +15,7 @@ import { ViewAdminsPage } from "./Pages/Admins/ViewAdminsPage";
 import { RAWSettingsEditor } from "./Pages/Settings/RAWSettingsEditor";
 import { LoginPage } from "./Pages/LoginPage";
 import { IssuesPage } from "./Pages/IssuesPage";
+import CreateCoursePage from "./Pages/Courses/CreateCoursePage";
 
 export default function App() {
   Database.initialize(firebaseConfig);
@@ -35,6 +36,9 @@ export default function App() {
 
           <Route path="/locations/create" element={<CreateLocationPage />}></Route>
           <Route path="/locations/view" element={<ViewLocationsPage />}></Route>
+
+          <Route path="/courses/create" element={<CreateCoursePage />}></Route>
+          {/* <Route path="/locations/view" element={<ViewLocationsPage />}></Route> */}
 
           <Route path="/admins/create" element={<CreateAdminPage />}></Route>
           <Route path="/admins/view" element={<ViewAdminsPage />}></Route>
