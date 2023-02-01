@@ -52,6 +52,7 @@ export function BasicInfoStage(props: Props) {
                     <option value={Gender.Male}>Male</option>
                     <option value={Gender.Female}>Female</option>
                     <option value={Gender.Other}>Other</option>
+                    <option value={Gender.Empty}></option>
                 </Select>
                 <Input label="Height" suffix={["cm"]} type="number" step={0.5} onChangeWSuffix={e=>setHeight(e)} value={height}/>
                 <Input label="Weight" suffix={["kg", "lb"]} type="number" step={0.5} onChangeWSuffix={e=>setWeight(e)} value={weight}/> 
