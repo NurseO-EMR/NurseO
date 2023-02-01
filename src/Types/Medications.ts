@@ -21,4 +21,5 @@ export type LocationDefinition = {
     id: string,
     building: string,
     station: string,
+    courseIds: string[]
 }

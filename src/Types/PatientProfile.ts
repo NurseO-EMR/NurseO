@@ -26,7 +26,8 @@ export class PatientChart {
     notes: Note[] = [];
     studentUID: string = "";
     labDocURL: string = "";
-    diagnosis?: string = ""
+    diagnosis?: string = "";
+    courseIds: string[] = [];
 };
 
 export type Order = {
