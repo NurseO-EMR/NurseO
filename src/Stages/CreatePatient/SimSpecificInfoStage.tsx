@@ -1,9 +1,10 @@
 import { faHouseChimneyUser } from "@fortawesome/free-solid-svg-icons";
 import { PatientChart, Time } from "nurse-o-core";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
+import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
 import { DateFormat } from "../../Services/DateFormat";
 import { makeTimeObject, convertTimeToString } from "../../Services/Util";
 
@@ -44,6 +45,16 @@ export function SimSpecificInfoStage(props: Props) {
         props.onNext(simInfo)
     }
 
+    const onLabsURLChangeHandler = (e:ChangeEvent<HTMLInputElement>)=>{
+        let value = e.currentTarget.value
+        if(value.indexOf("preview") === -1 && value.indexOf("view") > -1) {
+            value = value.replace("view", "preview")
+        } else if (value.indexOf("preview") === -1 && value !== "") {
+            broadcastAnnouncement("The labs url is not correct, the url should end either in /view or /preview and the file should be PDF", Announcement.error)
+        }
+
+        setLabsURL(value)
+    }
 
     return (
         <BaseStage {...props} title="Let's focus on sim now!" icon={faHouseChimneyUser} onNext={onNextClickHandler}>
@@ -56,7 +67,7 @@ export function SimSpecificInfoStage(props: Props) {
                 <option value={DateFormat.HiddenMonthNYear}>xx/24/xxxx</option>
             </Select>
             <Input label="SimTime" type="time"  onChange={e=>setSimTime(e.currentTarget.value)} value={simTime}/>
-            <Input label="Labs URL" optional type="url"  onChange={e=>setLabsURL(e.currentTarget.value)} value={labsURL}/>
+            <Input label="Labs URL" optional type="url"  onChange={e=>setLabsURL(e.currentTarget.value)} onBlur={onLabsURLChangeHandler} value={labsURL}/>
         </BaseStage>
     )
 
