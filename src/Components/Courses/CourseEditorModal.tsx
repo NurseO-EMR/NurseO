@@ -71,11 +71,9 @@ export function CourseEditorModal(props:Props) {
             </table>
 
 
-            <div className="">
-                <SearchableSelect label="Add a course" options={allCourses}
-                labelKeys={["name"]} valueKey="id" 
-                onChange={onAddClickHandler}  />
-            </div>
+            <SearchableSelect label="Add a course" options={allCourses}
+            labelKeys={["name"]} valueKey="id" 
+            onChange={onAddClickHandler}  />
 
 
             <Button className="bg-blue rounded-none" onClick={onSaveClickHandler}>{saveText}</Button>
