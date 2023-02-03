@@ -9,22 +9,14 @@ import { findIndex } from "lodash";
 import { Input } from "../../Components/Form/Input";
 import { Button } from "../../Components/Form/Button";
 import {ButtonWConfirmBox} from "../../Components/Form/ButtonWConfirmBox"
+import { getCourses } from "../../Services/Util";
 
 export function ViewCoursesPage() {
     const [courses, setCourses] = useState<Course[]>([])
     const [saveText, setSaveText] = useState("Save")
 
-
-    const getCourses = async () => {
-        const db = Database.getInstance()
-        const settings = await db.getSettings();
-        let courses = settings.courses;
-        courses = courses.sort((a,b)=>a.name.localeCompare(b.name))
-        setCourses([...courses])
-    }
-
     useEffect(() => {
-        getCourses()
+        getCourses().then(c=>setCourses([...c]))
     }, [])
 
 

@@ -17,7 +17,6 @@ import { LoginPage } from "./Pages/LoginPage";
 import { IssuesPage } from "./Pages/IssuesPage";
 import CreateCoursePage from "./Pages/Courses/CreateCoursePage";
 import { ViewCoursesPage } from "./Pages/Courses/ViewCoursesPage";
-import { AddLocationToCoursePage } from "./Pages/Courses/AddLocationToCoursePage";
 
 export default function App() {
   Database.initialize(firebaseConfig);
@@ -41,7 +40,6 @@ export default function App() {
 
           <Route path="/courses/create" element={<CreateCoursePage />}></Route>
           <Route path="/courses/view" element={<ViewCoursesPage />}></Route>
-          <Route path="/courses/addLocation" element={<AddLocationToCoursePage />}></Route>
 
           <Route path="/admins/create" element={<CreateAdminPage />}></Route>
           <Route path="/admins/view" element={<ViewAdminsPage />}></Route>

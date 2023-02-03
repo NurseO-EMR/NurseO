@@ -31,7 +31,6 @@ export default function DashboardPage() {
                     <DashboardNavCard icon={faBook} title="Course">
                         <Link to={"/courses/create"}>Create a new course</Link>
                         <Link to={"/courses/view"}>View/delete courses</Link>
-                        <Link to={"/courses/addLocation"}>Add course to location</Link>
 
                     </DashboardNavCard>
                     
