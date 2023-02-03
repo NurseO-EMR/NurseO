@@ -8,7 +8,7 @@ import { Database } from "../../../Services/Database";
 import { MultiSelect } from "../../../Components/Form/MultiSelect";
 
 export type Props = BaseStageProps & {
-    onNext: () => void;
+    onNext: (locationId: string, coursesIds: string[]) => void;
 }
 
 export function CourseLocationInfoStage(props: Props) {
@@ -19,6 +19,7 @@ export function CourseLocationInfoStage(props: Props) {
     const [locationId, setLocationID] = useState("");
 
     const [courses, setCourses] = useState([] as Course[]);
+    const [selectedCourses, setSelectedCourses] = useState<string[]>([])
 
     const [loading, setLoading] = useState(false);
 
@@ -44,7 +45,8 @@ export function CourseLocationInfoStage(props: Props) {
 
     const onNextClickHandler = () => {
         setLoading(true)
-        // props.onNext(locationId,drawerName, slotName,dose, type, barcode);
+        props.onNext(locationId,selectedCourses);
+        setLoading(false)
     }
 
     return <BaseStage {...props} title="Where is it going?" icon={faBuilding} onNext={onNextClickHandler} customNextText={loading ? "Loading..." : "Add Medication"}>
@@ -61,7 +63,7 @@ export function CourseLocationInfoStage(props: Props) {
 
             <MultiSelect label="Courses" options={courses} 
             labelKeys={["name"]}  valueKey="id" 
-            onChange={console.log}/>
+            onChange={setSelectedCourses}/>
         </div>
     </BaseStage>
 }

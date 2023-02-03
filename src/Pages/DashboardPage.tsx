@@ -26,12 +26,13 @@ export default function DashboardPage() {
                     <DashboardNavCard icon={faBuilding} title="Locations">
                         <Link to={"/locations/create"}>Create a new location</Link>
                         <Link to={"/locations/view"}>View/delete locations</Link>
-                        <Link to={"/courses/addLocation"}>Add course to location</Link>
                     </DashboardNavCard>
 
                     <DashboardNavCard icon={faBook} title="Course">
                         <Link to={"/courses/create"}>Create a new course</Link>
                         <Link to={"/courses/view"}>View/delete courses</Link>
+                        <Link to={"/courses/addLocation"}>Add course to location</Link>
+
                     </DashboardNavCard>
                     
                     <DashboardNavCard icon={faBuilding} title="Admin">

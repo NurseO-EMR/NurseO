@@ -1,5 +1,4 @@
 import { useState } from "react";
-import {v4 as uuid} from "uuid"
 import { faBuilding, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 
 import PageView from "../PageView";
@@ -9,13 +8,14 @@ import { Stages } from "../../Components/Stages/Stages";
 import { Step } from "../../Components/Steps/Step";
 import { Database } from "../../Services/Database";
 import { CourseLocationInfoStage } from "../../Stages/Courses/AddCourseToLocation/CourseLocationInfoStage";
+import { findIndex } from "lodash";
+import { CourseLocationFinalizeStage } from "../../Stages/Courses/AddCourseToLocation/CourseLocationFinalizeStage";
 
 
 export function AddLocationToCoursePage() {
 
     const [currentStage, setCurrentStage] = useState(0)
-    const [buildingName, setBuildingName] = useState("");
-    const [stationName, setStationName] = useState("");
+    
 
 
     const moveStage = () => {
@@ -29,8 +29,13 @@ export function AddLocationToCoursePage() {
     }
 
 
-    const onBasicInfoHandler = async ()=>{
-        
+    const onBasicInfoHandler = async (locationId: string, coursesIds: string[])=>{
+        const db = Database.getInstance()
+        const settings = await db.getSettings()
+        const index = findIndex(settings.locations, {id: locationId})
+        if(!settings.locations[index].courseIds) settings.locations[index].courseIds = coursesIds
+        else settings.locations[index].courseIds.push(...coursesIds)
+        await db.updateSettings(settings)
         moveStage()
     }
 
@@ -45,7 +50,7 @@ export function AddLocationToCoursePage() {
 
             <Stages stage={currentStage}>
                 <CourseLocationInfoStage onPrev={onPrevClickHandler} onNext={onBasicInfoHandler} />                
-                <CourseLocationInfoStage onPrev={onPrevClickHandler} onNext={onBasicInfoHandler} />  
+                <CourseLocationFinalizeStage onPrev={onPrevClickHandler} />  
             </Stages>
         </PageView>
     );
