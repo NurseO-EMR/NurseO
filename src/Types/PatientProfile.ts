@@ -27,7 +27,7 @@ export class PatientChart {
     studentUID: string = "";
     labDocURL: string = "";
     diagnosis?: string = "";
-    courseIds: string[] = [];
+    courseId?: string = "";
 };
 
 export type Order = {
