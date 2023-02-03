@@ -17,7 +17,7 @@ import { LoginPage } from "./Pages/LoginPage";
 import { IssuesPage } from "./Pages/IssuesPage";
 import CreateCoursePage from "./Pages/Courses/CreateCoursePage";
 import { ViewCoursesPage } from "./Pages/Courses/ViewCoursesPage";
-import { AddLocationToCoursePage } from "./Pages/Locations/AddLocationToCoursePage";
+import { AddLocationToCoursePage } from "./Pages/Courses/AddLocationToCoursePage";
 
 export default function App() {
   Database.initialize(firebaseConfig);

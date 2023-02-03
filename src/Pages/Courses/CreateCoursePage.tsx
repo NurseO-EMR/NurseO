@@ -5,8 +5,8 @@ import { Steps } from "../../Components/Steps/Steps";
 import { Stages } from "../../Components/Stages/Stages";
 import { Step } from "../../Components/Steps/Step";
 import { Database } from "../../Services/Database";
-import { CreateCourseBasicInfoStage } from "../../Stages/CreateCourse/CreateCourseBasicInfo";
-import { CourseFinalizeStage } from "../../Stages/CreateCourse/CourseFinalizeStage";
+import { CreateCourseBasicInfoStage } from "../../Stages/Courses/CreateCourse/CreateCourseBasicInfo";
+import { CourseFinalizeStage } from "../../Stages/Courses/CreateCourse/CourseFinalizeStage";
 
 
 export default function CreateCoursePage() {
