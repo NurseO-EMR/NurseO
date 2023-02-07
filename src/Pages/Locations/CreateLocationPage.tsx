@@ -38,7 +38,8 @@ export default function CreateLocationPage() {
         settings.locations.push({
             building: buildingName,
             station: stationName,
-            id: uuid()
+            id: uuid(),
+            courseIds: []
         })
         await db.updateSettings(settings);
         moveStage()

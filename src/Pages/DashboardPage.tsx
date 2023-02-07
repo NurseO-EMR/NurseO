@@ -1,4 +1,4 @@
-import { faBuilding, faGear, faIdCard, faPills } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faBuilding, faGear, faIdCard, faPills } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { AutoChecker } from "../Components/AutoChecker";
 import { DashboardNavCard } from "../Components/DashboardNavCard";
@@ -26,6 +26,12 @@ export default function DashboardPage() {
                     <DashboardNavCard icon={faBuilding} title="Locations">
                         <Link to={"/locations/create"}>Create a new location</Link>
                         <Link to={"/locations/view"}>View/delete locations</Link>
+                    </DashboardNavCard>
+
+                    <DashboardNavCard icon={faBook} title="Course">
+                        <Link to={"/courses/create"}>Create a new course</Link>
+                        <Link to={"/courses/view"}>View/delete courses</Link>
+
                     </DashboardNavCard>
                     
                     <DashboardNavCard icon={faBuilding} title="Admin">

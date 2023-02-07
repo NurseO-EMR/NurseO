@@ -70,6 +70,7 @@ export default function CreatePatientPage() {
         patient.age = simInfo.age
         patient.time = simInfo.time
         patient.labDocURL = simInfo.labDocURL
+        patient.courseId = simInfo.courseId
         setPatient(patient);
 
         onNextClickHandler()
