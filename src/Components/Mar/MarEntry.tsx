@@ -1,6 +1,7 @@
 import React from 'react';
 import { MedicationOrder, Time } from 'nurse-o-core';
 import MedicationOrderSyntax from '../Orders/MedicationOrderSyntax';
+import Button from '../Form/Button';
 
 type Props = {
     order: MedicationOrder,
@@ -58,9 +59,23 @@ export default class MarEntry extends React.Component<Props, State> {
     }
 
 
-
+    private hold = false
 
     public render() {
+        if(this.hold) return <tr className='bg-red-700/70 h-32 border border-white text-white font-semibold'>
+            <td className={`w-80 pl-16 font-semibold
+                                ${this.props.order.completed ? "line-through" : null}`}>
+                    <MedicationOrderSyntax order={this.props.order} />
+            </td>
+            <td colSpan={this.props.timeSlots.length}
+            className="pl-20"
+            >
+                Hold: for BP is higher then 120/80
+            </td>
+        </tr>
+
+
+
 
         return (
             <tr className={`odd:bg-gray-100 even:bg-gray-300 h-32 relative
@@ -69,10 +84,16 @@ export default class MarEntry extends React.Component<Props, State> {
                 after:absolute after:inset-0 after:border-2 after:content-['Completed'] after:text-center 
                 after:items-center after:grid after:font-bold after:text-5xl after:z-10` : null}
             `}>
+
                 <td className={`w-80 pl-16 font-semibold relative
                                 ${this.props.order.completed ? "line-through" : null}`}>
                     <MedicationOrderSyntax order={this.props.order} />
                 </td>
+
+                <td className='w-40'>
+                    <Button title='hold this medication' className='rounded-lg m-auto'>HOLD</Button>
+                </td>
+
                 {this.props.timeSlots.map((hour, i) => {
                     if(hour === this.props.simTime.hour && !this.props.order.completed) {
                         return <td className='font-bold text-center bg-primary/20' key={i}>{this.getTimeSlotValue(hour)} </td>
@@ -83,7 +104,6 @@ export default class MarEntry extends React.Component<Props, State> {
                 }
                 )}
             </tr>
-
         );
     }
 }
