@@ -32,7 +32,6 @@ export function AZListing() {
         const letters = getLetters(filtered)
         setMeds([...filtered]);
         setAlphabet([...letters])
-        
     }
 
     return <div className="overflow-x-hidden ">

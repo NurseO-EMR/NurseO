@@ -3,13 +3,13 @@ import { initializeApp } from "@firebase/app";
 import {
     addDoc, collection, getDocs, getFirestore,
     limit, query, where, doc, getDoc, Firestore, orderBy,
-    // connectFirestoreEmulator
+    connectFirestoreEmulator
 } from "@firebase/firestore";
 import { findIndex } from "lodash";
 import {PatientChart, Medication, Settings} from "nurse-o-core"
 import { Cache } from './Cache';
 
-import {$patient} from "./State"
+import {$locationID, $patient} from "./State"
 
 export class Database {
     // eslint-disable-next-line no-use-before-define
@@ -24,7 +24,7 @@ export class Database {
     constructor(firebaseConfig: any) {
         initializeApp(firebaseConfig);
         this.db = getFirestore();
-        // connectFirestoreEmulator(this.db, "localhost", 8080);
+        connectFirestoreEmulator(this.db, "localhost", 8080);
         this.currentPatientID = null;
         this.cache = new Cache();
         this.medListCached = false;
@@ -40,7 +40,11 @@ export class Database {
         if (this.currentPatientID === $patient.value?.id && this.currentPatientID === id) return true;
 
         console.log("getting patient info from db")
-        const q = query(collection(this.db, "patients"), where("id", "==", id), where("studentUID", "==", uid), limit(1))
+        const q = query(collection(this.db, "patients"), 
+        where("id", "==", id), 
+        where("studentUID", "==", uid),
+        where("studentUID", "==", uid),
+        limit(1))
         const doc = (await getDocs(q)).docs[0]
         if (doc) {
             patientChart = doc.data() as PatientChart;
@@ -56,7 +60,6 @@ export class Database {
         $patient.next(patientChart)
         console.log(patientChart)
         return true;
-
     }
     
     async addPatient(patient: PatientChart) {
@@ -112,10 +115,18 @@ export class Database {
             return patients;
         }
         console.log("getting template patients from db")
+        //get the location 
+        const {locations} = await this.getSettings()
+        const currentLocation = locations.find(l=>l.id===$locationID.value)
+        // get all the patients
         const q = query(collection(this.db, "templatePatients"), orderBy("name"));
         const docs = (await getDocs(q)).docs
         if (docs.length === 0) return [];
-        const patients = docs.map(doc => doc.data()) as PatientChart[];
+        let patients = docs.map(doc => doc.data()) as PatientChart[];
+        // filter out the patients that doesn't belong to this location
+        // will need to look into a server side filtering but this wil do for now
+        patients = patients.filter(p=> p.courseId && currentLocation?.courseIds.includes(p.courseId))
+        //cache
         this.cache.cacheMultiplePatients(patients);
         this.patientListCached = true;
         return patients;
