@@ -55,3 +55,12 @@ input[type=number].hideInputArrows::-webkit-outer-spin-button {
   background-color: #7a7a7a;
   border-radius: 50px;
 }
+
+
+.ql-container {
+  border: none !important;
+}
+
+.ql-editor {
+  height: 7rem !important;
+}
