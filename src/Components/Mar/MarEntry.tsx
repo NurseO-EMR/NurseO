@@ -1,7 +1,7 @@
 import React from 'react';
 import { MedicationOrder, Time } from 'nurse-o-core';
 import MedicationOrderSyntax from '../Orders/MedicationOrderSyntax';
-import Button from '../Form/Button';
+import {Button} from '../Form/Button';
 import { HoldModal } from './HoldModal';
 
 type Props = {
@@ -77,12 +77,12 @@ export default class MarEntry extends React.Component<Props, State> {
                     <MedicationOrderSyntax order={this.props.order} />
                 </td>
                 <td><Button title='release this medication' 
-                    className='rounded-lg m-auto' admin
+                    className='rounded-lg m-auto bg-gray-700'
                     onClick={()=>this.onHoldReasonSubmittedHandler("")}
                     >Release</Button></td>
                 <td></td>
                 <td colSpan={this.props.timeSlots.length}
-                    className="pl-20">Hold: {this.props.order.holdReason}</td>
+                    className="pl-20">Hold Reason: {this.props.order.holdReason}</td>
             </tr>
         )
 
@@ -103,7 +103,7 @@ export default class MarEntry extends React.Component<Props, State> {
                 </td>
 
                 <td className='w-40'>
-                    <Button className='rounded-lg m-auto'
+                    <Button title='hold this medication' className='rounded-lg m-auto bg-primary'
                     onClick={()=>this.setState({holdClicked: true})}
                     >HOLD</Button>
                 </td>
