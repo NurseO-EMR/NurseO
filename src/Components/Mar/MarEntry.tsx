@@ -80,6 +80,7 @@ export default class MarEntry extends React.Component<Props, State> {
                     className='rounded-lg m-auto' admin
                     onClick={()=>this.onHoldReasonSubmittedHandler("")}
                     >Release</Button></td>
+                <td></td>
                 <td colSpan={this.props.timeSlots.length}
                     className="pl-20">Hold: {this.props.order.holdReason}</td>
             </tr>
@@ -102,9 +103,13 @@ export default class MarEntry extends React.Component<Props, State> {
                 </td>
 
                 <td className='w-40'>
-                    <Button title='hold this medication' className='rounded-lg m-auto'
+                    <Button className='rounded-lg m-auto'
                     onClick={()=>this.setState({holdClicked: true})}
                     >HOLD</Button>
+                </td>
+
+                <td className='w-40'>
+                    <Button className='rounded-lg m-auto'>Administer</Button>
                 </td>
 
                 {this.props.timeSlots.map((hour, i) => {

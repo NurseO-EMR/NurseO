@@ -73,6 +73,7 @@ export default class Mar extends React.Component<Props, State> {
                     <tr className="bg-primary text-white">
                         <th></th>
                         <th>Hold</th>
+                        <th></th>
                         {this.timeSlots.map((time, i) => <th key={i}>{time}:00</th>)}
                     </tr>
                 </thead>
