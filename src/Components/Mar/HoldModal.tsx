@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PureModal from 'react-pure-modal';
-import Button from '../Form/Button';
+import {Button} from '../Form/Button';
 
 type Props = {
     onSubmit: (holdReason: string)=>void
@@ -15,7 +15,7 @@ export function HoldModal(props:Props) {
             <input id='medHold' value={holdReason} onChange={e=>setHoldReason(e.currentTarget.value)}
              className='block mx-auto border-2 border-red-700 h-12 w-7/12 rounded-full my-4 pl-10'
              required />
-             <Button onClick={()=>props.onSubmit(holdReason)}>Submit</Button>
+             <Button className=' bg-primary' onClick={()=>props.onSubmit(holdReason)}>Submit</Button>
         </form>
     </PureModal>
 }
