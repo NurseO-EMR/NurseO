@@ -19,13 +19,12 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 type State = {
-    ReportSets: ReportSet[] | null,
+    reportSets: ReportSet[] | null,
     settings: Settings | null,
     date: string,
     status: Status,
     timeSlot: string,
     selectedTab: number,
-    note: string,
     themeColor: string,
     numberOfTimeSlots: number
 }
@@ -34,43 +33,39 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
 
 
     private subscriptions: Subscription[]
-    private readonly tabsButtonClassNames;
     private patient:PatientChart
+    private note:string;
 
     constructor(props: Props) {
         super(props);
         this.state = {
-            ReportSets: null,
+            reportSets: null,
             settings: null,
             date: getTodaysDateAsString(),
             status: "completed",
             timeSlot: "",
             selectedTab: 0,
-            note: "",
             themeColor: this.props.admin ? "admin" : "primary",
             numberOfTimeSlots: 1
         }
 
         this.subscriptions = [];
-        this.tabsButtonClassNames = {
-            active: "border-b-2 border-primary py-2 px-5 my-2 text-primary font-bold",
-            inactive: "border-b-2 py-2 px-5 my-2"
-        }
         this.patient = new PatientChart();
+        this.note = ""
     }
 
     componentDidUpdate(prev: Props) {
         if(this.props.reportSets !== prev.reportSets && this.props.reportSets)
 
         this.setState({
-            ReportSets:this.props.reportSets
+            reportSets:this.props.reportSets
         })
     }
 
     async componentDidMount() {
         if(this.props.reportSets) {
             this.setState({
-                ReportSets: this.props.reportSets
+                reportSets: this.props.reportSets
             })
         } else {
             const db = Database.getInstance();
@@ -78,7 +73,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             $settings.next(settings);
             if(settings) {
                 this.setState({
-                    ReportSets: filter(settings.reportSet, { type: this.props.reportType })
+                    reportSets: filter(settings.reportSet, { type: this.props.reportType })
                 })
             }
         }
@@ -115,12 +110,12 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         if (patient === undefined || patient === null) $error.next(new PatientNotFoundError());
         if (patient!.notes === undefined) patient!.notes = [];
 
-        if(this.state.note !== "") {
+        if(this.note !== "") {
             patient!.notes.push({
                 date: `${this.state.date}`,
-                note: this.state.note,
+                note: this.note,
                 reportType: this.props.reportType,
-                reportName: this.state.ReportSets![reportsSetIndex].name,
+                reportName: this.state.reportSets![reportsSetIndex].name,
             })
         }
         
@@ -150,7 +145,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
         if (patient!.studentReports === undefined) patient!.studentReports = [];
 
         const updatedReport: StudentReport = {
-            setName: this.state.ReportSets![reportsSetIndex].name,
+            setName: this.state.reportSets![reportsSetIndex].name,
             time: this.state.timeSlot,
             value: value,
             vitalName: filedName,
@@ -165,7 +160,6 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
             patient?.studentReports.push(updatedReport)
         }
         this.patient = patient;
-
     }
 
     getReportIndex(reports: StudentReport[], report: StudentReport): number {
@@ -191,7 +185,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
     }
 
     onNoteChangeHandler(event: ChangeEvent<HTMLTextAreaElement>) {
-        this.setState({note:event.target.value});
+        this.note = event.currentTarget.value
     }
 
     public render() {
@@ -208,15 +202,15 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
                     </div>
 
 
-                    <ReportTabs onTabSelectionHandler={this.onTabSelectionHandler.bind(this)} reportSets={this.state.ReportSets?.map(report=>report.name)}
+                    <ReportTabs onTabSelectionHandler={this.onTabSelectionHandler.bind(this)} reportSets={this.state.reportSets?.map(report=>report.name)}
                         selectedTab={this.state.selectedTab} />
 
 
-                    {this.state.ReportSets && this.state.ReportSets[this.state.selectedTab] ?
+                    {this.state.reportSets && this.state.reportSets[this.state.selectedTab] ?
                         <ReportsSubmitterTabContent
                             numberOfTimeSlots={this.state.numberOfTimeSlots}
                             onInputChangeHandler={this.onInputChangeHandler.bind(this)}
-                            reportSet={this.state.ReportSets[this.state.selectedTab]}
+                            reportSet={this.state.reportSets[this.state.selectedTab]}
                             onTimeSlotChanges={this.onTimeSlotChanges.bind(this)}
                         />
                         : null}
@@ -225,7 +219,7 @@ export default class ReportsSubmitter extends React.Component<Props, State> {
                         <h1 className={`text-${this.state.themeColor} text-xl font-bold`}>Nurse Note</h1>
                         <textarea className={`w-full border-2 border-${this.state.themeColor} p-4`} rows={5}
                             spellCheck="true"
-                            onChange={this.onNoteChangeHandler.bind(this)} value={this.state.note}></textarea>
+                            onChange={this.onNoteChangeHandler.bind(this)}></textarea>
                     </div>
 
                 </div>
