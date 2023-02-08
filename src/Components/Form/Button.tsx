@@ -7,7 +7,8 @@ export function Button(props: Props) {
 
     return (
         <button onClick={props.onClick}
-            className={`text-white rounded-full px-8 py-2 ml-6 text-center cursor-pointer ${props.className}`}
+            className={`text-white rounded-full px-8 py-2
+             text-center cursor-pointer ${props.className}`}
             {...buttonProps}
         >{props.children}</button>
 

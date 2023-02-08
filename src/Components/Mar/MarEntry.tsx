@@ -1,14 +1,15 @@
 import React from 'react';
 import { MedicationOrder, Time } from 'nurse-o-core';
 import MedicationOrderSyntax from '../Orders/MedicationOrderSyntax';
-import {Button} from '../Form/Button';
+import { Button } from '../Form/Button';
 import { HoldModal } from './HoldModal';
+import { Link } from 'react-router-dom';
 
 type Props = {
     order: MedicationOrder,
     timeSlots: number[],
     simTime: Time,
-    onUpdate: (order:MedicationOrder) => void
+    onUpdate: (order: MedicationOrder) => void
 }
 
 type State = {
@@ -62,11 +63,11 @@ export default class MarEntry extends React.Component<Props, State> {
 
     }
 
-    onHoldReasonSubmittedHandler(holdReason:string) {
+    onHoldReasonSubmittedHandler(holdReason: string) {
         const order = this.props.order
         order.holdReason = holdReason
         this.props.onUpdate(order)
-        this.setState({holdClicked: false})
+        this.setState({ holdClicked: false })
     }
 
     public render() {
@@ -76,10 +77,10 @@ export default class MarEntry extends React.Component<Props, State> {
                                     ${this.props.order.completed ? "line-through" : null}`}>
                     <MedicationOrderSyntax order={this.props.order} />
                 </td>
-                <td><Button title='release this medication' 
+                <td><Button title='release this medication'
                     className='rounded-lg m-auto bg-gray-700'
-                    onClick={()=>this.onHoldReasonSubmittedHandler("")}
-                    >Release</Button></td>
+                    onClick={() => this.onHoldReasonSubmittedHandler("")}
+                >Release</Button></td>
                 <td></td>
                 <td colSpan={this.props.timeSlots.length}
                     className="pl-20">Hold Reason: {this.props.order.holdReason}</td>
@@ -97,21 +98,30 @@ export default class MarEntry extends React.Component<Props, State> {
                 after:items-center after:grid after:font-bold after:text-5xl after:z-10` : null}
             `}>
 
+
                 <td className={`w-80 pl-16 font-semibold relative
                                 ${this.props.order.completed ? "line-through" : null}`}>
-                    <MedicationOrderSyntax order={this.props.order} />
+                    <Link to={"/studentView/mar/administer"}>
+                        <MedicationOrderSyntax order={this.props.order} />
+                    </Link>
                 </td>
+                {!this.props.order.completed ?
+                    <>
+                        <td className='w-32'>
+                            <Button title='hold this medication' 
+                            className='rounded-lg mx-2 bg-primary'
+                                onClick={() => this.setState({ holdClicked: true })}
+                            >HOLD</Button>
+                        </td>
 
-                <td className='w-40'>
-                    <Button title='hold this medication' className='rounded-lg m-auto bg-primary'
-                    onClick={()=>this.setState({holdClicked: true})}
-                    >HOLD</Button>
-                </td>
-
-                <td className='w-40'>
-                    <Button className='rounded-lg m-auto'>Administer</Button>
-                </td>
-
+                        <td className='w-32'>
+                            <Link to={"/studentView/mar/administer"}>
+                                <Button 
+                                className='rounded-lg m-auto bg-green-700 mx-2'>Administer</Button>
+                            </Link>
+                        </td>
+                    </>
+                    : <><td></td><td></td></>}
                 {this.props.timeSlots.map((hour, i) => {
                     if (hour === this.props.simTime.hour && !this.props.order.completed) {
                         return <td className='font-bold text-center bg-primary/20' key={i}>{this.getTimeSlotValue(hour)} </td>
@@ -120,10 +130,10 @@ export default class MarEntry extends React.Component<Props, State> {
                     }
                 }
                 )}
-                {this.state.holdClicked ? 
-                <HoldModal onSubmit={this.onHoldReasonSubmittedHandler.bind(this)} 
-                onClose={()=>this.setState({holdClicked: false})} />
-                 : null} 
+                {this.state.holdClicked ?
+                    <HoldModal onSubmit={this.onHoldReasonSubmittedHandler.bind(this)}
+                        onClose={() => this.setState({ holdClicked: false })} />
+                    : null}
             </tr>
         );
     }
