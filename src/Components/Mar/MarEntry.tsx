@@ -3,6 +3,7 @@ import { MedicationOrder, Time } from 'nurse-o-core';
 import MedicationOrderSyntax from '../Orders/MedicationOrderSyntax';
 import {Button} from '../Form/Button';
 import { HoldModal } from './HoldModal';
+import { Link } from 'react-router-dom';
 
 type Props = {
     order: MedicationOrder,
@@ -99,17 +100,21 @@ export default class MarEntry extends React.Component<Props, State> {
 
                 <td className={`w-80 pl-16 font-semibold relative
                                 ${this.props.order.completed ? "line-through" : null}`}>
-                    <MedicationOrderSyntax order={this.props.order} />
+                    <Link to={"/studentView/mar/administer"}>
+                        <MedicationOrderSyntax order={this.props.order} />
+                    </Link>
                 </td>
 
-                <td className='w-40'>
+                <td className='w-32'>
                     <Button title='hold this medication' className='rounded-lg m-auto bg-primary'
                     onClick={()=>this.setState({holdClicked: true})}
                     >HOLD</Button>
                 </td>
 
-                <td className='w-40'>
-                    <Button className='rounded-lg m-auto'>Administer</Button>
+                <td className='w-32'>
+                    <Link to={"/studentView/mar/administer"}>
+                        <Button className='rounded-lg m-auto bg-green-700 mr-4'>Administer</Button>
+                    </Link>
                 </td>
 
                 {this.props.timeSlots.map((hour, i) => {
