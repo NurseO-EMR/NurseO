@@ -28,6 +28,7 @@ export class PatientChart {
     labDocURL: string = "";
     diagnosis?: string = "";
     courseId?: string = "";
+    holdReason?: string = "";
 };
 
 export type Order = {
@@ -91,7 +92,7 @@ export enum OrderType {
 
 export enum Routine {
     NA = "",
-    PRN = "PRN",
+    PRN = "as needed (PRN)",
     NOW = "NOW",
     Scheduled = "Scheduled",
 }
