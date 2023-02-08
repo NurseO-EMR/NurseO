@@ -109,7 +109,7 @@ export default class MarEntry extends React.Component<Props, State> {
                     <>
                         <td className='w-32'>
                             <Button title='hold this medication' 
-                            className='rounded-lg m-auto bg-primary'
+                            className='rounded-lg mx-2 bg-primary'
                                 onClick={() => this.setState({ holdClicked: true })}
                             >HOLD</Button>
                         </td>
@@ -117,7 +117,7 @@ export default class MarEntry extends React.Component<Props, State> {
                         <td className='w-32'>
                             <Link to={"/studentView/mar/administer"}>
                                 <Button 
-                                className='rounded-lg m-auto bg-green-700 mr-4'>Administer</Button>
+                                className='rounded-lg m-auto bg-green-700 mx-2'>Administer</Button>
                             </Link>
                         </td>
                     </>
