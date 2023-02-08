@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import {
     addDoc, collection, DocumentReference, getDocs, getFirestore,
     limit, query, updateDoc, where, doc, getDoc, orderBy,
-    // connectFirestoreEmulator
+    connectFirestoreEmulator
 } from "firebase/firestore";
 import { $error, $locationID, $patient, $settings } from "./State";
 import firebaseConfig from "./../firebaseConfig.json";
@@ -23,7 +23,7 @@ export default class Database {
     constructor() {
         initializeApp(firebaseConfig);
         this.db = getFirestore();
-        // connectFirestoreEmulator(this.db, 'localhost', 8080);
+        connectFirestoreEmulator(this.db, 'localhost', 8080);
         this.patientDocRef = null;
         this.currentPatientID = null;
         this.cache = new Cache();
@@ -31,19 +31,27 @@ export default class Database {
     }
 
     async getPatient(id: string): Promise<boolean> {
+        // get the student uid
         const uid = getAuth().currentUser?.uid;
-        let patientChart: PatientChart;
-        if (!uid) return false;
+        if (!uid) return false; // if no uid stop 
 
+        //check so they don't double scan and make extra request ( still needed? )
+        let patientChart: PatientChart;
         if (this.currentPatientID === $patient.value?.id) return true;
 
         console.log("getting patient info from db")
-        const q = query(collection(this.db, "patients"), where("id", "==", id), where("studentUID", "==", uid), limit(1))
+        // check if there is a student record with this patient before
+        const q = query(collection(this.db, "patients"), 
+                    where("id", "==", id), 
+                    where("studentUID", "==", uid), 
+                    limit(1))
+        
         const doc = (await getDocs(q)).docs[0]
         if (doc) {
             this.patientDocRef = doc.ref;
             patientChart = doc.data() as PatientChart;
         } else {
+            // if not 
             const templatePatientQuery = query(collection(this.db, "templatePatients"), where("id", "==", id), limit(1))
             const templatePatientDoc = (await getDocs(templatePatientQuery)).docs[0];
             if (!templatePatientDoc) return false;
@@ -51,8 +59,13 @@ export default class Database {
             patientChart.studentUID = uid;
             this.patientDocRef = await this.addPatient(patientChart);
             this.currentPatientID = patientChart?.id;
-
         };
+        //check if location and course match
+        const {locations} = await this.getSettings()
+        const currentLocation = locations.find(l=>l.id === $locationID.value)
+        if(!(currentLocation && patientChart.courseId && currentLocation?.courseIds.includes(patientChart.courseId))) return false
+        
+        // update the state if everything matches 
         $patient.next(patientChart)
         return true;
 

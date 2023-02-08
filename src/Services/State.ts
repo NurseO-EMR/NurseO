@@ -8,7 +8,8 @@ export const $history = new BehaviorSubject<History>(createBrowserHistory());
 export const $settings = new BehaviorSubject<Settings>({
     reportSet: [],
     previewColor: "gray-900",
-    locations: []
+    locations: [],
+    courses: []
 });
 
 export const $locationID = new BehaviorSubject<string | null>(null);
