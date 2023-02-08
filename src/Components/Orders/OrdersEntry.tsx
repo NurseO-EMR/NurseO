@@ -2,6 +2,7 @@ import React from 'react';
 import PureModal from "react-pure-modal";
 import { CustomOrder, MedicationOrder, Order, OrderKind } from 'nurse-o-core';
 import MedicationOrderSyntax from './MedicationOrderSyntax';
+import parse from 'html-react-parser';
 
 
 export type Props = {
@@ -38,14 +39,15 @@ export default class OrderEntry extends React.Component<Props, State> {
                 <td className="border-2 p-2">
                     {this.props.order.orderKind === OrderKind.med ? 
                     <MedicationOrderSyntax order={this.props.order as MedicationOrder}/>: 
-                    <pre className='font-sans whitespace-pre-wrap'>{(this.props.order as CustomOrder).order}</pre>}
+                    <pre className='font-sans whitespace-pre-wrap'>{parse((this.props.order as CustomOrder).order)}</pre>}
                     
                 </td>
             </tr>
 
             <PureModal header="Order" width="60vw" className="text-center font-bold" isOpen={this.state.isModalShown} onClose={this.onModalCloseHandler.bind(this)}>
                 <div>
-                {this.props.order.orderKind === OrderKind.med ? <MedicationOrderSyntax order={this.props.order as MedicationOrder}/>: <pre className='text-left'>{(this.props.order as CustomOrder).order}</pre>}
+                {this.props.order.orderKind === OrderKind.med ? <MedicationOrderSyntax order={this.props.order as MedicationOrder}/>:
+                 <pre className='text-left'>{parse((this.props.order as CustomOrder).order)}</pre>}
                 </div>
             </PureModal>
             </>

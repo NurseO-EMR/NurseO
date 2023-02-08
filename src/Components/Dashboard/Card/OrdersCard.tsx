@@ -39,7 +39,7 @@ export default class OrdersCard extends React.Component<Props, State> {
                         this.state.filteredOrders.map((order,i) =>
                             <OrderEntry key={i} order={order} />
                         ): 
-                        <tr><td colSpan={2}><h1 className='text-center py-2'>No medications added</h1></td></tr>
+                        <tr><td colSpan={2}><h1 className='text-center py-2'>No orders added</h1></td></tr>
                     }
                 </tbody>
             </Card>
