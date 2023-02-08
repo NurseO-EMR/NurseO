@@ -28,7 +28,6 @@ export class PatientChart {
     labDocURL: string = "";
     diagnosis?: string = "";
     courseId?: string = "";
-    holdReason?: string = "";
 };
 
 export type Order = {
