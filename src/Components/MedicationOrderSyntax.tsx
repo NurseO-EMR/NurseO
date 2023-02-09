@@ -1,6 +1,6 @@
 import React from 'react';
 import { Medication } from "../Types/Medications";
-import { MedicationOrder, Frequency } from "../Types/PatientProfile.js";
+import { MedicationOrder, Frequency, Routine } from "../Types/PatientProfile.js";
 
 type Props = {
     order: MedicationOrder,
@@ -11,6 +11,9 @@ export function MedicationOrderSyntax(props: Props) {
 
     const indexableFrequency:{[key: string]:string} = Frequency
     const frequency = indexableFrequency[props.order.frequency] || props.order.frequency
+
+    const indexableRoutine:{[key: string]:string} = Routine
+    const routine = indexableRoutine[props.order.routine] || props.order.routine
     return (
         <>
             {props.med.genericName && props.med.genericName.length > 0 ? props.med.genericName + " ": ""}
@@ -21,9 +24,9 @@ export function MedicationOrderSyntax(props: Props) {
             {props.order.concentration}{" "}
             {props.order.route}{" "}
             {frequency} {" "}
-            {props.order.routine}  {" "}
+            {routine}  {" "}
             {props.order.PRNNote}{" "}
-            {props.order.notes ? `(${props.order.notes})` : null}
+            {props.order.notes ? `${props.order.notes}` : null}
         </>
 
     );
