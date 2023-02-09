@@ -28,7 +28,7 @@ export default function PageView(props: Props) {
             <footer className="absolute bottom-2 left-5">
                 <ul className="flex gap-4 underline underline-offset-4">
                     <li>NurseO © {year}</li>
-                    <li>Version 2.3.0</li>
+                    <li>Version 2.4.0</li>
                 </ul>
             </footer>
 
