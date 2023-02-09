@@ -59,6 +59,14 @@ export function CustomOrdersStage(props: Props) {
         setOrders([...orders]);
     }
 
+    const onEditClickHandler = (index:number) =>{
+        const tempOrder = orders[index]
+        setTime(tempOrder.time || "")
+        setOrder(tempOrder.order)
+        setOrderType(tempOrder.orderType)
+        onDeleteClickHandler(index)
+    }
+
     return (
         <div className="overflow-hidden relative">
             <BaseStage {...props} onNext={onNextClickHandler} title="Custom Orders" icon={faMaskVentilator} moveLeft={orders.length > 0}>
@@ -81,7 +89,9 @@ export function CustomOrdersStage(props: Props) {
 
             <CustomOrderPreviewer orders={orders}
              onDeleteClickHandler={onDeleteClickHandler} 
-             onIndexChangeHandler={onIndexChangeHandler}/>
+             onIndexChangeHandler={onIndexChangeHandler}
+             onEdit={onEditClickHandler}
+             />
 
 
         </div>
