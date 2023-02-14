@@ -64,7 +64,7 @@ export function ViewLocationsPage() {
     }
 
     const onCoursesSaveClickHandler = async (courseIds: string[])=>{
-        if(!locationIndexToBeEdited) {
+        if(locationIndexToBeEdited === undefined || locationIndexToBeEdited === null) {
             broadcastAnnouncement("Error occurred while saving the courses", Announcement.error)
             return
         }
@@ -99,7 +99,7 @@ export function ViewLocationsPage() {
                             onChange={({target})=>onStationEdit(l.id, target.value)} /></Td>
 
                             <Td>{String(l.id)}</Td>
-                            <td><Button className="bg-blue text-white px-4 py-2 rounded-none" onClick={()=>setLocationIndexToBeEdited(i)}>Edit Courses</Button></td>
+                            <td className="min-w-[9rem]"><Button className="bg-blue text-white px-4 py-2 rounded-none" onClick={()=>setLocationIndexToBeEdited(i)}>Edit Courses</Button></td>
                             <td><ButtonWConfirmBox className="bg-red text-white px-4 py-2 mx-auto w-full rounded-none" 
                             confirmPrompt={`Are you sure you want to delete ${l.building}-${l.station}? This will break any medication in that location`}
                             onConfirm={() => onDeleteClickHandler(l)}>Delete</ButtonWConfirmBox></td>

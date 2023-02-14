@@ -57,7 +57,7 @@ export function ViewPatientsPage() {
 
         for (const e of entries) {
             const courseId = e[0]
-            const coursePatients = e[1]
+            const coursePatients = e[1].sort((a,b)=>a.id.localeCompare(b.id))
             const course = find(courses, { id: courseId })
             if (course) output.push(<Tr className="bg-success text-white"><Td colSpan={5}>{course?.name}</Td></Tr>)
             else output.push(<Tr><Td colSpan={5} className="bg-success text-white">No Course Assigned</Td></Tr>)
@@ -70,7 +70,7 @@ export function ViewPatientsPage() {
                         <Td>{p.id}</Td>
                         <td><button className="bg-blue text-white px-4 py-2 mx-auto w-full" onClick={() => onEditClickHandler(p)}>Edit</button></td>
                         <td><ButtonWConfirmBox
-                             className="bg-red text-white px-4 py-2 mx-auto w-full rounded-sm"
+                             className="bg-red text-white px-4 py-2 mx-auto w-full rounded-none"
                             onConfirm={() => onDeleteClickHandler(p)} 
                             confirmPrompt={"Are you sure you want to delete this patient?"}>Delete</ButtonWConfirmBox>
                         </td>
