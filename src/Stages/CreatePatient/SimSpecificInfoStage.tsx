@@ -1,6 +1,7 @@
 import { faHouseChimneyUser } from "@fortawesome/free-solid-svg-icons";
 import { Course, PatientChart, Time } from "nurse-o-core";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
+import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
@@ -52,6 +53,17 @@ export function SimSpecificInfoStage(props: Props) {
         getCourses().then(c=>setCourses([...c]))
     }, [])
 
+    const onLabsURLChangeHandler = (e:ChangeEvent<HTMLInputElement>)=>{
+        let value = e.currentTarget.value
+        if(value.indexOf("preview") === -1 && value.indexOf("view") > -1) {
+            value = value.replace("view", "preview")
+        } else if (value.indexOf("preview") === -1 && value !== "") {
+            broadcastAnnouncement("The labs url is not correct, the url should end either in /view or /preview and the file should be PDF", Announcement.error)
+        }
+
+        setLabsURL(value)
+    }
+
     return (
         <BaseStage {...props} title="Let's focus on sim now!" icon={faHouseChimneyUser} onNext={onNextClickHandler}>
             <Input label="Barcode" onChange={e=>setBarcode(e.currentTarget.value)} value={barcode}/>
@@ -67,7 +79,7 @@ export function SimSpecificInfoStage(props: Props) {
                     <option className="hidden"></option>
                     <>{courses.map((c,i)=><option key={i} value={c.id}>{c.name}</option>)}</>
             </Select>
-            <Input label="Labs URL" optional type="url"  onChange={e=>setLabsURL(e.currentTarget.value)} value={labsURL}/>
+            <Input label="Labs URL" optional type="url"  onChange={e=>setLabsURL(e.currentTarget.value)} onBlur={onLabsURLChangeHandler} value={labsURL}/>
         </BaseStage>
     )
 
