@@ -1,5 +1,5 @@
 import { faIdCard, faStethoscope, faBookMedical, faHeart, faHeadSideCough,
-     faHouseChimneyUser, faSyringe, faComputer, faFileInvoice, faPills } from "@fortawesome/free-solid-svg-icons";
+     faHouseChimneyUser, faSyringe, faComputer, faFileInvoice, faPills, faFlag } from "@fortawesome/free-solid-svg-icons";
 import PageView from "../PageView";
 import { Step } from "../../Components/Steps/Step";
 import { Steps } from "../../Components/Steps/Steps";
@@ -11,7 +11,7 @@ import { AllergiesStage } from "../../Stages/CreatePatient/AllergiesStage";
 import { MedicalHistoryStage } from "../../Stages/CreatePatient/MedicalHistoryStage";
 import { SocialHistoryStage } from "../../Stages/CreatePatient/SocialHistoryStage";
 import { OrdersStage } from "../../Stages/CreatePatient/OrdersStage";
-import { Allergy, CustomOrder, MedicationOrder, MedicalHistory, StudentReport } from "nurse-o-core";
+import { Allergy, CustomOrder, MedicationOrder, MedicalHistory, StudentReport, Flag } from "nurse-o-core";
 import { ImmunizationsStage } from "../../Stages/CreatePatient/ImmunizationsStage";
 import { CustomOrdersStage } from "../../Stages/CreatePatient/CustomOrdersStage";
 import { createEmptyPatient } from "../../Services/Util";
@@ -21,6 +21,7 @@ import { Database } from "../../Services/Database";
 import { PatientFinalizeStage } from "../../Stages/CreatePatient/PatientFinalizeStage";
 import { cloneDeep, isEqual } from "lodash";
 import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
+import { FlagsStage } from "../../Stages/CreatePatient/FlagsStage";
 
 
 export default function CreatePatientPage() {
@@ -70,6 +71,7 @@ export default function CreatePatientPage() {
         patient.age = simInfo.age
         patient.time = simInfo.time
         patient.labDocURL = simInfo.labDocURL
+        patient.courseId = simInfo.courseId
         setPatient(patient);
 
         onNextClickHandler()
@@ -81,6 +83,14 @@ export default function CreatePatientPage() {
 
         onNextClickHandler();
     }
+
+    const onFlagsHandler = (flags:Flag[])=>{
+        patient.flags  = flags;
+        setPatient(patient);
+
+        onNextClickHandler();
+    }
+
 
     const onMedicalHistoryHandler = (medicalHistory:MedicalHistory[])=>{
         patient.medicalHistory = medicalHistory
@@ -141,6 +151,7 @@ export default function CreatePatientPage() {
             <Steps activeStep={currentStage} stageSwitchFn={stageSkipFn}>
                 <Step icon={faIdCard} />
                 <Step icon={faHouseChimneyUser} />
+                <Step icon={faFlag} />
                 <Step icon={faHeadSideCough} />
                 <Step icon={faSyringe} />
                 <Step icon={faBookMedical} />
@@ -154,6 +165,7 @@ export default function CreatePatientPage() {
             <Stages stage={currentStage}>
                 <BasicInfoStage onPrev={onPrevClickHandler} onNext={onBasicInfoHandler} patient={patient}/>
                 <SimSpecificInfoStage onPrev={onPrevClickHandler} onNext={onSimInfoHandler} dob={dob}  patient={patient}/>
+                <FlagsStage onPrev={onPrevClickHandler} onNext={onFlagsHandler} patient={patient} />
                 <AllergiesStage onPrev={onPrevClickHandler} onNext={onAllergiesHandler}  patient={patient}/>
                 <ImmunizationsStage onPrev={onPrevClickHandler} onNext={onImmunizationsHandler}  patient={patient}/>
                 <MedicalHistoryStage onPrev={onPrevClickHandler} onNext={onMedicalHistoryHandler}  patient={patient}/>

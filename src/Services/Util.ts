@@ -1,4 +1,5 @@
 import { Gender, PatientChart, Time } from "nurse-o-core";
+import { Database } from "./Database";
 
 export function createEmptyPatient():PatientChart {
     const patient:PatientChart = {
@@ -21,6 +22,7 @@ export function createEmptyPatient():PatientChart {
         medicationOrders: [],
         immunizations: [],
         customOrders: [],
+        courseId: ""
     }
 
     return patient;
@@ -39,4 +41,13 @@ export function makeTimeObject(timeString: string) {
 
 export function convertTimeToString(time:Time):string {
     return `${time.hour.toString().padStart(2,"0")}:${time.minutes.toString().padStart(2,"0")}`
+}
+
+
+export async function getCourses() {
+    const db = Database.getInstance()
+    const settings = await db.getSettings();
+    let courses = settings.courses;
+    courses = courses.sort((a,b)=>a.name.localeCompare(b.name))
+    return courses;
 }

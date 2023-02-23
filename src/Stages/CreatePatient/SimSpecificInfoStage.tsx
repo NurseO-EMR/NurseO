@@ -1,12 +1,12 @@
 import { faHouseChimneyUser } from "@fortawesome/free-solid-svg-icons";
-import { PatientChart, Time } from "nurse-o-core";
-import { ChangeEvent, useState } from "react";
+import { Course, PatientChart, Time } from "nurse-o-core";
+import { useEffect, useState, ChangeEvent } from "react";
+import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
 import { Input } from "../../Components/Form/Input";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
 import { DateFormat } from "../../Services/DateFormat";
-import { makeTimeObject, convertTimeToString } from "../../Services/Util";
+import { makeTimeObject, convertTimeToString, getCourses } from "../../Services/Util";
 
 
 export type SimSpecificInfo = {
@@ -14,7 +14,8 @@ export type SimSpecificInfo = {
     age: string,
     dob: string,
     time: Time,
-    labDocURL: string
+    labDocURL: string,
+    courseId: string
 }
 
 export type Props = BaseStageProps & {
@@ -31,7 +32,8 @@ export function SimSpecificInfoStage(props: Props) {
     const [dateFormat, setDateFormat] = useState(props.patient ? getDateFormat(props.patient.dob) : "" as DateFormat)
     const [simTime, setSimTime] = useState(props.patient ? convertTimeToString(props.patient.time) : "")
     const [labsURL, setLabsURL] = useState(props.patient?.labDocURL || "")
-
+    const [courseId, setCourseId] = useState<string>(props.patient?.courseId || "")
+    const [courses, setCourses] = useState<Course[]>([])
 
     const onNextClickHandler = ()=>{
         const simInfo:SimSpecificInfo = {
@@ -39,11 +41,17 @@ export function SimSpecificInfoStage(props: Props) {
             age: age,
             dob: changeDOBFormat(props.dob, dateFormat),
             time: makeTimeObject(simTime),
-            labDocURL: labsURL
+            labDocURL: labsURL,
+            courseId
         }
 
         props.onNext(simInfo)
     }
+
+
+    useEffect(()=>{
+        getCourses().then(c=>setCourses([...c]))
+    }, [])
 
     const onLabsURLChangeHandler = (e:ChangeEvent<HTMLInputElement>)=>{
         let value = e.currentTarget.value
@@ -67,6 +75,10 @@ export function SimSpecificInfoStage(props: Props) {
                 <option value={DateFormat.HiddenMonthNYear}>xx/24/xxxx</option>
             </Select>
             <Input label="SimTime" type="time"  onChange={e=>setSimTime(e.currentTarget.value)} value={simTime}/>
+            <Select label="Course"  onChange={e=>setCourseId(e.currentTarget.value)} value={courseId}>
+                    <option className="hidden"></option>
+                    <>{courses.map((c,i)=><option key={i} value={c.id}>{c.name}</option>)}</>
+            </Select>
             <Input label="Labs URL" optional type="url"  onChange={e=>setLabsURL(e.currentTarget.value)} onBlur={onLabsURLChangeHandler} value={labsURL}/>
         </BaseStage>
     )

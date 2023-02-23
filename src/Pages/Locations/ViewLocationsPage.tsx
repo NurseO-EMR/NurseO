@@ -9,10 +9,14 @@ import { findIndex } from "lodash";
 import { Input } from "../../Components/Form/Input";
 import { Button } from "../../Components/Form/Button";
 import {ButtonWConfirmBox} from "../../Components/Form/ButtonWConfirmBox"
+import { CourseEditorModal } from "../../Components/Courses/CourseEditorModal";
+import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
 
 export function ViewLocationsPage() {
     const [locations, setLocations] = useState<LocationDefinition[]>([])
     const [saveText, setSaveText] = useState("Save")
+    const [locationIndexToBeEdited, setLocationIndexToBeEdited] = useState<number|null>(null)
+    const db = Database.getInstance()
 
 
     const getLocations = async () => {
@@ -52,12 +56,23 @@ export function ViewLocationsPage() {
 
     const onSaveClickHandler = async () =>{
         setSaveText("Saving...")
-        const db = Database.getInstance()
         const settings = await db.getSettings();
         settings.locations = locations
         await db.updateSettings(settings);
         setSaveText("Saved!")
         setTimeout(()=>setSaveText("Save"), 3000)
+    }
+
+    const onCoursesSaveClickHandler = async (courseIds: string[])=>{
+        if(locationIndexToBeEdited === undefined || locationIndexToBeEdited === null) {
+            broadcastAnnouncement("Error occurred while saving the courses", Announcement.error)
+            return
+        }
+
+        const settings = await db.getSettings();
+        settings.locations[locationIndexToBeEdited].courseIds = courseIds
+        await db.updateSettings(settings)
+        setLocationIndexToBeEdited(null)
     }
 
 
@@ -70,6 +85,7 @@ export function ViewLocationsPage() {
                         <th className="border font-normal">Building</th>
                         <th className="border font-normal">Station</th>
                         <th className="border font-normal">ID</th>
+                        <th className="border font-normal">Courses</th>
                         <th className="border font-normal">Delete</th>
                     </Tr>
                 </thead>
@@ -83,6 +99,7 @@ export function ViewLocationsPage() {
                             onChange={({target})=>onStationEdit(l.id, target.value)} /></Td>
 
                             <Td>{String(l.id)}</Td>
+                            <td className="min-w-[9rem]"><Button className="bg-blue text-white px-4 py-2 rounded-none" onClick={()=>setLocationIndexToBeEdited(i)}>Edit Courses</Button></td>
                             <td><ButtonWConfirmBox className="bg-red text-white px-4 py-2 mx-auto w-full rounded-none" 
                             confirmPrompt={`Are you sure you want to delete ${l.building}-${l.station}? This will break any medication in that location`}
                             onConfirm={() => onDeleteClickHandler(l)}>Delete</ButtonWConfirmBox></td>
@@ -93,5 +110,11 @@ export function ViewLocationsPage() {
 
             <Button className="bg-blue my-6" onClick={onSaveClickHandler}>{saveText}</Button>
         </Card>
+        {locationIndexToBeEdited !== null ? <CourseEditorModal 
+                                    courseIds={locations[locationIndexToBeEdited].courseIds}
+                                    onSave={onCoursesSaveClickHandler}
+                                    onClose={()=>setLocationIndexToBeEdited(null)}
+                                    />: null}
+        
     </PageView>
 }

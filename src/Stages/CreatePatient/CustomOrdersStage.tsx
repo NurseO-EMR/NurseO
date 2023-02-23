@@ -3,10 +3,13 @@ import { CustomOrder, OrderKind, OrderType, PatientChart } from "nurse-o-core";
 import { useState } from "react";
 import { Button } from "../../Components/Form/Button";
 import { Input } from "../../Components/Form/Input";
+import { RichTextArea } from "../../Components/Form/RichTextArea";
 import { Select } from "../../Components/Form/Select";
 import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
 import { CustomOrderPreviewer } from "../../Components/Stages/CustomOrders/CustomOrderPreviewer";
 import { broadcastAnnouncement, Announcement } from "../../Services/AnnouncementService";
+
+
 
 export type Props = BaseStageProps & {
     onNext: (orders: CustomOrder[]) => void,
@@ -56,6 +59,14 @@ export function CustomOrdersStage(props: Props) {
         setOrders([...orders]);
     }
 
+    const onEditClickHandler = (index:number) =>{
+        const tempOrder = orders[index]
+        setTime(tempOrder.time || "")
+        setOrder(tempOrder.order)
+        setOrderType(tempOrder.orderType)
+        onDeleteClickHandler(index)
+    }
+
     return (
         <div className="overflow-hidden relative">
             <BaseStage {...props} onNext={onNextClickHandler} title="Custom Orders" icon={faMaskVentilator} moveLeft={orders.length > 0}>
@@ -63,8 +74,9 @@ export function CustomOrdersStage(props: Props) {
                     onChange={e => setTime(e.currentTarget.value)} />
 
                 <label className="block text-left">Entry: </label>
-                <textarea className="border p-2" cols={45} rows={5} value={order}
-                    onChange={e => setOrder(e.currentTarget.value)} />
+                <RichTextArea onChange={e=>setOrder(e)} value={order}
+                className="h-40 bg-white border"/>
+
 
                 <Select label="Order Type" value={orderType}
                     onChange={e => setOrderType(e.currentTarget.value as OrderType)} optional>
@@ -77,7 +89,9 @@ export function CustomOrdersStage(props: Props) {
 
             <CustomOrderPreviewer orders={orders}
              onDeleteClickHandler={onDeleteClickHandler} 
-             onIndexChangeHandler={onIndexChangeHandler}/>
+             onIndexChangeHandler={onIndexChangeHandler}
+             onEdit={onEditClickHandler}
+             />
 
 
         </div>

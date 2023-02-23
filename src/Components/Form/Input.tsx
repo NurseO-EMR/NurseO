@@ -24,9 +24,10 @@ function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
 
     const getInputProps = () =>{
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { optional, label, delay, required, className, hideLabel, ...inputProps} = props
+        const { optional, label, delay, required, className, hideLabel, onChange, value, ...inputProps} = props
         return inputProps
     }
+
 
     return (
         <motion.div className={`grid text-left my-4 relative w-full ${props.className}`} 
@@ -38,7 +39,10 @@ function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
             <input id={id} {...getInputProps()} 
                 required={!props.optional} 
                 className={`border h-8  px-2 w-full ${props.inputClassName}`} ref={ref} 
+                onChange={props.onChange}
+                value={props.value}
             />
+
         </motion.div>
     )
 }

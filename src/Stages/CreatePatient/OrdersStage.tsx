@@ -31,6 +31,7 @@ export function OrdersStage(props: Props) {
     const [orderType, setOrderType] = useState(OrderType.NA);
     const [completed, setCompleted] = useState(false);
     const [showMar, setShowMar] = useState(false);
+    const [time, setTime] = useState("");
 
     const [orders, setOrders] = useState(props.patient?.medicationOrders || [] as MedicationOrder[]);
 
@@ -61,7 +62,8 @@ export function OrdersStage(props: Props) {
             orderType,
             PRNNote,
             orderKind: OrderKind.med,
-            completed
+            completed,
+            time
         }
 
         orders.push(order)
@@ -165,6 +167,7 @@ export function OrdersStage(props: Props) {
                         <option value="false">No</option>
                         <option value="true">Yes</option>
                     </Select>
+                    <Input label="Time" onChange={e => setTime(e.currentTarget.value)} value={time} optional />
 
                 </div>
 
