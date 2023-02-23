@@ -54,8 +54,8 @@ export function BasicInfoStage(props: Props) {
                     <option value={Gender.Other}>Other</option>
                     <option value={Gender.Empty}></option>
                 </Select>
-                <Input label="Height" suffix={["cm"]} type="number" step={0.5} onChangeWSuffix={e=>setHeight(e)} value={height}/>
-                <Input label="Weight" suffix={["kg", "lb"]} type="number" step={0.5} onChangeWSuffix={e=>setWeight(e)} value={weight}/> 
+                <Input label="Height"  onChange={e=>setHeight(e.currentTarget.value)} value={height}/>
+                <Input label="Weight" onChange={e=>setWeight(e.currentTarget.value)} value={weight}/> 
                 <label className="block text-left">Diagnosis: </label>
                 <textarea className="border w-full p-2" cols={45} rows={5} 
                     value={diagnosis} onChange={e=>setDiagnosis(e.currentTarget.value)} 
