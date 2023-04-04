@@ -1,7 +1,9 @@
-import { uniq } from 'lodash';
+import { findIndex, uniq } from 'lodash';
 import React from 'react';
 import { MedicationOrder, Time } from 'nurse-o-core';
 import MarEntry from './MarEntry';
+import { $patient } from '../../Services/State';
+import Database from '../../Services/Database';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     orders: MedicationOrder[],
@@ -51,6 +53,16 @@ export default class Mar extends React.Component<Props, State> {
         }
         return timeSlots;
     }
+
+    async onMarUpdateHandler(order:MedicationOrder) {
+        const patient = $patient.value
+        const db = Database.getInstance()
+        const orderIndex = findIndex(patient.medicationOrders, {...order})
+        patient.medicationOrders[orderIndex] = order;
+        $patient.next(patient)
+        await db.updatePatient()
+
+    }
     
 
 
@@ -59,6 +71,8 @@ export default class Mar extends React.Component<Props, State> {
             <table className={"table-auto w-full " + this.props.className}>
                 <thead className="w-full h-16">
                     <tr className="bg-primary text-white">
+                        <th></th>
+                        <th>Hold</th>
                         <th></th>
                         {this.timeSlots.map((time, i) => <th key={i}>{time}:00</th>)}
                     </tr>
@@ -69,7 +83,12 @@ export default class Mar extends React.Component<Props, State> {
                             <tr className="odd:bg-gray-100 even:bg-gray-300 h-32">
                                 <td className="w-80 pl-16 font-semibold">No Mar Records Available</td>
                             </tr>
-                            : this.state.filteredOrders.map((order, i) => <MarEntry simTime={this.props.simTime} timeSlots={this.timeSlots} key={i} order={order}></MarEntry>)
+                            : this.state.filteredOrders.map((order, i) => 
+                            <MarEntry simTime={this.props.simTime}
+                             timeSlots={this.timeSlots} key={i} order={order}
+                             onUpdate={this.onMarUpdateHandler.bind(this)}
+                             />
+                            )
                     }
                 </tbody>
             </table>

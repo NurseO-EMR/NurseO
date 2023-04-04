@@ -1,24 +1,16 @@
-import React, { HTMLProps } from 'react';
+import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 
-type Props = HTMLProps<HTMLButtonElement> & {
-    admin?: boolean
-};
+type Props = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
 
-export default class Button extends React.Component<Props> {
+export function Button(props: Props) {
+    const { className, children, ...buttonProps } = props
 
-    onClickHandler(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        e.preventDefault();
-        if(this.props.onClick) this.props.onClick(e);
-    }
+    return (
+        <button onClick={props.onClick}
+            className={`text-white rounded-full px-8 py-2
+             text-center cursor-pointer ${props.className}`}
+            {...buttonProps}
+        >{props.children}</button>
 
-    public render() {	
-
-        return (
-            <button onClick={this.onClickHandler.bind(this)} 
-            className={` ${this.props.className} text-white rounded-full px-8 py-2 ml-6 text-center cursor-pointer bg-${this.props.admin ? "admin" : "primary"}`}
-            disabled={this.props.disabled}
-            >{this.props.children}</button>
-
-        );
-    }	
+    );
 }

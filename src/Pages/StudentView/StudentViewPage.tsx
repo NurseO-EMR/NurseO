@@ -57,8 +57,9 @@ export default function StudentViewPage(props:Props) {
                     <SideNavItem href="/studentView/io/view">View I/O Record</SideNavItem>
                     <SideNavItem href="/studentView/io/submit">Submit I/O Record</SideNavItem>
 
-                    <SideNavHeader href="/studentView/labs">Labs</SideNavHeader>
-                    <SideNavItem href="/studentView/labs/view">View Labs</SideNavItem>
+                    <SideNavHeader href="/studentView/labs">Results</SideNavHeader>
+                    <SideNavItem href="/studentView/labs/view">View Lab Results</SideNavItem>
+                    <SideNavItem href="/studentView/imaging/view">View Imaging Results</SideNavItem>
 
                 </SideNav>
                 <div className="grid-in-main mb-4">

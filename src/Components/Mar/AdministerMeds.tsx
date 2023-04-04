@@ -5,7 +5,7 @@ import Database from '../../Services/Database';
 import { $patient } from '../../Services/State';
 import { Frequency, MedicationOrder, OrderKind, OrderType, PatientChart, Routine } from 'nurse-o-core';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
-
+import { useHistory } from 'react-router';
 type Props = {
     patient: PatientChart
 }
@@ -17,7 +17,7 @@ export default function AdministerMeds(props: Props) {
     const [scannedMedicationName, setScannedMedicationName] = useState("")
     const [dose, setDose] = useState("")
     const [medicationNotFound, setMedicationNotFound] = useState(false)
-
+    const history = useHistory()
 
     const onScanHandler = async () => {
         const db = Database.getInstance();
@@ -41,13 +41,14 @@ export default function AdministerMeds(props: Props) {
         const medIndex = await getMedIndex(medications)
         if (medIndex > -1) {
             const { hour, minutes } = patient.time;
-            patient.medicationOrders[medIndex].mar.push({ hour, minutes })
+            patient.medicationOrders[medIndex].mar.push({ hour, minutes, dose })
             $patient.next(patient);
             await db.updatePatient()
             setMedicationBarcode("")
             setScannedMedicationName("")
             setScannedMedicationOrder(undefined)
             setDose("")
+            history.push("/studentView/mar")
         }
     }
 

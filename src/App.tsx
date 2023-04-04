@@ -25,6 +25,7 @@ import IORecordSubmitPage from './Pages/StudentView/IORecord/IORecordSubmitPage'
 import IORecordViewPage from './Pages/StudentView/IORecord/IORecordViewPage';
 import { getLocationFromStorage, storeLocation } from './Services/LocalStorage';
 import ProviderOrdersPage from './Pages/StudentView/Orders/ProviderOrdersPage';
+import ImagingViewerPage from './Pages/StudentView/imaging/ImagingViewerPage';
 
 
 
@@ -86,6 +87,11 @@ export default function App() {
 
         <Route exact path="/studentView/labs"><LabsViewerPage patient={patient} /></Route>
         <Route exact path="/studentView/labs/view"><LabsViewerPage patient={patient} /></Route>
+
+
+        <Route exact path="/studentView/imaging/view"><ImagingViewerPage patient={patient} /></Route>
+        <Route exact path="/studentView/imaging/view"><ImagingViewerPage patient={patient} /></Route>
+        
 
         <Route exact path="/studentView/orders/all"><AllOrders patient={patient} /></Route>
         <Route exact path="/studentView/orders/admission"><AdmissionOrdersPage patient={patient} /></Route>
