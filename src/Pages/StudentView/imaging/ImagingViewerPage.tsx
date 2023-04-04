@@ -12,7 +12,7 @@ export default class ImagingViewerPage extends React.Component<Props> {
     public render() {	
         return (
             <StudentViewPage patient={this.props.patient}>
-                <LabViewer docLink={this.props.patient.imagingURL}></LabViewer>
+                <LabViewer title='Imaging' docLink={this.props.patient.imagingURL}></LabViewer>
             </StudentViewPage>
 
         );
