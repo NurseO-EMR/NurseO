@@ -15,6 +15,7 @@ export type SimSpecificInfo = {
     dob: string,
     time: Time,
     labDocURL: string,
+    imagingURL: string,
     courseId: string
 }
 
@@ -32,6 +33,7 @@ export function SimSpecificInfoStage(props: Props) {
     const [dateFormat, setDateFormat] = useState(props.patient ? getDateFormat(props.patient.dob) : "" as DateFormat)
     const [simTime, setSimTime] = useState(props.patient ? convertTimeToString(props.patient.time) : "")
     const [labsURL, setLabsURL] = useState(props.patient?.labDocURL || "")
+    const [imagingURL, setImagingURL] = useState(props.patient?.imagingURL || "")
     const [courseId, setCourseId] = useState<string>(props.patient?.courseId || "")
     const [courses, setCourses] = useState<Course[]>([])
 
@@ -42,6 +44,7 @@ export function SimSpecificInfoStage(props: Props) {
             dob: changeDOBFormat(props.dob, dateFormat),
             time: makeTimeObject(simTime),
             labDocURL: labsURL,
+            imagingURL: imagingURL,
             courseId
         }
 
@@ -53,7 +56,7 @@ export function SimSpecificInfoStage(props: Props) {
         getCourses().then(c=>setCourses([...c]))
     }, [])
 
-    const onLabsURLChangeHandler = (e:ChangeEvent<HTMLInputElement>)=>{
+    const onBlurURLChangeHandler = (e:ChangeEvent<HTMLInputElement>, setterFunction: (value:string)=>void)=>{
         let value = e.currentTarget.value
         if(value.indexOf("preview") === -1 && value.indexOf("view") > -1) {
             value = value.replace("view", "preview")
@@ -61,7 +64,7 @@ export function SimSpecificInfoStage(props: Props) {
             broadcastAnnouncement("The labs url is not correct, the url should end either in /view or /preview and the file should be PDF", Announcement.error)
         }
 
-        setLabsURL(value)
+        setterFunction(value)
     }
 
     return (
@@ -79,7 +82,8 @@ export function SimSpecificInfoStage(props: Props) {
                     <option className="hidden"></option>
                     <>{courses.map((c,i)=><option key={i} value={c.id}>{c.name}</option>)}</>
             </Select>
-            <Input label="Labs URL" optional type="url"  onChange={e=>setLabsURL(e.currentTarget.value)} onBlur={onLabsURLChangeHandler} value={labsURL}/>
+            <Input label="Labs URL" optional type="url"  onChange={e=>setLabsURL(e.currentTarget.value)} onBlur={e=>onBlurURLChangeHandler(e,setLabsURL)} value={labsURL}/>
+            <Input label="Imaging URL" optional type="url"  onChange={e=>setImagingURL(e.currentTarget.value)} onBlur={e=>onBlurURLChangeHandler(e,setImagingURL)} value={imagingURL}/>
         </BaseStage>
     )
 
