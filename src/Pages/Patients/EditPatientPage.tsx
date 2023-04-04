@@ -69,6 +69,7 @@ export function EditPatientPage() {
         patient.time = simInfo.time
         patient.labDocURL = simInfo.labDocURL
         patient.courseId = simInfo.courseId
+        patient.imagingURL = simInfo.imagingURL
         setPatient(patient);
 
         onNextClickHandler()
