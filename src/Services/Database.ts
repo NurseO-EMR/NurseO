@@ -89,7 +89,7 @@ export class Database {
         }
         
         console.log("getting medications from db")
-        const q = query(collection(this.db, "medications"), orderBy("name"));
+        const q = query(collection(this.db, "medications"), orderBy("genericName"));
         const docs = (await getDocs(q)).docs
         const medications = docs.map(doc => doc.data()) as Medication[];
         this.cache.cacheMultipleMeds(medications);

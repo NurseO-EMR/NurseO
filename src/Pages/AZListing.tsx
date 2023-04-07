@@ -14,6 +14,7 @@ export function AZListing() {
     useEffect(() => {
         const db = Database.getInstance()
         db.getMedications().then(medications => {
+            console.log(medications.filter((m)=>m.id === "9f6c1163-17be-4288-a0a4-d2e3c053ac55"))
             const letters = getLetters(medications)
             setAlphabet([...letters]);
             setMeds([...medications])
