@@ -1,4 +1,4 @@
-import { faMaskVentilator } from "@fortawesome/free-solid-svg-icons";
+import { faStethoscope } from "@fortawesome/free-solid-svg-icons";
 import { CustomOrder, OrderKind, OrderType, PatientChart } from "nurse-o-core";
 import { useState } from "react";
 import { Button } from "../../Components/Form/Button";
@@ -69,7 +69,7 @@ export function CustomOrdersStage(props: Props) {
 
     return (
         <div className="overflow-hidden relative">
-            <BaseStage {...props} onNext={onNextClickHandler} title="Custom Orders" icon={faMaskVentilator} moveLeft={orders.length > 0}>
+            <BaseStage {...props} onNext={onNextClickHandler} title="Custom Orders" icon={faStethoscope} moveLeft={orders.length > 0}>
                 <Input label="Time" value={time} optional
                     onChange={e => setTime(e.currentTarget.value)} />
 

@@ -10,9 +10,9 @@ export default function DashboardPage() {
     return (
         <PageView>
 
-            <div className="mt-[11vh]">
+            <div className="mt-[13vh] mb-[5vh]">
 
-                <h1 className="text-white text-5xl tracking-[1rem] mb-20 text-center">What do you want to do?</h1>
+                {/* <h1 className="text-white text-5xl tracking-[1rem] mb-20 text-center">What do you want to do?</h1> */}
                 <div className="flex gap-20 w-[80vw] flex-wrap">
                     <DashboardNavCard icon={faIdCard} title="Patients">
                         <Link to={"/patient/create"}>Create Patient</Link>

@@ -11,8 +11,8 @@
 }
 .hillsBackground {
     background-image: url("./assets/background.svg");
-    min-width: 100vw;
-    min-height: 100vh;
+    min-width: 100%;
+    min-height: 100%;
     /* overflow: hidden; */
     /* aspect-ratio: 1920/1080; */
     background-size: auto auto;
