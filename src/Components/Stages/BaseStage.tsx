@@ -41,8 +41,8 @@ export function BaseStage(props: Props) {
                 <>{props.children}</>
 
                 <motion.div className="flex gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ delay: STAGE_ANIMATION_DURATION - 0.5 }}>
-                    {!props.hideBackButton? <Button className="bg-darkGray" onClick={props.onPrev}>Previous</Button> : null}
-                    <Button className="bg-blue" onClick={onNextClickHandler}>{props.customNextText ? props.customNextText : "Next"}</Button>
+                    {!props.hideBackButton? <Button className="bg-darkGray rounded-full" onClick={props.onPrev}>Previous</Button> : null}
+                    <Button className="bg-blue rounded-full" onClick={onNextClickHandler}>{props.customNextText ? props.customNextText : "Next"}</Button>
                 </motion.div>
 
             </Form>

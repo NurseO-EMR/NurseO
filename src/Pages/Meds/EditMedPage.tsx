@@ -112,7 +112,7 @@ export function EditMedPage() {
                 </tbody>
             </table>
 
-            <Button className="bg-blue my-6" onClick={onSaveClickHandler}>{saveText}</Button>
+            <Button className="bg-blue my-6 rounded-full" onClick={onSaveClickHandler}>{saveText}</Button>
         </Card>
 
     </PageView>

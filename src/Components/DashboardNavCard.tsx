@@ -10,11 +10,13 @@ type Props = {
 }
 
 export function DashboardNavCard(props: Props) {
-    return <div className="bg-gray shadow-xl mx-auto rounded-lg min-h-[20vh] w-[20vw] py-5 px-4">
+    return <div className="bg-gray shadow-xl mx-auto rounded-lg w-[20vw] py-5 px-4
+             transition-all hover:scale-110
+    ">
         <FontAwesomeIcon icon={props.icon} className="block m-auto text-3xl text-blue" />
         <h1 className="text-center font-bold mt-2">{props.title}</h1>
         {Children.map(props.children, (child, i) =>
-            <div className="border-b my-4 hover:bg-blue hover:text-white hover:text-xl transition-all" key={i}>
+            <div className="border-b my-4 hover:bg-blue hover:text-white hover:scale-105 transition-all" key={i}>
                 <FontAwesomeIcon icon={faCaretRight} /> <span className="ml-2">{child}</span>
             </div>
         )}
