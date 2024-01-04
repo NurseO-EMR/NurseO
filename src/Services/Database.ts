@@ -139,7 +139,6 @@ export class Database {
         } catch {
             broadcastAnnouncement("Error Saving this patient", Announcement.error )
         }
-        
     }
 
     private async getTemplatePatientRef(patient: PatientChart): Promise<DocumentReference> {

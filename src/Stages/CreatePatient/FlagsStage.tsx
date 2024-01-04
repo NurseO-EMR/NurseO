@@ -1,4 +1,4 @@
-import { faPersonDotsFromLine } from "@fortawesome/free-solid-svg-icons";
+import { faFlag } from "@fortawesome/free-solid-svg-icons";
 import { Flag, PatientChart } from "nurse-o-core";
 import { useState } from "react";
 import { useFocus } from "../../Components/customHooks";
@@ -42,7 +42,7 @@ export function FlagsStage(props: Props) {
 
     return (
         <div className="overflow-hidden relative">
-            <BaseStage {...props} onNext={onNextClickHandler} title="Flags" icon={faPersonDotsFromLine} moveLeft={flags.length > 0}>
+            <BaseStage {...props} onNext={onNextClickHandler} title="Flags" icon={faFlag} moveLeft={flags.length > 0}>
                 <Input label="Flag" onChange={e => setName(e.currentTarget.value)} value={name} ref={inputRef} optional/>
                 <Input label="Reason" onChange={e => setReason(e.currentTarget.value)} value={reason} optional/>
                 <Button onClick={onFlagAddClickHandler} className="bg-blue my-4">Add Flag</Button>

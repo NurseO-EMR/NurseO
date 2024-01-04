@@ -1,4 +1,4 @@
-import { faPersonDotsFromLine } from "@fortawesome/free-solid-svg-icons";
+import { faHeadSideCough } from "@fortawesome/free-solid-svg-icons";
 import { Allergy, PatientChart } from "nurse-o-core";
 import { useState } from "react";
 import { useFocus } from "../../Components/customHooks";
@@ -42,7 +42,7 @@ export function AllergiesStage(props: Props) {
 
     return (
         <div className="overflow-hidden relative">
-            <BaseStage {...props} onNext={onNextClickHandler} title="Allergies" icon={faPersonDotsFromLine} moveLeft={allergies.length > 0}>
+            <BaseStage {...props} onNext={onNextClickHandler} title="Allergies" icon={faHeadSideCough} moveLeft={allergies.length > 0}>
                 <Input label="Allergy Name" onChange={e => setName(e.currentTarget.value)} value={name} ref={inputRef} optional/>
                 <Input label="Reaction" onChange={e => setReaction(e.currentTarget.value)} value={reaction} optional/>
                 <Button onClick={onAllergyAddClickHandler} className="bg-blue my-4">Add Allergy</Button>

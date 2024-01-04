@@ -15,7 +15,7 @@ export function Nav() {
     }
 
     return (
-        <nav aria-label="primary" className="absolute top-0 shadow-xl w-screen py-4 px-[10vw] h-fit flex justify-between items-center bg-white/95 z-20">
+        <nav aria-label="primary" className="absolute top-0 shadow-xl w-full py-4 px-[10vw] h-fit flex justify-between items-center bg-white/95 z-20">
             <Link to="/"><Logo className="text-2xl" /></Link>
             <div className="flex gap-10 align-middle">
                 <Link to="/">Home</Link>

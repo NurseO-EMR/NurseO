@@ -45,6 +45,7 @@ function FormEle(props: Props, ref: ForwardedRef<HTMLFormElement>) {
     return (
             <motion.form className="bg-gray shadow-xl min-w-fit w-formWidth mx-auto h-fit mt-[3vh] 
                                     py-10 px-20 text-center rounded-lg max-h-[71vh] overflow-y-auto
+                                    mb-10
                                     "
                 onSubmit={onSubmitHandler} variants={animationVariants}
                 initial="init" animate={props.moveLeft ? "moveLeft" : "end"} exit="exit" transition={{ duration: STAGE_ANIMATION_DURATION, delay: props.delay }}

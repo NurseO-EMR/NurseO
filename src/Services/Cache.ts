@@ -41,18 +41,14 @@ export class Cache {
         return this.cachedSettings;
     }
 
-    cachePatient(patient:PatientChart) {
-        const index = findIndex(this.patients, patient);
-        if(index > -1) return;
-        this.patients.push(patient);
-        this.triggerCacheUpdateEvent()
-    }
     cacheMultiplePatients(patients: PatientChart[]) {
         this.patients = []
         for(const patient of patients) {
-            this.cachePatient(patient);
+            this.patients.push(patient);
         }
+        this.triggerCacheUpdateEvent()
     }
+    
     getPatients():PatientChart[] {
         return this.patients;
     }
