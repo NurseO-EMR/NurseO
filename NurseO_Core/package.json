@@ -1,0 +1,22 @@
+{
+  "name": "nurse-o-core",
+  "version": "0.28.0",
+  "type": "module",
+  "description": "core package for nurseO software",
+  "main": "lib/index.js",
+  "repository": "https://github.com/moahmmed199898/NurseO_Core.git",
+  "files": [
+    "lib/**/*",
+    "src/**/*"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "exit"
+  },
+  "author": "Mohammed Alkhafaji",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "^18.0.6",
+    "react-scripts": "^5.0.1"
+  }
+}
