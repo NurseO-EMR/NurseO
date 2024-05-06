@@ -1,6 +1,6 @@
 const colors = require('tailwindcss/colors')
 const { createThemes } = require('tw-colors');
-
+const colorThemes = require("./src/colorThemes.json")
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
 
@@ -51,16 +51,6 @@ module.exports = {
 
   plugins: [
     require('@savvywombat/tailwindcss-grid-areas'),
-    createThemes({
-      light: {
-        'primary': '#AD1A1A',
-        'secondary': "#0C642C"
-      },
-      blue: {
-        'primary': '#AD1A1A',
-        'secondary': "#0C642C"
-
-      }
-    })
+    createThemes(colorThemes)
   ],
 }

@@ -78,7 +78,7 @@ export default class MarEntry extends React.Component<Props, State> {
                     <MedicationOrderSyntax order={this.props.order} />
                 </td>
                 <td><Button title='release this medication'
-                    className='rounded-lg m-auto bg-gray-700'
+                    className='rounded-lg m-auto bg-grayBackground'
                     onClick={() => this.onHoldReasonSubmittedHandler("")}
                 >Release</Button></td>
                 <td></td>

@@ -9,6 +9,7 @@ import { $history } from '../Services/State';
 import Background from '../Components/Background';
 import SignInButton from '../Components/Form/SignInButton';
 import AnonymousSignInButton from '../Components/Form/AnonymousSignInButton';
+import { ColorThemeSelector } from '../Components/ColorThemeSelector';
 type Props = {}
 type State = {
     badgeNumber: string,
@@ -85,7 +86,7 @@ export default class Login extends React.Component<Props,State> {
             <div>
                 <Background /> 
                 <div className="grid justify-center h-screen w-screen content-center text-center">
-                    <form onSubmit={e=>e.preventDefault()} className="bg-white p-28 rounded-4xl border-primary border-8">
+                    <form onSubmit={e=>e.preventDefault()} className="bg-white px-28 py-20 rounded-4xl border-primary border-8">
                         <Logo className="text-6xl mb-10" />
                         <h1 className="text-xl font-bold">Please Scan Your Badge</h1>
                         <input type="password" autoFocus autoComplete='off'
@@ -96,9 +97,12 @@ export default class Login extends React.Component<Props,State> {
                         <SignInButton onClick={this.onClickHandler.bind(this)} />
                         <div>{this.state.error}</div>
 
-                        <hr className="w-full my-4 border-red-700"/>
+                        <hr className="w-full my-4 border-primary"/>
                         <h1 className="font-bold">If you forgot your ID click bellow:</h1>
                         <AnonymousSignInButton className="block mx-auto" onClick={this.onAnonymousSignInClickHandler.bind(this)}/>
+                        <hr className="w-full my-4 border-primary"/>
+                        <h1 className="font-bold">Select colors that best fit you</h1>
+                        <ColorThemeSelector />
                     </form>
                 </div>
             </div>

@@ -1,0 +1,21 @@
+{
+    "standard": {
+        "primary": "#AD1A1A",
+        "secondary": "#0C642C",
+        "grayBackground": "#4b5563",
+        "label": "standard"
+    },
+    "Protanopia_Deuteranopia": {
+        "primary": "#1e1aad",
+        "secondary": "#674f05",
+        "grayBackground": "#363c45",
+        "label": "Red-Green Filter"
+    },
+    "Monochrome": {
+        "primary": "#000000",
+        "secondary": "#000000",
+        "grayBackground": "#363c45",
+        "label": "Monochrome"
+    }
+    
+}
