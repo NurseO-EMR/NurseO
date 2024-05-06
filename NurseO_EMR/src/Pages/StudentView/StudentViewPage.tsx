@@ -27,7 +27,7 @@ export default function StudentViewPage(props:Props) {
         if (!$patient.value)  return <Redirect to="/studentView/selectPatient" />
 
         return (
-            <div className="grid grid-areas-main min-h-screen grid-cols-twoSections grid-rows-threeSections">
+            <main className="grid grid-areas-main min-h-screen grid-cols-twoSections grid-rows-threeSections blue">
                 <TopNav className="grid-in-topNav"></TopNav>
                 <ArmBand patient={props.patient} className="grid-in-armBand"></ArmBand>
                 <SideNav className="grid-in-sideBar">
@@ -65,6 +65,6 @@ export default function StudentViewPage(props:Props) {
                 <div className="grid-in-main mb-4">
                     {props.children}
                 </div>
-            </div>
+            </main>
         );
     }

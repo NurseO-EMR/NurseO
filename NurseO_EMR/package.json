@@ -17,7 +17,8 @@
     "react-pure-modal": "^2.1.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^5.0.0",
-    "rxjs": "^7.5.2"
+    "rxjs": "^7.5.2",
+    "tw-colors": "^3.3.1"
   },
   "scripts": {
     "start": "react-scripts start",

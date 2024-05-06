@@ -72,7 +72,7 @@ export default class MarEntry extends React.Component<Props, State> {
 
     public render() {
         if (this.props.order.holdReason && this.props.order.holdReason.length > 0) return (
-            <tr className='bg-red-700/70 h-32 border border-white text-white font-semibold'>
+            <tr className='bg-primary/70 h-32 border border-white text-white font-semibold'>
                 <td className={`w-80 pl-16 font-semibold
                                     ${this.props.order.completed ? "line-through" : null}`}>
                     <MedicationOrderSyntax order={this.props.order} />
@@ -93,7 +93,7 @@ export default class MarEntry extends React.Component<Props, State> {
         return (
             <tr className={`odd:bg-gray-100 even:bg-gray-300 h-32 relative
                 ${this.props.order.completed ? `
-                after:bg-green-700 after:opacity-30 after:h-full after:w-full 
+                after:bg-secondary after:opacity-30 after:h-full after:w-full 
                 after:absolute after:inset-0 after:border-2 after:content-['Completed'] after:text-center 
                 after:items-center after:grid after:font-bold after:text-5xl after:z-10` : null}
             `}>
@@ -117,7 +117,7 @@ export default class MarEntry extends React.Component<Props, State> {
                         <td className='w-32'>
                             <Link to={"/studentView/mar/administer"}>
                                 <Button 
-                                className='rounded-lg m-auto bg-green-700 mx-2'>Administer</Button>
+                                className='rounded-lg m-auto bg-secondary mx-2'>Administer</Button>
                             </Link>
                         </td>
                     </>

@@ -85,11 +85,11 @@ export default class Login extends React.Component<Props,State> {
             <div>
                 <Background /> 
                 <div className="grid justify-center h-screen w-screen content-center text-center">
-                    <form onSubmit={e=>e.preventDefault()} className="bg-white p-28 rounded-4xl border-red-500 border-8">
+                    <form onSubmit={e=>e.preventDefault()} className="bg-white p-28 rounded-4xl border-primary border-8">
                         <Logo className="text-6xl mb-10" />
                         <h1 className="text-xl font-bold">Please Scan Your Badge</h1>
                         <input type="password" autoFocus autoComplete='off'
-                            className="my-5 border-2 rounded-full text-center p-4 border-red-700 w-full" 
+                            className="my-5 border-2 rounded-full text-center p-4 border-primary w-full" 
                             placeholder="Or type your badge number here" 
                             onChange={this.onBadgeNumberChange.bind(this)}
                             /><br />

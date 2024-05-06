@@ -1,9 +1,7 @@
 const colors = require('tailwindcss/colors')
+const { createThemes } = require('tw-colors');
 
 module.exports = {
-  plugins: [
-    require('@savvywombat/tailwindcss-grid-areas')
-  ],
   content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
 
   theme: {
@@ -12,22 +10,13 @@ module.exports = {
         "topNav topNav",
         "sideBar armBand",
         "sideBar main",
-        
+
       ]
-    },
-    textColor: {
-      red: colors.rose,
-      green: colors.green,
-      'primary': '#B91C1C',
-      'secondary': '#000000',
-      'white': "#ffffff"
     },
     colors: {
       ...colors,
-      primary: "#B91C1C",
       admin: "#334155",
       edit: "#DC2626",
-
     },
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],
@@ -55,8 +44,23 @@ module.exports = {
 
       width: {
         "70vw": "70vw",
-        "60vw": "60vw"        
+        "60vw": "60vw"
       }
     }
   },
+
+  plugins: [
+    require('@savvywombat/tailwindcss-grid-areas'),
+    createThemes({
+      light: {
+        'primary': '#AD1A1A',
+        'secondary': "#0C642C"
+      },
+      blue: {
+        'primary': '#AD1A1A',
+        'secondary': "#0C642C"
+
+      }
+    })
+  ],
 }
