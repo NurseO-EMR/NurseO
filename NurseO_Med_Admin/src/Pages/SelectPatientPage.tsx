@@ -42,7 +42,7 @@ export function SelectPatient() {
         <div>
             <Background />
             <div className="grid justify-center h-screen w-screen content-center text-center">
-                <div className="bg-white p-10 rounded-4xl border-red-500 border-8 w-[60vw] max-h-[80vh] overflow-y-auto"
+                <div className="bg-white p-10 rounded-3xl border-primary/80 border-8 w-[60vw] max-h-[80vh] overflow-y-auto"
                  onSubmit={e => e.preventDefault()}>
                     <FontAwesomeIcon icon={faArrowLeftLong} onClick={onLogoutClickHandler}
                     className="text-2xl mr-10 cursor-pointer block" /> 
@@ -62,7 +62,7 @@ export function SelectPatient() {
                                     <td className='border'>{p.dob}</td>
                                     <td className='border h-16'>
                                         <button 
-                                            className='w-full h-full bg-red-700 text-white'
+                                            className='w-full h-full bg-primary text-white'
                                             onClick={()=>onClickHandler(p.id)}
                                             >Select</button>
                                     </td>

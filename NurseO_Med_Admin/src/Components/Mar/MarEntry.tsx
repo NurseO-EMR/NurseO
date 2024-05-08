@@ -86,7 +86,7 @@ export function MarEntry(props: Props) {
                 }
                 )}
                 <td className='w-36'>
-                    <button className='bg-red-700 w-full h-32 text-white'
+                    <button className='bg-primary w-full h-32 text-white'
                         onClick={() => setShowLocationModal(true)}>Locate</button>
                 </td>
             </tr>

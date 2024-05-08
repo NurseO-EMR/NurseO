@@ -51,8 +51,8 @@ export function AZListing() {
                     <h1 className="text-5xl border-b-2 text-gray-400 mb-4">{letter}</h1>
                     {meds.filter(m => (m.genericName || "")[0].toUpperCase() === letter).sort().map((med, j) =>
                         <div key={j} onClick={()=>setMedSelected(med)}
-                            className="h-16 my-1 bg-red-200 flex items-center pl-20 justify-between
-                                    hover:bg-red-700 hover:text-white hover:font-bold 
+                            className="h-16 my-1 bg-primary/20 flex items-center pl-20 justify-between
+                                    hover:bg-primary hover:text-white hover:font-bold 
                                     transition-all cursor-pointer
                          ">
                             <div>
@@ -60,7 +60,7 @@ export function AZListing() {
                                 {med.brandName ? "(" + med.brandName + ")" : null}
                             
                             </div>
-                            <button className="bg-red-700 text-white h-full w-40 
+                            <button className="bg-primary text-white h-full w-40 
                            border-l-4 border-white">Locate</button>
                         </div>
                     )}

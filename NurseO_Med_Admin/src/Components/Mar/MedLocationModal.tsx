@@ -45,7 +45,7 @@ export function MedLocationModal(props: Props) {
         <PureModal width='60vw' header="Order" isOpen={true} onClose={props.onClose} className="min-h-[33vh]">
             <div>
                 {props.med.narcoticCountNeeded ? 
-                <h1 className='text-center text-red-700 font-bold text-xl my-2'>Narcotic Count Required</h1>
+                <h1 className='text-center text-primary font-bold text-xl my-2'>Narcotic Count Required</h1>
                  : null}
                 {locations.length > 0 ?
                     <table className='w-full m-auto'>
@@ -72,13 +72,13 @@ export function MedLocationModal(props: Props) {
                                     <td>{location.slot}</td>
                                     {props.med.narcoticCountNeeded ? 
                                         <td className='w-36'>
-                                            <button className='bg-red-700 text-white px-10 h-10 rounded-md'
+                                            <button className='bg-primary text-white px-10 h-10 rounded-md'
                                             onClick={()=>setShowNarcoticCountModel(true)}
                                             >Count</button>
                                         </td>
                                     : null}
                                     {$showVerify.value ? 
-                                        <td className='w-36'><button className='bg-red-700 text-white px-10 h-10 rounded-full' onClick={() => setLocationToBeVerified(location)}>Verify</button></td>
+                                        <td className='w-36'><button className='bg-primary text-white px-10 h-10 rounded-full' onClick={() => setLocationToBeVerified(location)}>Verify</button></td>
                                     : null}
                                 </tr>
                             )}
