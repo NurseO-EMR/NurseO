@@ -1,6 +1,6 @@
 {
   "name": "nurseo_emr",
-  "version": "2.4.1",
+  "version": "2.5.0",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",

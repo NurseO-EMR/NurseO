@@ -86,7 +86,7 @@ export default class Login extends React.Component<Props,State> {
             <div>
                 <Background /> 
                 <div className="grid justify-center h-screen w-screen content-center text-center">
-                    <form onSubmit={e=>e.preventDefault()} className="bg-white px-28 py-20 rounded-4xl border-primary border-8">
+                    <form onSubmit={e=>e.preventDefault()} className="bg-white px-24 py-16 rounded-4xl border-primary border-8">
                         <Logo className="text-6xl mb-10" />
                         <h1 className="text-xl font-bold">Please Scan Your Badge</h1>
                         <input type="password" autoFocus autoComplete='off'
@@ -101,7 +101,7 @@ export default class Login extends React.Component<Props,State> {
                         <h1 className="font-bold">If you forgot your ID click bellow:</h1>
                         <AnonymousSignInButton className="block mx-auto" onClick={this.onAnonymousSignInClickHandler.bind(this)}/>
                         <hr className="w-full my-4 border-primary"/>
-                        <h1 className="font-bold">Select colors that best fit you</h1>
+                        <h1 className="font-bold mb-3">Select colors that best fit you</h1>
                         <ColorThemeSelector />
                     </form>
                 </div>
