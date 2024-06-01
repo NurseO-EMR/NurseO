@@ -23,7 +23,7 @@ export function NarcoticCountModel(props: Props) {
         return <PureModal isOpen={true} header={"Narcotic Count Verification"} width="40vw" 
         onClose={()=>setReportSubmitted(false)}>
             <div className='text-center'>
-                <FontAwesomeIcon className='text-red-700 text-6xl' icon={faFileContract} />
+                <FontAwesomeIcon className='text-primary text-6xl' icon={faFileContract} />
                 <h1 className='font-bold text-md my-2'>Report has been submitted and all needed parties has been notified</h1>
                 <Button className='block mx-auto w-80 my-2 bg-primary' onClick={props.onClose}>Go Back</Button>
             </div>
@@ -39,7 +39,7 @@ export function NarcoticCountModel(props: Props) {
                     {props.med.genericName ? props.med.genericName : null} 
                     {props.med.brandName ? "( " + props.med.brandName + " )" : null} 
                 </h1>
-                <h2 className='text-center my-2 text-red-700 font-bold'>Narcotic count must be completed</h2>
+                <h2 className='text-center my-2 text-primary font-bold'>Narcotic count must be completed</h2>
                 <div className='flex justify-around'>
                     <div>
                         <label className='font-bold block text-center my-2' htmlFor="expectedCount">Expected Count</label>

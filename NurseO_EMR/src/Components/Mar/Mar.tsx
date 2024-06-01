@@ -71,9 +71,9 @@ export default class Mar extends React.Component<Props, State> {
             <table className={"table-auto w-full " + this.props.className}>
                 <thead className="w-full h-16">
                     <tr className="bg-primary text-white">
-                        <th></th>
+                        <th>Order</th>
                         <th>Hold</th>
-                        <th></th>
+                        <th>Administer</th>
                         {this.timeSlots.map((time, i) => <th key={i}>{time}:00</th>)}
                     </tr>
                 </thead>

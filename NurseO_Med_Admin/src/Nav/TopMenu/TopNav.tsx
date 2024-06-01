@@ -40,7 +40,7 @@ export function TopNav(props: Props) {
                 </div>
 
                 <div className="flex items-center space-x-3">
-                    <Link to="/AZListing" className='bg-red-700 rounded-md text-white px-8 py-2 text-center'>
+                    <Link to="/AZListing" className='bg-primary rounded-md text-white px-8 py-2 text-center'>
                         A-Z Medication List
                     </Link>
                     <span className="font-medium rounded ">

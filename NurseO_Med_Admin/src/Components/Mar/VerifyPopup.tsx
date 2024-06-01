@@ -27,7 +27,7 @@ export function VerifyPopup(props: Props) {
         <PureModal isOpen={true} header={"Verification"} width="40vw" onClose={props.onClose}>
             <form onSubmit={e => e.preventDefault()}>
                 <h1 className='font-bold text-center'>{props.med.genericName} ({props.med.brandName}) {props.location.dose} {props.location.type}</h1>
-                <h2 className='text-center my-2 text-red-700 font-bold'>Please scan the medication for verification</h2>
+                <h2 className='text-center my-2 text-primary font-bold'>Please scan the medication for verification</h2>
                 {wrongMed ?
                     <h3 className='text-center'><XIcon /> Wrong medication was scanned <XIcon /></h3>
                     : null}

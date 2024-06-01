@@ -10,6 +10,7 @@ import TapOutService from '../../Services/TapOutService';
 import { PatientChart } from 'nurse-o-core';
 import {Redirect} from "react-router-dom"
 import { getApps } from 'firebase/app';
+import { ColorThemeSelector } from '../../Components/ColorThemeSelector';
 
 type Props = {
     patient: PatientChart,
@@ -27,7 +28,7 @@ export default function StudentViewPage(props:Props) {
         if (!$patient.value)  return <Redirect to="/studentView/selectPatient" />
 
         return (
-            <div className="grid grid-areas-main min-h-screen grid-cols-twoSections grid-rows-threeSections">
+            <main className="grid grid-areas-main min-h-screen grid-cols-twoSections grid-rows-threeSections relative">
                 <TopNav className="grid-in-topNav"></TopNav>
                 <ArmBand patient={props.patient} className="grid-in-armBand"></ArmBand>
                 <SideNav className="grid-in-sideBar">
@@ -64,7 +65,12 @@ export default function StudentViewPage(props:Props) {
                 </SideNav>
                 <div className="grid-in-main mb-4">
                     {props.children}
+                    <div className='flex justify-end mr-10 mt-4'>
+                        <div className='scale-75'>
+                            <ColorThemeSelector hideLabels />
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </main>
         );
     }

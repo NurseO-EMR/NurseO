@@ -7,7 +7,7 @@ export default class Background extends React.Component {
         return (
             <div className="overflow-hidden">
                 <img src={backgroundImage} alt="stethoscope held against the sun" className="absolute z-background bg-cover top-0 left-0 w-screen h-screen" />
-                <div className="absolute z-hue w-screen h-screen top-0 left-0 opacity-60  bg-gradient-to-br from-red-600  to-indigo-600"></div>
+                <div className="absolute z-hue w-screen h-screen top-0 left-0 opacity-60  bg-gradient-to-br from-primary  to-heroImageBackgroundHueEnd"></div>
             </div>                
 
         );

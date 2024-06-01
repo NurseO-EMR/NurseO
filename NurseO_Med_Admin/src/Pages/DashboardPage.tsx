@@ -29,7 +29,7 @@ export default function DashboardPage() {
             <Mar orders={patient.medicationOrders} simTime={patient.time} />
             <div className="w-screen flex justify-center">
                 <Link to="/AZListing">
-                    <button className=" w-screen h-20 bg-red-700 text-xl text-white font-bold animate-pulse ">
+                    <button className=" w-screen h-20 bg-primary text-xl text-white font-bold animate-pulse ">
                         Click here if you can&apos;t find your order/medication above</button></Link>
 
             </div>
