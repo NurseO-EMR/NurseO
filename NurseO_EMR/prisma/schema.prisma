@@ -14,16 +14,234 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
+model Patient {
+    id               Int     @id @default(autoincrement())
+    name             String
+    dob              String
+    age              String
+    gender           String
+    height           String
+    weight           String
+    time_hour         Int
+    time_minute       Int
+    studentUID       String? // linked to the user id
+    lab_doc_url      String?
+    imaging_url      String?
+    diagnosis        String
+    course_id        Int
+    template         Boolean
+    patient_bar_code String
+
+    student         User?              @relation(fields: [studentUID], references: [id])
+    course          Course            @relation(fields: [course_id], references: [id])
+    allergy         Allergy[]         @relation()
+    custom_order    Custom_Order[]    @relation()
+    social_history  Social_History[]  @relation()
+    medical_history Medical_History[] @relation()
+    Note Note[] @relation()
+    med_orders Med_Order[] @relation()
+    immunizations Immunization[] @relation()
+    flags Flag[] @relation()
+    student_reports Student_Report[] @relation()
+}
+
+model Course {
+    id   Int    @id @default(autoincrement())
+    name String
+
+    patients Patient[] @relation()
+    Course_Location_Information Course_Location_Information[] @relation()
+}
+
+model Allergy {
+    id        Int    @id @default(autoincrement())
+    patient_id Int
     name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    reaction  String
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+    patient Patient @relation(fields: [patient_id], references: [id])
+}
 
-    @@index([name])
+model Custom_Order {
+    id         Int    @id @default(autoincrement())
+    patient_id  Int
+    order_kind String
+    order_type String
+    time       String?
+    order      String @db.Text
+
+    patient Patient @relation(fields: [patient_id], references: [id])
+}
+
+model Social_History {
+    id        Int    @id @default(autoincrement())
+    patient_id Int
+    history   String
+
+    patient Patient @relation(fields: [patient_id], references: [id])
+}
+
+model Medical_History {
+    id        Int    @id @default(autoincrement())
+    patient_id Int
+    date      String
+    title     String
+    notes     String
+
+    patient Patient @relation(fields: [patient_id], references: [id])
+}
+
+model Immunization {
+    id        Int    @id @default(autoincrement())
+    patient_id Int
+    immunization String
+
+    patient Patient @relation(fields: [patient_id], references: [id])
+}
+
+model Flag {
+    id        Int    @id @default(autoincrement())
+    patient_id Int
+    name String
+    reason String
+
+    patient Patient @relation(fields: [patient_id], references: [id])
+}
+model Note {
+    id        Int    @id @default(autoincrement())
+    patientId Int
+    date      String
+    note     String
+    report_name String
+    report_type Int
+
+    patient Patient @relation(fields: [patientId], references: [id])
+}
+
+
+model Med_Order {
+    id Int @id @default(autoincrement())
+    patient_id Int
+    med_id Int 
+    concentration String
+    route String
+    frequency String
+    routine String
+    prn_note String?
+    notes String
+    order_kind String
+    order_type String
+    time String?
+    completed Boolean @default(false)
+    hold_reason String?
+
+    patient Patient @relation(fields: [patient_id], references: [id])
+    medication Medication @relation(fields: [med_id], references: [id])
+    mar_records Mar_Record[] @relation()
+}
+
+model Mar_Record {
+    id Int @id @default(autoincrement())
+    med_order_id Int
+    hour Int
+    minutes Int
+    dose String?
+
+    med_order Med_Order @relation(fields: [med_order_id], references: [id])
+}
+
+model Medication {
+    id Int @id @default(autoincrement())
+    brand_name String
+    generic_name String
+    narcoti_count_needed Boolean
+
+    med_order Med_Order[] @relation()
+    med_location_information Medication_Location_Information[] @relation()
+}
+
+model Medication_Location_Information {
+    id Int @id @default(autoincrement())
+    med_id Int
+    location_id Int
+    drawer String
+    slot String
+    barcode String
+    dose String
+    type String
+
+    medication Medication @relation(fields: [med_id], references: [id])
+    location Location @relation(fields: [location_id], references: [id])
+}
+
+model Location {
+    id Int @id @default(autoincrement())
+    building String
+    station String
+
+    medication_location_information Medication_Location_Information[] @relation()
+    course_location_information Course_Location_Information[] @relation()
+}
+
+model Course_Location_Information {
+    id Int @id @default(autoincrement())
+    course_id Int
+    location_id Int
+
+    course Course @relation(fields: [course_id], references: [id])
+    location Location @relation(fields: [location_id], references: [id])
+}
+
+
+model Student_Report {
+    id Int @id @default(autoincrement())
+    patient_id Int
+    set_name String
+    vital_name String
+    time String
+    value String
+    date String
+    report_type String
+
+    patient Patient @relation(fields: [patient_id], references: [id])
+}
+
+model Report_Set {
+    id Int @id @default(autoincrement())
+    name String
+    image_url String?
+    report_type String
+
+    feilds Report_Field[] @relation()
+}
+
+model Report_Field {
+    id Int @id @default(autoincrement())
+    name String
+    field_type String
+    add_second_field Boolean @default(false)
+    report_set_id Int
+
+    set Report_Set @relation(fields: [report_set_id], references: [id])
+    options Report_Option[] @relation()
+    labels Report_Label[] @relation()
+}
+
+model Report_Option {
+    id Int @id @default(autoincrement())
+    report_field_id Int
+    name String
+
+    report_feilds Report_Field @relation(fields: [report_field_id], references: [id])
+
+}
+
+model Report_Label {
+    id Int @id @default(autoincrement())
+    report_field_id Int
+    name String
+
+    report_feilds Report_Field @relation(fields: [report_field_id], references: [id])
 }
 
 // Necessary for Next auth
@@ -34,11 +252,11 @@ model Account {
     provider                 String
     providerAccountId        String
     refresh_token            String? @db.Text
-    access_token             String? // @db.Text
+    access_token             String? @db.Text
     expires_at               Int?
     token_type               String?
     scope                    String?
-    id_token                 String? // @db.Text
+    id_token                 String? @db.Text
     session_state            String?
     user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
     refresh_token_expires_in Int?
@@ -62,7 +280,8 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+
+    patients Patient[] @relation()
 }
 
 model VerificationToken {
