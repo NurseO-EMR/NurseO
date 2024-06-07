@@ -24,15 +24,16 @@ model Patient {
     weight           String
     time_hour         Int
     time_minute       Int
-    studentUID       String? // linked to the user id
+    studentUID       String? // will be used in feature expension
     lab_doc_url      String?
     imaging_url      String?
     diagnosis        String
     course_id        Int
     template         Boolean
     patient_bar_code String
+    student_id String?
 
-    student         User?              @relation(fields: [studentUID], references: [id])
+    student         User?             @relation(fields: [studentUID], references: [id]) 
     course          Course            @relation(fields: [course_id], references: [id])
     allergy         Allergy[]         @relation()
     custom_order    Custom_Order[]    @relation()
@@ -109,13 +110,13 @@ model Flag {
 }
 model Note {
     id        Int    @id @default(autoincrement())
-    patientId Int
+    patient_Id Int
     date      String
     note     String
     report_name String
     report_type Int
 
-    patient Patient @relation(fields: [patientId], references: [id])
+    patient Patient @relation(fields: [patient_Id], references: [id])
 }
 
 
