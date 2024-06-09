@@ -1,5 +1,5 @@
 import React from 'react';
-import { StudentReport, Note } from 'nurse-o-core';
+import { StudentReport, Note } from "@nurse-o-core/index";
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 import { filter, groupBy, uniq } from "lodash"
 import ReportTabs from './ReportTabs';

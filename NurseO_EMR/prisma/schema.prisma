@@ -69,7 +69,7 @@ model Custom_Order {
     order_kind String
     order_type String
     time       String?
-    order      String @db.Text
+    order_text      String @db.Text
 
     patient Patient @relation(fields: [patient_id], references: [id])
 }

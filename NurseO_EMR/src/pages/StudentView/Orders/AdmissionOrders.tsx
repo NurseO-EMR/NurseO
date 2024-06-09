@@ -1,7 +1,7 @@
 import React from 'react';
 import Orders from '../../../Components/Orders/Orders';
-import { OrderType, PatientChart } from 'nurse-o-core';
-import StudentViewPage from '../StudentViewPage';
+import { OrderType, PatientChart } from "@nurse-o-core/index";
+import StudentViewPage from '../_StudentViewPage';
 
 type Props = {
     patient: PatientChart

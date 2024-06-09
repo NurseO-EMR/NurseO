@@ -1,5 +1,5 @@
 import React from 'react';
-import { MedicationOrder, Time } from 'nurse-o-core';
+import { MedicationOrder, Time } from "@nurse-o-core/index";
 import MedicationOrderSyntax from '../Orders/MedicationOrderSyntax';
 import { Button } from '../Form/Button';
 import { HoldModal } from './HoldModal';

@@ -1,8 +1,8 @@
 import React from 'react';
 import EmptyCard from '../../../Components/Dashboard/Card/EmptyCard';
 import ReportSubmitter from '../../../Components/Reports/ReportsSubmitter';
-import { PatientChart } from 'nurse-o-core';
-import StudentViewPage from '../StudentViewPage';
+import { PatientChart } from "@nurse-o-core/index";
+import StudentViewPage from '../_StudentViewPage';
 
 type Props =  {
     patient: PatientChart,

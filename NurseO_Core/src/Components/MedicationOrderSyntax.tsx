@@ -1,6 +1,6 @@
 import React from 'react';
 import { Medication } from "../Types/Medications";
-import { MedicationOrder, Frequency, Routine } from "../Types/PatientProfile.js";
+import { MedicationOrder, Frequency, Routine } from "../Types/PatientProfile";
 
 type Props = {
     order: MedicationOrder,

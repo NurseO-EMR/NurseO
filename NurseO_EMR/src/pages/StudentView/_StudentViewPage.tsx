@@ -1,31 +1,28 @@
-import { getAuth } from 'firebase/auth';
-import { ReactChild, useEffect } from 'react';
+import { type ReactElement, useContext, useEffect } from 'react';
 import ArmBand from '../../Components/ArmBand/ArmBand';
 import SideNav from '../../Components/Nav/SideBar/SideNav';
 import SideNavHeader from '../../Components/Nav/SideBar/SideNavHeader';
 import SideNavItem from '../../Components/Nav/SideBar/SideNavItem';
 import TopNav from '../../Components/Nav/TopMenu/TopNav';
-import { $patient } from '../../Services/State';
 import TapOutService from '../../Services/TapOutService';
-import { PatientChart } from 'nurse-o-core';
-import {Redirect} from "react-router-dom"
-import { getApps } from 'firebase/app';
+import { type PatientChart } from '../../../../NurseO_Core/src/Types/PatientProfile';
 import { ColorThemeSelector } from '../../Components/ColorThemeSelector';
+import { GlobalContext } from '~/Services/State';
+import { useRouter } from 'next/router';
 
 type Props = {
     patient: PatientChart,
-    children: Element | Element[] | ReactChild | ReactChild[] | null
+    children: ReactElement | ReactElement[]
 }
 
 export default function StudentViewPage(props:Props) {
-        useEffect(()=>TapOutService.initialize(),[])
+        const {studentId} = useContext(GlobalContext)
+        const router = useRouter()
 
-        if(getApps().length === 0) {
-            window.location.href = "/"
-        }
-        
-        if (!getAuth().currentUser) return <Redirect to="/" />
-        if (!$patient.value)  return <Redirect to="/studentView/selectPatient" />
+        useEffect(()=>TapOutService.initialize(), [])
+
+        if(studentId.length === 0) void router.push("/")
+        if(studentId.length === 0) void router.push("/SelectPatient/")
 
         return (
             <main className="grid grid-areas-main min-h-screen grid-cols-twoSections grid-rows-threeSections relative">

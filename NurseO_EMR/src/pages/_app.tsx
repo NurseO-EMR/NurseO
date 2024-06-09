@@ -6,16 +6,26 @@ import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+import { GlobalContext } from "~/Services/State";
+import { useState } from "react";
+import { PatientChart } from "../../../NurseO_Core/src/Types/PatientProfile";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+
+
+  const [studentId, setStudentId] = useState("")
+  const [patient, setPatient] = useState<PatientChart>(new PatientChart())
+
   return (
     <SessionProvider session={session}>
-      <main className={GeistSans.className}>
-        <Component {...pageProps} />
-      </main>
+      <GlobalContext.Provider value={{ studentId, setStudentId, patient, setPatient }}>
+        <main className={`standard ` + GeistSans.className}>
+          <Component {...pageProps} />
+        </main>
+      </GlobalContext.Provider>
     </SessionProvider>
   );
 };

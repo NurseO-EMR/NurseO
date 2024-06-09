@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ReportSet } from 'nurse-o-core';
+import { ReportSet } from "@nurse-o-core/index";
 import ReportInput from './ReportInput';
 import ReportsHeaderTimeSlots from './ReportsHeaderTimeSlots';
 

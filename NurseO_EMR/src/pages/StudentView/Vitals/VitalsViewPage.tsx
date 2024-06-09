@@ -2,9 +2,9 @@ import { filter } from 'lodash';
 import React from 'react';
 import ReportsViewer from '../../../Components/Reports/ReportsViewer';
 import { $error } from '../../../Services/State';
-import { PatientNotFoundError, StudentReport } from 'nurse-o-core';
-import { PatientChart } from 'nurse-o-core';
-import StudentViewPage from '../StudentViewPage';
+import { PatientNotFoundError, StudentReport } from "@nurse-o-core/index";
+import { PatientChart } from "@nurse-o-core/index";
+import StudentViewPage from '../_StudentViewPage';
 
 
 type Props =  {

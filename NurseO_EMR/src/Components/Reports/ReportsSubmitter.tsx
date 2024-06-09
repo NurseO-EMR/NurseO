@@ -3,7 +3,7 @@ import React, { ChangeEvent } from 'react';
 import { Subscription } from 'rxjs';
 import Database from '../../Services/Database';
 import { $error, $patient, $settings } from '../../Services/State';
-import { ReportType, StudentReport, ReportSet, PatientNotFoundError, Status, Settings, PatientChart } from 'nurse-o-core';
+import { ReportType, StudentReport, ReportSet, PatientNotFoundError, Status, Settings, PatientChart } from "@nurse-o-core/index";
 import { getTodaysDateAsString } from '../../Services/Util';
 import ReportsSubmitterTabContent from './ReportsSubmitterTabContent';
 import ReportTabs from './ReportTabs';

@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import PureModal from 'react-pure-modal';
 import Database from '../../Services/Database';
 import { $patient } from '../../Services/State';
-import { Frequency, MedicationOrder, OrderKind, OrderType, PatientChart, Routine } from 'nurse-o-core';
+import { Frequency, MedicationOrder, OrderKind, OrderType, PatientChart, Routine } from "@nurse-o-core/index";
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 import { useHistory } from 'react-router';
 type Props = {

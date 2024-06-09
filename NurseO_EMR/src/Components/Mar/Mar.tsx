@@ -1,6 +1,6 @@
 import { findIndex, uniq } from 'lodash';
 import React from 'react';
-import { MedicationOrder, Time } from 'nurse-o-core';
+import { MedicationOrder, Time } from "@nurse-o-core/index";
 import MarEntry from './MarEntry';
 import { $patient } from '../../Services/State';
 import Database from '../../Services/Database';

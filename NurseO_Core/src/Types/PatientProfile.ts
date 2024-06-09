@@ -1,5 +1,5 @@
-import { Gender } from "./Gender.js"
-import { ReportType, StudentReport } from "./Report.js";
+import { Gender } from "./Gender"
+import { ReportType, StudentReport } from "./Report";
 
 
 export class Time {
@@ -28,7 +28,7 @@ export class PatientChart {
     labDocURL: string = "";
     imagingURL?: string = "";
     diagnosis?: string = "";
-    courseId?: string = "";
+    courseId?: number
 };
 
 export type Order = {
@@ -43,7 +43,7 @@ export type CustomOrder = Order & {
 
 
 export type MedicationOrder  = Order & {
-    id: string;
+    id: number;
     concentration:string;
     route: string;
     frequency: Frequency;

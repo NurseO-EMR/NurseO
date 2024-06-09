@@ -1,6 +1,6 @@
 import React from 'react';
 import Database from '../../Services/Database';
-import { Medication, MedicationOrderSyntax as BaseMedicationOrderSyntax, MedicationOrder } from 'nurse-o-core';
+import { Medication, MedicationOrderSyntax as BaseMedicationOrderSyntax, MedicationOrder } from "@nurse-o-core/index";
 type Props = {
     order: MedicationOrder,
     

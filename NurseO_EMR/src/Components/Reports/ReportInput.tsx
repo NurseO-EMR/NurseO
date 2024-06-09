@@ -1,4 +1,4 @@
-import { Report } from 'nurse-o-core';
+import { Report } from "@nurse-o-core/index";
 import { Fragment, useEffect, useState } from 'react';
 import ReportDynamicInput from './ReportDynamicInput';
 

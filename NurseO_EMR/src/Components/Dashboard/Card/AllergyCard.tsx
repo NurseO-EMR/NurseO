@@ -1,5 +1,5 @@
 import React from 'react';
-import { Allergy } from 'nurse-o-core';
+import { Allergy } from '@nurse-o-core/index';
 import AllergyEntry from './AllergyEntry';
 import Card from './Card';
 
