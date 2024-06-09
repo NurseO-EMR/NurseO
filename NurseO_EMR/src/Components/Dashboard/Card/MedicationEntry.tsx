@@ -1,45 +1,30 @@
-import React from 'react';
-import Database from '../../../Services/Database';
-import { Medication } from '@nurse-o-core/index';
-import { MedicationOrder } from "@nurse-o-core/index";
+import React, { useContext } from 'react';
+import type { MedicationOrder } from '@nurse-o-core/index';
+import { api } from '~/utils/api';
+import { GlobalContext } from '~/Services/State';
 
 
 type Props = {
-    medication: MedicationOrder
+    order: MedicationOrder
 }
 
-type State = {
-    medication:Medication|null
-}
 
-export default class MedicationEntry extends React.Component<Props,State> {
-    private database;
-
-    constructor(props:Props) {
-        super(props);
-        this.state = {
-            medication: null
-        }
-        this.database = Database.getInstance();
-    }
-
-    async componentDidMount(){
-        const medication = await this.database.getMedicationById(this.props.medication.id); 
-        this.setState({medication})
-    }
+export default function MedicationEntry(props: Props) {
+    const {locationId} = useContext(GlobalContext)
+    const medication = api.medication.getMedicationById.useQuery({ medId: props.order.id, locationId })
 
 
-    public render() {
-        return (
-            <tr>
-                <td className="border-2 p-2">{this.state.medication?.genericName}</td>
-                <td className="border-2 p-2">{this.state.medication?.brandName}</td>
-                <td className="border-2 p-2">{this.props.medication.concentration}</td>
-                <td className="border-2 p-2">{this.props.medication.route}</td>
-                <td className="border-2 p-2">{this.props.medication.frequency}</td>
-                <td className="border-2 p-2">{this.props.medication.routine} {this.props.medication.PRNNote}</td>
-                <td className="border-2 p-2">{this.props.medication.notes}</td>
-            </tr>
-        );
-    }
+
+
+    return (
+        <tr>
+            <td className="border-2 p-2">{medication.data?.genericName}</td>
+            <td className="border-2 p-2">{medication.data?.brandName}</td>
+            <td className="border-2 p-2">{props.order.concentration}</td>
+            <td className="border-2 p-2">{props.order.route}</td>
+            <td className="border-2 p-2">{props.order.frequency}</td>
+            <td className="border-2 p-2">{props.order.routine} {props.order.PRNNote}</td>
+            <td className="border-2 p-2">{props.order.notes}</td>
+        </tr>
+    );
 }

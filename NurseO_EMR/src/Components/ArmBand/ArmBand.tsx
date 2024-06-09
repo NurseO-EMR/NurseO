@@ -14,7 +14,7 @@ export default function ArmBand(props: Props) {
 
     return (
         <div className={`${props.className} grid justify-center mx-auto w-11/12`}>
-            <div className={`text-secondary text-xl grid grid-rows-2 grid-cols-5 gap-8 items-center py-4`}>
+            <div className={`text-secondary text-xl grid grid-rows-2 grid-cols-5 gap-x-8 items-center py-4 min-h-28`}>
                 <SectionNamedInfo name="" boldedValue={true}
                     valueClassNames="text-2xl "
                     removeColon={true}
@@ -23,8 +23,8 @@ export default function ArmBand(props: Props) {
                 <SectionNamedInfo name="DOB">{props.patient.dob}</SectionNamedInfo>
                 <SectionNamedInfo name="Age">{props.patient.age}</SectionNamedInfo>
                 <SectionNamedInfo name="Gender">{props.patient.gender}</SectionNamedInfo>
-                <div className="w-1/2 h-6 grid justify-center items-center p-0">
-                    <Image src={logo} className="max-h-14" alt="logo" />
+                <div className="w-1/2 grid justify-center items-center p-0">
+                    <Image src={logo} height={38*1.5} className='' alt="logo" />
                 </div>
                 <SectionNamedInfo name="Allergies" boldedValue={true}>
                     {props.patient.allergies.length === 0 ? "NKDA" : props.patient.allergies.map(allergy => allergy.name + ", ")}

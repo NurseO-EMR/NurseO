@@ -27,6 +27,8 @@ import { PatientChart } from "../../../NurseO_Core/src/Types/PatientProfile";
 export const GlobalContext = createContext({
     studentId: "",
     patient: new PatientChart(),
+    locationId: -1,
     setStudentId: (_: string)=>{console.log},
     setPatient: (_: PatientChart)=>{console.log},
+    setLocationId: (_: number)=>{console.log},
 });

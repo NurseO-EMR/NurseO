@@ -18,10 +18,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   const [studentId, setStudentId] = useState("")
   const [patient, setPatient] = useState<PatientChart>(new PatientChart())
+  const [locationId, setLocationId] = useState(12)
 
   return (
     <SessionProvider session={session}>
-      <GlobalContext.Provider value={{ studentId, setStudentId, patient, setPatient }}>
+      <GlobalContext.Provider value={{ studentId, setStudentId, patient, setPatient, locationId, setLocationId }}>
         <main className={`standard ` + GeistSans.className}>
           <Component {...pageProps} />
         </main>
