@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
 import Orders from '../../../Components/Orders/Orders';
+import { OrderType } from "@nurse-o-core/index";
 import StudentViewPage from '../_StudentViewPage';
 import { GlobalContext } from '~/Services/State';
 
+export default function StandingOrdersPage() {
 
-export default function AllOrders() {
+    const {patient} = useContext(GlobalContext)
 
-        const {patient} = useContext(GlobalContext)
-        
         return (
             <StudentViewPage>
-                <Orders orders={[...patient.customOrders, ...patient.medicationOrders]}></Orders>
+                <Orders orderType={OrderType.standing} orders={[...patient.customOrders, ...patient.medicationOrders]}></Orders>
             </StudentViewPage>
 
         );
-    }	
+}
