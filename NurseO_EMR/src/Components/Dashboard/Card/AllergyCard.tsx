@@ -4,7 +4,7 @@ import AllergyEntry from './AllergyEntry';
 import Card from './Card';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-    allergies: Allergy[] | undefined,
+    allergies: Allergy[]
 }
 
 export default function AllergyCard(props: Props) {
@@ -18,9 +18,9 @@ export default function AllergyCard(props: Props) {
                 </tr>
             </thead>
             <tbody>
-                {props.allergies?.length === 0 ?
+                {props.allergies.length === 0 ?
                     <tr><td colSpan={2} className='text-center p-2'><h1>No allergies found</h1></td></tr> :
-                    props.allergies?.map((allergy, i) => <AllergyEntry key={i} allergy={allergy}></AllergyEntry>)
+                    props.allergies.map((allergy, i) => <AllergyEntry key={i} allergy={allergy}></AllergyEntry>)
                 }
             </tbody>
         </Card>

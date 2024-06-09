@@ -1,19 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AllergyCard from '../../../Components/Dashboard/Card/AllergyCard';
-import { type PatientChart } from "@nurse-o-core/index";
 import StudentViewPage from '../_StudentViewPage';
-
-type Props = {
-    patient: PatientChart
-}
-
-export default function AllergiesPage(props: Props) {
+import { GlobalContext } from '~/Services/State';
 
 
-
+export default function AllergiesPage() {
+    const {patient} = useContext(GlobalContext)
     return (
         <StudentViewPage>
-            <AllergyCard allergies={props.patient?.allergies} className="grid-in-main" />
+            <AllergyCard allergies={patient.allergies} className="grid-in-main" />
         </StudentViewPage>
     );
 }
