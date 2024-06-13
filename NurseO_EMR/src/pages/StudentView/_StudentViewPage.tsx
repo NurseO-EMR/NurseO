@@ -39,9 +39,9 @@ export default function StudentViewPage(props:Props) {
                     <SideNavItem href="/StudentView/Orders/standing">Standing Orders</SideNavItem>
                     <SideNavItem href="/StudentView/Orders/provider">Provider Orders</SideNavItem>
 
-                    <SideNavHeader href="/StudentView/mar">Mar</SideNavHeader>
-                    <SideNavItem href="/StudentView/mar">View Mar</SideNavItem>
-                    <SideNavItem href="/StudentView/mar/administer">Administer Medications</SideNavItem>
+                    <SideNavHeader href="/StudentView/Mar">Mar</SideNavHeader>
+                    <SideNavItem href="/StudentView/Mar">View Mar</SideNavItem>
+                    <SideNavItem href="/StudentView/Mar/administer">Administer Medications</SideNavItem>
 
                     <SideNavHeader href="/StudentView/vitals">Vitals</SideNavHeader>
                     <SideNavItem href="/StudentView/vitals/view">View Vitals</SideNavItem>

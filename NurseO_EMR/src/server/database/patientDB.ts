@@ -49,7 +49,6 @@ export async function getPatient(db: PrismaClient, templatePatientBarCode: strin
        return patient
 }
 
-
 async function getPatientBasicInfo(db: PrismaClient, templatePatientBarCode: string) {
        const patient = await db.$queryRaw<{ id: number, name: string, dob: string, age: string, gender: string, height: string, weight: string, time_hour: number, time_minute: number, lab_doc_url: string, imaging_url: string, diagnosis: string, course_id: number, patient_bar_code: string }[]>`
                         SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,

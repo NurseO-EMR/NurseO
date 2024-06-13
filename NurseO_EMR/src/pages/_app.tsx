@@ -6,9 +6,11 @@ import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+import 'react-pure-modal/dist/react-pure-modal.min.css';
+
 import { GlobalContext } from "~/Services/State";
 import { useState } from "react";
-import { PatientChart } from "../../../NurseO_Core/src/Types/PatientProfile";
+import { PatientChart } from "@nurse-o-core/index";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
