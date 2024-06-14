@@ -24,11 +24,12 @@ export class PatientChart {
     immunizations: string[] = [];
     studentReports: StudentReport[] = [];
     notes: Note[] = [];
-    studentUID: string = "";
+    studentId: string = "";
     labDocURL: string = "";
     imagingURL?: string = "";
     diagnosis?: string = "";
-    courseId?: number
+    courseId: number = -1;
+    dbId: number = -1;
 };
 
 export type Order = {

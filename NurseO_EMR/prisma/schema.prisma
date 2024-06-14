@@ -27,7 +27,7 @@ model Patient {
     studentUID       String? // will be used in feature expension
     lab_doc_url      String?
     imaging_url      String?
-    diagnosis        String
+    diagnosis        String?
     course_id        Int
     template         Boolean
     patient_bar_code String

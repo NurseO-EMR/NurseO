@@ -1,7 +1,7 @@
-import { type Gender } from '../../../../NurseO_Core/src/Types/Gender';
-import { type MedicationOrder, type PatientChart, type CustomOrder, type OrderKind, type OrderType, type MarRecord, type Frequency, type Routine } from '../../../../NurseO_Core/src/Types/PatientProfile';
 import { Prisma, type PrismaClient } from "@prisma/client";
-import { type ReportType } from '../../../../NurseO_Core/src/Types/Report';
+import { type ReportType, type Gender, type MedicationOrder, type PatientChart, type CustomOrder, type OrderKind, type OrderType, type MarRecord, type Frequency, type Routine } from '@nurse-o-core/index';
+import { copyPatient } from "./addPatientDB";
+import { signInState } from "~/types/flags";
 
 export async function getPatient(db: PrismaClient, templatePatientBarCode: string, location: string, studentId: string): Promise<PatientChart | null> {
        const metaData = await getPatientBasicInfo(db, templatePatientBarCode)
@@ -19,6 +19,7 @@ export async function getPatient(db: PrismaClient, templatePatientBarCode: strin
        const medicationOrders = await getMedOrders(db, metaData.id)
 
        const patient: PatientChart = {
+              dbId: metaData.id,
               name: metaData.name,
               dob: metaData.dob,
               age: metaData.age,
@@ -43,7 +44,11 @@ export async function getPatient(db: PrismaClient, templatePatientBarCode: strin
               flags,
               immunizations,
               medicationOrders,
-              studentUID: studentId,
+              studentId: studentId,
+       }
+
+       if(studentId !== signInState.anonymousSignIn.valueOf()) {
+              return await copyPatient(db, patient)
        }
 
        return patient
