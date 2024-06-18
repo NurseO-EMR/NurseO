@@ -44,7 +44,8 @@ export type CustomOrder = Order & {
 
 
 export type MedicationOrder  = Order & {
-    id: number;
+    id: number; // med id 
+    orderId: number;
     concentration:string;
     route: string;
     frequency: Frequency;
@@ -53,7 +54,7 @@ export type MedicationOrder  = Order & {
     notes: string;
     mar: MarRecord[];
     completed?: boolean
-    holdReason?: string
+    holdReason?: string | null
 }
 
 export type MarRecord = Time & {

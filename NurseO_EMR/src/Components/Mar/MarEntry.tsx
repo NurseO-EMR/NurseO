@@ -63,7 +63,7 @@ export default class MarEntry extends React.Component<Props, State> {
 
     }
 
-    onHoldReasonSubmittedHandler(holdReason: string) {
+    onHoldReasonSubmittedHandler(holdReason: string | null) {
         const order = this.props.order
         order.holdReason = holdReason
         this.props.onHold(order)
@@ -79,7 +79,7 @@ export default class MarEntry extends React.Component<Props, State> {
                 </td>
                 <td><Button title='release this medication'
                     className='rounded-lg m-auto bg-grayBackground'
-                    onClick={() => this.onHoldReasonSubmittedHandler("")}
+                    onClick={() => this.onHoldReasonSubmittedHandler(null)}
                 >Release</Button></td>
                 <td></td>
                 <td colSpan={this.props.timeSlots.length}

@@ -1,8 +1,9 @@
 import { findIndex, uniq } from 'lodash';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import type { MedicationOrder, Time } from "@nurse-o-core/index";
 import MarEntry from './MarEntry';
 import { GlobalContext } from '~/Services/State';
+import { api } from '~/utils/api';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     orders: MedicationOrder[],
@@ -12,12 +13,13 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 export default function Mar(props: Props) {
     const {patient, setPatient} = useContext(GlobalContext)
     const [timeSlots, setTimeSlots] = useState(getTimeSlots(props.simTime.hour, props.orders))
+    const holdInfo = api.patient.updatePatientHoldInfo.useMutation()
 
-    const onMarHoldHandler = async (order:MedicationOrder) => {
+    const onMarHoldHandler = (order:MedicationOrder) => {
         const orderIndex = findIndex(patient.medicationOrders, {...order})
         patient.medicationOrders[orderIndex] = order;
         setPatient(patient)
-
+        holdInfo.mutate({orderId: order.orderId, holdReason: order.holdReason ?? null})
     }
 
     return (

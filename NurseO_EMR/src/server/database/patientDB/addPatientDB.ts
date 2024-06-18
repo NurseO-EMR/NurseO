@@ -53,8 +53,6 @@ export async function copyPatient(db: PrismaClient, p: PatientChart): Promise<Pa
     }
 }
 
-
-
 async function addMedRecord(medOrders: MedicationOrder[], patientId: number, db: PrismaClient) {
     for (const o of medOrders) {
         const { concentration, route, frequency, routine, PRNNote, notes, orderKind, orderType, time, completed, holdReason } = o
