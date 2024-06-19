@@ -3,20 +3,71 @@ import { type ReportType, type Gender, type MedicationOrder, type PatientChart, 
 import { copyPatient } from "./addPatientDB";
 import { signInState } from "~/types/flags";
 
-export async function getPatient(db: PrismaClient, templatePatientBarCode: string, location: string, studentId: string): Promise<PatientChart | null> {
-       const metaData = await getPatientBasicInfo(db, templatePatientBarCode)
+type patientMetaData = {
+       id: number;
+       name: string;
+       dob: string;
+       age: string;
+       gender: string;
+       height: string;
+       weight: string;
+       time_hour: number;
+       time_minute: number;
+       lab_doc_url: string;
+       imaging_url: string;
+       diagnosis: string;
+       course_id: number;
+       patient_bar_code: string;
+}
 
-       if(!metaData) return null
 
-       const allergies = await getAllergies(db, metaData.id)
-       const customOrders = await getCustomOrders(db, metaData.id)
-       const socialHistory = await getSocialHistory(db, metaData.id)
-       const medicalHistory = await getMedicalHistory(db, metaData.id)
-       const notes = await getNotes(db, metaData.id)
-       const studentReports = await getStudentReports(db, metaData.id)
-       const flags = await getFlags(db, metaData.id)
-       const immunizations = await getImmunizations(db, metaData.id)
-       const medicationOrders = await getMedOrders(db, metaData.id)
+export async function getPatientByBarCode(db: PrismaClient, templatePatientBarCode: string, location: string, studentId: string): Promise<PatientChart | null> {
+
+       const metaData = await getPatientBasicInfoByBarCode(db, templatePatientBarCode)
+
+       if (!metaData) return null
+
+       const patient = await getPatientChart(db, metaData, studentId)
+
+       if (studentId !== signInState.anonymousSignIn.valueOf()) {
+              return await copyPatient(db, patient)
+       }
+
+       return patient
+}
+
+export async function getPatientById(db: PrismaClient, patientId: number, studentId: string): Promise<PatientChart | null> {
+       try {
+              const metaData = await getPatientBasicInfoById(db, patientId)
+              if (!metaData) return null
+              const patient = await getPatientChart(db, metaData, studentId)
+              return patient
+       } catch {
+              return null
+       }
+
+       
+}
+
+
+
+async function getPatientChart(db: PrismaClient, metaData: patientMetaData, studentId: string) {
+
+       const [allergies, customOrders, socialHistory, 
+              medicalHistory, notes, studentReports, 
+              flags, immunizations, medicationOrders] = await Promise.all([
+              getAllergies(db, metaData.id),
+              getCustomOrders(db, metaData.id),
+              getSocialHistory(db, metaData.id),
+              getMedicalHistory(db, metaData.id),
+              getNotes(db, metaData.id),
+              getStudentReports(db, metaData.id),
+              getFlags(db, metaData.id),
+              getImmunizations(db, metaData.id),
+              getMedOrders(db, metaData.id),
+       ]).catch((e)=>{
+              throw new Error("One or more parts of the chart failed to fetch error: " + e)
+       })
 
        const patient: PatientChart = {
               dbId: metaData.id,
@@ -47,20 +98,25 @@ export async function getPatient(db: PrismaClient, templatePatientBarCode: strin
               studentId: studentId,
        }
 
-       if(studentId !== signInState.anonymousSignIn.valueOf()) {
-              return await copyPatient(db, patient)
-       }
-
        return patient
 }
 
-async function getPatientBasicInfo(db: PrismaClient, templatePatientBarCode: string) {
+async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
+       const patient = await db.$queryRaw<{ id: number, name: string, dob: string, age: string, gender: string, height: string, weight: string, time_hour: number, time_minute: number, lab_doc_url: string, imaging_url: string, diagnosis: string, course_id: number, patient_bar_code: string }[]>`
+                        SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
+                               diagnosis, course_id, patient_bar_code 
+                        FROM Patient WHERE id = ${patientId} LIMIT 1;`
+       if (!patient || patient.length == 0) return null
+       return patient[0]
+}
+
+async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBarCode: string) {
        const patient = await db.$queryRaw<{ id: number, name: string, dob: string, age: string, gender: string, height: string, weight: string, time_hour: number, time_minute: number, lab_doc_url: string, imaging_url: string, diagnosis: string, course_id: number, patient_bar_code: string }[]>`
                         SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
                                diagnosis, course_id, patient_bar_code 
                         FROM Patient WHERE patient_bar_code = ${templatePatientBarCode} LIMIT 1;`
        if (!patient || patient.length == 0) return null
-       return patient[0] 
+       return patient[0]
 
 }
 

@@ -4,6 +4,7 @@ import type { MedicationOrder, Time } from "@nurse-o-core/index";
 import MarEntry from './MarEntry';
 import { GlobalContext } from '~/Services/State';
 import { api } from '~/utils/api';
+import { signInState } from '~/types/flags';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     orders: MedicationOrder[],
@@ -11,7 +12,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 export default function Mar(props: Props) {
-    const {patient, setPatient} = useContext(GlobalContext)
+    const {patient, setPatient, studentId} = useContext(GlobalContext)
     const [timeSlots, setTimeSlots] = useState(getTimeSlots(props.simTime.hour, props.orders))
     const holdInfo = api.patient.updatePatientHoldInfo.useMutation()
 
@@ -19,7 +20,8 @@ export default function Mar(props: Props) {
         const orderIndex = findIndex(patient.medicationOrders, {...order})
         patient.medicationOrders[orderIndex] = order;
         setPatient(patient)
-        holdInfo.mutate({orderId: order.orderId, holdReason: order.holdReason ?? null})
+        if(studentId !== signInState.anonymousSignIn.valueOf()) holdInfo.mutate({orderId: order.orderId, holdReason: order.holdReason ?? null})
+        
     }
 
     return (

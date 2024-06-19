@@ -1,7 +1,8 @@
 import type { MedicationOrder, PatientChart } from "@nurse-o-core/index";
 import { Prisma, type PrismaPromise, type PrismaClient } from "@prisma/client";
+import { getPatientById } from "./getPatientDB";
 
-export async function copyPatient(db: PrismaClient, p: PatientChart): Promise<PatientChart> {
+export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTries?: number): Promise<PatientChart> {
 
     const { name, dob, age, gender, height, weight, time, studentId, labDocURL, imagingURL, diagnosis, courseId, id } = p
 
@@ -39,18 +40,22 @@ export async function copyPatient(db: PrismaClient, p: PatientChart): Promise<Pa
 
     await addMedRecord(p.medicationOrders, patient.id, db)
 
-
-    p.dbId = patient.id
-
     if (transactions.length > 1) {
         await db.$transaction(transactions)
-        return p
     } else if (transactions.length === 1) {
         await transactions[0]
-        return p
-    } else {
-        return p
     }
+    
+
+    const finalCopy = await getPatientById(db, patient.id, studentId)
+
+    if(finalCopy) return finalCopy
+    else if(numberOfTries && numberOfTries < 3) {
+        return await copyPatient(db,p, (numberOfTries | 0) + 1)
+    } else {
+        throw new Error("Error while copying patient: " + p.dbId)
+    }
+
 }
 
 async function addMedRecord(medOrders: MedicationOrder[], patientId: number, db: PrismaClient) {
@@ -65,7 +70,7 @@ async function addMedRecord(medOrders: MedicationOrder[], patientId: number, db:
                 notes,
                 order_kind: orderKind,
                 order_type: orderType,
-                time, 
+                time,
                 completed: Boolean(completed),
                 hold_reason: holdReason
             }
@@ -74,13 +79,16 @@ async function addMedRecord(medOrders: MedicationOrder[], patientId: number, db:
         if (o.mar.length > 0) continue;
 
         await db.mar_Record.createMany({
-            data: o.mar.map(v=>{return {
-                med_order_id: newOrder.id,
-                hour: v.hour,
-                minutes: v.minutes,
-                dose: v.dose
-            }})
+            data: o.mar.map(v => {
+                return {
+                    med_order_id: newOrder.id,
+                    hour: v.hour,
+                    minutes: v.minutes,
+                    dose: v.dose
+                }
+            })
         })
     }
 
 }
+
