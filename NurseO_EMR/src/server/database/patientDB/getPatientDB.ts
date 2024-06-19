@@ -18,18 +18,20 @@ type patientMetaData = {
        diagnosis: string;
        course_id: number;
        patient_bar_code: string;
+       student_id: string
 }
 
 
 export async function getPatientByBarCode(db: PrismaClient, templatePatientBarCode: string, location: string, studentId: string): Promise<PatientChart | null> {
 
-       const metaData = await getPatientBasicInfoByBarCode(db, templatePatientBarCode)
+       const metaData = await getPatientBasicInfoByBarCode(db, templatePatientBarCode, studentId)
 
        if (!metaData) return null
 
        const patient = await getPatientChart(db, metaData, studentId)
 
-       if (studentId !== signInState.anonymousSignIn.valueOf()) {
+       if (studentId !== signInState.anonymousSignIn.valueOf() && !metaData.student_id) {
+              patient.studentId = studentId
               return await copyPatient(db, patient)
        }
 
@@ -102,7 +104,7 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData, stud
 }
 
 async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
-       const patient = await db.$queryRaw<{ id: number, name: string, dob: string, age: string, gender: string, height: string, weight: string, time_hour: number, time_minute: number, lab_doc_url: string, imaging_url: string, diagnosis: string, course_id: number, patient_bar_code: string }[]>`
+       const patient = await db.$queryRaw<patientMetaData[]>`
                         SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
                                diagnosis, course_id, patient_bar_code 
                         FROM Patient WHERE id = ${patientId} LIMIT 1;`
@@ -110,11 +112,24 @@ async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
        return patient[0]
 }
 
-async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBarCode: string) {
-       const patient = await db.$queryRaw<{ id: number, name: string, dob: string, age: string, gender: string, height: string, weight: string, time_hour: number, time_minute: number, lab_doc_url: string, imaging_url: string, diagnosis: string, course_id: number, patient_bar_code: string }[]>`
-                        SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                               diagnosis, course_id, patient_bar_code 
-                        FROM Patient WHERE patient_bar_code = ${templatePatientBarCode} LIMIT 1;`
+async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBarCode: string, studentId: string) {
+
+       let patient:patientMetaData[] = []
+
+       if(studentId.length > 0 && studentId!==signInState.anonymousSignIn.valueOf()) {
+              patient = await db.$queryRaw<patientMetaData[]>`
+              SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
+                     diagnosis, course_id, patient_bar_code, student_id
+              FROM Patient WHERE patient_bar_code = ${templatePatientBarCode} and student_id = ${studentId}  LIMIT 1;`
+       } 
+
+       if(studentId.length === 0 || studentId === signInState.anonymousSignIn.valueOf() || patient.length === 0) {
+              patient = await db.$queryRaw<patientMetaData[]>`
+              SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
+                     diagnosis, course_id, patient_bar_code, student_id
+              FROM Patient WHERE patient_bar_code = ${templatePatientBarCode} LIMIT 1;`
+       }
+
        if (!patient || patient.length == 0) return null
        return patient[0]
 
@@ -171,8 +186,8 @@ async function getImmunizations(db: PrismaClient, patientId: number) {
 }
 
 async function getMedOrders(db: PrismaClient, patientId: number): Promise<MedicationOrder[]> {
-       const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, hold_reason: string }[]>`
-                        SELECT id as orderId, med_id as id, concentration, route, frequency, routine, prn_note as PRNNote, notes, order_kind as orderKind, order_type as orderType, time, completed, hold_reason FROM Med_Order WHERE patient_id = ${patientId};`
+       const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string }[]>`
+                        SELECT id as orderId, med_id as id, concentration, route, frequency, routine, prn_note as PRNNote, notes, order_kind as orderKind, order_type as orderType, time, completed, hold_reason as holdReason FROM Med_Order WHERE patient_id = ${patientId};`
        const orderIds = orders.map(o => o.orderId)
 
        const marRecords = await db.$queryRaw<{ medOrderId: number, dose: string, hour: number, minute: number }[]>`

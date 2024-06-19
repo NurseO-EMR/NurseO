@@ -1,10 +1,11 @@
 import { type PrismaClient } from "@prisma/client";
 
 export async function updateOrderHoldInfo(db: PrismaClient, orderId: number, holdReason: string | null) {
-    const patientCanBeUpdated = await isOrderIsForTemplatePatient(db, orderId)
-    if(!patientCanBeUpdated) return 0
+    const isTemplatePatient = await isOrderIsForTemplatePatient(db, orderId)
+    console.log(isTemplatePatient)
+    if(isTemplatePatient) return false
     const rowEffected = await db.$executeRaw`UPDATE Med_Order SET hold_reason = ${holdReason} WHERE id = ${orderId};`
-    return rowEffected > 0 ? 1 : 0
+    return rowEffected > 0
 }
 
 
