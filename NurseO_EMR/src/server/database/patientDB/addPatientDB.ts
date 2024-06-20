@@ -10,7 +10,7 @@ export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTri
         data: {
             name, dob, age, gender, height, weight, diagnosis: diagnosis,
             course_id: courseId, imaging_url: imagingURL, lab_doc_url: labDocURL,
-            time_hour: time.hour, time_minute: time.minutes,
+            time_hour: time.hour, time_minute: time.minute,
             student_id: studentId, patient_bar_code: id, template: false
         }
     })
@@ -83,7 +83,7 @@ async function addMedRecord(medOrders: MedicationOrder[], patientId: number, db:
                 return {
                     med_order_id: newOrder.id,
                     hour: v.hour,
-                    minutes: v.minutes,
+                    minute: v.minute,
                     dose: v.dose
                 }
             })

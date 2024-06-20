@@ -35,7 +35,7 @@ export default function ArmBand(props: Props) {
                 <SectionNamedInfo name="Height">{props.patient.height}</SectionNamedInfo>
                 <SectionNamedInfo name="Weight">{props.patient.weight}</SectionNamedInfo>
                 <SectionNamedInfo name="Sim Time">
-                    {props.patient.time.hour.toString().padStart(2, "0")}:{props.patient.time.minutes.toString().padStart(2, "0")}
+                    {props.patient.time.hour.toString().padStart(2, "0")}:{props.patient.time.minute.toString().padStart(2, "0")}
                 </SectionNamedInfo>
             </div>
         </div>

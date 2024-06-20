@@ -81,7 +81,7 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData, stud
               weight: metaData.weight,
               time: {
                      hour: metaData.time_hour,
-                     minutes: metaData.time_minute,
+                     minute: metaData.time_minute,
               },
               labDocURL: metaData.lab_doc_url,
               imagingURL: metaData.imaging_url,
@@ -191,7 +191,7 @@ async function getMedOrders(db: PrismaClient, patientId: number): Promise<Medica
        const orderIds = orders.map(o => o.orderId)
 
        const marRecords = await db.$queryRaw<{ medOrderId: number, dose: string, hour: number, minute: number }[]>`
-                        SELECT med_order_id as medOrderId, dose, hour, minutes FROM Mar_Record WHERE med_order_id in (${Prisma.join(orderIds)});
+                        SELECT med_order_id as medOrderId, dose, hour, minute FROM Mar_Record WHERE med_order_id in (${Prisma.join(orderIds)});
        `
 
        const medOrders: MedicationOrder[] = []
@@ -201,7 +201,7 @@ async function getMedOrders(db: PrismaClient, patientId: number): Promise<Medica
                      mar: marRecords.filter(m => m.medOrderId == order.orderId).map(r => {
                             return {
                                    hour: r.hour,
-                                   minutes: r.minute,
+                                   minute: r.minute,
                                    dose: r.dose
                             } as MarRecord
                      })

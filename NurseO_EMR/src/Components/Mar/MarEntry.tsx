@@ -42,8 +42,8 @@ export default class MarEntry extends React.Component<Props, State> {
 
     checkForRecordedMarData() {
         for (const record of this.props.order.mar) {
-            const { hour, minutes, dose } = record;
-            this.timeSlots.set(hour, <span>{hour.toString().padStart(2, "0")}:{minutes.toString().padStart(2, "0")} <br /> {dose} </span>)
+            const { hour, minute, dose } = record;
+            this.timeSlots.set(hour, <span>{hour.toString().padStart(2, "0")}:{minute.toString().padStart(2, "0")} <br /> {dose} </span>)
         }
     }
 

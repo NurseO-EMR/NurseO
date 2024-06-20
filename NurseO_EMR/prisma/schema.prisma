@@ -145,7 +145,7 @@ model Mar_Record {
     id Int @id @default(autoincrement())
     med_order_id Int
     hour Int
-    minutes Int
+    minute Int
     dose String?
 
     med_order Med_Order @relation(fields: [med_order_id], references: [id])

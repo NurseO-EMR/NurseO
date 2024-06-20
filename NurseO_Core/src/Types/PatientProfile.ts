@@ -4,7 +4,7 @@ import { ReportType, StudentReport } from "./Report";
 
 export class Time {
     hour:number = 0;
-    minutes:number = 0;
+    minute:number = 0;
 }
 export class PatientChart {
     id: string = "";
