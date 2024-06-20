@@ -1,6 +1,6 @@
 import { useContext, useRef, useState } from 'react';
 import PureModal from 'react-pure-modal';
-import { Frequency, Medication, MedicationOrder, OrderKind, OrderType, PatientChart, Routine } from "@nurse-o-core/index";
+import { Frequency, type Medication, type MedicationOrder, OrderKind, OrderType, Routine } from "@nurse-o-core/index";
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 import { api } from '~/utils/api';
 import { GlobalContext } from '~/Services/State';
