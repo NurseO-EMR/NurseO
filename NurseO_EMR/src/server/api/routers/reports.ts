@@ -6,7 +6,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { getReportSets, saveStudentsReports } from "~/server/database/settingsDB";
+import { getReportSets, getStudentsReport, saveStudentsReports } from "~/server/database/reportsDB";
 
 
 const StudentReportSchema = z.object({
@@ -18,7 +18,8 @@ const StudentReportSchema = z.object({
   reportType: z.nativeEnum(ReportType)
 })
 
-export const settingsRoute = createTRPCRouter({
+export const reportsRoute = createTRPCRouter({
   getReportSets: publicProcedure.input(z.object({ reportType: z.string() })).query(async ({ input, ctx }) => getReportSets(ctx.db, input.reportType)),
   saveStudentsReports: publicProcedure.input(z.object({ studentReport: z.array(StudentReportSchema), patientId: z.number()})).mutation(async ({ input, ctx }) => saveStudentsReports(ctx.db, input.studentReport, input.patientId)),
+  getStudentsReports: publicProcedure.input(z.object({ reportType: z.nativeEnum(ReportType), patientId: z.number()})).query(async ({ input, ctx }) => getStudentsReport(ctx.db, input.reportType, input.patientId)),
 });

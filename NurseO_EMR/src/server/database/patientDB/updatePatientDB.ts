@@ -9,6 +9,7 @@ export async function updateOrderHoldInfo(db: PrismaClient, orderId: number, hol
 }
 
 export async function addNote(db: PrismaClient, patientId: number, date: string, reportName: string, reportType: string, note: string) {
+    if(!note) return;
     await db.note.create({
         data: {
             patient_Id: patientId,
@@ -17,7 +18,6 @@ export async function addNote(db: PrismaClient, patientId: number, date: string,
             report_type: reportType,
             note
         },
-        select: {}
     })
 }
 

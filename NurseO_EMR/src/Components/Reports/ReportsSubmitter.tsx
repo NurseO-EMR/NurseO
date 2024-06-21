@@ -16,9 +16,9 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 }
 export default function ReportsSubmitter(props: Props) {
 
-    const { patient, studentId } = useContext(GlobalContext)
-    const {data: reportSets} = api.settings.getReportSets.useQuery({ reportType: props.reportType })
-    const studentReportsMutation = api.settings.saveStudentsReports.useMutation()
+    const { patient, studentId, setPatient } = useContext(GlobalContext)
+    const {data: reportSets} = api.reports.getReportSets.useQuery({ reportType: props.reportType })
+    const studentReportsMutation = api.reports.saveStudentsReports.useMutation()
     const addNoteMutation = api.patient.addNote.useMutation()
     const [date, setDate] = useState(getTodaysDateAsString())
     const [selectedTabIndex, setSelectedTabIndex] = useState(0)
@@ -61,7 +61,8 @@ export default function ReportsSubmitter(props: Props) {
         
         const tempPatient = {...patient}
         tempPatient.studentReports.push(...output)
-        
+        setPatient(patient)
+
         keepGoing()
         router.push(props.viewPageURL)
     }

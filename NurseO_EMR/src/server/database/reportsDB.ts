@@ -56,3 +56,10 @@ export async function saveStudentsReports(db:PrismaClient, studentReport: Studen
         })
     })
 }
+
+export async function getStudentsReport(db:PrismaClient, reportType: ReportType, patientId: number):Promise<StudentReport[]> {
+    const data = db.$queryRaw<{setName: string, fieldName: string, time:string, value:string, date:string, reportType: ReportType}[]>`
+                        SELECT set_name as setName, field_name as fieldName, time, value, date, report_type as reportType FROM Student_Report WHERE patient_id = ${patientId} AND report_type = ${reportType};`
+
+    return data
+}
