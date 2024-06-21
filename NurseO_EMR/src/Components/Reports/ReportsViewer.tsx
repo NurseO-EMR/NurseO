@@ -15,9 +15,9 @@ export default function ReportsViewer(props: Props) {
 
     const {patient} = useContext(GlobalContext)
     const studentReports = patient.studentReports
-    const setNames = useMemo(()=>[...new Set(studentReports?.map(s=>s.setName))], [studentReports])
+    const setNames = useMemo(()=>[...new Set(studentReports?.filter(s=>s.reportType===props.reportType).map(s=>s.setName))], [props.reportType, studentReports])
     const [selectedTabIndex, setSelectedTabIndex] = useState(0)
-    const filteredReports = useMemo(()=>studentReports?.filter(s=>s.setName === setNames[selectedTabIndex]),[selectedTabIndex, setNames, studentReports])
+    const filteredReports = useMemo(()=>studentReports?.filter(s=>s.setName === setNames[selectedTabIndex] && s.reportType === props.reportType),[props.reportType, selectedTabIndex, setNames, studentReports])
     const times = useMemo(()=>[...new Set(filteredReports?.map(s=>s.time))], [filteredReports]) // TODO: figure out how to arrange these
 
     const getMap = () => {
