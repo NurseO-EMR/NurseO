@@ -25,9 +25,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <GlobalContext.Provider value={{ studentId, setStudentId, patient, setPatient, locationId, setLocationId }}>
-        <main className={`standard ` + GeistSans.className}>
+        <div id="topLevel" className={`standard ` + GeistSans.className}>
           <Component {...pageProps} />
-        </main>
+        </div>
       </GlobalContext.Provider>
     </SessionProvider>
   );

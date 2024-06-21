@@ -9,7 +9,8 @@ export function ColorThemeSelector(props:SelectorProps) {
     const colors = Object.entries(colorThemes)
 
     const onColorThemeChange = (colorTheme: string) => {
-        document.getElementsByTagName("html")[0].className = colorTheme
+        if(document.getElementById("topLevel")) document.getElementById("topLevel")!.className = colorTheme
+        console.log(colorTheme)
     }
     return (
         <div className="flex gap-4 justify-center">
