@@ -169,7 +169,7 @@ async function getNotes(db: PrismaClient, patientId: number) {
 
 async function getStudentReports(db: PrismaClient, patientId: number) {
        const data = await db.$queryRaw<{ setName: string, vitalName: string, time: string, value: string, date: string, reportType: ReportType }[]>`
-                        SELECT set_name as setName, vital_name as vitalName, time, value, date, report_type as reportType FROM Student_Report WHERE patient_id = ${patientId};`
+                        SELECT set_name as setName, field_name as vitalName, time, value, date, report_type as reportType FROM Student_Report WHERE patient_id = ${patientId};`
        return data
 }
 

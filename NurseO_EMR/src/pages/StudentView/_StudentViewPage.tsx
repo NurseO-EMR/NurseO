@@ -43,13 +43,13 @@ export default function StudentViewPage(props:Props) {
                     <SideNavItem href="/StudentView/Mar">View Mar</SideNavItem>
                     <SideNavItem href="/StudentView/Mar/administer">Administer Medications</SideNavItem>
 
-                    <SideNavHeader href="/StudentView/vitals">Vitals</SideNavHeader>
-                    <SideNavItem href="/StudentView/vitals/view">View Vitals</SideNavItem>
-                    <SideNavItem href="/StudentView/vitals/submit">Submit Vitals</SideNavItem>
+                    <SideNavHeader href="/StudentView/Vitals/">Vitals</SideNavHeader>
+                    <SideNavItem href="/StudentView/Vitals/view">View Vitals</SideNavItem>
+                    <SideNavItem href="/StudentView/Vitals/">Submit Vitals</SideNavItem>
 
-                    <SideNavHeader href="/StudentView/assessment/submit">Assessments</SideNavHeader>
-                    <SideNavItem href="/StudentView/assessment/view">View Assessment</SideNavItem>
-                    <SideNavItem href="/StudentView/assessment/submit">Submit Assessment</SideNavItem>
+                    <SideNavHeader href="/StudentView/Assessments/">Assessments</SideNavHeader>
+                    <SideNavItem href="/StudentView/Assessments/view">View Assessment</SideNavItem>
+                    <SideNavItem href="/StudentView/Assessments/">Submit Assessment</SideNavItem>
 
                     <SideNavHeader href="/StudentView/io/submit">I/O Record</SideNavHeader>
                     <SideNavItem href="/StudentView/io/view">View I/O Record</SideNavItem>

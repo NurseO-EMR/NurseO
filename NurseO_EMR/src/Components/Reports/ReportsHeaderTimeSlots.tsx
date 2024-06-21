@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { type ChangeEvent, useEffect, useRef, useState } from 'react';
 
 type Props = {
     numberOfTimeSlots: number | undefined
@@ -8,7 +8,7 @@ type Props = {
 export default function ReportsHeaderTimeSlots(props:Props) {
 
     const timeSlotsTemp = new Array<string>();
-    for(let i = 0; i<(props.numberOfTimeSlots || 0); i++) timeSlotsTemp.push("");
+    for(let i = 0; i<(props.numberOfTimeSlots ?? 0); i++) timeSlotsTemp.push("");
     const [timeSlots, setTmeSlots] = useState("")
     const ref = useRef<HTMLInputElement>(null)
 

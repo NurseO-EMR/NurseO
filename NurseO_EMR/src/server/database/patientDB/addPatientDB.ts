@@ -36,7 +36,7 @@ export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTri
     if (notes.length) transactions.push(db.$executeRaw`INSERT INTO Note (date, note, report_name, report_type, patient_id) VALUES ${Prisma.join(notes)}`)
     if (immunizations.length) transactions.push(db.$executeRaw`INSERT INTO Immunization (immunization, patient_id) VALUES ${Prisma.join(immunizations)}`)
     if (flags.length) transactions.push(db.$executeRaw`INSERT INTO Flag (name, reason, patient_id) VALUES ${Prisma.join(flags)}`)
-    if (studentReports.length) transactions.push(db.$executeRaw`INSERT INTO Student_Report (set_name, vital_name, time, value, date, report_type, patient_id) VALUES ${Prisma.join(studentReports)}`)
+    if (studentReports.length) transactions.push(db.$executeRaw`INSERT INTO Student_Report (set_name, field_name, time, value, date, report_type, patient_id) VALUES ${Prisma.join(studentReports)}`)
 
     await addMedRecord(p.medicationOrders, patient.id, db)
 

@@ -114,7 +114,7 @@ model Note {
     date      String
     note     String
     report_name String
-    report_type Int
+    report_type String
 
     patient Patient @relation(fields: [patient_Id], references: [id])
 }
@@ -198,7 +198,7 @@ model Student_Report {
     id Int @id @default(autoincrement())
     patient_id Int
     set_name String
-    vital_name String
+    field_name String
     time String
     value String
     date String
@@ -211,6 +211,7 @@ model Report_Set {
     id Int @id @default(autoincrement())
     name String
     image_url String?
+    image_alt String?
     report_type String
 
     feilds Report_Field[] @relation()

@@ -1,18 +1,17 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { ReportInputType, ReportOptions } from "@nurse-o-core/index";
+import { type ChangeEvent, useEffect, useRef, useState } from 'react';
+import type { ReportInputType } from "@nurse-o-core/index";
 
 type Props = {
     fieldType: ReportInputType,
     index: number,
     onChange: (value: string, key: number) => void,
     disabled?: boolean,
-    options?: ReportOptions,
-
+    options?: string[]
 }
 
 export default function ReportDynamicInput(props: Props) {
     const inputStyle = "w-9/12 max-w-xs border border-black disabled:bg-gray-300 disabled:cursor-not-allowed";
-    const [checkBoxChecked, setCheckBoxChecked] = useState(new Set<String>())
+    const [checkBoxChecked, setCheckBoxChecked] = useState(new Set<string>())
     const inputRef = useRef<HTMLInputElement>(null)
     const selectRef = useRef<HTMLSelectElement>(null)
 
@@ -70,8 +69,8 @@ export default function ReportDynamicInput(props: Props) {
                 <div className="flex flex-wrap gap-5 w-1/2">
                     {props.options?.map((val, j) =>
                         <div key={props.index + j} className="flex items-center gap-2" >
-                            <input type="checkbox" ref={inputRef} disabled={props.disabled} onChange={e => onCheckBoxChecked(val.name, e.target.checked, props.index)} />
-                            <label>{val.name}</label>
+                            <input type="checkbox" ref={inputRef} disabled={props.disabled} onChange={e => onCheckBoxChecked(val, e.target.checked, props.index)} />
+                            <label>{val}</label>
                         </div>
                     )}
                 </div>
@@ -83,7 +82,7 @@ export default function ReportDynamicInput(props: Props) {
                 <select name={props.index.toString()} onChange={onSelectChangeHandler} 
                 className={inputStyle} disabled={props.disabled} ref={selectRef}>
                     <option></option>
-                    {props.options!.map((val, i) => <option key={i} title={val.name}>{val.name}</option>)}
+                    {props.options?.map((val, i) => <option key={i} title={val}>{val}</option>)}
                 </select>
                 : null}
         </>
