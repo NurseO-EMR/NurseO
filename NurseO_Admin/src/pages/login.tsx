@@ -1,8 +1,7 @@
-import { useState } from "react";
 import GoogleButton from "react-google-button";
 import { Logo } from "~/components/Logo";
 import { Background } from "~/components/Background";
-import { signIn, getProviders, useSession } from "next-auth/react";
+import { signIn, getProviders } from "next-auth/react";
 import { type GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
@@ -10,13 +9,7 @@ import { authOptions } from "~/server/auth";
 export default function LoginPage() {
     
     const year = new Date().getFullYear()
-    const session = useSession()
-
-    const [error, setError] = useState("")
-
-
-    console.log(session)
-
+ 
     return (
         <div>
             <Background />
@@ -28,7 +21,6 @@ export default function LoginPage() {
                     <div className="flex justify-center">
                         <GoogleButton onClick={()=> signIn('google')} />
                     </div>
-                    <span>{error}</span>
                 </form>
             </div>
 

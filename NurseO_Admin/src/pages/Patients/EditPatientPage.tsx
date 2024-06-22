@@ -3,7 +3,7 @@ import { PatientChart } from "nurse-o-core";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Database } from "../../Services/Database";
-import PageView from "../PageView";
+import PageView from "../_PageView";
 import { PatientProcess } from "../../Stages/CreatePatient/PatientProcess";
 
 

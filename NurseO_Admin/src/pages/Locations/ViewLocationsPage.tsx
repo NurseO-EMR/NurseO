@@ -4,7 +4,7 @@ import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
 import { LocationDefinition } from "nurse-o-core";
 import { Database } from "../../Services/Database";
-import PageView from "../PageView";
+import PageView from "../_PageView";
 import { findIndex } from "lodash";
 import { Input } from "../../Components/Form/Input";
 import { Button } from "../../Components/Form/Button";

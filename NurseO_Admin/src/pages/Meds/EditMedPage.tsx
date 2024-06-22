@@ -11,7 +11,7 @@ import { Select } from "../../Components/Form/Select";
 import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
 import { Database } from "../../Services/Database";
-import PageView from "../PageView";
+import PageView from "../_PageView";
 
 type RouterState = {
     med: Medication

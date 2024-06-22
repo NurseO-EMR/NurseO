@@ -1,23 +1,23 @@
-import { ReactNode, useEffect } from "react";
-import {getAuth} from "firebase/auth"
-import { Background } from "../Components/Background";
-import { Nav } from "../Components/Nav/Nav";
-import { useNavigate } from "react-router-dom";
-import { AnnouncementViewer } from "../Components/AnnouncementViewer";
+import { useEffect, type ReactNode } from "react";
+import { Background } from "~/components/Background";
+import { Nav } from "~/components/nav/Nav";
+import { AnnouncementViewer } from "~/components/AnnouncementViewer";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Props = {
     children: ReactNode
 }
 
 export default function PageView(props: Props) {
-    const year = new Date().getFullYear()
-    const navigate = useNavigate()
-    
+    const session = useSession()
+    const router = useRouter()
     useEffect(()=>{
-        const auth = getAuth();
-        if(!auth.currentUser) navigate("/login");
-    }, [navigate])
+        if(!session.data?.user) router.push("/login")
+    })
 
+    const year = new Date().getFullYear()
+    
     return (
         <div className="relative grid justify-center min-h-screen">
             <Background></Background>

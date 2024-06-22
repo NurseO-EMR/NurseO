@@ -5,7 +5,7 @@ import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
 import { Medication } from "nurse-o-core";
 import { Database } from "../../Services/Database";
-import PageView from "../PageView";
+import PageView from "../_PageView";
 import { Input } from "../../Components/Form/Input";
 import { ButtonWConfirmBox } from "../../Components/Form/ButtonWConfirmBox";
 

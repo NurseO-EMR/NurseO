@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { faBook, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import PageView from "../PageView";
+import PageView from "../_PageView";
 import { Steps } from "../../Components/Steps/Steps";
 import { Stages } from "../../Components/Stages/Stages";
 import { Step } from "../../Components/Steps/Step";

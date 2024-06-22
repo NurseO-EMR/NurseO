@@ -7,7 +7,7 @@ import { Input } from "../../Components/Form/Input";
 import { Td } from "../../Components/Table/Td";
 import { Tr } from "../../Components/Table/Tr";
 import { Database } from "../../Services/Database";
-import PageView from "../PageView";
+import PageView from "../_PageView";
 
 export function ViewPatientsPage() {
     const db = Database.getInstance()

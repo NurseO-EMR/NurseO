@@ -1,4 +1,4 @@
-import PageView from "../PageView";
+import PageView from "../_PageView";
 import { Steps } from "../../Components/Steps/Steps";
 import { useState } from "react";
 import { Stages } from "../../Components/Stages/Stages";

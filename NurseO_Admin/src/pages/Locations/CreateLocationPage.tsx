@@ -2,7 +2,7 @@ import { useState } from "react";
 import {v4 as uuid} from "uuid"
 import { faBuilding, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 
-import PageView from "../PageView";
+import PageView from "../_PageView";
 import { Steps } from "../../Components/Steps/Steps";
 
 import { Stages } from "../../Components/Stages/Stages";

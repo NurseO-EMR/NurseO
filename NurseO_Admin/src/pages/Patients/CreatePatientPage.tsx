@@ -1,4 +1,4 @@
-import PageView from "../PageView";
+import PageView from "../_PageView";
 import { useState } from "react";
 import { createEmptyPatient } from "../../Services/Util";
 import { Database } from "../../Services/Database";
