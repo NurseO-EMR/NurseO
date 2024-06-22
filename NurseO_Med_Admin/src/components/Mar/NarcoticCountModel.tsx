@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import PureModal from "react-pure-modal";
-import { Medication } from "nurse-o-core"
+import type { Medication, MedicationOrder } from "@nurse-o-core/index"
 import { Input } from "../Form/Input"
 import { Button } from "../Form/Button"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileContract } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
-    med: Medication,
+    order: MedicationOrder | Medication,
     onClose?: () => void
 }
 
@@ -36,8 +36,8 @@ export function NarcoticCountModel(props: Props) {
         <PureModal isOpen={true} header={"Narcotic Count Verification"} width="40vw" onClose={props.onClose}>
             <form onSubmit={e => e.preventDefault()}>
                 <h1 className='font-bold text-center'>
-                    {props.med.genericName ? props.med.genericName : null} 
-                    {props.med.brandName ? "( " + props.med.brandName + " )" : null} 
+                    {props.order.genericName ? props.order.genericName : null} 
+                    {props.order.brandName ? "( " + props.order.brandName + " )" : null} 
                 </h1>
                 <h2 className='text-center my-2 text-primary font-bold'>Narcotic count must be completed</h2>
                 <div className='flex justify-around'>

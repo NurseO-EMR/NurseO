@@ -4,8 +4,6 @@ import { MedicationOrder, Frequency, Routine } from "../Types/PatientProfile";
 
 type Props = {
     order: MedicationOrder,
-    med: Medication
-
 }
 export function MedicationOrderSyntax(props: Props) {
 
@@ -16,10 +14,10 @@ export function MedicationOrderSyntax(props: Props) {
     const routine = indexableRoutine[props.order.routine] || props.order.routine
     return (
         <>
-            {props.med.genericName && props.med.genericName.length > 0 ? props.med.genericName + " ": ""}
-            {props.med.genericName && props.med.genericName.length > 0 && props.med.brandName && props.med.brandName.length > 0 ? "(" : null}
-            {props.med.brandName && props.med.brandName.length > 0 ? props.med.brandName: ""}
-            {props.med.genericName && props.med.genericName.length > 0 && props.med.brandName && props.med.brandName.length > 0  ? ")" : null}
+            {props.order.genericName && props.order.genericName.length > 0 ? props.order.genericName + " ": ""}
+            {props.order.genericName && props.order.genericName.length > 0 && props.order.brandName && props.order.brandName.length > 0 ? "(" : null}
+            {props.order.brandName && props.order.brandName.length > 0 ? props.order.brandName: ""}
+            {props.order.genericName && props.order.genericName.length > 0 && props.order.brandName && props.order.brandName.length > 0  ? ")" : null}
             {" "}
             {props.order.concentration}{" "}
             {props.order.route}{" "}

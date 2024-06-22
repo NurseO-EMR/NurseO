@@ -1,33 +1,33 @@
-import { uniq } from "lodash";
-import { Medication } from "nurse-o-core";
+import type { Medication } from "@nurse-o-core/index";
 import { useEffect, useState } from "react";
-import { MedLocationModal } from "../Components/Mar/MedLocationModal";
-import { TopNav } from "../Nav/TopMenu/TopNav";
-import { Database } from "../Services/Database";
+import { MedLocationModal } from "~/components/Mar/MedLocationModal";
+import { TopNav } from "~/components/Nav/TopMenu/TopNav";
+import { api } from "~/utils/api";
 
-export function AZListing() {
+
+export default function AZListing() {
+
+    const getAllMedsMutation = api.medications.getAllMeds.useMutation()
     const [fullMeds, setFullMeds] = useState<Medication[]>([])
     const [meds, setMeds] = useState<Medication[]>([])
     const [alphabet, setAlphabet] = useState<string[]>([])
     const [medSelected, setMedSelected] = useState<Medication | null>(null)
 
     useEffect(() => {
-        const db = Database.getInstance()
-        db.getMedications().then(medications => {
-            console.log(medications.filter((m)=>m.id === "9f6c1163-17be-4288-a0a4-d2e3c053ac55"))
+        getAllMedsMutation.mutateAsync().then(medications => {
             const letters = getLetters(medications)
             setAlphabet([...letters]);
             setMeds([...medications])
             setFullMeds(medications)
-        })
+        }).catch(console.log)
 
     }, [])
 
 
     const onSearchedTextChangeHandler=(text:string)=>{
         const filtered = fullMeds.filter(m=>{
-            if(m.brandName && m.brandName.toLowerCase().startsWith(text.toLowerCase())) return true
-            if(m.genericName && m.genericName.toLowerCase().startsWith(text.toLowerCase())) return true
+            if(m.brandName?.toLowerCase().startsWith(text.toLowerCase())) return true
+            if(m.genericName?.toLowerCase().startsWith(text.toLowerCase())) return true
             return false
         })
         const letters = getLetters(filtered)
@@ -49,7 +49,7 @@ export function AZListing() {
             {alphabet.map((letter, i) =>
                 <div key={i}>
                     <h1 className="text-5xl border-b-2 text-gray-400 mb-4">{letter}</h1>
-                    {meds.filter(m => (m.genericName || "")[0].toUpperCase() === letter).sort().map((med, j) =>
+                    {meds.filter(m => (m.genericName ?? "")[0]?.toUpperCase() === letter).sort().map((med, j) =>
                         <div key={j} onClick={()=>setMedSelected(med)}
                             className="h-16 my-1 bg-primary/20 flex items-center pl-20 justify-between
                                     hover:bg-primary hover:text-white hover:font-bold 
@@ -67,7 +67,7 @@ export function AZListing() {
                 </div>
             )}
         </div>
-        {medSelected ? <MedLocationModal med={medSelected} onClose={()=>setMedSelected(null)} /> : null}
+        {medSelected ? <MedLocationModal order={medSelected} onClose={()=>setMedSelected(null)} /> : null}
         
     </div>
 }
@@ -76,10 +76,10 @@ export function AZListing() {
 function getLetters(medications:Medication[]): string[] {
     let letters: string[] = []
     for (const med of medications) {
-        const firstLetter = (med.genericName || "")[0]
-        letters.push(firstLetter.toUpperCase());
+        const firstLetter = (med.genericName ?? "")[0]
+        letters.push(firstLetter!.toUpperCase());
     }
-    letters = uniq(letters);
+    letters = [... new Set(letters)];
     letters = letters.sort();
     return letters
 }

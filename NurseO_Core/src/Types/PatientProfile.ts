@@ -55,6 +55,11 @@ export type MedicationOrder  = Order & {
     mar: MarRecord[];
     completed?: boolean
     holdReason?: string | null
+
+    // these are for data fetching to make it cheaper to pull meds from db
+    genericName?: string;
+    brandName?: string;
+    narcoticCountNeeded?: boolean 
 }
 
 export type MarRecord = Time & {

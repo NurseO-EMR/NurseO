@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MedicationOrder, Time, Medication, MedicationOrderSyntax } from 'nurse-o-core';
-import { Database } from '../../Services/Database';
+import {type MedicationOrder, type Time, type Medication, MedicationOrderSyntax } from '@nurse-o-core/index';
 import { MedLocationModal } from './MedLocationModal';
 
 type Props = {
@@ -15,7 +14,6 @@ type TimeSlotStatus = JSX.Element | "-"
 export function MarEntry(props: Props) {
 
     const [timeSlots, setTimeSlots] = useState(new Map<number, TimeSlotStatus>())
-    const [med, setMed] = useState<Medication>({id: "", locations: [], narcoticCountNeeded: false,})
     const [showLocationModal, setShowLocationModal] = useState(false)
 
     useEffect(() => {
@@ -28,23 +26,15 @@ export function MarEntry(props: Props) {
 
         function checkForRecordedMarData() {
             for (const record of props.order.mar) {
-                const { hour, minutes, dose } = record;
-                timeSlots.set(hour, <span>{hour.toString().padStart(2,"0")}:{minutes.toString().padStart(2,"0")} <br /> {dose} </span>)      
+                const { hour, minute, dose } = record;
+                timeSlots.set(hour, <span>{hour.toString().padStart(2,"0")}:{minute.toString().padStart(2,"0")} <br /> {dose} </span>)      
             }
         }
-
-        async function getMed() {
-            const db = Database.getInstance();
-            const med = await db.getMedication(props.order.id);
-            if(med) setMed(med)
-        }
-
 
 
         fillTimeSlots();
         checkForRecordedMarData();
         setTimeSlots(timeSlots)
-        getMed()
         // eslint-disable-next-line no-use-before-define
     }, [timeSlots, setTimeSlots, props.order, props.timeSlots, props.simTime.hour])
 
@@ -74,7 +64,7 @@ export function MarEntry(props: Props) {
             after:items-center after:grid after:font-bold after:text-5xl after:z-10` : null}
             `}>
                 <td className={`w-80 pl-16 font-semibold ${props.order.completed ? "line-through" : null}`}>
-                    <MedicationOrderSyntax med={med} order={props.order} />
+                    <MedicationOrderSyntax order={props.order} />
                 </td>
                 {props.timeSlots.map((hour, i) => {
                     if(hour === props.simTime.hour && !props.order.completed) {
@@ -90,8 +80,8 @@ export function MarEntry(props: Props) {
                         onClick={() => setShowLocationModal(true)}>Locate</button>
                 </td>
             </tr>
-            {showLocationModal && med ?
-                <MedLocationModal onClose={()=>setShowLocationModal(false)} med={med} />
+            {showLocationModal ?
+                <MedLocationModal onClose={()=>setShowLocationModal(false)} order={props.order}/>
                 : null}
         </>
     );

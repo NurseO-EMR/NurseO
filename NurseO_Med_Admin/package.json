@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@prisma/client": "^5.14.0",
     "@t3-oss/env-nextjs": "^0.10.1",
     "@tanstack/react-query": "^5.39.0",
@@ -28,6 +30,7 @@
     "next-auth": "^4.24.7",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
+    "react-pure-modal": "^2.2.5",
     "superjson": "^2.2.1",
     "zod": "^3.23.3"
   },

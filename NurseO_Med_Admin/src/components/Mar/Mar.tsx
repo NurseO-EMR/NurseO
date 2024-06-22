@@ -1,6 +1,5 @@
-import { uniq } from 'lodash';
 import React from 'react';
-import { MedicationOrder, Time } from 'nurse-o-core';
+import type { MedicationOrder, Time } from '@nurse-o-core/index';
 import { MarEntry } from './MarEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -31,10 +30,10 @@ export function Mar(props: Props) {
         let output: number[] = [];
         output = checkForRecordedMarData(output);
         output.push(props.simTime.hour)
-        output = uniq(output);
+        output = [... new Set(output)]
         output = output.sort((a, b) => a - b);
         const lastHour = output[output.length-1]
-        output.push(...[lastHour+1, lastHour+2])
+        if (lastHour) output.push(...[lastHour+1, lastHour+2])
         return output;
     }
 

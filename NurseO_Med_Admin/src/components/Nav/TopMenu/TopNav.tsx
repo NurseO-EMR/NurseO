@@ -1,29 +1,24 @@
 import { Logo } from './Logo';
-import { getAuth } from "firebase/auth"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeftLong, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from 'react-router-dom';
-import { $locationID } from '../../Services/State';
-import { Link } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 type Props = {
     className?: string
 }
 export function TopNav(props: Props) {
 
-    const auth = getAuth()
-    const navigate = useNavigate()
+    const router = useRouter()
 
     const onLogoutClickHandler = async () => {
-        await auth.signOut();
-        navigate("/?location=" + $locationID.value)
-        window.location.reload();
+        router.push("/")
     }
 
 
     const onBackClickHandler = ()=>{
-        if(window.location.pathname === "/dashboard") navigate("/selectPatient")
-        else navigate("/dashboard")
+        if(window.location.pathname === "/dashboard") router.push("/selectPatient")
+        else router.push("/dashboard")
     }
 
     return (
@@ -40,7 +35,7 @@ export function TopNav(props: Props) {
                 </div>
 
                 <div className="flex items-center space-x-3">
-                    <Link to="/AZListing" className='bg-primary rounded-md text-white px-8 py-2 text-center'>
+                    <Link href="/AZListing" className='bg-primary rounded-md text-white px-8 py-2 text-center'>
                         A-Z Medication List
                     </Link>
                     <span className="font-medium rounded ">
