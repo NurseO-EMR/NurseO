@@ -13,9 +13,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <main className={GeistSans.className}>
+      <div id="topLevelDiv" className={"standard" + GeistSans.className}>
         <Component {...pageProps} />
-      </main>
+      </div>
     </SessionProvider>
   );
 };
