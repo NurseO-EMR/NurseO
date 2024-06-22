@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import {type MedicationOrder, type Time, type Medication, MedicationOrderSyntax } from '@nurse-o-core/index';
+import { useMemo, useState } from 'react';
+import {type MedicationOrder, type Time, type Medication, MedicationOrderSyntax, type MarRecord } from '@nurse-o-core/index';
 import { MedLocationModal } from './MedLocationModal';
 
 type Props = {
@@ -13,31 +13,8 @@ type Props = {
 type TimeSlotStatus = JSX.Element | "-" 
 export function MarEntry(props: Props) {
 
-    const [timeSlots, setTimeSlots] = useState(new Map<number, TimeSlotStatus>())
+    const timeSlots = useMemo(()=>getTimeSlots(props.timeSlots, props.order.mar), [props.order.mar, props.timeSlots])
     const [showLocationModal, setShowLocationModal] = useState(false)
-
-    useEffect(() => {
-        function fillTimeSlots() {
-            for (const timeSlot of props.timeSlots) {
-                timeSlots.set(timeSlot, "-")
-            }
-            return timeSlots
-        }
-
-        function checkForRecordedMarData() {
-            for (const record of props.order.mar) {
-                const { hour, minute, dose } = record;
-                timeSlots.set(hour, <span>{hour.toString().padStart(2,"0")}:{minute.toString().padStart(2,"0")} <br /> {dose} </span>)      
-            }
-        }
-
-
-        fillTimeSlots();
-        checkForRecordedMarData();
-        setTimeSlots(timeSlots)
-        // eslint-disable-next-line no-use-before-define
-    }, [timeSlots, setTimeSlots, props.order, props.timeSlots, props.simTime.hour])
-
 
     const isMedGivin = (status:TimeSlotStatus) => {
         return status!=="-" 
@@ -85,4 +62,27 @@ export function MarEntry(props: Props) {
                 : null}
         </>
     );
+}
+
+
+function fillTimeSlots(timeSlots: Map<number, TimeSlotStatus>, times: number[]) {
+    for (const timeSlot of times) {
+        timeSlots.set(timeSlot, "-")
+    }
+    return timeSlots;
+}
+
+function checkForRecordedMarData(timeSlots: Map<number, TimeSlotStatus>, mar: MarRecord[]) {
+    for (const record of mar) {
+        const { hour, minute, dose } = record;
+        timeSlots.set(hour, <span>{hour.toString().padStart(2,"0")}:{minute.toString().padStart(2,"0")} <br /> {dose} </span>)      
+    }
+    return timeSlots;
+}
+
+function getTimeSlots(times: number[], mar: MarRecord[]) {
+    let timeSlots = new Map<number, TimeSlotStatus>()
+    timeSlots = fillTimeSlots(timeSlots, times)
+    timeSlots = checkForRecordedMarData(timeSlots, mar)
+    return timeSlots
 }

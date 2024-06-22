@@ -47,9 +47,9 @@ export function Mar(props: Props) {
         <table className={"table-auto w-full "}>
             <thead className="w-full h-16">
                 <tr className="bg-primary text-white">
-                    <th></th>
+                    <th>Medication</th>
                     {timeSlots.map((time, i) => <th key={i}>{time}:00</th>)}
-                    <th></th>
+                    <th>Locate</th>
                 </tr>
             </thead>
             <tbody>
