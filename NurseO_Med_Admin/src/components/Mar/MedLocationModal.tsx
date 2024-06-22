@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import PureModal from "react-pure-modal"
 
 import {NarcoticCountModel} from "./NarcoticCountModel"
 import type { Medication, MedicationOrder } from '@nurse-o-core/index';
 import { api } from '~/utils/api';
+import { GlobalContext } from '~/services/State';
 
 type Props = {
     order: MedicationOrder | Medication
@@ -12,8 +13,8 @@ type Props = {
 
 export function MedLocationModal(props: Props) {
 
-
-    const {data: locations} = api.medications.getMedicationLocations.useQuery({medId: props.order.id})
+    const {locationId} = useContext(GlobalContext)
+    const {data: locations} = api.medications.getMedicationLocations.useQuery({medId: props.order.id, locationId})
     const [showNarcoticCountModel, setShowNarcoticCountModel] = useState<boolean>(false)
 
 

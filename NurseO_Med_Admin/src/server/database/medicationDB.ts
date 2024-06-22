@@ -1,9 +1,9 @@
 import { type PrismaClient } from '@prisma/client';
 import type { Medication, MedicationLocation } from '@nurse-o-core/index';
 
-export async function getMedicationLocations(db: PrismaClient, medId: number): Promise<MedicationLocation[]> {
+export async function getMedicationLocations(db: PrismaClient, medId: number, locationId: number): Promise<MedicationLocation[]> {
     const locations = await db.$queryRaw<{ drawer: string, slot: string, dose: string, type: string }[]>`
-        SELECT drawer, slot, dose, type FROM Medication_Location_Information WHERE med_id = ${medId};`
+        SELECT drawer, slot, dose, type FROM Medication_Location_Information WHERE med_id = ${medId} AND location_id=${locationId};`
 
     const output: MedicationLocation[] = []
     for (const location of locations) {

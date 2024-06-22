@@ -1,4 +1,4 @@
-export function storeLocation(location:string) {
+export function storeLocation(location: string) {
     localStorage.setItem("location", location)
 }
 
