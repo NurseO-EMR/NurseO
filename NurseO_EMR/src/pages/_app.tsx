@@ -9,8 +9,9 @@ import "~/styles/globals.css";
 import 'react-pure-modal/dist/react-pure-modal.min.css';
 
 import { GlobalContext } from "~/Services/State";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PatientChart } from "@nurse-o-core/index";
+import { storeLocation, getLocationFromStorage } from "~/Services/LocalStorage";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -20,7 +21,20 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   const [studentId, setStudentId] = useState("")
   const [patient, setPatient] = useState<PatientChart>(new PatientChart())
-  const [locationId, setLocationId] = useState(12)
+  const [locationId, setLocationId] = useState(-1)
+
+  
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    let location = queryParams.get('location');
+    if (location) storeLocation(location)
+    else location = getLocationFromStorage()
+
+    console.log(Number.isInteger(location))
+    if (location && !Number.isNaN(location)) setLocationId(Number.parseInt(location))
+
+  }, [])
+
 
   return (
     <SessionProvider session={session}>

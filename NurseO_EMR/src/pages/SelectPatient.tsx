@@ -8,7 +8,7 @@ import { api } from '~/utils/api';
 
 export default function SelectPatient() {
     const router = useRouter()
-    const { studentId, setPatient } = useContext(GlobalContext)
+    const { studentId, setPatient, locationId } = useContext(GlobalContext)
     const [barcode, setProvidedBarcode] = useState("")
     const [error, setError] = useState("")
     const patientMutation = api.patient.getPatient.useMutation()
@@ -26,8 +26,7 @@ export default function SelectPatient() {
 
     const onClickHandler = async (wait: () => void, keepGoing: () => void) => {
         wait();
-
-        const patient = await patientMutation.mutateAsync({ barcode: barcode, location: "x", studentId })
+        const patient = await patientMutation.mutateAsync({ barcode: barcode, locationId, studentId })
 
         if (patient) {
             setPatient(patient)

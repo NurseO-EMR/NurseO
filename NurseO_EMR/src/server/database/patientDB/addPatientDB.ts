@@ -24,7 +24,7 @@ export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTri
     const notes = p.notes.map(v => Prisma.sql`(${v.date}, ${v.note}, ${v.reportName}, ${v.reportType}, ${patient.id})`)
     const immunizations = p.immunizations.map(v => Prisma.sql`(${v}, ${patient.id})`)
     const flags = p.flags.map(v => Prisma.sql`(${v.name}, ${v.reason}, ${patient.id})`)
-    const studentReports = p.studentReports.map(v => Prisma.sql`(${v.setName}, ${v.vitalName}, ${v.time}, ${v.value}, ${v.date}, ${v.reportType}, ${patient.id})`)
+    const studentReports = p.studentReports.map(v => Prisma.sql`(${v.setName}, ${v.fieldName}, ${v.time}, ${v.value}, ${v.date}, ${v.reportType}, ${patient.id})`)
 
     // transaction array 
     const transactions: PrismaPromise<number>[] = []

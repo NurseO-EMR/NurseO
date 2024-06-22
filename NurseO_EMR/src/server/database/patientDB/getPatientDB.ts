@@ -22,10 +22,9 @@ type patientMetaData = {
 }
 
 
-export async function getPatientByBarCode(db: PrismaClient, templatePatientBarCode: string, location: string, studentId: string): Promise<PatientChart | null> {
+export async function getPatientByBarCode(db: PrismaClient, templatePatientBarCode: string, locationId: number, studentId: string): Promise<PatientChart | null> {
 
-       const metaData = await getPatientBasicInfoByBarCode(db, templatePatientBarCode, studentId)
-
+       const metaData = await getPatientBasicInfoByBarCode(db, templatePatientBarCode, studentId, locationId)
        if (!metaData) return null
 
        const patient = await getPatientChart(db, metaData, studentId)
@@ -112,7 +111,7 @@ async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
        return patient[0]
 }
 
-async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBarCode: string, studentId: string) {
+async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBarCode: string, studentId: string, locationId: number) {
 
        let patient:patientMetaData[] = []
 
@@ -120,14 +119,25 @@ async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBar
               patient = await db.$queryRaw<patientMetaData[]>`
               SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
                      diagnosis, course_id, patient_bar_code, student_id
-              FROM Patient WHERE patient_bar_code = ${templatePatientBarCode} and student_id = ${studentId}  LIMIT 1;`
+              FROM Patient 
+              JOIN Course ON Course.id = Patient.course_id
+              JOIN Course_Location_Information ON Course_Location_Information.course_id = Course.id
+              WHERE Course_Location_Information.location_id = ${locationId}
+              WHERE patient_bar_code = ${templatePatientBarCode} 
+              AND student_id = ${studentId}  LIMIT 1;`
        } 
 
        if(studentId.length === 0 || studentId === signInState.anonymousSignIn.valueOf() || patient.length === 0) {
               patient = await db.$queryRaw<patientMetaData[]>`
-              SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                     diagnosis, course_id, patient_bar_code, student_id
-              FROM Patient WHERE patient_bar_code = ${templatePatientBarCode} LIMIT 1;`
+              SELECT Patient.id ,Patient.name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
+                     diagnosis, Patient.course_id, patient_bar_code, student_id
+              FROM Patient 
+              JOIN Course ON Course.id = Patient.course_id
+              JOIN Course_Location_Information ON Course_Location_Information.course_id = Course.id
+              WHERE Course_Location_Information.location_id = ${locationId}
+              AND patient_bar_code = ${templatePatientBarCode} 
+              AND template = true
+              LIMIT 1;`
        }
 
        if (!patient || patient.length == 0) return null
