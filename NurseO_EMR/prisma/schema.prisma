@@ -110,13 +110,13 @@ model Flag {
 }
 model Note {
     id        Int    @id @default(autoincrement())
-    patient_Id Int
+    patient_id Int
     date      String
     note     String
     report_name String
     report_type String
 
-    patient Patient @relation(fields: [patient_Id], references: [id])
+    patient Patient @relation(fields: [patient_id], references: [id])
 }
 
 
@@ -282,6 +282,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    role          String?
 
     patients Patient[] @relation()
 }

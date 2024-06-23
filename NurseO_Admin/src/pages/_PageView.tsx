@@ -13,7 +13,8 @@ export default function PageView(props: Props) {
     const session = useSession()
     const router = useRouter()
     useEffect(()=>{
-        if(!session.data?.user) router.push("/login")
+        // this code runs on the client but it is merely for user convince, the security check happens at login page and every trpc request on the server side
+        if(!session.data?.user) router.push("/login") 
     })
 
     const year = new Date().getFullYear()
