@@ -5,6 +5,7 @@ import { signIn, getProviders } from "next-auth/react";
 import { type GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
+import { userRoles } from "~/types/userRoles";
 
 export default function LoginPage() {
     
@@ -37,13 +38,12 @@ export default function LoginPage() {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const session = await getServerSession(context.req, context.res, authOptions)
-  
-    // If the user is already logged in, redirect.
-    // Note: Make sure not to redirect to the same page
-    // To avoid an infinite loop!
-    if (session) {
+
+    if (session && session.user.role === userRoles.sim.valueOf()) {
       return { redirect: { destination: "/" } }
-    }
+    } else if (session?.user) {
+        return { redirect: { destination: "/401" } }
+    } 
   
     const providers = await getProviders()
   

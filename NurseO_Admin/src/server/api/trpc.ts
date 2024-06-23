@@ -15,6 +15,7 @@ import { ZodError } from "zod";
 
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
+import { userRoles } from "~/types/userRoles";
 
 /**
  * 1. CONTEXT
@@ -126,6 +127,11 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
+
+  if (!ctx.session || !ctx.session.user || ctx.session.user.role !== userRoles.sim.valueOf()) {
+    throw new TRPCError({ code: "FORBIDDEN" });
+  }
+
   return next({
     ctx: {
       // infers the `session` as non-nullable

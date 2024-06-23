@@ -10,6 +10,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { env } from "~/env";
 import { db } from "~/server/db";
+import { getUserRole } from "./database/userDB";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -21,6 +22,7 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
       id: string;
+      role: string
       // ...other properties
       // role: UserRole;
     };
@@ -42,11 +44,12 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   callbacks: {
-    session: ({ session, user }) => ({
+    session: async ({ session, user }) => ({
       ...session,
       user: {
         ...session.user,
         id: user.id,
+        role: await getUserRole(db, user.id)
       },
     }),
   },
