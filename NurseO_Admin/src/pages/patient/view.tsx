@@ -10,10 +10,10 @@ import { api } from "~/utils/api";
 
 export default function ViewPatientsPage() {
 
-    const {data: patients, refetch} = api.patient.getPatientList.useQuery()
+    const {data: dbPatients, refetch} = api.patient.getPatientList.useQuery()
     const deletePatientMutation = api.patient.deletePatient.useMutation()
 
-    const [filteredPatients, setFilteredPatients] = useState<PatientChart[]>([])
+    const [patients, setPatients] = useState(dbPatients)
 
 
     const onDeleteClickHandler = async (patientId: number) => {
@@ -26,8 +26,8 @@ export default function ViewPatientsPage() {
     }
 
     const onSearchChangeHandler = (searchPhrase: string) => {
-        // const filtered = patients.filter(p => p.name.toLowerCase().startsWith(searchPhrase.toLowerCase()))
-        // setFilteredPatients(filtered);
+        const filtered = dbPatients?.filter(p => p.name.toLowerCase().startsWith(searchPhrase.toLowerCase()))
+        setPatients(filtered);
     }
 
 
