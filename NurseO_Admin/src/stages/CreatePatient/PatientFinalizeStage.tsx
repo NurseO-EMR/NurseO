@@ -1,6 +1,6 @@
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
+import { useRouter } from "next/navigation";
+import { BaseStage, type BaseStageProps } from "~/components/Stages/BaseStage";
 
 export type Props = BaseStageProps & {
     customMessage?: string
@@ -8,16 +8,16 @@ export type Props = BaseStageProps & {
 
 export function PatientFinalizeStage(props: Props) {
 
-    const navigate = useNavigate()
+    const router = useRouter()
 
     const onNextClickHandler = () => {
-        navigate("/")
+        router.push("/")
     }
 
     return <BaseStage {...props} title="Congratulations" icon={faFileInvoice} onNext={onNextClickHandler} customNextText="Go Home" hideBackButton>
         <div>
             <h1>
-                {props.customMessage || "Your patient has been added!"}
+                {props.customMessage ?? "Your patient has been added!"}
             </h1>
 
         </div>

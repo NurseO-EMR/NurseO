@@ -1,6 +1,6 @@
-import { motion, Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { filter } from "lodash";
-import Select, { StylesConfig } from "react-select"
+import Select, {type StylesConfig } from "react-select"
 import Creatable from "react-select/creatable"
 
 export type Props = {
@@ -9,7 +9,7 @@ export type Props = {
     hideLabel?: boolean,
     delay?: number,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    options: any,
+    options: any[],
     labelKeys: string[],
     valueKey: string,
     onChange: (value: string) => void,
@@ -44,7 +44,7 @@ export function SearchableSelect(props: Props) {
         hidden: { opacity: 0 },
         show: {
             opacity: 1,
-            transition: { delay: (props.delay || 0) * 0.4 }
+            transition: { delay: (props.delay ?? 0) * 0.4 }
         },
         exit: { opacity: 0 },
     }
@@ -55,9 +55,12 @@ export function SearchableSelect(props: Props) {
         for (const option of props.options) {
             // if(!option[props.labelKey]) continue;
             props.labelKeys.map(k=>{
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 if(option[k]) {
                     const temp: Option = {
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                         value: option[props.valueKey],
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                         label: option[k]
                     }
                     
@@ -88,7 +91,7 @@ export function SearchableSelect(props: Props) {
 
             {props.creatable ?
                 <Creatable options={getOptions()} value={getValue()} onCreateOption={props.onCreateOption}
-                    onChange={(e) => props.onChange((e as Option | undefined)?.value || "")}
+                    onChange={(e) => props.onChange((e as Option | undefined)?.value ?? "")}
                     isClearable={true}
                     styles={customStyles}
                 />
@@ -96,7 +99,7 @@ export function SearchableSelect(props: Props) {
                 :
 
                 <Select options={getOptions()} value={getValue()}
-                    onChange={(e) => props.onChange((e as Option | undefined)?.value || "")}
+                    onChange={(e) => props.onChange((e as Option | undefined)?.value ?? "")}
                     isClearable={true}
                     styles={customStyles}
                 />

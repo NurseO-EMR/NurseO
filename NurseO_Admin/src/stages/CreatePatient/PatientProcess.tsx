@@ -1,7 +1,7 @@
 import { faIdCard, faHouseChimneyUser, faFlag, faHeadSideCough, faSyringe, faBookMedical, faHeart, faPills, faStethoscope, faComputer, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import { Stages } from "../../Components/Stages/Stages";
-import { Step } from "../../Components/Steps/Step";
-import { Steps } from "../../Components/Steps/Steps";
+import { Stages } from "~/components/Stages/Stages";
+import { Step } from "~/components/Steps/Step";
+import { Steps } from "~/components/Steps/Steps";
 import { AllergiesStage } from "./AllergiesStage";
 import { BasicInfo, BasicInfoStage } from "./BasicInfoStage";
 import { ChartingStage } from "./ChartingStage";
@@ -14,7 +14,7 @@ import { PatientFinalizeStage } from "./PatientFinalizeStage";
 import { ReviewStage } from "./ReviewStage";
 import { SimSpecificInfo, SimSpecificInfoStage } from "./SimSpecificInfoStage";
 import { SocialHistoryStage } from "./SocialHistoryStage";
-import { Allergy, Flag, MedicalHistory, MedicationOrder, CustomOrder, StudentReport, PatientChart } from "nurse-o-core";
+import { Allergy, Flag, MedicalHistory, MedicationOrder, CustomOrder, StudentReport, PatientChart } from "@nurse-o-core/index";
 import { useState } from "react";
 
 type Props = {

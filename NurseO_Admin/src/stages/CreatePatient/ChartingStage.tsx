@@ -1,13 +1,13 @@
 import { faBedPulse, faBong, faComputer, faDroplet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { filter } from "lodash";
-import { PatientChart, ReportSet, ReportType, StudentReport } from "nurse-o-core";
-import { useEffect, useState } from "react";
-import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { ChartPreviewer } from "../../Components/Reports/ChartPreviewer";
-import { Database } from "../../Services/Database";
-import { ReportDynamicTable } from "../../Components/Reports/ReportDynamicTable";
-import { ReportTabs } from "../../Components/Reports/ReportTabs";
+import { type PatientChart, type ReportSet, ReportType, type StudentReport } from "@nurse-o-core/index";
+import { useState } from "react";
+import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
+import { ChartPreviewer } from "~/components/Reports/ChartPreviewer";
+import { ReportDynamicTable } from "~/components/Reports/ReportDynamicTable";
+import { ReportTabs } from "~/components/Reports/ReportTabs";
+import { api } from "~/utils/api";
 
 export type Props = BaseStageProps & {
     onNext: (studentReports: StudentReport[]) => void,
@@ -15,26 +15,12 @@ export type Props = BaseStageProps & {
 }
 
 export function ChartingStage(props: Props) {
-
-    const [allReports, setAllReports] = useState([] as ReportSet[])
+    const {data: allReports} = api.report.getReportSets.useQuery()
     const [reportSets, setReportSets] = useState([] as ReportSet[])
-    const [studentReports, setStudentReports] = useState(props.patient?.studentReports || [] as StudentReport[])
+    const [studentReports, setStudentReports] = useState(props.patient?.studentReports ?? [] as StudentReport[])
     const [activeReportSet, setActiveReportSet] = useState(0)
-    const [reportType, setReportType] = useState<ReportType>("studentVitalsReport")
+    const [reportType, setReportType] = useState<ReportType>(ReportType.studentVitalsReport)
     const [selectedTab, setSelectedTab] = useState(0)
-
-    useEffect(() => {
-        const db = Database.getInstance();
-        db.getSettings().then(v => {
-            setAllReports(v.reportSet)
-            const firstReport = filter(allReports, { type: reportType });
-            setReportSets(firstReport);
-            setSelectedTab(0);
-        })
-        
-    }, [allReports, reportType])
-
-
 
     const onNextClickHandler = () => {
         props.onNext(studentReports)
@@ -50,7 +36,7 @@ export function ChartingStage(props: Props) {
     }
 
     const onReportsSaveClickHandler = (updatedReports: StudentReport[]) => {
-        if (updatedReports.length > 0) {
+        if (updatedReports.length > 0 && updatedReports[0]) {
             const { setName } = updatedReports[0]
             //remove the current version of the reports
             const filtered = studentReports.filter(r => r.setName !== setName)
@@ -84,8 +70,8 @@ export function ChartingStage(props: Props) {
                             selectedTab={selectedTab} />
                         <ReportDynamicTable onSave={onReportsSaveClickHandler}
                             studentReports={props.patient?.studentReports}
-                            options={reportSets[selectedTab].reportFields}
-                            type={reportType} setName={reportSets[selectedTab].name} />
+                            options={reportSets[selectedTab]!.reportFields}
+                            type={reportType} setName={reportSets[selectedTab]!.name} />
                     </>
                     : <h1>Loading...</h1>}
             </BaseStage>
@@ -100,12 +86,12 @@ export function ChartingStage(props: Props) {
 
 
 function getReportTypeFromIndex(reportSetIndex: number) {
-    let tempReportType: ReportType = "studentVitalsReport"
+    let tempReportType: ReportType = ReportType.studentVitalsReport
     switch (reportSetIndex) {
-        case 0: tempReportType = "studentVitalsReport"; break;
-        case 1: tempReportType = "studentAssessmentReport"; break;
-        case 2: tempReportType = "studentIOReport"; break;
-        default: tempReportType = "studentVitalsReport"; break;
+        case 0: tempReportType = ReportType.studentVitalsReport; break;
+        case 1: tempReportType = ReportType.studentAssessmentReport; break;
+        case 2: tempReportType = ReportType.studentIOReport; break;
+        default: tempReportType = ReportType.studentVitalsReport; break;
     }
 
     return tempReportType;

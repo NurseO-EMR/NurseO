@@ -1,8 +1,8 @@
 import { faIdCard } from "@fortawesome/free-solid-svg-icons";
-import { Input} from "../../Components/Form/Input";
-import { Select } from "../../Components/Form/Select";
-import { BaseStageProps, BaseStage } from "./../../Components/Stages/BaseStage"
-import { Gender, PatientChart } from "nurse-o-core";
+import { Input} from "~/components/Form/Input";
+import { Select } from "~/components/Form/Select";
+import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
+import { Gender, type PatientChart } from "@nurse-o-core/index";
 import { useState } from "react";
 
 
@@ -23,12 +23,12 @@ export type Props = BaseStageProps & {
 export function BasicInfoStage(props: Props) {
     const {patient} = props;
 
-    const [name, setName] = useState(patient?.name || "");
+    const [name, setName] = useState(patient?.name ?? "");
     const [dob, setDOB] = useState(patient? convertDateToValue(patient.dob)  : "")
-    const [gender, setGender] = useState(patient?.gender || "" as Gender)
-    const [height, setHeight] = useState<string>(patient?.height || "0")
-    const [weight, setWeight] = useState<string>(patient?.weight || "0")
-    const [diagnosis, setDiagnosis] = useState(patient?.diagnosis || "")
+    const [gender, setGender] = useState(patient?.gender ?? "" as Gender)
+    const [height, setHeight] = useState<string>(patient?.height ?? "0")
+    const [weight, setWeight] = useState<string>(patient?.weight ?? "0")
+    const [diagnosis, setDiagnosis] = useState(patient?.diagnosis ?? "")
     
     const onNextClickHandler = ()=>{
         const basicInfo:BasicInfo = {

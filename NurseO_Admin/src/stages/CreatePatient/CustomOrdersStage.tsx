@@ -1,13 +1,13 @@
 import { faStethoscope } from "@fortawesome/free-solid-svg-icons";
-import { CustomOrder, OrderKind, OrderType, PatientChart } from "nurse-o-core";
+import { type CustomOrder, OrderKind, OrderType, type PatientChart } from "@nurse-o-core/index";
 import { useState } from "react";
-import { Button } from "../../Components/Form/Button";
-import { Input } from "../../Components/Form/Input";
-import { RichTextArea } from "../../Components/Form/RichTextArea";
-import { Select } from "../../Components/Form/Select";
-import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { CustomOrderPreviewer } from "../../Components/Stages/CustomOrders/CustomOrderPreviewer";
-import { broadcastAnnouncement, Announcement } from "../../Services/AnnouncementService";
+import { Button } from "~/components/Form/Button";
+import { Input } from "~/components/Form/Input";
+import { RichTextArea } from "~/components/Form/RichTextArea";
+import { Select } from "~/components/Form/Select";
+import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
+import { CustomOrderPreviewer } from "~/components/Stages/CustomOrders/CustomOrderPreviewer";
+import { broadcastAnnouncement, Announcement } from "~/services/AnnouncementService";
 
 
 
@@ -17,7 +17,7 @@ export type Props = BaseStageProps & {
 }
 
 export function CustomOrdersStage(props: Props) {
-    const [orders, setOrders] = useState(props.patient?.customOrders || [] as CustomOrder[]);
+    const [orders, setOrders] = useState(props.patient?.customOrders ?? [] as CustomOrder[]);
 
     const [order, setOrder] = useState("");
     const [orderType, setOrderType] = useState(OrderType.NA);
@@ -41,7 +41,7 @@ export function CustomOrdersStage(props: Props) {
             return; 
         }
 
-        const temp = orders[oldIndex]
+        const temp = orders[oldIndex]!
         orders.splice(oldIndex,1)
         orders.splice(newIndex, 0, temp)
 
@@ -60,8 +60,8 @@ export function CustomOrdersStage(props: Props) {
     }
 
     const onEditClickHandler = (index:number) =>{
-        const tempOrder = orders[index]
-        setTime(tempOrder.time || "")
+        const tempOrder = orders[index]!
+        setTime(tempOrder.time ?? "")
         setOrder(tempOrder.order)
         setOrderType(tempOrder.orderType)
         onDeleteClickHandler(index)

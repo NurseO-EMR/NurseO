@@ -1,9 +1,9 @@
 import { faPenToSquare, faSquareCaretDown, faSquareCaretUp, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion} from "framer-motion";
-import { Medication, MedicationOrder, MedicationOrderSyntax } from "nurse-o-core";
-import { useEffect, useState } from "react";
-import { Database } from "../../Services/Database";
+import { type MedicationOrder, MedicationOrderSyntax } from "@nurse-o-core/index";
+import { useState } from "react";
+
 
 type Props = {
     medOrder: MedicationOrder,
@@ -14,18 +14,9 @@ type Props = {
 }
 
 export function MedicationOrdersPreviewer(props: Props) {
-    const [med, setMed] = useState<Medication>({
-        id: "", locations: [], narcoticCountNeeded: false
-    })
+
 
     const [indexValue,setIndexValue] = useState(props.index+1)
-
-    useEffect(()=>{
-        const db = Database.getInstance();    
-        db.getMedication(props.medOrder.id).then(m=>{
-            if(m) setMed(m)
-        })
-    },[props.medOrder.id])
 
     const onUPorDownArrowsHandler = (direction: "up" | "down") => {
         let index = props.index
@@ -46,10 +37,10 @@ export function MedicationOrdersPreviewer(props: Props) {
              initial={{scaleY:0 }} animate={{scaleY:1 }}>
             <div>
                 <div className="text-center font-bold text-blue w-72">
-                    <MedicationOrderSyntax med={med} order={props.medOrder} />
+                    <MedicationOrderSyntax order={props.medOrder} />
                 </div>
                 <div>Type: {props.medOrder.orderType}</div>
-                <div className="mt-3">Mar: {props.medOrder.mar.length > 0 ? props.medOrder.mar.map((time) => time.hour.toString().padStart(2,"0") + ":" + time.minutes.toString().padStart(2,"0") + " ") : "No mar data added"}</div>
+                <div className="mt-3">Mar: {props.medOrder.mar.length > 0 ? props.medOrder.mar.map((time) => time.hour.toString().padStart(2,"0") + ":" + time.minute.toString().padStart(2,"0") + " ") : "No mar data added"}</div>
                 <div className="text-blue font-bold mt-2">{props.medOrder.completed ? "Completed" : null}</div>
             </div>
             <div className="cursor-pointer grid items-center text-xl">

@@ -1,16 +1,16 @@
 import { faBookMedical } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { Button } from "../../Components/Form/Button";
-import { Input } from "../../Components/Form/Input";
-import { Select } from "../../Components/Form/Select";
-import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { MedicationOrder, OrderKind, OrderType, Frequency, Routine, PatientChart, MarRecord, Medication } from "nurse-o-core"
-import { MedicationOrdersPreviewer } from "../../Components/Stages/MedicationOrdersPreviewer";
+import { Button } from "~/components/Form/Button";
+import { Input } from "~/components/Form/Input";
+import { Select } from "~/components/Form/Select";
+import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
+import { type MedicationOrder, OrderKind, OrderType, Frequency, Routine, type PatientChart, type MarRecord, type Medication } from "@nurse-o-core/index"
+import { MedicationOrdersPreviewer } from "~/components/Stages/MedicationOrdersPreviewer";
 import { AnimatePresence } from "framer-motion";
-import { Database } from "../../Services/Database";
-import { SearchableSelect } from "../../Components/Form/SearchableSelect";
-import { broadcastAnnouncement, Announcement } from "../../Services/AnnouncementService";
-import { MarRecordEditor } from "../../Components/Stages/MarRecordEditor";
+import { SearchableSelect } from "~/components/Form/SearchableSelect";
+import { broadcastAnnouncement, Announcement } from "~/services/AnnouncementService";
+import { MarRecordEditor } from "~/components/Stages/MarRecordEditor";
+import { api } from "~/utils/api";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,
@@ -18,9 +18,9 @@ export type Props = BaseStageProps & {
 }
 
 export function OrdersStage(props: Props) {
-    const [meds, setMeds] = useState([] as Medication[])
+    const {data: meds} = api.medication.getAllMeds.useQuery()
 
-    const [id, setId] = useState("");
+    const [id, setId] = useState(-1);
     const [concentration, setConcentration] = useState("");
     const [route, setRoute] = useState("");
     const [routine, setRoutine] = useState(Routine.NA);
@@ -33,17 +33,9 @@ export function OrdersStage(props: Props) {
     const [showMar, setShowMar] = useState(false);
     const [time, setTime] = useState("");
 
-    const [orders, setOrders] = useState(props.patient?.medicationOrders || [] as MedicationOrder[]);
+    const [orders, setOrders] = useState(props.patient?.medicationOrders ?? [] as MedicationOrder[]);
 
 
-    useEffect(() => {
-        async function getMeds() {
-            const db = Database.getInstance();
-            const medications = await db.getMedications();
-            setMeds(medications);
-        }
-        getMeds();
-    }, [])
 
     const onOrderAddClickHandler = () => {
 
@@ -63,14 +55,15 @@ export function OrdersStage(props: Props) {
             PRNNote,
             orderKind: OrderKind.med,
             completed,
-            time
+            time,
+            orderId: -1
         }
 
         orders.push(order)
         setOrders([...orders]);
         console.log(orders)
 
-        setId("")
+        setId(-1)
         setConcentration("")
         setRoute("")
         setRoutine(Routine.NA)
@@ -93,7 +86,7 @@ export function OrdersStage(props: Props) {
             return; 
         }
 
-        const temp = orders[oldIndex]
+        const temp = orders[oldIndex]!
         orders.splice(oldIndex,1)
         orders.splice(newIndex, 0, temp)
 
@@ -108,33 +101,35 @@ export function OrdersStage(props: Props) {
     }
 
     const onEditClickHandler = (index: number) => {
-        // frequency
-        const order = orders[index];
-        const indexableFrequency:{[key: string]:string} = Frequency
-        const values = Object.values(Frequency)
-        const keys = Object.keys(Frequency)
-        const frequencyKeyIndex = values.indexOf(order.frequency as Frequency)
-        const frequencyKey = indexableFrequency[keys[frequencyKeyIndex]]
-
-        //mar
-        let marString = ""
-        for(const time of order.mar) {
-            const temp = `${time.hour.toString().padStart(2, "0")}:${time.minutes.toString().padStart(2, "0")}`
-            if(marString !== "") marString +=","
-            marString += temp
-        }
+        // TODO: look at this mess
+        // // frequency
+        // const order = orders[index]!;
+        // // const indexableFrequency:{[key: string]:string} = Frequency
+        // const indexableFrequency:Record<string, string> = Frequency
+        // const values = Object.values(Frequency)
+        // const keys = Object.keys(Frequency)
+        // const frequencyKeyIndex = values.indexOf(order.frequency)
+        // // const frequencyKey = indexableFrequency[keys[frequencyKeyIndex]]
+        // // TODO: look at this mess
+        // //mar
+        // let marString = ""
+        // for(const time of order.mar) {
+        //     const temp = `${time.hour.toString().padStart(2, "0")}:${time.minutes.toString().padStart(2, "0")}`
+        //     if(marString !== "") marString +=","
+        //     marString += temp
+        // }
 
         
-        setId(order.id)
-        setConcentration(order.concentration)
-        setRoute(order.route)
-        setRoutine(order.routine)
-        setPRNNote(order.PRNNote || "")
-        setFrequency(frequencyKey as Frequency)
-        setMar(order.mar)
-        setNotes(order.notes)
-        setOrderType(order.orderType)
-        setCompleted(order.completed || false)
+        // setId(order.id)
+        // setConcentration(order.concentration)
+        // setRoute(order.route)
+        // setRoutine(order.routine)
+        // setPRNNote(order.PRNNote || "")
+        // setFrequency(frequencyKey as Frequency)
+        // setMar(order.mar)
+        // setNotes(order.notes)
+        // setOrderType(order.orderType)
+        // setCompleted(order.completed || false)
     }
 
 
@@ -142,7 +137,7 @@ export function OrdersStage(props: Props) {
         <div className="relative w-screen">
             <BaseStage {...props} onNext={onNextClickHandler} title="Medication Orders" icon={faBookMedical} moveLeft={orders.length > 0}>
                 <div className="grid grid-cols-3 gap-x-8 max-w-[50vw]">
-                    <SearchableSelect label="Medication Name (generic)" options={meds} labelKeys={["genericName", "brandName"]} valueKey="id" value={id} onChange={setId} />
+                    <SearchableSelect label="Medication Name (generic)" options={meds ?? []} labelKeys={["genericName", "brandName"]} valueKey="id" value={id.toString()} onChange={v=>setId(parseInt(v))} />
 
                     <Input label="Prescribed Dose" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional placeholder="ex: 20mg/kg" />
                     <Input label="Route" onChange={e => setRoute(e.currentTarget.value)} value={route} optional />

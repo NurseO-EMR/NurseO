@@ -1,10 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion"
-import { ReactElement} from "react"
+import type { ReactElement } from "react"
 import { Form } from "../Form/Form"
 import { Button } from "../Form/Button";
-import { Props as InputProps } from "../../Components/Form/Input";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { STAGE_ANIMATION_DURATION } from "../../Services/AnimationConfig";
+import type { Props as InputProps } from "~/components/Form/Input";
+import type { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { STAGE_ANIMATION_DURATION } from "~/services/AnimationConfig";
 
 export type BaseStageProps = {
     // onNext: () => void, // show be part of the lower classes
@@ -36,7 +36,7 @@ export function BaseStage(props: Props) {
     }
     
     return (
-        <AnimatePresence exitBeforeEnter={true}>
+        <AnimatePresence mode="wait">
             <Form title={props.title} icon={props.icon} moveLeft={props.moveLeft} onValid={(valid)=>formInputsValid=valid} customIconNTitle={props.customIconNTitle}>
                 <>{props.children}</>
 

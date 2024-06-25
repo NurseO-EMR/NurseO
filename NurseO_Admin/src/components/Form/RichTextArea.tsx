@@ -1,4 +1,6 @@
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
+import dynamic from "next/dynamic";
+import { useMemo } from "react";
 import "react-quill/dist/quill.snow.css";
 
 type Props = {
@@ -8,6 +10,8 @@ type Props = {
 }
 
 export function RichTextArea(props:Props) {
+  // https://github.com/zenoamaro/react-quill/issues/910
+  const ReactQuill = useMemo(()=>dynamic(()=>import("react-quill")),[])
     const modules = {
         toolbar: [
           ["bold", "italic", "underline","strike"],

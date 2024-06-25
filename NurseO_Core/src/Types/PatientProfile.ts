@@ -24,7 +24,7 @@ export class PatientChart {
     immunizations: string[] = [];
     studentReports: StudentReport[] = [];
     notes: Note[] = [];
-    studentId: string = "";
+    studentId?: string = "";
     labDocURL: string = "";
     imagingURL?: string = "";
     diagnosis?: string = "";
@@ -35,7 +35,7 @@ export class PatientChart {
 export type Order = {
     orderKind: OrderKind,
     orderType: OrderType,
-    time?: string
+    time?: string | null
 }
 
 export type CustomOrder = Order & {

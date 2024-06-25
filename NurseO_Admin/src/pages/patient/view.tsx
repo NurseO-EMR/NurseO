@@ -7,12 +7,13 @@ import { Td } from "~/components/Table/Td";
 import { Tr } from "~/components/Table/Tr";
 import PageView from "../_PageView";
 import { api } from "~/utils/api";
+import { useRouter } from "next/navigation";
 
 export default function ViewPatientsPage() {
 
     const {data: dbPatients, refetch} = api.patient.getPatientList.useQuery()
     const deletePatientMutation = api.patient.deletePatient.useMutation()
-
+    const router = useRouter()
     const [patients, setPatients] = useState(dbPatients)
 
 
@@ -21,8 +22,8 @@ export default function ViewPatientsPage() {
         await refetch()
     }
 
-    const onEditClickHandler = async (patient: PatientChart) => {
-        // navigate("/patient/edit", { state: { patient } })
+    const onEditClickHandler = async (patientId: number) => {
+        router.push("/patient/edit/"+patientId)
     }
 
     const onSearchChangeHandler = (searchPhrase: string) => {
@@ -53,7 +54,7 @@ export default function ViewPatientsPage() {
                         <Td>{p.name}</Td>
                         <Td>{p.dob}</Td>
                         <Td>{p.barcode}</Td>
-                        <td><button className="bg-blue text-white px-4 py-2 mx-auto w-full rounded-none" onClick={console.log}>Edit</button></td>
+                        <td><button className="bg-blue text-white px-4 py-2 mx-auto w-full rounded-none" onClick={()=>onEditClickHandler(p.id)}>Edit</button></td>
                         <td><ButtonWConfirmBox
                              className="bg-red text-white px-4 py-2 mx-auto w-full rounded-none"
                             onConfirm={() => onDeleteClickHandler(p.id)} 
