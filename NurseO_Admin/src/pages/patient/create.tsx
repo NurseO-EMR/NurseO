@@ -1,24 +1,23 @@
 import PageView from "../_PageView";
 import { useState } from "react";
 import { createEmptyPatient } from "~/services/Util";
-import { Database } from "~/services/Database";
 import { cloneDeep, isEqual } from "lodash";
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
-import { PatientProcess } from "../../Stages/CreatePatient/PatientProcess";
-import { PatientChart } from "@nurse-o-core/index";
+import { PatientProcess } from "~/stages/CreatePatient/PatientProcess";
+import type { PatientChart } from "@nurse-o-core/index";
+import { api } from "~/utils/api";
 
 
 export default function CreatePatientPage() {
 
+    const updateTemplatePatientMutation = api.patient.updatePatient.useMutation()
+    const addPatientWMetaDataOnlyMutation = api.patient.addPatientWMetaDataOnly.useMutation()
     const [currentStage, setCurrentStage] = useState(0)
-
-    
     const [patient, setPatient] = useState(createEmptyPatient());
     const [oldPatient, setOldPatient] = useState(createEmptyPatient());
-    const db = Database.getInstance();
 
 
-    const onNextClickHandler = (newPatient:PatientChart) => {
+    const onNextClickHandler = async (newPatient:PatientChart) => {
         const stage = currentStage + 1;
         setCurrentStage(stage);
         // if no patient exist create it
@@ -26,11 +25,15 @@ export default function CreatePatientPage() {
         console.log(newPatient.id)
         if(oldPatient.name === "") {
             console.log("creating new patient")
-            db.addTemplatePatient(patient)  // no await so it moves to the end of the stack
+            const id = await addPatientWMetaDataOnlyMutation.mutateAsync({patient: newPatient})
+            oldPatient.dbId = id
+            newPatient.dbId = id
+            broadcastAnnouncement("patient added", Announcement.success)
         } else if(!isEqual(oldPatient,newPatient)) {
             // once it's created move to updating it
             console.log("updating...")
-            db.updateTemplatePatient(oldPatient,newPatient) // no await so it moves to the end of the stack
+            await updateTemplatePatientMutation.mutateAsync({oldPatient, newPatient}).catch((e)=>broadcastAnnouncement("Error while updating patient " + e, Announcement.error))
+            broadcastAnnouncement("patient updated", Announcement.success)
         }
 
         setPatient(newPatient)
@@ -44,10 +47,7 @@ export default function CreatePatientPage() {
     }
 
     const onAddPatientClickHandler = async ()=>{
-        await db.updateTemplatePatient(oldPatient, patient)
-        console.log("patient Added: ")
-        console.log(patient)
-        onNextClickHandler(patient);
+        await onNextClickHandler(patient);
     }
 
     const stageSkipFn = (stage:number)=>{

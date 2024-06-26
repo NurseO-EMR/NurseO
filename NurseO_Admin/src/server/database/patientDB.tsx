@@ -1,3 +1,4 @@
+import type { PatientChart } from "@nurse-o-core/index";
 import { type PrismaClient } from "@prisma/client";
 
 export async function getPatientList(db:PrismaClient) {
@@ -30,4 +31,24 @@ export async function deletePatient(db:PrismaClient, patientId: number) {
     console.log(data)
 }
 
+export async function addPatientWMetaDataOnly(db: PrismaClient, patient:PatientChart) {
+    const data =  await db.patient.create({
+        data: {
+            name: patient.name,
+            dob: patient.dob,
+            gender: patient.gender,
+            height: patient.height,
+            weight: patient.weight,
+            diagnosis: patient.diagnosis,
+            age: "",
+            patient_bar_code: "",
+            template: true,
+            time_hour: 0,
+            time_minute: 0,
+            course_id: 1,
 
+        }
+    })
+
+    return data.id
+}

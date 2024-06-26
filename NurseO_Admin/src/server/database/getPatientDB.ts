@@ -20,16 +20,11 @@ type patientMetaData = {
 
 
 export async function getPatientById(db: PrismaClient, patientId: number): Promise<PatientChart | null> {
-       try {
-              const metaData = await getPatientBasicInfoById(db, patientId)
-              if (!metaData) return null
-              const patient = await getPatientChart(db, metaData)
-              return patient
-       } catch {
-              return null
-       }
-
-       
+       console.log(patientId)
+       const metaData = await getPatientBasicInfoById(db, patientId)
+       if (!metaData) return null
+       const patient = await getPatientChart(db, metaData)
+       return patient
 }
 
 
@@ -144,6 +139,8 @@ async function getImmunizations(db: PrismaClient, patientId: number) {
 async function getMedOrders(db: PrismaClient, patientId: number): Promise<MedicationOrder[]> {
        const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string }[]>`
                         SELECT id as orderId, med_id as id, concentration, route, frequency, routine, prn_note as PRNNote, notes, order_kind as orderKind, order_type as orderType, time, completed, hold_reason as holdReason FROM Med_Order WHERE patient_id = ${patientId};`
+       if(orders.length === 0) return []
+       
        const orderIds = orders.map(o => o.orderId)
 
        const marRecords = await db.$queryRaw<{ medOrderId: number, dose: string, hour: number, minute: number }[]>`

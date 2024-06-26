@@ -3,7 +3,7 @@ import { Stages } from "~/components/Stages/Stages";
 import { Step } from "~/components/Steps/Step";
 import { Steps } from "~/components/Steps/Steps";
 import { AllergiesStage } from "./AllergiesStage";
-import { BasicInfo, BasicInfoStage } from "./BasicInfoStage";
+import { type BasicInfo, BasicInfoStage } from "./BasicInfoStage";
 import { ChartingStage } from "./ChartingStage";
 import { CustomOrdersStage } from "./CustomOrdersStage";
 import { FlagsStage } from "./FlagsStage";
@@ -12,9 +12,9 @@ import { MedicalHistoryStage } from "./MedicalHistoryStage";
 import { OrdersStage } from "./OrdersStage";
 import { PatientFinalizeStage } from "./PatientFinalizeStage";
 import { ReviewStage } from "./ReviewStage";
-import { SimSpecificInfo, SimSpecificInfoStage } from "./SimSpecificInfoStage";
+import { type SimSpecificInfo, SimSpecificInfoStage } from "./SimSpecificInfoStage";
 import { SocialHistoryStage } from "./SocialHistoryStage";
-import { Allergy, Flag, MedicalHistory, MedicationOrder, CustomOrder, StudentReport, PatientChart } from "@nurse-o-core/index";
+import type { Allergy, Flag, MedicalHistory, MedicationOrder, CustomOrder, StudentReport, PatientChart } from "@nurse-o-core/index";
 import { useState } from "react";
 
 type Props = {

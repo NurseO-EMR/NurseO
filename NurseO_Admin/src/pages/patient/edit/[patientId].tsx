@@ -2,7 +2,7 @@ import { cloneDeep, isEqual } from "lodash";
 import { type PatientChart } from "@nurse-o-core/index";
 import { useEffect, useState } from "react";
 import PageView from "../../_PageView";
-import { PatientProcess } from "~/Stages/CreatePatient/PatientProcess";
+import { PatientProcess } from "~/stages/CreatePatient/PatientProcess";
 import { useParams } from "next/navigation";
 import { api } from "~/utils/api";
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
