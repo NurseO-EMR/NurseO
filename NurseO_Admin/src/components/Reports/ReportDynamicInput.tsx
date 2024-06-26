@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { ReportInputType, ReportOptions } from "nurse-o-core";
+import { ReportInputType, ReportOptions } from "@nurse-o-core/index";
 import { Input } from "../Form/Input";
 import { Select } from "../Form/Select";
 

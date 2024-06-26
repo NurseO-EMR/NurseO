@@ -1,11 +1,11 @@
 import { faBuilding } from "@fortawesome/free-solid-svg-icons";
 import { filter, map, uniq } from "lodash";
 import { useEffect, useState } from "react";
-import { Input } from "../../Components/Form/Input";
-import { Select } from "../../Components/Form/Select";
-import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
-import { LocationDefinition } from "nurse-o-core";
-import { Database } from "../../Services/Database";
+import { Input } from "~/components/Form/Input";
+import { Select } from "~/components/Form/Select";
+import { BaseStage, BaseStageProps } from "~/components/Stages/BaseStage";
+import { LocationDefinition } from "@nurse-o-core/index";
+import { Database } from "~/services/Database";
 
 export type Props = BaseStageProps & {
     onNext: (locationId: string, drawerName: string, slotName: string, dose:string, type:string, barcode: string) => void

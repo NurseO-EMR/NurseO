@@ -2,7 +2,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, Variants } from "framer-motion";
 import { Children, cloneElement, FormEvent, ForwardedRef, forwardRef, ReactElement } from "react";
-import { STAGE_ANIMATION_DURATION } from "../../Services/AnimationConfig";
+import { STAGE_ANIMATION_DURATION } from "~/services/AnimationConfig";
 
 
 type Props = {

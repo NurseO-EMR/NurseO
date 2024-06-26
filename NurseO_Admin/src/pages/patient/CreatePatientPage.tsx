@@ -1,11 +1,11 @@
 import PageView from "../_PageView";
 import { useState } from "react";
-import { createEmptyPatient } from "../../Services/Util";
-import { Database } from "../../Services/Database";
+import { createEmptyPatient } from "~/services/Util";
+import { Database } from "~/services/Database";
 import { cloneDeep, isEqual } from "lodash";
-import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
+import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
 import { PatientProcess } from "../../Stages/CreatePatient/PatientProcess";
-import { PatientChart } from "nurse-o-core";
+import { PatientChart } from "@nurse-o-core/index";
 
 
 export default function CreatePatientPage() {

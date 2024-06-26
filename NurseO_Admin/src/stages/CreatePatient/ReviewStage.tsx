@@ -1,11 +1,11 @@
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import {PatientChart } from "nurse-o-core";
+import {PatientChart } from "@nurse-o-core/index";
 import { useState } from "react";
-import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
-import { ReviewItem } from "../../Components/Stages/Review/ReviewItem";
-import { ReviewSection } from "../../Components/Stages/Review/ReviewSection";
-import { Td } from "../../Components/Table/Td";
-import { Tr } from "../../Components/Table/Tr";
+import { BaseStage, BaseStageProps } from "~/components/Stages/BaseStage";
+import { ReviewItem } from "~/components/Stages/Review/ReviewItem";
+import { ReviewSection } from "~/components/Stages/Review/ReviewSection";
+import { Td } from "~/components/Table/Td";
+import { Tr } from "~/components/Table/Tr";
 
 export type Props = BaseStageProps & {
     onNext: () => void,

@@ -2,11 +2,11 @@ import { useState } from "react";
 import { faBuilding, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 
 import PageView from "../_PageView";
-import { Steps } from "../../Components/Steps/Steps";
+import { Steps } from "~/components/Steps/Steps";
 
-import { Stages } from "../../Components/Stages/Stages";
-import { Step } from "../../Components/Steps/Step";
-import { Database } from "../../Services/Database";
+import { Stages } from "~/components/Stages/Stages";
+import { Step } from "~/components/Steps/Step";
+import { Database } from "~/services/Database";
 import { AdminEmailStage } from "../../Stages/CreateAdmin/AdminEmailStage";
 import { AdminStageFinalized } from "../../Stages/CreateAdmin/AdminStageFinalized";
 

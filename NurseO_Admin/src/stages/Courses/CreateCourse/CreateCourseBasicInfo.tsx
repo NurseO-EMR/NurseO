@@ -1,8 +1,8 @@
 import {v4 as uuid} from "uuid"
 import { faBook } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { Input } from "../../../Components/Form/Input";
-import { BaseStage, BaseStageProps } from "../../../Components/Stages/BaseStage";
+import { Input } from "../~/components/Form/Input";
+import { BaseStage, BaseStageProps } from "../~/components/Stages/BaseStage";
 
 export type Props = BaseStageProps & {
     onNext:(courseId: string, courseName: string)=>void

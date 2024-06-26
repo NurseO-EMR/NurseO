@@ -1,6 +1,6 @@
 import { EventInfo, motion } from "framer-motion";
 import { ReactChild } from "react";
-import { STAGE_ANIMATION_DURATION } from "../../Services/AnimationConfig";
+import { STAGE_ANIMATION_DURATION } from "~/services/AnimationConfig";
 import { Tr } from "../Table/Tr";
 
 type Props = {

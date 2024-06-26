@@ -1,13 +1,13 @@
 import { faHeadSideCough } from "@fortawesome/free-solid-svg-icons";
-import { Allergy, PatientChart } from "nurse-o-core";
+import type { Allergy, PatientChart } from "@nurse-o-core/index";
 import { useState } from "react";
-import { useFocus } from "../../Components/customHooks";
-import { Button } from "../../Components/Form/Button";
-import { Input } from "../../Components/Form/Input";
-import { ArrayPreviewer } from "../../Components/Stages/ArrayPreviewer";
-import { BaseStageProps, BaseStage } from "../../Components/Stages/BaseStage"
-import { Td } from "../../Components/Table/Td";
-import { Tr } from "../../Components/Table/Tr";
+import { useFocus } from "~/components/customHooks";
+import { Button } from "~/components/Form/Button";
+import { Input } from "~/components/Form/Input";
+import { ArrayPreviewer } from "~/components/Stages/ArrayPreviewer";
+import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
+import { Td } from "~/components/Table/Td";
+import { Tr } from "~/components/Table/Tr";
 
 export type Props = BaseStageProps & {
     onNext: (allergies: Allergy[]) => void,
@@ -16,7 +16,7 @@ export type Props = BaseStageProps & {
 
 export function AllergiesStage(props: Props) {
     const [inputRef, setInputFocus] = useFocus()
-    const [allergies, setAllergies] = useState(props.patient?.allergies || []as Allergy[]);
+    const [allergies, setAllergies] = useState(props.patient?.allergies ?? [] as Allergy[]);
     const [name, setName] = useState("");
     const [reaction, setReaction] = useState("");
 

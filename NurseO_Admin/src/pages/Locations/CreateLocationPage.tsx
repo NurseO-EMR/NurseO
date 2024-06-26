@@ -3,13 +3,13 @@ import {v4 as uuid} from "uuid"
 import { faBuilding, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 
 import PageView from "../_PageView";
-import { Steps } from "../../Components/Steps/Steps";
+import { Steps } from "~/components/Steps/Steps";
 
-import { Stages } from "../../Components/Stages/Stages";
-import { Step } from "../../Components/Steps/Step";
+import { Stages } from "~/components/Stages/Stages";
+import { Step } from "~/components/Steps/Step";
 import { LocationBasicInfoStage } from "../../Stages/CreateLocation/LocationBasicInfo";
 import { LocationFinalizeStage } from "../../Stages/CreateLocation/LocationFinalizeStage";
-import { Database } from "../../Services/Database";
+import { Database } from "~/services/Database";
 
 
 export default function CreateLocationPage() {

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Card } from "../../Components/Card";
-import { Td } from "../../Components/Table/Td";
-import { Tr } from "../../Components/Table/Tr";
-import { Database } from "../../Services/Database";
+import { Card } from "~/components/Card";
+import { Td } from "~/components/Table/Td";
+import { Tr } from "~/components/Table/Tr";
+import { Database } from "~/services/Database";
 import PageView from "../_PageView";
 import { findIndex } from "lodash";
 

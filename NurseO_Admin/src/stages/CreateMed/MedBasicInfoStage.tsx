@@ -1,12 +1,12 @@
 import { faPills } from "@fortawesome/free-solid-svg-icons";
 import { find } from "lodash";
 import { useEffect, useState } from "react";
-import { Input } from "../../Components/Form/Input";
-import { SearchableSelect } from "../../Components/Form/SearchableSelect";
-import { Select } from "../../Components/Form/Select";
-import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
-import { Medication } from "nurse-o-core";
-import { Database } from "../../Services/Database";
+import { Input } from "~/components/Form/Input";
+import { SearchableSelect } from "~/components/Form/SearchableSelect";
+import { Select } from "~/components/Form/Select";
+import { BaseStage, BaseStageProps } from "~/components/Stages/BaseStage";
+import { Medication } from "@nurse-o-core/index";
+import { Database } from "~/services/Database";
 import { v4 as uuid } from "uuid"
 
 export type Props = BaseStageProps & {

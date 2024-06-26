@@ -1,5 +1,5 @@
 import { cloneElement, ReactElement } from "react"
-import { STAGE_ANIMATION_DURATION, STAGE_DELAY_COEFFICIENT } from "../../Services/AnimationConfig";
+import { STAGE_ANIMATION_DURATION, STAGE_DELAY_COEFFICIENT } from "~/services/AnimationConfig";
 import { Props as StageProps } from "./../../Stages/CreatePatient/BasicInfoStage"
 
 

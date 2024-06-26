@@ -1,12 +1,12 @@
-import { MarRecord, Time } from "nurse-o-core";
+import type { MarRecord, Time } from "@nurse-o-core/index";
 import { useEffect, useState } from "react";
 import PureModal from "react-pure-modal";
-import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
+import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
 import { Button } from "../Form/Button";
 import { Input } from "../Form/Input";
 import { Td } from "../Table/Td";
 import { Tr } from "../Table/Tr";
-import {convertTimeToString} from "./../../Services/Util"
+import {convertTimeToString} from "~/services/Util"
 
 type Props = {
     marRecords: MarRecord[],

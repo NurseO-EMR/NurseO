@@ -1,4 +1,4 @@
-import { CustomOrder } from "nurse-o-core"
+import { CustomOrder } from "@nurse-o-core/index"
 import { ArrayPreviewer } from "../ArrayPreviewer"
 import { CustomOrderPreviewerEntity } from "./CustomOrderPreviewerEntity"
 

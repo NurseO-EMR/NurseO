@@ -2,11 +2,11 @@ import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { find } from "lodash";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
-import { Td } from "../../Components/Table/Td";
-import { Tr } from "../../Components/Table/Tr";
-import { LocationDefinition, Medication } from "nurse-o-core";
-import { Database } from "../../Services/Database";
+import { BaseStage, BaseStageProps } from "~/components/Stages/BaseStage";
+import { Td } from "~/components/Table/Td";
+import { Tr } from "~/components/Table/Tr";
+import { LocationDefinition, Medication } from "@nurse-o-core/index";
+import { Database } from "~/services/Database";
 
 export type Props = BaseStageProps & {
     med: Medication

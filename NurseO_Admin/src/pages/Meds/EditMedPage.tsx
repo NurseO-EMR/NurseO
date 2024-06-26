@@ -1,16 +1,16 @@
 import { faPills } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { find } from "lodash";
-import { Settings, Medication,  MedicationLocation } from "nurse-o-core";
+import { Settings, Medication,  MedicationLocation } from "@nurse-o-core/index";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Card } from "../../Components/Card";
-import { Button } from "../../Components/Form/Button";
-import { Input } from "../../Components/Form/Input";
-import { Select } from "../../Components/Form/Select";
-import { Td } from "../../Components/Table/Td";
-import { Tr } from "../../Components/Table/Tr";
-import { Database } from "../../Services/Database";
+import { Card } from "~/components/Card";
+import { Button } from "~/components/Form/Button";
+import { Input } from "~/components/Form/Input";
+import { Select } from "~/components/Form/Select";
+import { Td } from "~/components/Table/Td";
+import { Tr } from "~/components/Table/Tr";
+import { Database } from "~/services/Database";
 import PageView from "../_PageView";
 
 type RouterState = {

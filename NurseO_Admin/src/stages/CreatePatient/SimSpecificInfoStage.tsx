@@ -1,6 +1,6 @@
 import { faHouseChimneyUser } from "@fortawesome/free-solid-svg-icons";
-import type { Course, PatientChart, Time } from "@nurse-o-core/index";
-import { useEffect, useState, type ChangeEvent } from "react";
+import type { PatientChart, Time } from "@nurse-o-core/index";
+import { useState, type ChangeEvent } from "react";
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
 import { Input } from "~/components/Form/Input";
 import { Select } from "~/components/Form/Select";

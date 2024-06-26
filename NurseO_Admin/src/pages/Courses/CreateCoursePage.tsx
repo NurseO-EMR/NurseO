@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { faBook, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import PageView from "../_PageView";
-import { Steps } from "../../Components/Steps/Steps";
-import { Stages } from "../../Components/Stages/Stages";
-import { Step } from "../../Components/Steps/Step";
-import { Database } from "../../Services/Database";
+import { Steps } from "~/components/Steps/Steps";
+import { Stages } from "~/components/Stages/Stages";
+import { Step } from "~/components/Steps/Step";
+import { Database } from "~/services/Database";
 import { CreateCourseBasicInfoStage } from "../../Stages/Courses/CreateCourse/CreateCourseBasicInfo";
 import { CourseFinalizeStage } from "../../Stages/Courses/CreateCourse/CourseFinalizeStage";
 

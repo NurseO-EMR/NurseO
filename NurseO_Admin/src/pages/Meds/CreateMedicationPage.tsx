@@ -1,16 +1,16 @@
 import PageView from "../_PageView";
-import { Steps } from "../../Components/Steps/Steps";
+import { Steps } from "~/components/Steps/Steps";
 import { useState } from "react";
-import { Stages } from "../../Components/Stages/Stages";
-import { MedicationLocation, Medication } from "nurse-o-core";
+import { Stages } from "~/components/Stages/Stages";
+import { MedicationLocation, Medication } from "@nurse-o-core/index";
 import { MedBasicInfoStage } from "../../Stages/CreateMed/MedBasicInfoStage";
-import { Step } from "../../Components/Steps/Step";
+import { Step } from "~/components/Steps/Step";
 import { faBuilding, faFileInvoice, faPills } from "@fortawesome/free-solid-svg-icons";
 import { MedLocationStage } from "../../Stages/CreateMed/MedLocationStage";
 import { MedFinalizeStage } from "../../Stages/CreateMed/MedFinalizeStage";
-import { Database } from "../../Services/Database";
+import { Database } from "~/services/Database";
 import { useNavigate } from "react-router-dom";
-import { Announcement, broadcastAnnouncement } from "../../Services/AnnouncementService";
+import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
 
 
 export default function CreateMedicationPage() {

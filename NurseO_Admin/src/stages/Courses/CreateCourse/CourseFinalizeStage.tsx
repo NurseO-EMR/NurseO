@@ -1,6 +1,6 @@
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { BaseStage, BaseStageProps } from "../../../Components/Stages/BaseStage";
+import { BaseStage, BaseStageProps } from "../~/components/Stages/BaseStage";
 
 export type Props = BaseStageProps & {
     courseName: string,

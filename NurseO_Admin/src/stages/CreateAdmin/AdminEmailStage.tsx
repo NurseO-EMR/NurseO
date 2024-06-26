@@ -1,7 +1,7 @@
 import { faBuilding } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { Input } from "../../Components/Form/Input";
-import { BaseStage, BaseStageProps } from "../../Components/Stages/BaseStage";
+import { Input } from "~/components/Form/Input";
+import { BaseStage, BaseStageProps } from "~/components/Stages/BaseStage";
 
 export type Props = BaseStageProps & {
     onNext:(adminEmail: string)=>void
