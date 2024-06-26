@@ -1,6 +1,5 @@
 import { groupBy } from "lodash";
-import type { PatientChart } from "@nurse-o-core/index";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ButtonWConfirmBox } from "~/components/Form/ButtonWConfirmBox";
 import { Input } from "~/components/Form/Input";
 import { Td } from "~/components/Table/Td";
@@ -16,6 +15,9 @@ export default function ViewPatientsPage() {
     const router = useRouter()
     const [patients, setPatients] = useState(dbPatients)
 
+    useEffect(()=>{
+        setPatients(dbPatients)
+    }, [dbPatients])
 
     const onDeleteClickHandler = async (patientId: number) => {
         await deletePatientMutation.mutateAsync({patientId})
@@ -32,7 +34,7 @@ export default function ViewPatientsPage() {
     }
 
 
-    const getGroupedPatientsJSX = () => {
+    const getGroupedPatientsJSX = (patients: typeof dbPatients) => {
         if(!patients) return;
         const grouped = groupBy(patients, "courseId")
         const entries = Object.entries(grouped)
@@ -83,7 +85,7 @@ export default function ViewPatientsPage() {
                     </Tr>
                 </thead>
                 <tbody>
-                    {getGroupedPatientsJSX()}
+                    {getGroupedPatientsJSX(patients)}
                 </tbody>
             </table>
         </div>

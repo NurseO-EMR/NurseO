@@ -1,6 +1,5 @@
-import { motion, Variants } from "framer-motion";
-import { DetailedHTMLProps, ForwardedRef, forwardRef, InputHTMLAttributes, useState } from "react";
-import {v4 as uuid} from "uuid"
+import { motion, type Variants } from "framer-motion";
+import { type DetailedHTMLProps, type ForwardedRef, forwardRef, type InputHTMLAttributes, useId } from "react";
 
 export type Props = Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "id"> & {
     optional?: boolean,
@@ -11,12 +10,12 @@ export type Props = Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>
 }
 
 function InputEle(props: Props, ref:ForwardedRef<HTMLInputElement>) {
-    const [id] = useState(uuid())
+    const id = useId()
     const animationVariants:Variants = { 
         hidden: { opacity: 0 },
         show: { 
             opacity: 1,
-            transition:{delay: (props.delay || 0 )*0.4}
+            transition:{delay: (props.delay ?? 0 )*0.4}
         },
         exit: { opacity: 0 },
     }
