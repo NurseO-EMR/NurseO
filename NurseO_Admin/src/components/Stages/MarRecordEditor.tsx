@@ -35,7 +35,7 @@ export function MarRecordEditor(props:Props) {
         const timeFormatted = stringToTime(time)
         const record:MarRecord = {
             hour: timeFormatted.hour,
-            minutes: timeFormatted.minutes,
+            minute: timeFormatted.minute,
             dose
         }
         records.push(record)
@@ -78,7 +78,7 @@ export function MarRecordEditor(props:Props) {
 
                         {records.map((r,i)=> <Tr key={i}>
                             <Td>{convertTimeToString(r)}</Td>
-                            <Td>{r.dose || ""}</Td>
+                            <Td>{r.dose ?? ""}</Td>
                             <td><button className="bg-red min-w-full h-10 text-white font-semibold px-4" onClick={()=>onDeleteClickHandler(i)}>Delete</button></td>
                         </Tr>
                         )}
@@ -97,13 +97,13 @@ export function MarRecordEditor(props:Props) {
 
 
 function stringToTime(marString: string): Time {
-    if (marString === "") return {hour: 0, minutes: 0};
+    if (marString === "") return {hour: 0, minute: 0};
 
-    const splited = marString.split(":")
+    const spited = marString.split(":")
 
     const time: Time = {
-        hour: Number.parseInt(splited[0]),
-        minutes: Number.parseInt(splited[1])
+        hour: Number.parseInt(spited[0] ?? "0"),
+        minute: Number.parseInt(spited[1] ?? "0")
     }
     return time
 }
