@@ -1,29 +1,36 @@
-import { clone, cloneDeep, isEqual } from "lodash";
+import { cloneDeep, isEqual } from "lodash";
 import { type PatientChart } from "@nurse-o-core/index";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import PageView from "../../_PageView";
 import { PatientProcess } from "~/Stages/CreatePatient/PatientProcess";
 import { useParams } from "next/navigation";
 import { api } from "~/utils/api";
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
-import { createEmptyPatient } from "~/services/Util";
+import { LoadingCard } from "~/components/loadingCard";
 
 
 
 export default function EditPatientPage() {
     const params = useParams()
     const patientId = parseInt(params?.patientId as string)
-    const {data: patient} = api.patient.getPatientChartById.useQuery({patientId})
-    const [oldPatient, setOldPatient] = useState(patient ?? createEmptyPatient())
-    const newPatient = useMemo(()=>cloneDeep(oldPatient), [oldPatient])
+    const {data: patient, isLoading} = api.patient.getPatientChartById.useQuery({patientId})
+    const [oldPatient, setOldPatient] = useState(patient)
+    const [newPatient, setNewPatient] = useState(cloneDeep(oldPatient))
     const [currentStage, setCurrentStage] = useState(0)
     const updatePatientMutation = api.patient.updatePatient.useMutation()
 
+    useEffect(()=>{
+        if(patient) {setOldPatient(patient)}
+    }, [patient])
+
+    useEffect(()=>{
+        setNewPatient(cloneDeep(oldPatient))
+    }, [oldPatient])
 
     const onNextClickHandler = async (newPatient:PatientChart) => {
         const stage = currentStage + 1;
         setCurrentStage(stage);
-        if (!isEqual(oldPatient, newPatient)) {
+        if (oldPatient && newPatient && !isEqual(oldPatient, newPatient)) {
             console.log("updating...")
             await updatePatientMutation.mutateAsync({oldPatient, newPatient}).catch((e)=>broadcastAnnouncement("Error while updating: " +  e, Announcement.error))
             setOldPatient(cloneDeep(newPatient))
@@ -39,16 +46,11 @@ export default function EditPatientPage() {
 
 
     const onUpdatePatientClickHandler = async () => {
-        // await db.updateTemplatePatient(oldPatient, patient)
-        // console.log("patient updated: ")
-        // console.log(patient)
-        // onNextClickHandler(patient);
+        if(newPatient) await onNextClickHandler(newPatient);
     }
 
-    if(!patient) return (
-        <h1>Patient Not Found</h1>
-    )
 
+    if(isLoading || !newPatient) return <LoadingCard />
 
     return <PageView>
         <PatientProcess currentStage={currentStage} initialPatient={newPatient}
