@@ -4,12 +4,17 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "~/server/api/trpc";
-import { deleteMed, getAllMeds, getAllMedsWithLocationCount } from "~/server/database/medicationDB";
+import { deleteMed, deleteMedLocation, getAllMeds, getAllMedsWithLocationCount, getMedDetails, updateMedication, updateMedicationLocations } from "~/server/database/medicationDB";
+import { medicationLocationSchema, medicationSchema } from "~/types/zodSchemaMedication";
 
 
 export const medicationRouter = createTRPCRouter({
   getAllMeds: protectedProcedure.query(async ({ ctx }) => await getAllMeds(ctx.db)),
   getAllMedsWithLocationCount: protectedProcedure.query(async ({ctx})=> await getAllMedsWithLocationCount(ctx.db)),
-  deleteMed: protectedProcedure.input(z.object({id: z.number()})).mutation(async ({input, ctx})=> await deleteMed(ctx.db, input.id))
+  deleteMed: protectedProcedure.input(z.object({id: z.number()})).mutation(async ({input, ctx})=> await deleteMed(ctx.db, input.id)),
+  getMedDetails: protectedProcedure.input(z.object({id: z.number()})).query(async ({input, ctx})=> await getMedDetails(ctx.db, input.id)),
+  deleteMedLocation: protectedProcedure.input(z.object({medLocationId: z.number()})).mutation(async ({input, ctx})=> await deleteMedLocation(ctx.db, input.medLocationId)),
+  updateMedication: protectedProcedure.input(z.object({medication: medicationSchema})).mutation(async ({input, ctx})=> await updateMedication(ctx.db, input.medication)),
+  updateMedicationLocations: protectedProcedure.input(z.object({locations: z.array(medicationLocationSchema)})).mutation(async ({input, ctx})=> await updateMedicationLocations(ctx.db, input.locations)),
   
 });
