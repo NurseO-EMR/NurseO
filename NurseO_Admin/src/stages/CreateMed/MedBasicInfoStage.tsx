@@ -1,36 +1,27 @@
 import { faPills } from "@fortawesome/free-solid-svg-icons";
-import { find } from "lodash";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "~/components/Form/Input";
 import { SearchableSelect } from "~/components/Form/SearchableSelect";
 import { Select } from "~/components/Form/Select";
-import { BaseStage, BaseStageProps } from "~/components/Stages/BaseStage";
-import { Medication } from "@nurse-o-core/index";
-import { Database } from "~/services/Database";
-import { v4 as uuid } from "uuid"
+import { BaseStage, type BaseStageProps } from "~/components/Stages/BaseStage";
+import type { Medication } from "@nurse-o-core/index";
+import { api } from "~/utils/api";
+import { LoadingCard } from "~/components/loadingCard";
 
 export type Props = BaseStageProps & {
-    onNext: (id: string, brandName: string, genericName: string, narcoticCountNeeded: boolean) => void
+    onNext: (id: number, brandName: string, genericName: string, narcoticCountNeeded: boolean) => void
 };
 
 export function MedBasicInfoStage(props: Props) {
 
-    const [meds, setMeds] = useState([] as Medication[])
+    const {data: meds, isLoading} = api.medication.getAllMeds.useQuery()
 
-    const [id, setId] = useState("")
+    const [id, setId] = useState(-1)
     const [brandName, setBrandName] = useState("")
     const [genericName, setGenericName] = useState("")
     const [narcoticCount, setNarcoticCount] = useState("")
-    const [switchBrandToFreeText, SetSwitchBrandToFreeText] = useState(false)
-
-    useEffect(() => {
-        async function getMeds() {
-            const db = Database.getInstance();
-            const medications = await db.getMedications();
-            setMeds(medications);
-        }
-        getMeds();
-    }, [])
+    const [switchBrandToFreeText, setSwitchBrandToFreeText] = useState(false)
+    const [disableBrandName, setDisableBrandName] = useState(false)
 
 
     const onNextClickHandler = () => {
@@ -40,45 +31,50 @@ export function MedBasicInfoStage(props: Props) {
 
 
     const onMedNameChangeHandler = (id: string) => {
-        const IDedMed = find(meds, { id })
-        setId(id)
+        const numericId = parseInt(id)
+        const IDedMed = meds?.find(m=>m.id === numericId)
+        setId(numericId)
         if (IDedMed) {
             setNarcoticCount(IDedMed.narcoticCountNeeded ? "true" : "false")
-            setBrandName(IDedMed.brandName || "")
-            setGenericName(IDedMed.genericName || "")
-            SetSwitchBrandToFreeText(true)
+            setBrandName(IDedMed.brandName ?? "")
+            setGenericName(IDedMed.genericName ?? "")
+            setSwitchBrandToFreeText(true)
         }
     }
 
 
     const onNewMedCreated = (brandName?: string, genericName?: string) => {
+        console.log("hello")
         const med: Medication = {
+            id: -1,
             brandName,
             genericName,
-            id: uuid(),
             narcoticCountNeeded: false,
             locations: []
         }
 
+        if(!meds) return;
+
         meds.push(med);
-        setBrandName(brandName || "")
-        setGenericName(genericName || "")
+        setBrandName(brandName ?? "")
+        setGenericName(genericName ?? "")
         setId(med.id)
         setNarcoticCount("false")
-        setMeds(meds)
-        SetSwitchBrandToFreeText(true)
+        setSwitchBrandToFreeText(true)
+        setDisableBrandName(false)
     }
 
-    return <BaseStage {...props} title="Let's start with the basics, brand, generic, and barcode please!" icon={faPills} onNext={onNextClickHandler}>
-        <Input label="medID" value={id} disabled onChange={e => setId(e.currentTarget.value)} />
+    if(isLoading && !meds) return <LoadingCard />
 
-        <SearchableSelect label="Generic Name" options={meds} labelKeys={["genericName"]} valueKey="id" onChange={onMedNameChangeHandler}
+    return <BaseStage {...props} title="Let's start with the basics, brand, generic, and barcode please!" icon={faPills} onNext={onNextClickHandler}>
+
+        <SearchableSelect label="Generic Name" options={meds!} labelKeys={["genericName"]} valueKey="id" onChange={onMedNameChangeHandler}
             creatable onCreateOption={(name) => onNewMedCreated(undefined, name)} value={id} />
         {switchBrandToFreeText ?
-            <Input label="Brand Name" disabled onChange={e => setBrandName(e.currentTarget.value)}
+            <Input label="Brand Name" disabled={disableBrandName} onChange={e => setBrandName(e.currentTarget.value)}
                 value={brandName} />
             :
-            <SearchableSelect label="Brand Name" options={meds} labelKeys={["brandName"]} valueKey="id" onChange={onMedNameChangeHandler} value={id} />
+            <SearchableSelect label="Brand Name" options={meds!} labelKeys={["brandName"]} valueKey="id" onChange={onMedNameChangeHandler} value={id} />
         }
 
 

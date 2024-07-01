@@ -1,22 +1,21 @@
 import { faBuilding } from "@fortawesome/free-solid-svg-icons";
-import { filter, map, uniq } from "lodash";
 import { useEffect, useState } from "react";
 import { Input } from "~/components/Form/Input";
 import { Select } from "~/components/Form/Select";
-import { BaseStage, BaseStageProps } from "~/components/Stages/BaseStage";
-import { LocationDefinition } from "@nurse-o-core/index";
-import { Database } from "~/services/Database";
+import { BaseStage, type BaseStageProps } from "~/components/Stages/BaseStage";
+import type { LocationDefinition } from "@nurse-o-core/index";
+import { api } from "~/utils/api";
 
 export type Props = BaseStageProps & {
-    onNext: (locationId: string, drawerName: string, slotName: string, dose:string, type:string, barcode: string) => void
+    onNext: (locationId: number, drawerName: string, slotName: string, dose:string, type:string, barcode: string) => void
 };
 
 export function MedLocationStage(props: Props) {
 
-    const [locations, setLocations] = useState([] as LocationDefinition[])
+    const {data: locations} = api.setting.getLocations.useQuery()
     const [buildings, setBuildings] = useState([] as string[])
     const [stations, setStations] = useState([] as LocationDefinition[])
-    const [locationId, setLocationID] = useState("");
+    const [locationId, setLocationID] = useState(-1);
     const [drawerName, setDrawerName] = useState("");
     const [slotName, setSlotName] = useState("");
     const [type, setType] = useState("");
@@ -28,15 +27,11 @@ export function MedLocationStage(props: Props) {
 
 
     useEffect(() => {
-        async function getLocations() {
-            const db = Database.getInstance();
-            const settings = await db.getSettings();
-            const buildings = uniq(map(settings.locations, "building"))
-            setBuildings(buildings)
-            setLocations(settings.locations);
-        }
-        getLocations();
-    }, [])
+        if(!locations) return;
+        let locationList = locations.map(l=>l.building)
+        locationList = [...new Set(locationList)]
+        setBuildings(locationList)
+    }, [locations])
 
 
     const onNextClickHandler = () => {
@@ -45,8 +40,8 @@ export function MedLocationStage(props: Props) {
     }
 
     const onBuildingSelected = (buildingName:string)=>{
-        const filteredStations = filter(locations,{building: buildingName})
-        setStations(filteredStations)
+        const filteredStations = locations?.filter(l=>l.building === buildingName)
+        setStations(filteredStations ?? [])
     }
 
 
@@ -57,7 +52,7 @@ export function MedLocationStage(props: Props) {
                 <>{buildings.map((b, i) => <option value={b} key={i}>{b}</option>)}</>
             </Select>
 
-            <Select label="Station" onChange={e=>setLocationID(e.currentTarget.value)} value={locationId}>
+            <Select label="Station" onChange={e=>setLocationID(parseInt(e.currentTarget.value))} value={locationId}>
                 <option className="hidden"></option>
                 <>{stations.map((s, i) => <option value={s.id} key={i}>{s.station}</option>)}</>
             </Select>

@@ -1,6 +1,6 @@
-import { cloneElement, ReactElement } from "react";
+import { cloneElement, type ReactElement, useEffect, useState } from "react";
 import { StepConnector } from "./StepConnector";
-import { Props as StepProps } from "./Step"
+import type { Props as StepProps } from "./Step"
 
 type Props = {
     //the child here should only be steps from the "./Step.tsx" file
@@ -11,9 +11,15 @@ type Props = {
 }
 export function Steps(props: Props) {
 
-    const screenSize = window.screen.width * 0.78;
+    const [screenSize, setScreenSize] = useState(0)
     const itemsWidth = screenSize / (props.children.length)
     const INDIVIDUAL_STEP_SIZE = 80 //px
+
+
+    useEffect(()=>{
+        setScreenSize(window.screen.width * 0.78)
+    }, [])
+
     return (
         <div className="w-screen grid justify-center">
             <div className={`relative h-20 flex mt-[11vh] ${props.className}`}

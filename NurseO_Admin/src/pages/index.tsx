@@ -18,8 +18,8 @@ export default function DashboardPage() {
                         <Link href={"/patient/view"}>View/Edit Patients</Link>
                     </DashboardNavCard>
                     <DashboardNavCard icon={faPills} title="Medications">
-                        <Link href={"/meds/create"}>Create Medication</Link>
-                        <Link href={"/meds/create"}>Add location to medication</Link>
+                        <Link href={"/meds/"}>Create Medication</Link>
+                        <Link href={"/meds/"}>Add location to medication</Link>
                         <Link href={"/meds/view"}>View/Edit Medications</Link>
                     </DashboardNavCard>
                     <DashboardNavCard icon={faBuilding} title="Locations">

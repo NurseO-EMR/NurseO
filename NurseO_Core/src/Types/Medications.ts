@@ -18,8 +18,8 @@ export type MedicationLocation = {
 
 
 export type LocationDefinition = {
-    id: string,
+    id: number,
     building: string,
     station: string,
-    courseIds: string[]
+    // courseIds: string[]
 }

@@ -2,23 +2,25 @@ import PageView from "../_PageView";
 import { Steps } from "~/components/Steps/Steps";
 import { useState } from "react";
 import { Stages } from "~/components/Stages/Stages";
-import { MedicationLocation, Medication } from "@nurse-o-core/index";
-import { MedBasicInfoStage } from "../../Stages/CreateMed/MedBasicInfoStage";
+import type { MedicationLocation, Medication } from "@nurse-o-core/index";
+import { MedBasicInfoStage } from "~/stages/CreateMed/MedBasicInfoStage";
 import { Step } from "~/components/Steps/Step";
 import { faBuilding, faFileInvoice, faPills } from "@fortawesome/free-solid-svg-icons";
-import { MedLocationStage } from "../../Stages/CreateMed/MedLocationStage";
-import { MedFinalizeStage } from "../../Stages/CreateMed/MedFinalizeStage";
-import { Database } from "~/services/Database";
-import { useNavigate } from "react-router-dom";
+import { MedLocationStage } from "~/stages/CreateMed/MedLocationStage";
+import { MedFinalizeStage } from "~/stages/CreateMed/MedFinalizeStage";
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
+import { useRouter } from "next/navigation";
+import { api } from "~/utils/api";
 
 
 export default function CreateMedicationPage() {
 
     const [currentStage, setCurrentStage] = useState(0)
+    const addMedicationMutation = api.medication.addMedication.useMutation()
+    const addMedLocationMutation = api.medication.addMedicationLocation.useMutation()
 
     const emptyMed:Medication = {
-        id: "",
+        id: -1,
         brandName: "",
         genericName: "",
         narcoticCountNeeded: false,
@@ -26,7 +28,8 @@ export default function CreateMedicationPage() {
     }
 
     const [med, setMed] = useState<Medication>(emptyMed)
-    const navigate = useNavigate()
+    const router = useRouter()
+    
 
     const moveStage = () => {
         const stage = currentStage + 1;
@@ -34,30 +37,39 @@ export default function CreateMedicationPage() {
     }
     const onPrevClickHandler = () => {
         const stage = currentStage - 1;
-        if (stage < 0) navigate("/")
+        if (stage < 0) router.push("/")
         setCurrentStage(stage);
     }
 
-    const onMedBasicInfo = async (id: string, brandName: string, genericName: string, narcoticCountNeeded: boolean)=>{
+    const onMedBasicInfo = async (id: number, brandName: string, genericName: string, narcoticCountNeeded: boolean)=>{
         if(!id) {
             broadcastAnnouncement("Can't move to the next stage without entering med info first", Announcement.error)
             return
         }
         
-        const db = Database.getInstance()
         med.id = id
         med.brandName = brandName
         med.genericName = genericName
         med.narcoticCountNeeded = narcoticCountNeeded
+ 
+        // checking if new med
+        if(id === -1 ) {
+            const id = await addMedicationMutation.mutateAsync({medication: med})
+            med.id = id
+        }
 
-        const medReference = await db.getMedication(id)
-        if(medReference) med.locations = medReference.locations
-        setMed(med);
-        moveStage()
+        // see if the -1 stays after adding the med
+        if(med.id === -1) {
+            broadcastAnnouncement("Error while adding medication", Announcement.error)
+        } else {
+            setMed(med);
+            moveStage()
+        }
+    
     }
 
-    const onMedLocationInfo = async (locationId: string, drawerName: string, slotName: string,dose: string, type: string, barcode: string)=>{
-        const db = Database.getInstance()
+    const onMedLocationInfo = async (locationId: number, drawerName: string, slotName: string,dose: string, type: string, barcode: string)=>{
+        
         const location:MedicationLocation = {
             id: locationId,
             drawer: drawerName,
@@ -66,11 +78,14 @@ export default function CreateMedicationPage() {
             barcode: barcode,
             type: type
         }
-        if(!med.locations) med.locations = []
-        med.locations.push(location)
-        setMed(med);
-        await db.addMedication(med)
-        moveStage();
+
+        const results = await addMedLocationMutation.mutateAsync({medId: med.id, locationId: location.id, locationInfo: location})
+
+         if(results.status === "Error") {
+            broadcastAnnouncement(results.message, Announcement.error)
+         } else {
+            moveStage();
+         }
     }
 
 

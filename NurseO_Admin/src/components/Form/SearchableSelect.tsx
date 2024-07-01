@@ -1,5 +1,4 @@
 import { motion, type Variants } from "framer-motion";
-import { filter } from "lodash";
 import Select, {type StylesConfig } from "react-select"
 import Creatable from "react-select/creatable"
 
@@ -13,7 +12,7 @@ export type Props = {
     labelKeys: string[],
     valueKey: string,
     onChange: (value: string) => void,
-    value?: string,
+    value?: string | number,
     creatable?: boolean,
     onCreateOption?: (value: string) => void
 }
@@ -76,7 +75,7 @@ export function SearchableSelect(props: Props) {
     const getValue = () => {
         if (!props.value) return null
         const options = getOptions();
-        const value = filter(options, { value: props.value })
+        const value = options.filter(o=>o.value === props.value)
         return value;
     }
 

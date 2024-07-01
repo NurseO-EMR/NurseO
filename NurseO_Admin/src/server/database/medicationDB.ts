@@ -91,7 +91,7 @@ export async function updateMedication(db:PrismaClient, medication:Medication) {
     }
 }
 
-
+// used for the edit med page
 export async function updateMedicationLocations(db:PrismaClient, locations:MedicationLocation[]) {
     const promises = []
 
@@ -109,4 +109,28 @@ export async function updateMedicationLocations(db:PrismaClient, locations:Medic
     .catch(e=>{return {status: "Error", message: String(e)}})
 
     return transaction;
+}
+
+export async function addMedication(db:PrismaClient, medication: Medication) {
+    const {brandName, genericName, narcoticCountNeeded} = medication
+    if(!brandName || !genericName || !!narcoticCountNeeded) return -1
+
+    const data = await db.medication.create({
+        data: {
+            brand_name: brandName,
+            generic_name: genericName,
+            narcoti_count_needed: narcoticCountNeeded
+        }
+    }).then((v)=>v.id).catch(e=>{console.log(e); return -1})
+
+    return data
+}
+
+// used for the add location to med page
+export async function addMedicationLocation(db:PrismaClient, medId: number, locationId: number, locationInfo: MedicationLocation) {
+    const {drawer, slot, barcode, dose, type} = locationInfo
+    return await db.medication_Location_Information.create({
+        data: {drawer, slot, barcode, dose, type, med_id: medId, location_id: locationId}
+    }).then(()=>{return {status: "Success", message: "location added successfully"}})
+    .catch((e)=>{return {status: "Error", message: String(e)}})
 }
