@@ -30,7 +30,7 @@ export default function SelectPatient() {
 
         if (patient) {
             setPatient(patient)
-            router.push("/StudentView/dashboard")
+            router.push("/StudentView/Dashboard")
         }
         else {
             keepGoing()

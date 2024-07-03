@@ -1,2 +1,0 @@
-export const STAGE_ANIMATION_DURATION = 0.5;
-export const STAGE_DELAY_COEFFICIENT = 0.5;

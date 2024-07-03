@@ -37,7 +37,7 @@ export async function getPatientByBarCode(db: PrismaClient, templatePatientBarCo
        return patient
 }
 
-export async function getPatientById(db: PrismaClient, patientId: number, studentId: string): Promise<PatientChart | null> {
+export async function getPatientById(db: PrismaClient, patientId: number, studentId: string | undefined): Promise<PatientChart | null> {
        try {
               const metaData = await getPatientBasicInfoById(db, patientId)
               if (!metaData) return null
@@ -52,7 +52,7 @@ export async function getPatientById(db: PrismaClient, patientId: number, studen
 
 
 
-async function getPatientChart(db: PrismaClient, metaData: patientMetaData, studentId: string) {
+async function getPatientChart(db: PrismaClient, metaData: patientMetaData, studentId: string | undefined) {
 
        const [allergies, customOrders, socialHistory, 
               medicalHistory, notes, studentReports, 

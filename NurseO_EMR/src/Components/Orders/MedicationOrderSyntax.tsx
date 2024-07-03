@@ -14,7 +14,7 @@ export default function MedicationOrderSyntax(props: Props) {
 
     if (!medication.isLoading && medication.data) {
         return (
-            <BaseMedicationOrderSyntax med={medication.data} order={props.order} />
+            <BaseMedicationOrderSyntax order={props.order} />
         );
     } else {
         return "loading..."

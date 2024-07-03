@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { type ReactElement } from 'react';
 
 type Props = {
-    className?: string
+    className?: string,
+    children: ReactElement | ReactElement[]
 }
 
 export default class LabelInputWrapper extends React.Component<Props> {

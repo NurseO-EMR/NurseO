@@ -8,7 +8,7 @@ export default function DashboardPage() {
     const { patient } = useContext(GlobalContext)
 
     return (
-        <StudentViewPage patient={patient}>
+        <StudentViewPage>
             <Dashboard patient={patient} className="grid-in-main" />
         </StudentViewPage>
     );

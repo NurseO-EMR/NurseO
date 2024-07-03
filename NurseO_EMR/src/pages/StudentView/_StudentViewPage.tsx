@@ -29,10 +29,10 @@ export default function StudentViewPage(props:Props) {
                 <TopNav className="grid-in-topNav"></TopNav>
                 <ArmBand patient={patient} className="grid-in-armBand"></ArmBand>
                 <SideNav className="grid-in-sideBar">
-                    <SideNavHeader href="/StudentView/dashboard">Dashboard</SideNavHeader>
-                    <SideNavItem href="/StudentView/dashboard/medications">Medications</SideNavItem>
-                    <SideNavItem href="/StudentView/dashboard/allergies">Allergies</SideNavItem>
-                    <SideNavItem href="/StudentView/dashboard/flags">Flags</SideNavItem>
+                    <SideNavHeader href="/StudentView/Dashboard">Dashboard</SideNavHeader>
+                    <SideNavItem href="/StudentView/Dashboard/medications">Medications</SideNavItem>
+                    <SideNavItem href="/StudentView/Dashboard/allergies">Allergies</SideNavItem>
+                    <SideNavItem href="/StudentView/Dashboard/flags">Flags</SideNavItem>
 
                     <SideNavHeader href="/StudentView/Orders/allOrders">Orders</SideNavHeader>
                     <SideNavItem href="/StudentView/Orders/admission">Admission Orders</SideNavItem>

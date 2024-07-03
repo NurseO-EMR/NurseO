@@ -3,13 +3,12 @@ import Card from './Card';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     immunizations: string[],
-    preview?: boolean
 }
 
 export default function ImmunizationCard(props:Props) {
 
         return (
-            <Card className={props.className} title="Immunizations" admin={props.preview}>
+            <Card className={props.className} title="Immunizations">
             <thead className="font-bold">
                 <tr>
                     <td className="border-2 p-2">Taken Immunization</td>
@@ -18,7 +17,7 @@ export default function ImmunizationCard(props:Props) {
             <tbody>
                 {props.immunizations?.length === 0 ? 
                     <tr><td colSpan={2} className='text-center p-2'><h1>No immunizations record found</h1></td></tr>:
-                    props.immunizations!.map((immunization,i) => <tr className='border'  key={i}>
+                    props.immunizations.map((immunization,i) => <tr className='border'  key={i}>
                         <td className='px-4 py-2'>{immunization}</td>
                     </tr> ) 
                 }
