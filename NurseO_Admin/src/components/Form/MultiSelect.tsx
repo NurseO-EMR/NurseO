@@ -1,10 +1,14 @@
 import { motion } from "framer-motion";
-import { v4 } from "uuid";
-import Select, { MultiValue, StylesConfig } from "react-select"
+import { useId } from "react";
+import Select, { type MultiValue, type StylesConfig } from "react-select"
+
+
+// many of the tsignore/eslint disable here are fine as array diract access is required for this to work.
 
 type Props = {
     label: string,
     onChange: (values: string[]) => void,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options: any[],
     labelKeys: string[],
     valueKey: string,
@@ -17,7 +21,7 @@ type Option = {
 }
 
 export function MultiSelect(props: Props) {
-    const id= v4()
+    const id = useId()
 
     const customStyles: StylesConfig = {
         control: () => ({
@@ -35,9 +39,12 @@ export function MultiSelect(props: Props) {
         for (const option of props.options) {
             // if(!option[props.labelKey]) continue;
             props.labelKeys.map(k => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 if (option[k]) {
                     const temp: Option = {
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                         value: option[props.valueKey],
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                         label: option[k]
                     }
 

@@ -6,8 +6,10 @@ export function useFocus() {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const htmlElRef = useRef<any>()
 	const setFocus = () => {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const currentEl = htmlElRef.current
-		currentEl && currentEl.focus()
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+		currentEl?.focus()
 	}
 	return [htmlElRef, setFocus] as const
 }

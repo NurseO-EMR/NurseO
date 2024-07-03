@@ -2,33 +2,34 @@ import { useState, useEffect } from "react";
 import { Card } from "~/components/Card";
 import { Td } from "~/components/Table/Td";
 import { Tr } from "~/components/Table/Tr";
-import { Database } from "~/services/Database";
 import PageView from "../_PageView";
 import { findIndex } from "lodash";
 
-export function ViewAdminsPage() {
+export default function ViewAdminsPage() {
     const [admins, setAdmins] = useState<string[]>([])
 
+    // TODO: Get this to work
 
-    const getLocations = async () => {
-        const db = Database.getInstance()
-        const admins = await db.getAdminList();
-        setAdmins(admins)
-    }
 
-    useEffect(() => {
-        getLocations()
-    }, [])
+    // const getLocations = async () => {
+    //     const db = Database.getInstance()
+    //     const admins = await db.getAdminList();
+    //     setAdmins(admins)
+    // }
+
+    // useEffect(() => {
+    //     getLocations()
+    // }, [])
 
 
     const onDeleteClickHandler = async (email: string) => {
-        const db = Database.getInstance()
-        const admins = await db.getAdminList()
-        const index = findIndex(admins, email)
-        admins.splice(index, 1);
-        await db.updateAdminList(admins)
+        // const db = Database.getInstance()
+        // const admins = await db.getAdminList()
+        // const index = findIndex(admins, email)
+        // admins.splice(index, 1);
+        // await db.updateAdminList(admins)
         
-        setAdmins([...admins])
+        // setAdmins([...admins])
     }
 
 

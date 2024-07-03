@@ -33,10 +33,6 @@ export function AnnouncementViewer() {
             if (!popperStarted) startPopper()
         }
 
-
-
-
-
         subscribeToAnnouncementBroadcast(onAnnouncementHandler)
 
         return () => unsubscribeFromAnnouncementBroadcast(onAnnouncementHandler)

@@ -1,7 +1,7 @@
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import {PatientChart } from "@nurse-o-core/index";
+import type { PatientChart } from "@nurse-o-core/index";
 import { useState } from "react";
-import { BaseStage, BaseStageProps } from "~/components/Stages/BaseStage";
+import { BaseStage, type BaseStageProps } from "~/components/Stages/BaseStage";
 import { ReviewItem } from "~/components/Stages/Review/ReviewItem";
 import { ReviewSection } from "~/components/Stages/Review/ReviewSection";
 import { Td } from "~/components/Table/Td";
@@ -24,7 +24,7 @@ export function ReviewStage(props: Props) {
         props.onNext()
     }
 
-    return <BaseStage {...props} title="Review" icon={faFileInvoice} onNext={onNextClickHandler} customNextText={loading ? "Loading..." : props.customNextText || "Add Patient"}>
+    return <BaseStage {...props} title="Review" icon={faFileInvoice} onNext={onNextClickHandler} customNextText={loading ? "Loading..." : props.customNextText ?? "Add Patient"}>
         <ReviewSection title="Basic Info">
             <ReviewItem label="Name" value={props.patient.name} />
             <ReviewItem label="DOB" value={props.patient.dob} />
@@ -35,7 +35,7 @@ export function ReviewStage(props: Props) {
         <ReviewSection title="Sim Info">
             <ReviewItem label="Barcode" value={props.patient.id} />
             <ReviewItem label="Age" value={props.patient.age} />
-            <ReviewItem label="Sim Time" value={props.patient.time.hour + ":" + props.patient.time.minutes} />
+            <ReviewItem label="Sim Time" value={props.patient.time.hour + ":" + props.patient.time.minute} />
             <ReviewItem label="Labs URL" value={props.patient.labDocURL} />
         </ReviewSection>
 
@@ -126,7 +126,7 @@ export function ReviewStage(props: Props) {
                                 <Td>{r.date}</Td>
                                 <Td>{r.time}</Td>
                                 <Td>{r.setName}</Td>
-                                <Td>{r.vitalName}</Td>
+                                <Td>{r.fieldName}</Td>
                                 <Td>{r.value}</Td>
                             </Tr>
 

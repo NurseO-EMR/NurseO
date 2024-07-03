@@ -1,7 +1,7 @@
-import { ReactChild } from "react"
+import type { ReactNode } from "react"
 
 export type Props = {
-    children: ReactChild | ReactChild[],
+    children: ReactNode | ReactNode[],
     className?:string,
     colSpan?: number
 }

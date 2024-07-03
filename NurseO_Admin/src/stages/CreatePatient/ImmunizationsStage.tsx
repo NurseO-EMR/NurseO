@@ -1,10 +1,10 @@
 import { faSyringe } from "@fortawesome/free-solid-svg-icons";
-import { PatientChart } from "@nurse-o-core/index";
+import type { PatientChart } from "@nurse-o-core/index";
 import { useState } from "react";
 import { Button } from "~/components/Form/Button";
 import { Input } from "~/components/Form/Input";
 import { ArrayPreviewer } from "~/components/Stages/ArrayPreviewer";
-import { BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
+import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
 import { Td } from "~/components/Table/Td";
 import { Tr } from "~/components/Table/Tr";
 
@@ -14,7 +14,7 @@ export type Props = BaseStageProps & {
 }
 
 export function ImmunizationsStage(props: Props) {
-    const [immunizations, setImmunizations] = useState( props.patient?.immunizations || []as string[]);
+    const [immunizations, setImmunizations] = useState( props.patient?.immunizations ?? [] as string[]);
     
     const [entry, setEntry] = useState("");
 

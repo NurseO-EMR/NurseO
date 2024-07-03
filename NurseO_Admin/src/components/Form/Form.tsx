@@ -1,7 +1,7 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { motion, Variants } from "framer-motion";
-import { Children, cloneElement, FormEvent, ForwardedRef, forwardRef, ReactElement } from "react";
+import { motion, type Variants } from "framer-motion";
+import { Children, cloneElement, type FormEvent, type ForwardedRef, forwardRef, type ReactElement } from "react";
 import { STAGE_ANIMATION_DURATION } from "~/services/AnimationConfig";
 
 
@@ -64,7 +64,7 @@ function FormEle(props: Props, ref: ForwardedRef<HTMLFormElement>) {
                 <div className="">
                     {
                         Children.map(props.children, (child, i) =>
-                            cloneElement(child, { delay: i + STAGE_ANIMATION_DURATION + (props.delay || 0) })
+                            cloneElement(child, { delay: i + STAGE_ANIMATION_DURATION + (props.delay ?? 0) })
                         )
                     }
                 </div>

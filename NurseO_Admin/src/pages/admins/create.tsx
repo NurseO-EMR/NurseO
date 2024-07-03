@@ -6,9 +6,8 @@ import { Steps } from "~/components/Steps/Steps";
 
 import { Stages } from "~/components/Stages/Stages";
 import { Step } from "~/components/Steps/Step";
-import { Database } from "~/services/Database";
-import { AdminEmailStage } from "../../Stages/CreateAdmin/AdminEmailStage";
-import { AdminStageFinalized } from "../../Stages/CreateAdmin/AdminStageFinalized";
+import { AdminEmailStage } from "~/stages/CreateAdmin/AdminEmailStage";
+import { AdminStageFinalized } from "~/stages/CreateAdmin/AdminStageFinalized";
 
 
 export default function CreateAdminPage() {
@@ -29,12 +28,12 @@ export default function CreateAdminPage() {
 
 
     const onBasicInfoHandler = async (email: string)=>{
-        const db = Database.getInstance();
-        const admins = await db.getAdminList();
-        admins.push(email)
-        await db.updateAdminList(admins)
-        setAdminEmail(email)
-        moveStage()
+        // const db = Database.getInstance();
+        // const admins = await db.getAdminList();
+        // admins.push(email)
+        // await db.updateAdminList(admins)
+        // setAdminEmail(email)
+        // moveStage()
     }
 
 

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { countBy} from "lodash";
-import { StudentReport } from "@nurse-o-core/index";
+import { type StudentReport } from "@nurse-o-core/index";
 import { useEffect, useState } from "react";
 import { STAGE_ANIMATION_DURATION } from "~/services/AnimationConfig";
 
@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function ChartPreviewer(props: Props) {
-    const [reports, setReports] = useState<{[key: string]: number}>({})
+    const [reports, setReports] = useState<Record<string, number>>({})
 
     useEffect(()=>{        
         const count = countBy(props.studentReports, "setName")

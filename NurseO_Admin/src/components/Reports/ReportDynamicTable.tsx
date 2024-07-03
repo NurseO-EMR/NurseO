@@ -1,5 +1,5 @@
 import { groupBy, uniq } from "lodash";
-import { Report, ReportType, StudentReport } from "@nurse-o-core/index";
+import { ReportType, type StudentReport, type ReportField } from "@nurse-o-core/index";
 import { useEffect, useState } from "react";
 import { Button } from "../Form/Button";
 import { Input } from "../Form/Input";
@@ -7,9 +7,11 @@ import { SearchableSelect } from "../Form/SearchableSelect";
 import { Td } from "../Table/Td";
 import { Tr } from "../Table/Tr";
 
+// many of the ! around arrays are justified as they are just array manipulation but typescript is not happy about them.
+
 type Props = {
     type: ReportType,
-    options: Report[],
+    options: ReportField[],
     onSave: (report:StudentReport[]) => void
     setName: string,
     studentReports: StudentReport[] | undefined
@@ -30,44 +32,45 @@ export function ReportDynamicTable(props: Props) {
 
 
     const onKeyChangeHandler = (row:number, value:string)=>{
-        table[row][0] = value
+        table[row]![0] = value
         updateTable(table)
     }
 
     const onKeyCreateHandler = (row:number, value:string)=>{
         const key = {name:value}
         options.push(key)
-        table[row][0] = value
+        table[row]![0] = value
 
         setOptions([...options])
         updateTable(table)
     }
 
     const onTimeupdateHandler=(column:number, value:string) => {
-        table[0][column] = value
+        table[0]![column] = value
         updateTable(table)
     }
 
     const onValueChangeHandler = (row:number, column:number, value:string) =>{
-        table[row][column] = value
+        table[row]![column] = value
         updateTable(table)
     }
 
     const updateTable = (table:string[][])=>{
         // if last row has a key add an empty row
-        if(table[table.length-1][0].length > 0) table.push(new Array<string>(table[0].length).fill("",0,table[0].length))
+        if(table[table.length-1]![0]!.length > 0) table.push(new Array<string>(table[0]!.length).fill("",0,table[0]!.length))
         
 
         // if the last column is filled add another column
-        if(table[0][table[0].length-1].length > 0) {
+        if(table[0]![table[0]!.length-1]!.length > 0) {
+            // eslint-disable-next-line @typescript-eslint/prefer-for-of
             for(let rowIndex = 0; rowIndex<table.length; rowIndex++) {
-                table[rowIndex].push("")
+                table[rowIndex]!.push("")
             }
         }
 
         // if a row is empty remove it
         for(let rowIndex = 1; rowIndex<table.length-1; rowIndex++) {
-            if(table[rowIndex][0] === "") {
+            if(table[rowIndex]![0] === "") {
                 table.splice(rowIndex, 1)
             }
         }
@@ -84,19 +87,19 @@ export function ReportDynamicTable(props: Props) {
         // -1 to remove the last row as that is the new one
         // start from 1 as 0 is the times
         for(let row = 1; row<table.length-1; row++) {
-            const key = table[row][0]
+            const key = table[row]![0]
 
             // -1 to remove the last column as that is the last one
             //start from one as 0 is the keys 
-            for(let column = 1; column<table[row].length-1; column++) {
+            for(let column = 1; column<table[row]!.length-1; column++) {
 
                 const report:StudentReport = {
                     date: "",
                     reportType: props.type,
                     setName: props.setName,
-                    time: times[column],
-                    value: table[row][column],
-                    vitalName: key
+                    time: times![column]!,
+                    value: table[row]![column]!,
+                    fieldName: key!
                 }
                 reports.push(report)
             }
@@ -129,7 +132,7 @@ export function ReportDynamicTable(props: Props) {
 
                         // values
                         else return <Td key={columnIndex}><Input hideLabel label={"value"} value={cell}
-                                        disabled={table[0][columnIndex].length===0} optional
+                                        disabled={table[0]![columnIndex]!.length===0} optional
                                         onChange={e=>onValueChangeHandler(rowIndex, columnIndex,e.currentTarget.value)}/></Td>
                     })}
                 </Tr>)}
@@ -142,10 +145,10 @@ export function ReportDynamicTable(props: Props) {
 
 function reportTypeToWords(type:ReportType) {
     switch(type) {
-        case "studentAssessmentReport": return "Assessment";
-        case "studentIOReport": return "Record";
-        case "studentVitalsReport": return "Vital";
-        case "studentLabReport": return "Lab";    
+        case ReportType.studentAssessmentReport: return "Assessment";
+        case ReportType.studentIOReport: return "Record";
+        case ReportType.studentVitalsReport: return "Vital";
+        case ReportType.studentLabReport: return "Lab";    
     }
 }
 
@@ -173,9 +176,10 @@ function getInitialTable(studentReports: StudentReport[] | undefined): string[][
     output.push(times)
 
     // get the reports and populate them into a table 
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for(let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-        const rowName = rows[rowIndex][0]
-        const rowEntries = rows[rowIndex][1].map<string>(r=>r.value)
+        const rowName = rows[rowIndex]![0]
+        const rowEntries = rows[rowIndex]![1].map<string>(r=>r.value)
 
 
         const rowArray = [rowName, ...rowEntries]

@@ -1,4 +1,4 @@
-import { Children, ReactChild } from "react"
+import { Children, type ReactChild } from "react"
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 type Props = {

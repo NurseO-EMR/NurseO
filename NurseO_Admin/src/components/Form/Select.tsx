@@ -1,5 +1,5 @@
-import { motion, Variants } from "framer-motion";
-import { DetailedHTMLProps, ForwardedRef, forwardRef, ReactChild, SelectHTMLAttributes } from "react";
+import { motion, type Variants } from "framer-motion";
+import { type DetailedHTMLProps, type ForwardedRef, forwardRef, type ReactChild, type SelectHTMLAttributes } from "react";
 
 export type Props = Omit<DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>, "id"> & {
     optional?: boolean,
@@ -15,7 +15,7 @@ function SelectEle(props: Props, ref:ForwardedRef<HTMLSelectElement>) {
         hidden: { opacity: 0 },
         show: { 
             opacity: 1,
-            transition:{delay: (props.delay || 0 )*0.4}
+            transition:{delay: (props.delay ?? 0 )*0.4}
         },
         exit: { opacity: 0 },
     }

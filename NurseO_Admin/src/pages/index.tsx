@@ -35,7 +35,7 @@ export default function DashboardPage() {
                     
                     <DashboardNavCard icon={faBuilding} title="Admin">
                         <Link href={"/admins/create"}>Add Admin</Link>
-                        <Link href={"/admins/view"}>View/Edit Admins</Link>
+                        <Link href={"/admins/"}>View/Edit Admins</Link>
                     </DashboardNavCard>
                 </div>
 

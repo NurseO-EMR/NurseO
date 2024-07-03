@@ -4,10 +4,10 @@ import { useFocus } from "~/components/customHooks";
 import { Button } from "~/components/Form/Button";
 import { Input } from "~/components/Form/Input";
 import { ArrayPreviewer } from "~/components/Stages/ArrayPreviewer";
-import { BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
+import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
 import { Td } from "~/components/Table/Td";
 import { Tr } from "~/components/Table/Tr";
-import { MedicalHistory, PatientChart } from "@nurse-o-core/index";
+import type { MedicalHistory, PatientChart } from "@nurse-o-core/index";
 
 export type Props = BaseStageProps & {
     onNext: (medicalHistory: MedicalHistory[]) => void,
@@ -16,7 +16,7 @@ export type Props = BaseStageProps & {
 
 export function MedicalHistoryStage(props: Props) {
     const [inputRef, setInputFocus] = useFocus()
-    const [history, setHistory] = useState(props.patient?.medicalHistory || []as MedicalHistory[]);
+    const [history, setHistory] = useState(props.patient?.medicalHistory ?? []as MedicalHistory[]);
     
     const [date, setDate] = useState("");
     const [title, setTitle] = useState("");

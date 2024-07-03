@@ -1,7 +1,7 @@
 import { faBuilding } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Input } from "~/components/Form/Input";
-import { BaseStage, BaseStageProps } from "~/components/Stages/BaseStage";
+import { BaseStage, type BaseStageProps } from "~/components/Stages/BaseStage";
 
 export type Props = BaseStageProps & {
     onNext:(buildingName: string, stationName: string)=>void

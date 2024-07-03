@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { ReportInputType, ReportOptions } from "@nurse-o-core/index";
+import React, { type ChangeEvent, useEffect, useState } from "react";
+import type { ReportInputType } from "@nurse-o-core/index";
 import { Input } from "../Form/Input";
 import { Select } from "../Form/Select";
 
@@ -8,7 +8,7 @@ type Props = {
     index: number,
     onChange: (value: string, key: number) => void,
     enabled: boolean,
-    options?: ReportOptions,
+    options?: string[],
     label: string
 
 }
@@ -75,8 +75,8 @@ export function ReportDynamicInput(props: Props) {
                     <div className="flex flex-wrap gap-5 w-[90%] m-auto justify-center">
                         {props.options?.map((val, j) =>
                             <div key={props.index + j} className="flex items-center gap-2" >
-                                <input type="checkbox" disabled={!props.enabled} onChange={e => onCheckBoxChecked(val.name, e.target.checked, props.index)} />
-                                <label>{val.name}</label>
+                                <input type="checkbox" disabled={!props.enabled} onChange={e => onCheckBoxChecked(val, e.target.checked, props.index)} />
+                                <label>{val}</label>
                             </div>
                         )}
                     </div>
@@ -91,7 +91,7 @@ export function ReportDynamicInput(props: Props) {
                 label={props.label} optional={true} value={value} >
                     <option></option>
                     <>
-                        {props.options?.map((val, i) => <option key={i} title={val.name}>{val.name}</option>)}
+                        {props.options?.map((val, i) => <option key={i} title={val}>{val}</option>)}
                     </>
                 </Select>
                 : null}

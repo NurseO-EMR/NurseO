@@ -1,11 +1,11 @@
 import { faBookMedical } from "@fortawesome/free-solid-svg-icons";
-import { PatientChart } from "@nurse-o-core/index";
+import { type PatientChart } from "@nurse-o-core/index";
 import { useState } from "react";
 import { useFocus } from "~/components/customHooks";
 import { Button } from "~/components/Form/Button";
 import { Input } from "~/components/Form/Input";
 import { ArrayPreviewer } from "~/components/Stages/ArrayPreviewer";
-import { BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
+import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
 import { Td } from "~/components/Table/Td";
 import { Tr } from "~/components/Table/Tr";
 
@@ -16,7 +16,7 @@ export type Props = BaseStageProps & {
 
 export function SocialHistoryStage(props: Props) {
     const [inputRef, setInputFocus] = useFocus()
-    const [history, setHistory] = useState(props.patient?.socialHistory || []as string[]);
+    const [history, setHistory] = useState(props.patient?.socialHistory ?? [] as string[]);
     
     const [entry, setEntry] = useState("");
 

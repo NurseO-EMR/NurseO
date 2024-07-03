@@ -1,10 +1,10 @@
 import { faBookMedical } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "~/components/Form/Button";
 import { Input } from "~/components/Form/Input";
 import { Select } from "~/components/Form/Select";
 import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
-import { type MedicationOrder, OrderKind, OrderType, Frequency, Routine, type PatientChart, type MarRecord, type Medication } from "@nurse-o-core/index"
+import { type MedicationOrder, OrderKind, OrderType, Frequency, Routine, type PatientChart, type MarRecord } from "@nurse-o-core/index"
 import { MedicationOrdersPreviewer } from "~/components/Stages/MedicationOrdersPreviewer";
 import { AnimatePresence } from "framer-motion";
 import { SearchableSelect } from "~/components/Form/SearchableSelect";
