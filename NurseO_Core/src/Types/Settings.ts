@@ -9,6 +9,6 @@ export type Settings = {
 }
 
 export type Course = {
-    id: string,
+    id: number,
     name: string
 }

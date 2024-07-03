@@ -1,5 +1,4 @@
 import { useState } from "react";
-import {v4 as uuid} from "uuid"
 import { faBuilding, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 
 import PageView from "../_PageView";
@@ -7,13 +6,15 @@ import { Steps } from "~/components/Steps/Steps";
 
 import { Stages } from "~/components/Stages/Stages";
 import { Step } from "~/components/Steps/Step";
-import { LocationBasicInfoStage } from "../../Stages/CreateLocation/LocationBasicInfo";
-import { LocationFinalizeStage } from "../../Stages/CreateLocation/LocationFinalizeStage";
-import { Database } from "~/services/Database";
+import { LocationBasicInfoStage } from "~/stages/CreateLocation/LocationBasicInfo";
+import { LocationFinalizeStage } from "~/stages/CreateLocation/LocationFinalizeStage";
+import { api } from "~/utils/api";
+import { broadcastAnnouncement, Announcement } from "~/services/AnnouncementService";
 
 
 export default function CreateLocationPage() {
 
+    const addLocationMutation = api.setting.addLocation.useMutation()
     const [currentStage, setCurrentStage] = useState(0)
     const [buildingName, setBuildingName] = useState("");
     const [stationName, setStationName] = useState("");
@@ -30,19 +31,15 @@ export default function CreateLocationPage() {
     }
 
 
-    const onBasicInfoHandler = async (buildingName: string, stationName: string)=>{
-        const db = Database.getInstance();
-        const settings =  await db.getSettings();
-        setBuildingName(buildingName)
-        setStationName(stationName)
-        settings.locations.push({
-            building: buildingName,
-            station: stationName,
-            id: uuid(),
-            courseIds: []
-        })
-        await db.updateSettings(settings);
-        moveStage()
+    const onBasicInfoHandler = async (building: string, station: string)=>{
+        setBuildingName(building)
+        setStationName(station)
+        const {status, message} = await addLocationMutation.mutateAsync({building, station})
+        broadcastAnnouncement(message, status === "Error" ? Announcement.error : Announcement.success)
+        if(status === "Success") {
+            moveStage()
+        }
+
     }
 
 
