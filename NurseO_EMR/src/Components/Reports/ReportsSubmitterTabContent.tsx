@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { ReportSet } from 'nurse-o-core';
+import type { ReportSet } from "@nurse-o-core/index";
 import ReportInput from './ReportInput';
 import ReportsHeaderTimeSlots from './ReportsHeaderTimeSlots';
+import Image from "next/image"
 
 type Props = {
     reportSet: ReportSet,
@@ -22,8 +23,8 @@ export default function ReportsSubmitterTabContent(props:Props) {
 
     return (
         <>
-            {props.reportSet.image ?
-                <img src={props.reportSet.image} alt="" className='max-h-64 m-auto' />
+            {props.reportSet.image && props.reportSet.imageAlt ?
+                <Image src={props.reportSet.image} alt={props.reportSet.imageAlt} width={662} height={256} className='max-h-64 m-auto' />
                 : null}
             <table className="w-full">
                 <tbody>
@@ -33,7 +34,7 @@ export default function ReportsSubmitterTabContent(props:Props) {
                             onChange={(name, timeslotIndex, value) => props.onInputChangeHandler(name, timeslotIndex, value)}
                             key={i}
                             disabled={disabled}
-                            vital={field} />
+                            field={field} />
                     )}
                 </tbody>
             </table>

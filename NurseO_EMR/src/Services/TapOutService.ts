@@ -1,6 +1,3 @@
-import { getAuth } from "firebase/auth";
-import { $history } from "./State";
-
 export default class TapOutService {
     private static instance: TapOutService;
     private writtenInfo: string;
@@ -19,7 +16,7 @@ export default class TapOutService {
     private initKeyboardListener() {
         document.addEventListener("keyup",e=>{
             this.writtenInfo +=e.key;
-            this.checkIfWrittenInfoIsSameAsID();
+            void this.checkIfWrittenInfoIsSameAsID();
         })
     }
 
@@ -28,20 +25,23 @@ export default class TapOutService {
     }
 
     private async checkIfWrittenInfoIsSameAsID() {
-        if(this.writtenInfo === this.id) {
-            await getAuth().signOut();
-            $history.value.push("/");
-        }
+        // if(this.writtenInfo === this.id) {
+        //     await getAuth().signOut();
+        //     $history.value.push("/");
+        // }
+        console.error("Not Implemented")
+
     }
 
     private getUserID():string | null{
-        if(getAuth().currentUser) {
-            const email = getAuth().currentUser!.email
-            if(email === null) return null;
-            const id = email!.split("@")[0];
-            return id;
-        }
+        // if(getAuth().currentUser) {
+        //     const email = getAuth().currentUser!.email
+        //     if(email === null) return null;
+        //     const id = email!.split("@")[0];
+        //     return id;
+        // }
 
+        console.error("Not Implemented")
         return "";
     }
 

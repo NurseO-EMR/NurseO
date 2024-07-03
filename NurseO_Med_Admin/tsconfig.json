@@ -1,27 +1,44 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
+    /* Base Options: */
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
     "resolveJsonModule": true,
+    "moduleDetection": "force",
     "isolatedModules": true,
+
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "checkJs": true,
+
+    /* Bundled projects */
+    "lib": ["dom", "dom.iterable", "ES2022"],
     "noEmit": true,
-    "downlevelIteration": true,
-    "jsx": "react-jsx"
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "preserve",
+    "plugins": [{ "name": "next" }],
+    "incremental": true,
+
+    /* Path Aliases */
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+      "@nurse-o-core/*": ["./../NurseO_Core/src/*"]
+    }
   },
   "include": [
-    "src"
-    , "tailwind.config.js"  ]
+    ".eslintrc.cjs",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.js",
+    ".next/types/**/*.ts",
+    "./../NurseO_Core/src/*.ts"
+  ],
+  "exclude": ["node_modules"]
 }

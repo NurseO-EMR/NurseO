@@ -1,5 +1,5 @@
 import React from 'react';
-import { PatientChart } from 'nurse-o-core';
+import { type PatientChart } from '~/../../NurseO_Core/src/Types/PatientProfile';
 import AllergyCard from './Card/AllergyCard';
 import FlagsCard from './Card/FlagsCard';
 import HistoryCard from './Card/HistoryCard';

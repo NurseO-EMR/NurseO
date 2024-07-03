@@ -1,8 +1,8 @@
 import React from 'react';
 import Database from '../../../Services/Database';
-import { CustomOrder, Medication, Order, OrderKind } from 'nurse-o-core';
+import { CustomOrder, Medication, Order, OrderKind } from "@nurse-o-core/index";
 import MedicationOrderSyntax from "./../../Orders/MedicationOrderSyntax"
-import { MedicationOrder } from 'nurse-o-core';
+import { MedicationOrder } from "@nurse-o-core/index";
 import parse from 'html-react-parser';
 
 

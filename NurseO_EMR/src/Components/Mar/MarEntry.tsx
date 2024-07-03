@@ -1,15 +1,15 @@
 import React from 'react';
-import { MedicationOrder, Time } from 'nurse-o-core';
+import type { MedicationOrder, Time } from "@nurse-o-core/index";
 import MedicationOrderSyntax from '../Orders/MedicationOrderSyntax';
 import { Button } from '../Form/Button';
 import { HoldModal } from './HoldModal';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 type Props = {
     order: MedicationOrder,
     timeSlots: number[],
     simTime: Time,
-    onUpdate: (order: MedicationOrder) => void
+    onHold: (order: MedicationOrder) => void
 }
 
 type State = {
@@ -42,8 +42,8 @@ export default class MarEntry extends React.Component<Props, State> {
 
     checkForRecordedMarData() {
         for (const record of this.props.order.mar) {
-            const { hour, minutes, dose } = record;
-            this.timeSlots.set(hour, <span>{hour.toString().padStart(2, "0")}:{minutes.toString().padStart(2, "0")} <br /> {dose} </span>)
+            const { hour, minute, dose } = record;
+            this.timeSlots.set(hour, <span>{hour.toString().padStart(2, "0")}:{minute.toString().padStart(2, "0")} <br /> {dose} </span>)
         }
     }
 
@@ -63,10 +63,10 @@ export default class MarEntry extends React.Component<Props, State> {
 
     }
 
-    onHoldReasonSubmittedHandler(holdReason: string) {
+    onHoldReasonSubmittedHandler(holdReason: string | null) {
         const order = this.props.order
         order.holdReason = holdReason
-        this.props.onUpdate(order)
+        this.props.onHold(order)
         this.setState({ holdClicked: false })
     }
 
@@ -79,7 +79,7 @@ export default class MarEntry extends React.Component<Props, State> {
                 </td>
                 <td><Button title='release this medication'
                     className='rounded-lg m-auto bg-grayBackground'
-                    onClick={() => this.onHoldReasonSubmittedHandler("")}
+                    onClick={() => this.onHoldReasonSubmittedHandler(null)}
                 >Release</Button></td>
                 <td></td>
                 <td colSpan={this.props.timeSlots.length}
@@ -101,7 +101,7 @@ export default class MarEntry extends React.Component<Props, State> {
 
                 <td className={`w-80 pl-16 font-semibold relative
                                 ${this.props.order.completed ? "line-through" : null}`}>
-                    <Link to={"/studentView/mar/administer"}>
+                    <Link href={"/StudentView/Mar/administer"}>
                         <MedicationOrderSyntax order={this.props.order} />
                     </Link>
                 </td>
@@ -115,7 +115,7 @@ export default class MarEntry extends React.Component<Props, State> {
                         </td>
 
                         <td className='w-32'>
-                            <Link to={"/studentView/mar/administer"}>
+                            <Link href={"/StudentView/Mar/administer"}>
                                 <Button 
                                 className='rounded-lg m-auto bg-secondary mx-2'>Administer</Button>
                             </Link>

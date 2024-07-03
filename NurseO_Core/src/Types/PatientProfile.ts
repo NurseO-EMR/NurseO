@@ -1,10 +1,10 @@
-import { Gender } from "./Gender.js"
-import { ReportType, StudentReport } from "./Report.js";
+import { Gender } from "./Gender"
+import { ReportType, StudentReport } from "./Report";
 
 
 export class Time {
     hour:number = 0;
-    minutes:number = 0;
+    minute:number = 0;
 }
 export class PatientChart {
     id: string = "";
@@ -24,17 +24,18 @@ export class PatientChart {
     immunizations: string[] = [];
     studentReports: StudentReport[] = [];
     notes: Note[] = [];
-    studentUID: string = "";
+    studentId?: string = "";
     labDocURL: string = "";
     imagingURL?: string = "";
     diagnosis?: string = "";
-    courseId?: string = "";
+    courseId: number = -1;
+    dbId: number = -1;
 };
 
 export type Order = {
     orderKind: OrderKind,
     orderType: OrderType,
-    time?: string
+    time?: string | null
 }
 
 export type CustomOrder = Order & {
@@ -43,7 +44,8 @@ export type CustomOrder = Order & {
 
 
 export type MedicationOrder  = Order & {
-    id: string;
+    id: number; // med id 
+    orderId: number;
     concentration:string;
     route: string;
     frequency: Frequency;
@@ -52,7 +54,12 @@ export type MedicationOrder  = Order & {
     notes: string;
     mar: MarRecord[];
     completed?: boolean
-    holdReason?: string
+    holdReason?: string | null
+
+    // these are for data fetching to make it cheaper to pull meds from db
+    genericName?: string;
+    brandName?: string;
+    narcoticCountNeeded?: boolean 
 }
 
 export type MarRecord = Time & {

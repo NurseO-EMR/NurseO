@@ -1,18 +1,16 @@
 import React from 'react';
-import { Flag } from 'nurse-o-core';
+import { type Flag } from '@nurse-o-core/index';
 import Card from './Card';
 import FlagEntry from './FlagEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-    flags: Flag[] | undefined,
-    preview?: boolean
+    flags: Flag[]
 }
 
-export default class FlagsCard extends React.Component<Props> {
+export default function FlagsCard(props: Props) {
 
-    public render() {
-        return (
-            <Card className={this.props.className} title="Flags" admin={this.props.preview}>
+    return (
+        <Card className={props.className} title="Flags">
             <thead className="font-bold">
                 <tr>
                     <td className="border-2 p-2">Flag</td>
@@ -20,13 +18,12 @@ export default class FlagsCard extends React.Component<Props> {
                 </tr>
             </thead>
             <tbody>
-                {this.props.flags?.length === 0 ? 
-                    <tr><td colSpan={2} className='text-center p-2'><h1>No flags found</h1></td></tr>:
-                    this.props.flags!.map((flag,i) => <FlagEntry key={i} flag={flag}></FlagEntry>)
+                {props.flags?.length === 0 ?
+                    <tr><td colSpan={2} className='text-center p-2'><h1>No flags found</h1></td></tr> :
+                    props.flags.map((flag, i) => <FlagEntry key={i} flag={flag}></FlagEntry>)
                 }
             </tbody>
         </Card>
 
-        );
-    }
+    );
 }

@@ -1,32 +1,33 @@
 export type ReportSet = {
     name: string,
-    reportFields: Report[],
+    reportFields: ReportField[],
     image?: string,
+    imageAlt?: string
     type: ReportType
 };
 
-export type Report = {
+export type ReportField = {
     name: string,
     fieldType: ReportInputType,   
-    VitalsOptions?: ReportOptions
-    labels?: string[]
+    options?: string[]
+    labels?: string[],
+    addSecondField?: boolean
 }
 
 export type ReportInputType = "number" | "text" | "T/F" | "checkbox" | "options" | "NA"
 
-export type ReportOptions = Array<ReportOption>
-
-export class ReportOption{
-    name: string = "";
-}
-
 export type StudentReport = {
     setName: string,
-    vitalName: string,
+    fieldName: string,
     time:string,
     value:string,
     date: string,
     reportType: ReportType,
 }
     
-export type ReportType = "studentVitalsReport" | "studentLabReport" | "studentAssessmentReport" | "studentIOReport";
+export enum ReportType {
+    "studentVitalsReport" = "studentVitalsReport", 
+    "studentLabReport" = "studentLabReport", 
+    "studentAssessmentReport" = "studentAssessmentReport", 
+    "studentIOReport" = "studentIOReport" 
+};

@@ -1,5 +1,5 @@
 export type Medication = {
-    id: string,
+    id: number,
     brandName?: string,
     genericName?: string,
     narcoticCountNeeded: boolean
@@ -8,7 +8,7 @@ export type Medication = {
 
 
 export type MedicationLocation = {
-    id: string,
+    id: number,
     drawer: string,
     slot: string,
     barcode: string,
@@ -18,8 +18,8 @@ export type MedicationLocation = {
 
 
 export type LocationDefinition = {
-    id: string,
+    id: number,
     building: string,
     station: string,
-    courseIds: string[]
+    // courseIds: string[]
 }
