@@ -1,16 +1,16 @@
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { BaseStage, BaseStageProps } from "../~/components/Stages/BaseStage";
+import { useRouter } from "next/navigation";
+import { BaseStage, type BaseStageProps } from "~/components/Stages/BaseStage";
 
 export type Props = BaseStageProps & {
     courseName: string,
 };
 
 export function CourseFinalizeStage(props:Props) {
-    const navigate = useNavigate()
+    const router = useRouter()
 
     const onNextClickHandler = () => {
-        navigate("/")
+        router.push("/")
     }
 
     return <BaseStage {...props} title="" icon={faFileInvoice} onNext={onNextClickHandler} customNextText="Go Home" hideBackButton>

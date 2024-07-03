@@ -6,6 +6,46 @@ export async function getCourses(db:PrismaClient) {
     return courses;
 }
 
+export async function deleteCourse(db:PrismaClient, courseId: number) {
+    const data = await getNumberOfLocationsNPatientsByLocation(db, courseId)
+    if(data && data.locationCount+data.studentPatientCount+data.templatePatientCount) {
+        
+        return {status: "Error", message: `There are ${data.locationCount} locations, ${data.templatePatientCount} template patients, and ${data.studentPatientCount} student patients profiles associated with this location`}
+    }
+
+    return await db.course.delete({
+        where: {
+            id: courseId
+        }
+    })
+    .then(()=>{return {status: "Success", message: "Course deleted successfully"}})
+    .catch((e)=>{return {status: "Error", message: String(e)}})
+}
+
+export async function updateCourse(db:PrismaClient, courseId: number, courseName: string): Promise<ProtocolStatus>  {
+    return await db.course.update({
+        data: {
+            name: courseName
+        },
+         where: {
+            id: courseId
+         }
+    })
+    .then(()=>{return {status: "Success", message: "Course updated successfully"}})
+    .catch((e)=>{return {status: "Error", message: String(e)}})
+}
+
+export async function addCourse(db:PrismaClient, courseName: string): Promise<ProtocolStatus>  {
+    return await db.course.create({
+        data: {
+            name: courseName,
+        },
+    })
+    .then(()=>{return {status: "Success", message: "Course added successfully"}})
+    .catch((e)=>{return {status: "Error", message: String(e)}})
+}
+
+
 export async function getLocations(db:PrismaClient) {
     const locations = await db.$queryRaw<{id: number, building: string, station: string}[]>`SELECT id, building, station FROM Location`
     return locations
@@ -80,7 +120,7 @@ export async function addLocation(db:PrismaClient, buildingName: string, station
             station: stationName,
         },
     })
-    .then(()=>{return {status: "Success", message: "Location updated successfully"}})
+    .then(()=>{return {status: "Success", message: "Location added successfully"}})
     .catch((e)=>{return {status: "Error", message: String(e)}})
 }
 
@@ -91,4 +131,18 @@ async function getNumberOfCoursesNMedsByLocation(db:PrismaClient, locationId: nu
         (SELECT COUNT(1) as courseCount FROM Course_Location_Information WHERE Course_Location_Information.location_id = ${locationId}) as courses
     `
     return data[0]
+}
+
+async function getNumberOfLocationsNPatientsByLocation(db:PrismaClient, courseId: number) {
+    const data = await db.$queryRaw<{studentPatientCount:number, templatePatientCount: number, locationCount: number}[]>`
+         SELECT studentPatientCount, templatePatientCount, locationCount FROM
+        (SELECT COUNT(1) as studentPatientCount FROM Patient WHERE Patient.template = false AND Patient.course_id = ${courseId}) as studentPatients,
+        (SELECT COUNT(1) as templatePatientCount FROM Patient WHERE Patient.template = true AND Patient.course_id = ${courseId}) as templatePatients,
+        (SELECT COUNT(1) as locationCount FROM Course_Location_Information WHERE Course_Location_Information.course_id = ${courseId}) as courses
+    `
+
+    const studentPatientCount = Number(data[0]?.studentPatientCount)
+    const templatePatientCount = Number(data[0]?.templatePatientCount)
+    const locationCount = Number(data[0]?.locationCount)
+    return {studentPatientCount, templatePatientCount, locationCount}
 }

@@ -4,13 +4,15 @@ import PageView from "../_PageView";
 import { Steps } from "~/components/Steps/Steps";
 import { Stages } from "~/components/Stages/Stages";
 import { Step } from "~/components/Steps/Step";
-import { Database } from "~/services/Database";
-import { CreateCourseBasicInfoStage } from "../../Stages/Courses/CreateCourse/CreateCourseBasicInfo";
-import { CourseFinalizeStage } from "../../Stages/Courses/CreateCourse/CourseFinalizeStage";
+import { CreateCourseBasicInfoStage } from "~/stages/Courses/CreateCourse/CreateCourseBasicInfo";
+import { CourseFinalizeStage } from "~/stages/Courses/CreateCourse/CourseFinalizeStage";
+import { api } from "~/utils/api";
+import { broadcastAnnouncement, Announcement } from "~/services/AnnouncementService";
 
 
 export default function CreateCoursePage() {
 
+    const addCourseMutation = api.setting.addCourse.useMutation()
     const [currentStage, setCurrentStage] = useState(0)
     const [courseName, setCourseName] = useState("");
 
@@ -26,17 +28,13 @@ export default function CreateCoursePage() {
     }
 
 
-    const onBasicInfoHandler = async (courseId: string, courseName: string)=>{
-        const db = Database.getInstance();
-        const settings =  await db.getSettings();
-        setCourseName(courseName)
-        if(!settings.courses) settings.courses = []
-        settings.courses.push({
-            id: courseId,
-            name: courseName,
-        })
-        await db.updateSettings(settings);
-        moveStage()
+    const onBasicInfoHandler = async (courseName: string)=>{
+        const {status, message} = await addCourseMutation.mutateAsync({courseName})
+        broadcastAnnouncement(message, status === "Error" ? Announcement.error : Announcement.success)
+        if(status === "Success") {
+            setCourseName(courseName)
+            moveStage()
+        }
     }
 
 
