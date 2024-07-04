@@ -14,9 +14,11 @@
     "test": "exit"
   },
   "author": "Mohammed Alkhafaji",
-  "dependencies": {},
+  "dependencies": {
+    "@types/node": "^20.14.9",
+    "react": "^18.3.1"
+  },
   "devDependencies": {
-    "@types/react": "^18.0.6",
-    "react-scripts": "^5.0.1"
+    "@types/react": "^18.0.6"
   }
 }
