@@ -45,9 +45,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         return { redirect: { destination: "/401" } }
     } 
   
-    const providers = await getProviders()
-  
     return {
-      props: { providers: providers ?? [] },
+      props: { session },
     }
   }

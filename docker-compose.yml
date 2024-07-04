@@ -1,0 +1,72 @@
+version: '3'
+services:
+  admin: 
+    container_name: NurseO_Admin
+    build: 
+      context: ./NurseO_Admin
+      additional_contexts:
+        core: ./NurseO_Core
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - Google_CLIENT_ID=${Google_CLIENT_ID}
+      - Google_CLIENT_SECRET=${Google_CLIENT_SECRET}
+
+    ports:
+      - 3100:3000
+    depends_on:
+      - db
+
+  emr: 
+    container_name: NurseO_EMR
+    build: 
+      context: ./NurseO_EMR
+      additional_contexts:
+        core: ./NurseO_Core
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - Google_CLIENT_ID=${Google_CLIENT_ID}
+      - Google_CLIENT_SECRET=${Google_CLIENT_SECRET}
+
+    ports:
+      - 3101:3000
+    depends_on:
+      - db
+
+
+  med_admin: 
+    container_name: NurseO_Medication_Administration
+    build: 
+      context: ./NurseO_Med_Admin
+      additional_contexts:
+        core: ./NurseO_Core
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - Google_CLIENT_ID=${Google_CLIENT_ID}
+      - Google_CLIENT_SECRET=${Google_CLIENT_SECRET}
+
+    ports:
+      - 3102:3000
+    depends_on:
+      - db
+
+  db:
+    container_name: NurseO_DB
+    image: mariadb
+    restart: always
+    environment:
+      - MARIADB_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+      - MARIADB_DATABASE=NurseO
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 9090:80
+    environment:
+      - PMA_HOST=db

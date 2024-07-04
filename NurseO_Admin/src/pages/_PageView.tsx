@@ -2,37 +2,10 @@ import { type ReactNode } from "react";
 import { Background } from "~/components/Background";
 import { Nav } from "~/components/nav/Nav";
 import { AnnouncementViewer } from "~/components/AnnouncementViewer";
-import { type GetServerSideProps } from "next";
-import { getServerAuthSession } from "~/server/auth";
-import { userRoles } from "~/types/userRoles";
 
 type Props = {
     children: ReactNode
 }
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const session = await getServerAuthSession(ctx);
-    if (session && session.user.role === userRoles.sim.valueOf()) {
-        return {
-            redirect: {
-                destination: "/",
-                permanent: false
-            }
-        }
-    } else if (session?.user) {
-        return {
-            redirect: {
-                destination: "/401",
-                permanent: false,
-                statusCode: 401
-            }
-        }
-    }
-
-    return {
-        props: {session}
-    }
-};
 
 export default function PageView(props: Props) {
 

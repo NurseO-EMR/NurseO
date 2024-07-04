@@ -12,7 +12,7 @@ export async function addNote(db: PrismaClient, patientId: number, date: string,
     if(!note) return;
     await db.note.create({
         data: {
-            patient_Id: patientId,
+            patient_id: patientId,
             date,
             report_name: reportName,
             report_type: reportType,

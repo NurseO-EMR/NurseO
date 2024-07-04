@@ -2,9 +2,11 @@ import { faBook, faBuilding, faIdCard, faPills } from "@fortawesome/free-solid-s
 import { DashboardNavCard } from "~/components/DashboardNavCard";
 import PageView from "./_PageView";
 import Link from "next/link";
+import type { GetServerSideProps } from "next";
+import { getServerAuthSession } from "~/server/auth";
+import { userRoles } from "~/types/userRoles";
 
 export default function DashboardPage() {
-
 
     return (
         <PageView>
@@ -44,3 +46,20 @@ export default function DashboardPage() {
         </PageView>
     );
 }
+
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const session = await getServerAuthSession(ctx);
+    if(!session) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            }
+        }
+    }
+
+    return {
+        props: {session}
+    }
+};

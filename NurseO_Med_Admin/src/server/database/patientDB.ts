@@ -22,6 +22,8 @@ export async function getPatientMedOrders(db: PrismaClient, patientId: number): 
                      INNER JOIN Medication ON Med_Order.med_id = Medication.id
                      WHERE patient_id = ${patientId};`
 
+    if(orders.length === 0) return []
+
     const orderIds = orders.map(o => o.orderId)
 
     const marRecords = await db.$queryRaw<{ medOrderId: number, dose: string, hour: number, minute: number }[]>`

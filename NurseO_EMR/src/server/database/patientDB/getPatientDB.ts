@@ -117,14 +117,15 @@ async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBar
 
        if(studentId.length > 0 && studentId!==signInState.anonymousSignIn.valueOf()) {
               patient = await db.$queryRaw<patientMetaData[]>`
-              SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                     diagnosis, course_id, patient_bar_code, student_id
+              SELECT Patient.id , Patient.name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
+                     diagnosis, Patient.course_id, patient_bar_code, student_id
               FROM Patient 
               JOIN Course ON Course.id = Patient.course_id
               JOIN Course_Location_Information ON Course_Location_Information.course_id = Course.id
               WHERE Course_Location_Information.location_id = ${locationId}
-              WHERE patient_bar_code = ${templatePatientBarCode} 
-              AND student_id = ${studentId}  LIMIT 1;`
+              AND patient_bar_code = ${templatePatientBarCode} 
+              AND student_id = ${studentId}  
+              LIMIT 1;`
        } 
 
        if(studentId.length === 0 || studentId === signInState.anonymousSignIn.valueOf() || patient.length === 0) {
@@ -198,6 +199,9 @@ async function getImmunizations(db: PrismaClient, patientId: number) {
 async function getMedOrders(db: PrismaClient, patientId: number): Promise<MedicationOrder[]> {
        const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string }[]>`
                         SELECT id as orderId, med_id as id, concentration, route, frequency, routine, prn_note as PRNNote, notes, order_kind as orderKind, order_type as orderType, time, completed, hold_reason as holdReason FROM Med_Order WHERE patient_id = ${patientId};`
+       
+       if(orders.length === 0) return [];
+
        const orderIds = orders.map(o => o.orderId)
 
        const marRecords = await db.$queryRaw<{ medOrderId: number, dose: string, hour: number, minute: number }[]>`
