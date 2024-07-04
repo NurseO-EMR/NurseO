@@ -1,5 +1,5 @@
 import React from 'react';
-import type { PatientChart } from "~/../../NurseO_Core/src/index"
+import type { PatientChart } from "@nurse-o-core/index"
 import SectionNamedInfo from './SectionNamedInfo';
 import logo from "./../../assets/logo.png"
 import Image from 'next/image';
