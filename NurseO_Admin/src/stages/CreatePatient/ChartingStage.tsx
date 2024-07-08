@@ -2,7 +2,7 @@ import { faBedPulse, faBong, faComputer, faDroplet } from "@fortawesome/free-sol
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { filter } from "lodash";
 import { type PatientChart, type ReportSet, ReportType, type StudentReport } from "@nurse-o-core/index";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
 import { ChartPreviewer } from "~/components/Reports/ChartPreviewer";
 import { ReportDynamicTable } from "~/components/Reports/ReportDynamicTable";
@@ -22,6 +22,11 @@ export function ChartingStage(props: Props) {
     const [reportType, setReportType] = useState<ReportType>(ReportType.studentVitalsReport)
     const [selectedTab, setSelectedTab] = useState(0)
 
+    useEffect(()=>{
+        if(!allReports) return;
+        onReportSetChangeHandler(0)
+    }, [allReports])
+    
     const onNextClickHandler = () => {
         props.onNext(studentReports)
     }
@@ -29,8 +34,8 @@ export function ChartingStage(props: Props) {
     const onReportSetChangeHandler = (reportSetIndex: number) => {
         setActiveReportSet(reportSetIndex);
         const reportType = getReportTypeFromIndex(reportSetIndex)
-
-        const reports = filter(allReports, { type: reportType });
+        // filter(allReports, { type: reportType });
+        const reports =  allReports?.filter(a=>a.type === reportType) ?? []
         setReportType(reportType)
         setReportSets([...reports]);
     }

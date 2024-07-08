@@ -1,5 +1,5 @@
 import { motion, type Variants } from "framer-motion";
-import { type DetailedHTMLProps, type ForwardedRef, forwardRef, type ReactChild, type SelectHTMLAttributes } from "react";
+import { type DetailedHTMLProps, type ForwardedRef, forwardRef, type ReactChild, type SelectHTMLAttributes, useId } from "react";
 
 export type Props = Omit<DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>, "id"> & {
     optional?: boolean,
@@ -10,7 +10,7 @@ export type Props = Omit<DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElemen
 }
 
 function SelectEle(props: Props, ref:ForwardedRef<HTMLSelectElement>) {
-    const id:string = new Date().getTime().toString();
+    const id = useId()
     const animationVariants:Variants = { 
         hidden: { opacity: 0 },
         show: { 

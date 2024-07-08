@@ -4,10 +4,9 @@ import PageView from "./_PageView";
 import Link from "next/link";
 import type { GetServerSideProps } from "next";
 import { getServerAuthSession } from "~/server/auth";
-import { userRoles } from "~/types/userRoles";
+import { env } from "~/env";
 
 export default function DashboardPage() {
-
     return (
         <PageView>
 
@@ -50,6 +49,13 @@ export default function DashboardPage() {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const session = await getServerAuthSession(ctx);
+
+    if(env.TEST_ENV) {
+        return {
+            props: {session}
+        }
+    }
+
     if(!session) {
         return {
             redirect: {

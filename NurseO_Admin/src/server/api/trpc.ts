@@ -12,6 +12,7 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type Session } from "next-auth";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import { env } from "~/env";
 
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
@@ -124,6 +125,14 @@ export const publicProcedure = t.procedure;
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
+  if(env.TEST_ENV) {
+    return next({
+      ctx: {
+        session: { ...ctx.session },
+      },
+    });
+  }
+
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
