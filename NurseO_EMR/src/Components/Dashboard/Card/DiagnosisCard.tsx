@@ -1,7 +1,7 @@
 import EmptyCard from "./EmptyCard";
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
-    diagnosis: string | undefined
+    diagnosis: string | undefined | null
 }
 export function DiagnosisCard(props:Props) {
     return <EmptyCard title="Diagnosis" {...props}>

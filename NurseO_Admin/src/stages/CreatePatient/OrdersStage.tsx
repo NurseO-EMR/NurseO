@@ -11,6 +11,7 @@ import { SearchableSelect } from "~/components/Form/SearchableSelect";
 import { broadcastAnnouncement, Announcement } from "~/services/AnnouncementService";
 import { MarRecordEditor } from "~/components/Stages/MarRecordEditor";
 import { api } from "~/utils/api";
+import { LoadingCard } from "~/components/loadingCard";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,
@@ -18,7 +19,7 @@ export type Props = BaseStageProps & {
 }
 
 export function OrdersStage(props: Props) {
-    const {data: meds} = api.medication.getAllMeds.useQuery()
+    const {data: meds, isLoading} = api.medication.getAllMeds.useQuery()
 
     const [id, setId] = useState(-1);
     const [concentration, setConcentration] = useState("");
@@ -35,13 +36,14 @@ export function OrdersStage(props: Props) {
 
     const [orders, setOrders] = useState(props.patient?.medicationOrders ?? [] as MedicationOrder[]);
 
-
-
     const onOrderAddClickHandler = () => {
 
         //check if there is med 
         if (!id) { broadcastAnnouncement("No med selected", Announcement.error); return; }
         if (orderType === OrderType.NA) {broadcastAnnouncement("must select order type", Announcement.error); return; }
+        if(!meds) return
+
+        const med = meds.find(m=>m.id === id)
 
         const order: MedicationOrder = {
             id: id,
@@ -55,8 +57,12 @@ export function OrdersStage(props: Props) {
             PRNNote,
             orderKind: OrderKind.med,
             completed,
-            time,
-            orderId: -1
+            time: time,
+            orderId: -1,
+
+            brandName: med?.brandName,
+            genericName: med?.genericName,
+            narcoticCountNeeded: med?.narcoticCountNeeded
         }
 
         orders.push(order)
@@ -73,6 +79,7 @@ export function OrdersStage(props: Props) {
         setNotes("")
         setOrderType(OrderType.NA)
         setCompleted(false)
+        setTime("")
     }
 
 
@@ -101,43 +108,29 @@ export function OrdersStage(props: Props) {
     }
 
     const onEditClickHandler = (index: number) => {
-        // TODO: look at this mess
-        // // frequency
-        // const order = orders[index]!;
-        // // const indexableFrequency:{[key: string]:string} = Frequency
-        // const indexableFrequency:Record<string, string> = Frequency
-        // const values = Object.values(Frequency)
-        // const keys = Object.keys(Frequency)
-        // const frequencyKeyIndex = values.indexOf(order.frequency)
-        // // const frequencyKey = indexableFrequency[keys[frequencyKeyIndex]]
-        // // TODO: look at this mess
-        // //mar
-        // let marString = ""
-        // for(const time of order.mar) {
-        //     const temp = `${time.hour.toString().padStart(2, "0")}:${time.minutes.toString().padStart(2, "0")}`
-        //     if(marString !== "") marString +=","
-        //     marString += temp
-        // }
-
+        const order = orders[index];
+        if(!order) return;
         
-        // setId(order.id)
-        // setConcentration(order.concentration)
-        // setRoute(order.route)
-        // setRoutine(order.routine)
-        // setPRNNote(order.PRNNote || "")
-        // setFrequency(frequencyKey as Frequency)
-        // setMar(order.mar)
-        // setNotes(order.notes)
-        // setOrderType(order.orderType)
-        // setCompleted(order.completed || false)
+        setId(order.id)
+        setConcentration(order.concentration)
+        setRoute(order.route)
+        setRoutine(order.routine)
+        setPRNNote(order.PRNNote ?? "")
+        setFrequency(order.frequency)
+        setMar(order.mar)
+        setNotes(order.notes)
+        setOrderType(order.orderType)
+        setCompleted(order.completed ?? false)
+        setTime(order.time ?? "")
     }
 
+    if(isLoading || !meds) return <LoadingCard />
 
     return (
         <div className="relative w-screen">
             <BaseStage {...props} onNext={onNextClickHandler} title="Medication Orders" icon={faBookMedical} moveLeft={orders.length > 0}>
                 <div className="grid grid-cols-3 gap-x-8 max-w-[50vw]">
-                    <SearchableSelect label="Medication Name (generic)" options={meds ?? []} labelKeys={["genericName", "brandName"]} valueKey="id" value={id.toString()} onChange={v=>setId(parseInt(v))} />
+                    <SearchableSelect label="Medication Name (generic)" options={meds} labelKeys={["genericName", "brandName"]} valueKey="id" value={id} onChange={v=>setId(parseInt(v))} />
 
                     <Input label="Prescribed Dose" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional placeholder="ex: 20mg/kg" />
                     <Input label="Route" onChange={e => setRoute(e.currentTarget.value)} value={route} optional />
@@ -173,7 +166,7 @@ export function OrdersStage(props: Props) {
             <div className="absolute right-20 top-0 overflow-y-auto h-[65vh] overflow-x-hidden">
                 <AnimatePresence>
                     {orders.map((order, i) =>
-                        <MedicationOrdersPreviewer medOrder={order} key={i} index={i} 
+                        <MedicationOrdersPreviewer medOrder={order} key={i} index={i} medsList={meds}
                             onIndexChangeHandler={onIndexChangeHandler}
                             onEdit={() => onEditClickHandler(i)}
                             onDelete={() => onDeleteHandler(i)} />

@@ -2,7 +2,7 @@ import React from 'react';
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 
 type Props = {
-    docLink?: string,
+    docLink?: string | null,
     title: string,
 }
 

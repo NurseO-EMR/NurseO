@@ -24,10 +24,10 @@ export class PatientChart {
     immunizations: string[] = [];
     studentReports: StudentReport[] = [];
     notes: Note[] = [];
-    studentId?: string = "";
-    labDocURL: string = "";
-    imagingURL?: string = "";
-    diagnosis?: string = "";
+    studentId?: string | null = "";
+    labDocURL?: string | null = "";
+    imagingURL?: string | null = "";
+    diagnosis?: string | null = "";
     courseId: number = -1;
     dbId: number = -1;
 };

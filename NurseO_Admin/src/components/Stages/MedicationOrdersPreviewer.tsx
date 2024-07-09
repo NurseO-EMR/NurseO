@@ -1,13 +1,14 @@
 import { faPenToSquare, faSquareCaretDown, faSquareCaretUp, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion} from "framer-motion";
-import { type MedicationOrder, MedicationOrderSyntax } from "@nurse-o-core/index";
-import { useState } from "react";
+import { type Medication, type MedicationOrder, MedicationOrderSyntax } from "@nurse-o-core/index";
+import { useMemo, useState } from "react";
 
 
 type Props = {
     medOrder: MedicationOrder,
     index: number,
+    medsList: Medication[],
     onDelete: ()=>void,
     onEdit: ()=>void,
     onIndexChangeHandler: (oldIndex:number, newIndex:number)=>void
@@ -17,6 +18,14 @@ export function MedicationOrdersPreviewer(props: Props) {
 
 
     const [indexValue,setIndexValue] = useState(props.index+1)
+    const order = useMemo(()=>{
+        const med = props.medsList.find(m=>m.id === props.medOrder.id)
+        return {
+            ...props.medOrder,
+            brandName: med?.brandName,
+            genericName: med?.genericName
+        }
+    }, [props.medOrder, props.medsList])
 
     const onUPorDownArrowsHandler = (direction: "up" | "down") => {
         let index = props.index
@@ -37,11 +46,11 @@ export function MedicationOrdersPreviewer(props: Props) {
              initial={{scaleY:0 }} animate={{scaleY:1 }}>
             <div>
                 <div className="text-center font-bold text-blue w-72">
-                    <MedicationOrderSyntax order={props.medOrder} />
+                    <MedicationOrderSyntax order={order} />
                 </div>
-                <div>Type: {props.medOrder.orderType}</div>
-                <div className="mt-3">Mar: {props.medOrder.mar.length > 0 ? props.medOrder.mar.map((time) => time.hour.toString().padStart(2,"0") + ":" + time.minute.toString().padStart(2,"0") + " ") : "No mar data added"}</div>
-                <div className="text-blue font-bold mt-2">{props.medOrder.completed ? "Completed" : null}</div>
+                <div>Type: {order.orderType}</div>
+                <div className="mt-3">Mar: {order.mar.length > 0 ? order.mar.map((time) => time.hour.toString().padStart(2,"0") + ":" + time.minute.toString().padStart(2,"0") + " ") : "No mar data added"}</div>
+                <div className="text-blue font-bold mt-2">{order.completed ? "Completed" : null}</div>
             </div>
             <div className="cursor-pointer grid items-center text-xl">
                 <FontAwesomeIcon icon={faPenToSquare} onClick={props.onEdit} />

@@ -28,7 +28,8 @@ export async function deletePatient(db:PrismaClient, patientId: number) {
         db.med_Order.deleteMany({where: {patient_id: patientId}}),
         db.patient.deleteMany({where: {id: patientId}}),
     ])
-    console.log(data)
+    
+    return data.map(d=>d.count).reduce((a,b)=>a+b) > 0
 }
 
 export async function addPatientWMetaDataOnly(db: PrismaClient, patient:PatientChart) {

@@ -1,5 +1,5 @@
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import type { PatientChart } from "@nurse-o-core/index";
+import { MedicationOrderSyntax, type PatientChart } from "@nurse-o-core/index";
 import { useState } from "react";
 import { BaseStage, type BaseStageProps } from "~/components/Stages/BaseStage";
 import { ReviewItem } from "~/components/Stages/Review/ReviewItem";
@@ -84,25 +84,23 @@ export function ReviewStage(props: Props) {
 
             : <></>}
 
-        {/* {props.patient.medicationOrders.length > 0 ?
+        {props.patient.medicationOrders.length > 0 ?
             <ReviewSection title="Medication Order">
                 {props.patient.medicationOrders.map((o, i) =>{
-                    const db = Database.getInstance()
-                    const med = db.getMedication(o.id)
                     return <div key={i}>
-                        <ReviewItem label={"Order" + i} value={<MedicationOrderSyntax  med={med} order={o} />} />
-                        <ReviewItem label={"Order" + i + "Type"} value={o.orderType} />
+                        <ReviewItem label={"Order"} value={<MedicationOrderSyntax order={o} />} />
+                        <ReviewItem label={"Order Type"} value={o.orderType} />
                     </div>
                 }
                 )}
             </ReviewSection>
-            : <></>} */}
+            : <></>}
         {props.patient.customOrders.length > 0 ?
             <ReviewSection title="Custom Order">
                 {props.patient.customOrders.map((o, i) =>
                     <div key={i}>
-                        <ReviewItem label={"Custom Order" + i} value={o.order} />
-                        <ReviewItem label={"Custom Order" + i + "Order Type"} value={o.orderType} />
+                        <ReviewItem label={"Custom Order "} value={o.order} />
+                        <ReviewItem label={"Custom Order "  + "Order Type"} value={o.orderType} />
                     </div>
                 )}
             </ReviewSection>
