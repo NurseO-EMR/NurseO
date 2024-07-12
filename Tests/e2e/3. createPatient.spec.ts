@@ -100,12 +100,61 @@ test('create patient', async ({ page }) => {
   await page.getByRole('button', { name: 'Next' }).click();
 
   // Medication Name
-  // TODO: add medication 
-  // Custom Orders
-  await page.getByRole('button', { name: 'Next' }).click();
+  await page.locator('div').filter({ hasText: /^Select\.\.\.$/ }).nth(2).click();
+  await page.getByRole('option', { name: 'glucose tablets' }).click();
+  await page.getByPlaceholder('ex: 20mg/kg').click();
+  await page.getByPlaceholder('ex: 20mg/kg').fill('20 mg');
+  await page.getByPlaceholder('ex: 20mg/kg').press('Tab');
+  await page.getByLabel('Route (optional)').fill('PO');
+  await page.getByLabel('Route (optional)').press('Tab');
+  await page.getByLabel('Routine (optional)').selectOption('as needed (PRN)');
+  await page.getByLabel('PRN Note (optional)').click();
+  await page.getByLabel('PRN Note (optional)').fill('PRN Note');
+  await page.getByLabel('Frequency (optional)').selectOption(' daily');
+  await page.getByLabel('Notes (optional)').click();
+  await page.getByLabel('Notes (optional)').fill('20');
+  await page.getByLabel('Order Type (optional)').selectOption('Admission');
+  await page.getByLabel('Notes (optional)').click();
+  await page.getByLabel('Notes (optional)').fill('Order 1');
+  await page.getByLabel('Completed').selectOption('true');
+  await page.getByRole('button', { name: 'Add Order' }).click();
 
-  await page.getByLabel('Time (optional)').click();
-  await page.getByLabel('Time (optional)').fill('time 1');
+  await page.locator('div').filter({ hasText: /^Select\.\.\.$/ }).nth(2).click();
+  await page.getByRole('option', { name: 'betamethasone' }).click();
+  await page.getByPlaceholder('ex: 20mg/kg').click();
+  await page.getByPlaceholder('ex: 20mg/kg').fill('20 mg');
+  await page.getByPlaceholder('ex: 20mg/kg').press('Tab');
+  await page.getByLabel('Route (optional)').fill('PO');
+  await page.getByLabel('Routine (optional)').selectOption('NOW');
+  await page.getByLabel('Frequency (optional)').selectOption('before meals');
+  await page.getByRole('button', { name: 'Add/Edit Mar Record' }).click();
+  await page.getByLabel('Time', { exact: true }).click();
+  await page.getByLabel('Time', { exact: true }).fill('02:01');
+  await page.getByLabel('Dose (with units)').click();
+  await page.getByLabel('Dose (with units)').fill('30 mg');
+  await page.getByRole('button', { name: 'Add Record' }).click();
+  await page.getByRole('button', { name: 'Save' }).click();
+  await page.getByLabel('Order Type (optional)').selectOption('Admission');
+  await page.getByLabel('Completed').selectOption('false');
+  await page.getByLabel('Notes (optional)').click();
+  await page.getByLabel('Notes (optional)').fill('Order 2');
+  await page.getByRole('button', { name: 'Add Order' }).click();
+  await expect(page.locator('#topLevelDiv')).toContainText('glucose tablets 20 mg PO daily as needed (PRN) PRN Note Order 1');
+  await expect(page.locator('#topLevelDiv')).toContainText('Completed');
+  await expect(page.locator('#topLevelDiv')).toContainText('betamethasone (Celestone) 20 mg PO before meals NOW Order 2');
+  await expect(page.locator('#topLevelDiv')).toContainText('Mar: 02:01');
+  await expect(page.locator('#topLevelDiv')).toContainText('Mar: No mar data added');
+  await page.getByRole('button', { name: 'Next' }).click();
+  await expect(page.getByText('Patient Updated').first()).toBeVisible();
+  await page.getByRole('button', { name: 'Previous' }).click();
+
+  await page.locator('svg:nth-child(3)').first().click();
+  await page.getByRole('button', { name: 'Next' }).click();
+  await expect(page.getByText('Patient Updated').first()).toBeVisible();
+
+  // Custom Orders
+  await page.getByLabel('Time (optional)').first().click();
+  await page.getByLabel('Time (optional)').first().fill('time 1');
 
   await page.locator('.ql-editor').click();
 
@@ -130,25 +179,24 @@ test('create patient', async ({ page }) => {
 
 
   // Charting
-
-  await page.getByRole('cell', { name: 'Select...' }).locator('svg').click();
-  await page.getByRole('option', { name: 'Temp' }).click();
   await page.getByPlaceholder('Day/Time').first().click();
   await page.getByPlaceholder('Day/Time').first().fill('today');
   await page.getByPlaceholder('Day/Time').first().press('Tab');
-  await page.getByLabel('value (optional)').first().click();
-  await page.getByLabel('value (optional)').first().fill('37.5');
-  await page.getByPlaceholder('Day/Time').nth(1).click();
   await page.getByPlaceholder('Day/Time').nth(1).fill('tomorrow');
-  await page.getByRole('row', { name: 'Temp' }).getByLabel('value (optional)').nth(1).click();
+  
+  await page.locator('div').filter({ hasText: /^Select\.\.\.$/ }).nth(0).click();
+  await page.getByRole('option', { name: 'Temp' }).click();
+  await page.getByRole('row', { name: 'Temp' }).getByLabel('value (optional)').first().click();
+  await page.getByRole('row', { name: 'Temp' }).getByLabel('value (optional)').first().fill('37.5');
+  await page.getByRole('row', { name: 'Temp' }).getByLabel('value (optional)').first().press('Tab');
   await page.getByRole('row', { name: 'Temp' }).getByLabel('value (optional)').nth(1).fill('38.5');
-  await page.locator('tr:nth-child(3) > td > .grid > .css-b62m3t-container > .css-6di5q5 > .css-hlgwow > .css-19bb58m').click();
-  await page.locator('#react-select-4-input').fill('test');
-  await page.locator('#react-select-4-input').press('Enter');
-  await page.getByRole('row', { name: 'test' }).getByLabel('value (optional)').first().click();
-  await page.getByRole('row', { name: 'test' }).getByLabel('value (optional)').first().fill('1');
-  await page.getByRole('row', { name: 'test' }).getByLabel('value (optional)').nth(1).click();
-  await page.getByRole('row', { name: 'test' }).getByLabel('value (optional)').nth(1).fill('2');
+  await page.locator('div').filter({ hasText: /^Select\.\.\.$/ }).nth(1).click();
+  await page.locator('#react-select-5-input').fill('Test');
+  await page.getByRole('option', { name: 'Create "Test"' }).click();
+  await page.getByRole('row', { name: 'Test' }).getByLabel('value (optional)').first().click();
+  await page.getByRole('row', { name: 'Test' }).getByLabel('value (optional)').first().fill('1');
+  await page.getByRole('row', { name: 'Test' }).getByLabel('value (optional)').first().press('Tab');
+  await page.getByRole('row', { name: 'Test' }).getByLabel('value (optional)').nth(1).fill('2');
   await page.getByRole('button', { name: 'Save' }).click();
   await expect(page.locator('#topLevelDiv')).toContainText('Initial Vitals has 4 entries');
   await page.locator('div').filter({ hasText: /^Assessment$/ }).click();

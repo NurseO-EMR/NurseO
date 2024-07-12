@@ -22,6 +22,7 @@ export const orderSchema = z.object({
   orderKind: orderKindSchema,
   orderType: orderTypeSchema,
   time: z.string().optional().nullable(),
+  orderIndex: z.number()
 });
 
 export const frequencySchema = z.nativeEnum(Frequency);

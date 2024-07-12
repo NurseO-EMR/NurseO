@@ -15,7 +15,7 @@ export function MedicationOrderSyntax(props: Props) {
         <>
             {props.order.genericName && props.order.genericName.length > 0 ? props.order.genericName + " ": ""}
             {props.order.genericName && props.order.genericName.length > 0 && props.order.brandName && props.order.brandName.length > 0 ? "(" : null}
-            {props.order.brandName && props.order.brandName.length > 0 ? props.order.brandName: ""}
+            {props.order.brandName && props.order.brandName.length > 0 ? props.order.brandName.trim() : ""}
             {props.order.genericName && props.order.genericName.length > 0 && props.order.brandName && props.order.brandName.length > 0  ? ")" : null}
             {" "}
             {props.order.concentration}{" "}

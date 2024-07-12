@@ -34,7 +34,7 @@ export function OrdersStage(props: Props) {
     const [showMar, setShowMar] = useState(false);
     const [time, setTime] = useState("");
 
-    const [orders, setOrders] = useState(props.patient?.medicationOrders ?? [] as MedicationOrder[]);
+    const [orders, setOrders] = useState(props.patient?.medicationOrders.sort((a,b)=>a.orderIndex - b.orderIndex) ?? [] as MedicationOrder[]);
 
     const onOrderAddClickHandler = () => {
 
@@ -51,7 +51,7 @@ export function OrdersStage(props: Props) {
             route,
             routine,
             frequency,
-            mar,
+            mar: [...mar],
             notes,
             orderType,
             PRNNote,
@@ -59,6 +59,7 @@ export function OrdersStage(props: Props) {
             completed,
             time: time,
             orderId: -1,
+            orderIndex: orders.length,
 
             brandName: med?.brandName,
             genericName: med?.genericName,
@@ -84,6 +85,7 @@ export function OrdersStage(props: Props) {
 
 
     const onNextClickHandler = () => {
+        orders.map(o=>o.orderId = -1)
         props.onNext(orders)
     }
 
@@ -93,11 +95,15 @@ export function OrdersStage(props: Props) {
             return; 
         }
 
+        // the order index needs to be changed not the orders array it self
         const temp = orders[oldIndex]!
         orders.splice(oldIndex,1)
         orders.splice(newIndex, 0, temp)
 
+        orders.forEach((o,i)=>o.orderIndex = i)
+
         setOrders([...orders]);
+        
         broadcastAnnouncement("Order Moved", Announcement.success)
     }
 
@@ -145,8 +151,12 @@ export function OrdersStage(props: Props) {
                         {Object.values(Frequency).map((f, i) => <option value={f} key={i}>{f}</option>)}
                     </Select>
 
-                    <div className="grid items-center"><Button className="bg-red h-10 mt-4 py-0" onClick={()=>setShowMar(true)}>Add/Edit Mar Record</Button></div>
+                    <div className="grid items-center">
+                        <Button className="bg-red py-0" onClick={()=>setShowMar(true)}>Add/Edit Mar Record</Button>
+                    </div>
+
                     <Input label="Notes" onChange={e => setNotes(e.currentTarget.value)} value={notes} optional />
+
                     <Select label="Order Type" value={orderType} onChange={e => setOrderType(e.currentTarget.value as OrderType)} optional>
                         {Object.values(OrderType).map((t, i) => <option value={t} key={i}>{t}</option>)}
                     </Select>
@@ -176,7 +186,7 @@ export function OrdersStage(props: Props) {
             </div>
 
 
-            <MarRecordEditor show={showMar} onClose={()=>setShowMar(false)} marRecords={mar} onSave={setMar}/>
+            <MarRecordEditor show={showMar} onClose={()=>setShowMar(false)} marRecords={[...mar]} onSave={setMar}/>
 
         </div>
     )

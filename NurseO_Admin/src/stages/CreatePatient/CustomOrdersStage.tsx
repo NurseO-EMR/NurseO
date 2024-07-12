@@ -30,6 +30,7 @@ export function CustomOrdersStage(props: Props) {
             orderType,
             orderKind: OrderKind.custom,
             time,
+            orderIndex: orders.length,
         })
         setOrders([...orders]);
         setOrder("");

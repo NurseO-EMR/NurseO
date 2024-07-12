@@ -70,6 +70,7 @@ model Custom_Order {
     order_type String
     time       String?
     order_text      String @db.Text
+    order_index Int @default(-1)
 
     patient Patient @relation(fields: [patient_id], references: [id])
 }
@@ -135,6 +136,7 @@ model Med_Order {
     time String?
     completed Boolean @default(false)
     hold_reason String?
+    order_index Int @default(-1)
 
     patient Patient @relation(fields: [patient_id], references: [id])
     medication Medication @relation(fields: [med_id], references: [id])

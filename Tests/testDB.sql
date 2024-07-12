@@ -130,7 +130,8 @@ CREATE TABLE `Custom_Order` (
   `order_type` varchar(191) NOT NULL,
   `time` varchar(191) DEFAULT NULL,
   `order_text` text NOT NULL,
-  `patient_id` int(11) NOT NULL
+  `patient_id` int(11) NOT NULL,
+  `order_index` int(11) NOT NULL DEFAULT -1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -256,7 +257,8 @@ CREATE TABLE `Med_Order` (
   `order_type` varchar(191) NOT NULL,
   `completed` tinyint(1) NOT NULL DEFAULT 0,
   `hold_reason` varchar(191) DEFAULT NULL,
-  `time` varchar(191) DEFAULT NULL
+  `time` varchar(191) DEFAULT NULL,
+  `order_index` int(11) NOT NULL DEFAULT -1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

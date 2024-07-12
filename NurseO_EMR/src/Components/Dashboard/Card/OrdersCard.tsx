@@ -1,32 +1,16 @@
-import { filter } from 'lodash';
 import React from 'react';
-import { type Order, OrderType } from '@nurse-o-core/index';
+import { type Order } from '@nurse-o-core/index';
 import Card from './Card';
 import OrderEntry from '../../Orders/OrdersEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> &  {
-    medications: Order[],
+    orders: Order[],
 }
 
-type State = {
-    filteredOrders: Order[]
-}
+export default function OrdersCard(props:Props) {
 
-export default class OrdersCard extends React.Component<Props, State> {
-
-    
-    constructor(props:Props) {
-        super(props);
-
-        this.state = {
-            filteredOrders: filter(this.props.medications, order=> order.orderType !== OrderType.NA)
-        }
-    }
-
-
-    public render() {
         return (
-            <Card title="Orders" className={this.props.className}>
+            <Card title="Orders" className={props.className}>
                 <thead className="font-bold">
                     <tr>
                         <td className="border-2 p-2">Time</td>
@@ -35,8 +19,8 @@ export default class OrdersCard extends React.Component<Props, State> {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.filteredOrders && this.state.filteredOrders.length > 0 ? 
-                        this.state.filteredOrders.map((order,i) =>
+                    {props.orders && props.orders.length > 0 ? 
+                        props.orders.map((order,i) =>
                             <OrderEntry key={i} order={order} />
                         ): 
                         <tr><td colSpan={2}><h1 className='text-center py-2'>No orders added</h1></td></tr>
@@ -46,4 +30,3 @@ export default class OrdersCard extends React.Component<Props, State> {
 
         );
     }
-}

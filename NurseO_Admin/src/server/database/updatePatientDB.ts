@@ -80,13 +80,14 @@ function updateAllergy(db:PrismaClient, patient: PatientChart) {
 function updateCustomOrders(db:PrismaClient, patient: PatientChart) {
     const deleteQ = db.custom_Order.deleteMany({where: {patient_id: patient.dbId}})
     const insertQ = db.custom_Order.createMany({
-        data: patient.customOrders.map(v=>{
+        data: patient.customOrders.map((v,i)=>{
             return {
                     order_kind: v.orderKind,
                     order_type: v.orderType,
                     time: v.time,
                     order_text: v.order,
                     patient_id: patient.dbId,
+                    order_index: i,
                 }
         })
     })
@@ -193,25 +194,25 @@ function updateImmunization(db:PrismaClient, patient: PatientChart) {
 async function updateMedOrder(db:PrismaClient, oldPatient: PatientChart, newPatient: PatientChart) {
     const promises = []
     let completedCount = 0;
-    console.log(oldPatient.medicationOrders.map(m=>m.orderId))
 
-    for(const order of oldPatient.medicationOrders) {
-        if(order.orderId === -1) continue;
-        const deleteMarQ = db.mar_Record.deleteMany({where: {med_order_id: order.orderId}})
-        promises.push(deleteMarQ)
-    }
+    // deleting mars
+    const deleteMarQ = db.$executeRaw`DELETE FROM Mar_Record WHERE Mar_Record.med_order_id IN ( SELECT id FROM Med_Order WHERE Med_Order.patient_id = ${oldPatient.dbId} );`
 
+    // deleting orders
     const deleteOrdersQ = db.med_Order.deleteMany({
         where: {
             patient_id: oldPatient.dbId
         }
     })
-    promises.push(deleteOrdersQ)
+
+    promises.push(deleteMarQ, deleteOrdersQ)
 
     const deleteT = await db.$transaction(promises)
     completedCount += deleteT.length
 
-    for(const order of newPatient.medicationOrders) {
+    // adding new orders
+    for(let i = 0; i<newPatient.medicationOrders.length; i++) {
+        const order = newPatient.medicationOrders[i]!
         const {id, concentration, route, frequency, routine, PRNNote, notes, orderKind, orderType, time, completed, holdReason} = order
         const newOrder = await db.med_Order.create({
             data: {
@@ -223,12 +224,13 @@ async function updateMedOrder(db:PrismaClient, oldPatient: PatientChart, newPati
                 order_type: orderType,
                 time, completed, 
                 hold_reason: holdReason,
-                patient_id: newPatient.dbId
+                patient_id: newPatient.dbId,
+                order_index: i                
             }
         })
 
         
-
+        // adding new mars
         const mar = await db.mar_Record.createMany({
             data: order.mar.map(v=>{
                 const {hour, minute, dose} = v
