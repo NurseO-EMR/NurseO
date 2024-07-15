@@ -12,9 +12,8 @@ export async function getPatientList(db:PrismaClient) {
 }
 
 export async function deletePatient(db:PrismaClient, patientId: number) {
-    const orders = await db.$queryRaw<{id: number}[]>`SELECT id FROM Med_Order WHERE patient_id = 354`
+    const orders = await db.$queryRaw<{id: number}[]>`SELECT id FROM Med_Order WHERE patient_id = ${patientId}`
     const orderNumbers = orders.map(o=>o.id)
-
     const data = await db.$transaction([
         db.allergy.deleteMany({where: {patient_id: patientId}}),
         db.custom_Order.deleteMany({where: {patient_id: patientId}}),
