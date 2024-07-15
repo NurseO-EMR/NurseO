@@ -1,4 +1,5 @@
 import type { PrismaClient } from "@prisma/client";
+import { env } from "~/env";
 import type { ProtocolStatus } from "~/types/protocolTypes";
 import type { userRoles } from "~/types/userRoles";
 
@@ -126,7 +127,8 @@ export async function addLocation(db:PrismaClient, buildingName: string, station
 }
 
 export async function getUsersList(db: PrismaClient) {
-    return await db.$queryRaw<{name: string, email: string, role: userRoles}[]>`SELECT name, email, role FROM User;`
+    if(env.Demo_Mode) return [{name: "Disabled for Demo Mode", email: "", role: ""}]
+    else return await db.$queryRaw<{name: string, email: string, role: userRoles}[]>`SELECT name, email, role FROM User;`
 }
 
 async function getNumberOfCoursesNMedsByLocation(db:PrismaClient, locationId: number) {

@@ -25,7 +25,8 @@ export const env = createEnv({
     Google_CLIENT_ID: z.string(),
     Google_CLIENT_SECRET: z.string(),
 
-    TEST_ENV: z.string().toLowerCase().transform((x) => x === 'true').pipe(z.boolean()).optional()
+    TEST_ENV: z.string().toLowerCase().transform((x) => x === 'true').pipe(z.boolean()).optional(),
+    Demo_Mode: z.string().toLowerCase().transform((x) => x === 'true').pipe(z.boolean()).optional()
   },
 
   /**
@@ -48,7 +49,8 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     Google_CLIENT_ID: process.env.Google_CLIENT_ID,
     Google_CLIENT_SECRET: process.env.Google_CLIENT_SECRET,
-    TEST_ENV: process.env.TEST_ENV
+    TEST_ENV: process.env.TEST_ENV,
+    Demo_Mode: process.env.Demo_Mode
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
