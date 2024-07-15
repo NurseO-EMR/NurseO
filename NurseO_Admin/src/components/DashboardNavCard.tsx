@@ -1,7 +1,7 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { type IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Children, ReactChild } from "react";
+import { Children, type ReactChild } from "react";
 
 type Props = {
     icon: IconProp,

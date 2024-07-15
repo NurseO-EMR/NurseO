@@ -1,37 +1,15 @@
-import { useState, useEffect } from "react";
 import { Card } from "~/components/Card";
 import { Td } from "~/components/Table/Td";
 import { Tr } from "~/components/Table/Tr";
 import PageView from "../_PageView";
-import { findIndex } from "lodash";
+import { api } from "~/utils/api";
+import { LoadingCard } from "~/components/loadingCard";
 
 export default function ViewAdminsPage() {
-    const [admins, setAdmins] = useState<string[]>([])
-
-    // TODO: Get this to work
+    const admins = api.setting.getUsersList.useQuery()
 
 
-    // const getLocations = async () => {
-    //     const db = Database.getInstance()
-    //     const admins = await db.getAdminList();
-    //     setAdmins(admins)
-    // }
-
-    // useEffect(() => {
-    //     getLocations()
-    // }, [])
-
-
-    const onDeleteClickHandler = async (email: string) => {
-        // const db = Database.getInstance()
-        // const admins = await db.getAdminList()
-        // const index = findIndex(admins, email)
-        // admins.splice(index, 1);
-        // await db.updateAdminList(admins)
-        
-        // setAdmins([...admins])
-    }
-
+    if(admins.isLoading) return <LoadingCard />
 
     return <PageView>
         <Card>
@@ -39,17 +17,17 @@ export default function ViewAdminsPage() {
             <table className="w-full">
                 <thead>
                     <Tr>
-                        <th className="border font-normal">Admin Email</th>
-                        <th className="border font-normal">Remove</th>
+                        <th className="border font-normal">Name</th>
+                        <th className="border font-normal">Email</th>
+                        <th className="border font-normal">Role</th>
                     </Tr>
                 </thead>
                 <tbody>
-                    {admins.map((a, i) =>
+                    {admins.data?.map((a, i) =>
                         <Tr key={i}>
-                            <Td>{a}</Td>
-                            <td><button 
-                            className="bg-red text-white px-4 py-2 mx-auto w-full" 
-                            onClick={() => onDeleteClickHandler(a)}>Remove</button></td>
+                            <Td>{a.name}</Td>
+                            <Td>{a.email}</Td>
+                            <Td>{a.role}</Td>
                         </Tr>
                     )}
                 </tbody>
