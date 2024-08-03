@@ -1509,7 +1509,7 @@ INSERT INTO `Medication` (`id`, `brand_name`, `generic_name`, `narcoti_count_nee
 (69, 'Cytotec', 'misoprostol ', 0),
 (70, 'Ativan', 'lorazepam', 0),
 (71, 'Tylenol', 'acetaminophen', 0),
-(72, 'Ancef', 'cefazolin sodium ', 0),
+(72, 'Ancef', 'cefazolin sodium ', 0);
 
 
 
