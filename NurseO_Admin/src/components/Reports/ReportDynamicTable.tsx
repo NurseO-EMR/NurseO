@@ -26,10 +26,9 @@ export function ReportDynamicTable(props: Props) {
         const initialTable = getInitialTable(props.studentReports?.filter(r=> r.setName === props.setName && r.reportType === props.type))
         updateTable(initialTable)
 
-        setOptions(getOptions(props.options, props.studentReports))
+        setOptions([...getOptions(props.options, props.studentReports)])
         setTable([...initialTable])
-    },[props.options])
-
+    }, [props.options, props.setName, props.studentReports, props.type])
 
     const onKeyChangeHandler = (row:number, value:string)=>{
         table[row]![0] = value
