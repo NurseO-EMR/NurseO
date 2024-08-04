@@ -1511,7 +1511,14 @@ INSERT INTO `Medication` (`id`, `brand_name`, `generic_name`, `narcoti_count_nee
 (71, 'Tylenol', 'acetaminophen', 0),
 (72, 'Ancef', 'cefazolin sodium ', 0);
 
+INSERT INTO `Location` (`id`, `building`, `station`) VALUES
+(1, "Demo Building", "Demo Station");
 
+INSERT INTO `Course` (`id`, `name`) VALUES
+(1, "Demo Course");
+
+INSERT INTO `Course_Location_Information` (`id`, `course_id`, `location_id`) VALUES
+(1, 1, 1);
 
 INSERT INTO `Medication_Location_Information` (`id`, `med_id`, `location_id`, `drawer`, `slot`, `barcode`, `dose`, `type`) VALUES
 (1, 1, 1, 'J6', 'Slot 6', '378871', '-', '-'),
@@ -1587,6 +1594,62 @@ INSERT INTO `Medication_Location_Information` (`id`, `med_id`, `location_id`, `d
 (71, 71, 1, 'Q6', 'Slot 0', '229270', '-', '-'),
 (72, 72, 1, 'M9', 'Slot 3', '190313', '-', '-');
 
+INSERT INTO `Patient` (`id`, `name`, `dob`, `age`, `gender`, `height`, `weight`, `studentUID`, `lab_doc_url`, `imaging_url`, `diagnosis`, `course_id`, `template`, `patient_bar_code`, `time_hour`, `time_minute`, `student_id`) VALUES
+(2, 'John Smith', '1985-04-14', '39 Years old', 'male', '5\' 11\"', '180 lbs', NULL, '', '', '', 1, 1, '10', 12, 0, NULL),
+(3, 'John Smith', '1985-04-14', '39 Years old', 'male', '5\' 11\"', '180 lbs', NULL, '', '', '', 1, 0, '10', 12, 0, 'wefwe4fwefwe');
+
+INSERT INTO `Allergy` (`id`, `name`, `reaction`, `patient_id`) VALUES
+(2, 'penicillin', 'rash', 2),
+(3, 'pollen', 'rash', 2),
+(4, 'penicillin', 'rash', 3),
+(5, 'pollen', 'rash', 3);
+
+INSERT INTO `Custom_Order` (`id`, `order_kind`, `order_type`, `time`, `order_text`, `patient_id`, `order_index`) VALUES
+(1, 'custom', 'Admission', '', '<p>Admit to Medical-Surgical Unit</p>', 2, 0),
+(2, 'custom', 'Admission', '', '<p>Continuous oximetry</p>', 2, 1),
+(3, 'custom', 'Admission', '', '<p>Vital signs every 2 hours</p>', 2, 2),
+(4, 'custom', 'Admission', '', '<p>Strict Intake/Output (I/O)</p>', 2, 3),
+(5, 'custom', 'Admission', '', '<p>Heart Healthy, Moderate Carb Diet</p><p><br></p>', 2, 4),
+(6, 'custom', 'Admission', '', '<p>Admit to Medical-Surgical Unit</p>', 3, 0),
+(7, 'custom', 'Admission', '', '<p>Continuous oximetry</p>', 3, 1),
+(8, 'custom', 'Admission', '', '<p>Vital signs every 2 hours</p>', 3, 2),
+(9, 'custom', 'Admission', '', '<p>Strict Intake/Output (I/O)</p>', 3, 3),
+(10, 'custom', 'Admission', '', '<p>Heart Healthy, Moderate Carb Diet</p><p><br></p>', 3, 4);
+
+
+INSERT INTO `Medical_History` (`id`, `date`, `title`, `notes`, `patient_id`) VALUES
+(1, '2019-01-20', 'Mild hypertension', 'well-managed with lifestyle changes (diet and exercise)', 2),
+(2, '2019-01-20', 'Mild hypertension', 'well-managed with lifestyle changes (diet and exercise)', 3);
+
+
+INSERT INTO `Med_Order` (`id`, `patient_id`, `med_id`, `concentration`, `route`, `frequency`, `routine`, `prn_note`, `notes`, `order_kind`, `order_type`, `completed`, `hold_reason`, `time`, `order_index`) VALUES
+(1, 2, 12, '20 mg', 'PO', 'once', 'Scheduled', '', '', 'med', 'Admission', 0, NULL, '', 0),
+(2, 3, 12, '20 mg', 'PO', 'once', 'Scheduled', '', '', 'med', 'Admission', 0, NULL, '', 0);
+
+
+INSERT INTO `Mar_Record` (`id`, `med_order_id`, `dose`, `hour`, `minute`) VALUES
+(1, 1, '20 mg', 8, 0),
+(2, 2, '20 mg', 8, 0);
+
+INSERT INTO `Social_History` (`id`, `history`, `patient_id`) VALUES
+(1, 'Office worker', 2),
+(2, 'Non-smoker', 2),
+(3, 'occasional exercise (jogs 2-3 times a week)', 2),
+(4, ' no alcohol consumption', 2),
+(5, 'Office worker', 3),
+(6, 'Non-smoker', 3),
+(7, 'occasional exercise (jogs 2-3 times a week)', 3),
+(8, ' no alcohol consumption', 3);
+
+INSERT INTO `Student_Report` (`id`, `patient_id`, `set_name`, `field_name`, `time`, `value`, `date`, `report_type`) VALUES
+(13, 2, 'Initial Vitals', 'ewdewwqdwq', 'Today', '12', '', 'studentVitalsReport'),
+(14, 2, 'Initial Vitals', 'ewdewwqdwq', 'Yesterday', '12', '', 'studentVitalsReport'),
+(15, 2, 'Initial Vitals', 'BP - Sitting', 'Today', '122', '', 'studentVitalsReport'),
+(16, 2, 'Initial Vitals', 'BP - Sitting', 'Yesterday', 'dwqddqw', '', 'studentVitalsReport'),
+(17, 3, 'Initial Vitals', 'ewdewwqdwq', 'Today', '12', '', 'studentVitalsReport'),
+(18, 3, 'Initial Vitals', 'ewdewwqdwq', 'Yesterday', '12', '', 'studentVitalsReport'),
+(19, 3, 'Initial Vitals', 'BP - Sitting', 'Today', '122', '', 'studentVitalsReport'),
+(20, 3, 'Initial Vitals', 'BP - Sitting', 'Yesterday', 'dwqddqw', '', 'studentVitalsReport');
 
 COMMIT;
 
