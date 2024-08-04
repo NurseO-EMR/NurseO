@@ -65,6 +65,7 @@ export default function ViewLocationsPage() {
             <table className="w-full">
                 <thead>
                     <Tr>
+                        <th className="border font-normal">Id</th>
                         <th className="border font-normal">Building</th>
                         <th className="border font-normal">Station</th>
                         <th className="border font-normal">Courses</th>
@@ -74,6 +75,8 @@ export default function ViewLocationsPage() {
                 <tbody>
                     {locations.map((l, i) =>
                         <Tr key={i}>
+                            <Td className="text-center">{l.id}</Td>
+
                             <Td className="w-28"><Input label="building name" hideLabel value={l.building} 
                             onChange={({target})=>onBuildingEdit(l.id, target.value)} 
                             onBlur={({target})=>onBlurHandler(l.id, target.value, l.station)}
