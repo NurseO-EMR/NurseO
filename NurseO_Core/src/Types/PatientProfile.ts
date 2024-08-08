@@ -36,6 +36,7 @@ export type Order = {
     orderKind: OrderKind,
     orderType: OrderType,
     time?: string | null
+    orderIndex: number,
 }
 
 export type CustomOrder = Order & {

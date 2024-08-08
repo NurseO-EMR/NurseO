@@ -30,7 +30,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
     if (location) storeLocation(location)
     else location = getLocationFromStorage()
 
-    console.log(Number.isInteger(location))
     if (location && !Number.isNaN(location)) setLocationId(Number.parseInt(location))
 
   }, [])

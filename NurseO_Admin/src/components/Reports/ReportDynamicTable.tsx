@@ -20,16 +20,15 @@ type Props = {
 export function ReportDynamicTable(props: Props) {
     
     const [table, setTable] = useState<string[][]>([])
-    const [options, setOptions] = useState<{name:string}[]>(props.options.map(o=>{return {name:o.name}}))
+    const [options, setOptions] = useState<{ name: string }[]>(getOptions(props.options, props.studentReports))
 
     useEffect(()=>{
         const initialTable = getInitialTable(props.studentReports?.filter(r=> r.setName === props.setName && r.reportType === props.type))
         updateTable(initialTable)
 
-        setOptions([...props.options.map(o=>{return {name:o.name}})])
+        setOptions([...getOptions(props.options, props.studentReports)])
         setTable([...initialTable])
-    },[props.options])
-
+    }, [props.options, props.setName, props.studentReports, props.type])
 
     const onKeyChangeHandler = (row:number, value:string)=>{
         table[row]![0] = value
@@ -128,12 +127,11 @@ export function ReportDynamicTable(props: Props) {
 
                         // time
                         if(rowIndex === 0) return <Td key={columnIndex}><Input hideLabel label="Day/Time" placeholder="Day/Time"
-                         value={cell} onChange={e=>onTimeupdateHandler(columnIndex, e.currentTarget.value)} optional/></Td>
-
+                            value={cell} onChange={e => onTimeupdateHandler(columnIndex, e.currentTarget.value)} optional /></Td>
                         // values
                         else return <Td key={columnIndex}><Input hideLabel label={"value"} value={cell}
-                                        disabled={table[0]![columnIndex]!.length===0} optional
-                                        onChange={e=>onValueChangeHandler(rowIndex, columnIndex,e.currentTarget.value)}/></Td>
+                            disabled={table[0]?.[columnIndex]?.length === 0} optional
+                            onChange={e => onValueChangeHandler(rowIndex, columnIndex, e.currentTarget.value)} /></Td>
                     })}
                 </Tr>)}
             </tbody>
@@ -163,7 +161,7 @@ function getInitialTable(studentReports: StudentReport[] | undefined): string[][
     ]
 
     const output:string[][] = []
-    const rows = Object.entries(groupBy(studentReports, "vitalName"))
+    const rows = Object.entries(groupBy(studentReports, "fieldName"))
 
     // get the times row
     let times:string[] = []
@@ -187,7 +185,16 @@ function getInitialTable(studentReports: StudentReport[] | undefined): string[][
         output.push(rowArray)
     }
 
-    
     return output
 
+}
+
+function getOptions(felids: ReportField[], studentReports?: StudentReport[]): { name: string }[] {
+    const outputSet = new Set<string>()
+    felids.forEach(f => outputSet.add(f.name))
+    studentReports?.forEach(s => outputSet.add(s.fieldName))
+
+    const outputArray: { name: string }[] = []
+    outputSet.forEach(name => outputArray.push({ name: name }))
+    return outputArray
 }

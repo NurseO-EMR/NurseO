@@ -14,13 +14,16 @@ export async function getListOfPatients(db: PrismaClient, locationId: number) {
 }
 
 export async function getPatientMedOrders(db: PrismaClient, patientId: number): Promise<MedicationOrder[]> {
-    const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string, brandName: string, genericName: string, narcoticCountNeeded: boolean}[]>`
+    const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string, brandName: string, genericName: string, narcoticCountNeeded: boolean, orderIndex: number}[]>`
                      SELECT Med_Order.id as orderId, med_id as id, concentration, route, frequency, routine, prn_note as PRNNote, notes, order_kind as orderKind, 
                             order_type as orderType, Med_Order.time, completed, hold_reason as holdReason,
-                            brand_name as brandName, generic_name as genericName, narcoti_count_needed as narcoticCountNeeded
+                            brand_name as brandName, generic_name as genericName, narcoti_count_needed as narcoticCountNeeded,
+                            order_index as orderIndex
                      FROM Med_Order 
                      INNER JOIN Medication ON Med_Order.med_id = Medication.id
-                     WHERE patient_id = ${patientId};`
+                     WHERE patient_id = ${patientId}
+                     ORDER BY order_index ASC;
+                     `
 
     if(orders.length === 0) return []
 

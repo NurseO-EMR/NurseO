@@ -25,11 +25,11 @@ export function CustomOrderPreviewerEntity(props:Props) {
     return <Tr>
         <Td><pre>{props.order.orderType}</pre></Td>
         <Td><pre>{props.order.time}</pre></Td>
-        <Td><pre className="whitespace-pre-wrap w-[33rem]">{Parse(props.order.order)}</pre></Td>
-        <Td><button className="bg-blue min-w-full h-10 text-white font-bold px-3"
+        <Td><pre className="whitespace-pre-wrap w-[35vw]">{Parse(props.order.order)}</pre></Td>
+        <Td><button className="bg-blue h-10 text-white font-bold px-3 min-w-20"
                 onClick={props.onEdit}>Edit</button></Td>
         <Td className="px-0">
-            <button className="bg-red min-w-full h-10 text-white font-bold"
+            <button className="bg-red min-w-20 h-10 text-white font-bold"
                 onClick={props.onDelete}>Delete</button>
         </Td>
         <Td>

@@ -23,7 +23,7 @@ export default class Dashboard extends React.Component<Props> {
                 <ImmunizationCard  className="col-span-1" immunizations={this.props.patient.immunizations} />
                 <HistoryCard className="col-span-3" history={this.props.patient.medicalHistory} />
                 <AllergyCard className='col-span-1' allergies={this.props.patient?.allergies}></AllergyCard>
-                <OrdersCard  className="col-span-4" medications={[ ...this.props.patient.customOrders, ...this.props.patient.medicationOrders]} />
+                <OrdersCard  className="col-span-4" orders={[ ...this.props.patient.customOrders, ...this.props.patient.medicationOrders]} />
                 {/* <MedicationCard className="col-span-4" medications={this.props.patient?.medicationOrders}></MedicationCard> */}
                 
                 <SocialHistoryCard className="col-span-4" history={this.props.patient.socialHistory} />

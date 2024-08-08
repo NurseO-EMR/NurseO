@@ -13,6 +13,7 @@ services:
       - Google_CLIENT_ID=${Google_CLIENT_ID}
       - Google_CLIENT_SECRET=${Google_CLIENT_SECRET}
       - TEST_ENV=true
+      - Demo_Mode=true
 
     ports:
       - 3100:3000
@@ -64,7 +65,7 @@ services:
       - MARIADB_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
       - MARIADB_DATABASE=NurseO
     volumes:
-      - ./Tests/testDB.sql:/docker-entrypoint-initdb.d/TestDB.sql
+      - ./Tests/demoDB.sql:/docker-entrypoint-initdb.d/db.sql
 
   phpmyadmin:
     image: phpmyadmin

@@ -13,7 +13,7 @@ export default function Error401NotAuthorizedPage() {
             <Background />
             <Logo className="text-2xl absolute left-24 top-3" />
             <div className="grid justify-center h-screen w-screen content-center text-center">
-                <form onSubmit={e => e.preventDefault()} className="bg-white  rounded-2xl border-red border-8 py-20 w-[40vw]">
+                <form onSubmit={e => e.preventDefault()} className="bg-white  rounded-2xl border-red border-8 py-20 w-[40vw] px-10">
                     <Logo className="text-5xl" />
                     <h1 className="my-5 font-bold">Hi {session.data?.user.name}</h1>
                     <h1 className="my-5 font-bold">You are not authorized to access this page</h1>

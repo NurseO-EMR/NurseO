@@ -30,6 +30,7 @@ export function CustomOrdersStage(props: Props) {
             orderType,
             orderKind: OrderKind.custom,
             time,
+            orderIndex: orders.length,
         })
         setOrders([...orders]);
         setOrder("");
@@ -60,6 +61,7 @@ export function CustomOrdersStage(props: Props) {
     }
 
     const onEditClickHandler = (index:number) =>{
+        console.log("heuhwefuihuihwefiwefiu")
         const tempOrder = orders[index]!
         setTime(tempOrder.time ?? "")
         setOrder(tempOrder.order)

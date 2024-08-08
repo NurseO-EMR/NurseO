@@ -94,8 +94,8 @@ async function getAllergies(db: PrismaClient, patientId: number) {
 
 
 async function getCustomOrders(db: PrismaClient, patientId: number): Promise<CustomOrder[]> {
-       const data = await db.$queryRaw<{ orderKind: OrderKind, orderType: OrderType, time?: string, order: string }[]>`
-                        SELECT order_kind as orderKind, order_type as orderType, time, order_text as "order" FROM Custom_Order WHERE patient_id = ${patientId};`
+       const data = await db.$queryRaw<{ orderKind: OrderKind, orderType: OrderType, time?: string, order: string, orderIndex: number }[]>`
+                        SELECT order_kind as orderKind, order_type as orderType, time, order_text as "order", order_index as orderIndex FROM Custom_Order WHERE patient_id = ${patientId};`
        return data
 }
 
@@ -137,8 +137,8 @@ async function getImmunizations(db: PrismaClient, patientId: number) {
 }
 
 async function getMedOrders(db: PrismaClient, patientId: number): Promise<MedicationOrder[]> {
-       const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string }[]>`
-                        SELECT id as orderId, med_id as id, concentration, route, frequency, routine, prn_note as PRNNote, notes, order_kind as orderKind, order_type as orderType, time, completed, hold_reason as holdReason FROM Med_Order WHERE patient_id = ${patientId};`
+       const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string, orderIndex:number }[]>`
+                        SELECT id as orderId, med_id as id, concentration, route, frequency, routine, prn_note as PRNNote, notes, order_kind as orderKind, order_type as orderType, time, completed, hold_reason as holdReason, order_index as orderIndex FROM Med_Order WHERE patient_id = ${patientId};`
        if(orders.length === 0) return []
        
        const orderIds = orders.map(o => o.orderId)

@@ -37,8 +37,6 @@ export function SearchableSelect(props: Props) {
     }
 
 
-
-
     const animationVariants: Variants = {
         hidden: { opacity: 0 },
         show: {
@@ -78,8 +76,6 @@ export function SearchableSelect(props: Props) {
         const value = options.filter(o=>o.value === props.value)
         return value;
     }
-
-
 
     return (
         <motion.div className="grid text-left my-4 relative w-full" initial="hidden" animate="show" exit="exit" variants={animationVariants} >

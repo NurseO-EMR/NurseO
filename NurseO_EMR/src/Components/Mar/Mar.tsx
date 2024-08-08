@@ -1,5 +1,5 @@
 import { findIndex, uniq } from 'lodash';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import type { MedicationOrder, Time } from "@nurse-o-core/index";
 import MarEntry from './MarEntry';
 import { GlobalContext } from '~/Services/State';
@@ -13,7 +13,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 
 export default function Mar(props: Props) {
     const {patient, setPatient, studentId} = useContext(GlobalContext)
-    const [timeSlots, setTimeSlots] = useState(getTimeSlots(props.simTime.hour, props.orders))
+    const timeSlots = useMemo(()=>getTimeSlots(props.simTime.hour, props.orders), [props.orders, props.simTime.hour])
     const holdInfo = api.patient.updatePatientHoldInfo.useMutation()
 
     const onMarHoldHandler = (order:MedicationOrder) => {

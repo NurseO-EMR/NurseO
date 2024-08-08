@@ -18,7 +18,7 @@ export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTri
 
     // prepared values
     const allergies = p.allergies.map(v => Prisma.sql`(${v.name}, ${v.reaction}, ${patient.id})`)
-    const customOrders = p.customOrders.map(v => Prisma.sql`(${v.orderKind}, ${v.orderType}, ${v.time}, ${v.order}, ${patient.id})`)
+    const customOrders = p.customOrders.map(v => Prisma.sql`(${v.orderKind}, ${v.orderType}, ${v.time}, ${v.order}, ${patient.id}, ${v.orderIndex})`)
     const socialHistory = p.socialHistory.map(v => Prisma.sql`(${v}, ${patient.id})`)
     const medicalHistory = p.medicalHistory.map(v => Prisma.sql`(${v.date}, ${v.title}, ${v.notes}, ${patient.id})`)
     const notes = p.notes.map(v => Prisma.sql`(${v.date}, ${v.note}, ${v.reportName}, ${v.reportType}, ${patient.id})`)
@@ -30,7 +30,7 @@ export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTri
     const transactions: PrismaPromise<number>[] = []
 
     if (allergies.length) transactions.push(db.$executeRaw`INSERT INTO Allergy (name, reaction, patient_id) VALUES ${Prisma.join(allergies)}`)
-    if (customOrders.length) transactions.push(db.$executeRaw`INSERT INTO Custom_Order (order_kind, order_type, time, order_text, patient_id) VALUES ${Prisma.join(customOrders)}`)
+    if (customOrders.length) transactions.push(db.$executeRaw`INSERT INTO Custom_Order (order_kind, order_type, time, order_text, patient_id, order_index) VALUES ${Prisma.join(customOrders)}`)
     if (socialHistory.length) transactions.push(db.$executeRaw`INSERT INTO Social_History (history, patient_id) VALUES ${Prisma.join(socialHistory)}`)
     if (medicalHistory.length) transactions.push(db.$executeRaw`INSERT INTO Medical_History (date, title, notes, patient_id) VALUES ${Prisma.join(medicalHistory)}`)
     if (notes.length) transactions.push(db.$executeRaw`INSERT INTO Note (date, note, report_name, report_type, patient_id) VALUES ${Prisma.join(notes)}`)
@@ -60,7 +60,7 @@ export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTri
 
 async function addMedRecord(medOrders: MedicationOrder[], patientId: number, db: PrismaClient) {
     for (const o of medOrders) {
-        const { concentration, route, frequency, routine, PRNNote, notes, orderKind, orderType, time, completed, holdReason } = o
+        const { concentration, route, frequency, routine, PRNNote, notes, orderKind, orderType, time, completed, holdReason, orderIndex } = o
         const newOrder = await db.med_Order.create({
             data: {
                 med_id: o.id,
@@ -72,11 +72,12 @@ async function addMedRecord(medOrders: MedicationOrder[], patientId: number, db:
                 order_type: orderType,
                 time,
                 completed: Boolean(completed),
-                hold_reason: holdReason
+                hold_reason: holdReason,
+                order_index: orderIndex
             }
         })
 
-        if (o.mar.length > 0) continue;
+        if (o.mar.length === 0) continue;
 
         await db.mar_Record.createMany({
             data: o.mar.map(v => {
@@ -87,7 +88,7 @@ async function addMedRecord(medOrders: MedicationOrder[], patientId: number, db:
                     dose: v.dose
                 }
             })
-        })
+        }).catch(console.log)
     }
 
 }

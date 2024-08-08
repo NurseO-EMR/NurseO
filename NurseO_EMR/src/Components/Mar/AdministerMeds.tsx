@@ -149,6 +149,7 @@ function createEmptyOrder(medId: number, orderId: number): MedicationOrder {
         routine: Routine.NA,
         completed: false,
         holdReason: null,
-        time: ""
+        time: "",
+        orderIndex: -1
     }
 }

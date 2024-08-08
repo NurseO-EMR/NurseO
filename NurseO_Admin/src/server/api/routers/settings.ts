@@ -4,7 +4,7 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "~/server/api/trpc";
-import { addCourse, addCourseToLocation, addLocation, deleteCourse, deleteCourseFromLocation, deleteLocation, getCourses, getCoursesInSpecificLocation, getLocations, updateCourse, updateLocation } from "~/server/database/settingsDB";
+import { addCourse, addCourseToLocation, addLocation, deleteCourse, deleteCourseFromLocation, deleteLocation, getCourses, getCoursesInSpecificLocation, getLocations, getUsersList, updateCourse, updateLocation } from "~/server/database/settingsDB";
 
 
 export const settingRouter = createTRPCRouter({
@@ -21,4 +21,5 @@ export const settingRouter = createTRPCRouter({
   deleteLocation: protectedProcedure.input(z.object({locationId: z.number()})).mutation(async ({ ctx, input }) => deleteLocation(ctx.db, input.locationId)),
   updateLocation: protectedProcedure.input(z.object({locationId: z.number(), building: z.string(), station: z.string()})).mutation(async ({ ctx, input }) => updateLocation(ctx.db, input.locationId, input.building, input.station)),
   addLocation: protectedProcedure.input(z.object({building: z.string(), station: z.string()})).mutation(async ({ ctx, input }) => addLocation(ctx.db, input.building, input.station)),
+  getUsersList: protectedProcedure.query(({ctx})=>getUsersList(ctx.db)),
 });
