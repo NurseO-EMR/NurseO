@@ -2,16 +2,15 @@ version: '3'
 services:
   admin: 
     container_name: NurseO_Admin
-    build: 
-      context: ./NurseO_Admin
-      additional_contexts:
-        core: ./NurseO_Core
+    image: moahmmed199898/nurseo_admin:3.0.0
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
       - NEXTAUTH_URL=${NEXTAUTH_URL}
       - Google_CLIENT_ID=${Google_CLIENT_ID}
       - Google_CLIENT_SECRET=${Google_CLIENT_SECRET}
+      - TEST_ENV=false
+      - Demo_Mode=false
 
     ports:
       - 3100:3000
@@ -20,17 +19,15 @@ services:
 
   emr: 
     container_name: NurseO_EMR
-    build: 
-      context: ./NurseO_EMR
-      additional_contexts:
-        core: ./NurseO_Core
+    image: moahmmed199898/nurseo_emr:3.0.0
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
       - NEXTAUTH_URL=${NEXTAUTH_URL}
       - Google_CLIENT_ID=${Google_CLIENT_ID}
       - Google_CLIENT_SECRET=${Google_CLIENT_SECRET}
-
+    volumes:
+      - ./logo.png:/app/public/logo.png
     ports:
       - 3101:3000
     depends_on:
@@ -39,10 +36,7 @@ services:
 
   med_admin: 
     container_name: NurseO_Medication_Administration
-    build: 
-      context: ./NurseO_Med_Admin
-      additional_contexts:
-        core: ./NurseO_Core
+    image: moahmmed199898/nurseo_med_admin:3.0.0
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
@@ -62,6 +56,8 @@ services:
     environment:
       - MARIADB_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
       - MARIADB_DATABASE=NurseO
+    volumes:
+      - ./demoDB.sql:/docker-entrypoint-initdb.d/db.sql
 
   phpmyadmin:
     image: phpmyadmin
@@ -70,3 +66,4 @@ services:
       - 9090:80
     environment:
       - PMA_HOST=db
+      

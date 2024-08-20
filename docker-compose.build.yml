@@ -6,19 +6,20 @@ services:
       context: ./NurseO_Admin
       additional_contexts:
         core: ./NurseO_Core
+      tags:
+      - moahmmed199898/nurseo_admin:3.0.0
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
       - NEXTAUTH_URL=${NEXTAUTH_URL}
       - Google_CLIENT_ID=${Google_CLIENT_ID}
       - Google_CLIENT_SECRET=${Google_CLIENT_SECRET}
-      - TEST_ENV=true
-      - Demo_Mode=true
+      - TEST_ENV=false
+      - Demo_Mode=false
 
     ports:
       - 3100:3000
-    depends_on:
-      - db
+
 
   emr: 
     container_name: NurseO_EMR
@@ -26,6 +27,8 @@ services:
       context: ./NurseO_EMR
       additional_contexts:
         core: ./NurseO_Core
+      tags:
+        - moahmmed199898/nurseo_emr:3.0.0
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
@@ -36,8 +39,7 @@ services:
       - ./logo.png:/app/public/logo.png
     ports:
       - 3101:3000
-    depends_on:
-      - db
+
 
 
   med_admin: 
@@ -46,6 +48,8 @@ services:
       context: ./NurseO_Med_Admin
       additional_contexts:
         core: ./NurseO_Core
+      tags:
+        - moahmmed199898/nurseo_med_admin:3.0.0
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
@@ -55,24 +59,5 @@ services:
 
     ports:
       - 3102:3000
-    depends_on:
-      - db
 
-  db:
-    container_name: NurseO_DB
-    image: mariadb
-    restart: always
-    environment:
-      - MARIADB_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
-      - MARIADB_DATABASE=NurseO
-    volumes:
-      - ./demoDB.sql:/docker-entrypoint-initdb.d/db.sql
-
-  phpmyadmin:
-    image: phpmyadmin
-    restart: always
-    ports:
-      - 9090:80
-    environment:
-      - PMA_HOST=db
       
