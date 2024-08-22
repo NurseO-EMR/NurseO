@@ -6,7 +6,6 @@ func UploadSettings() {
 	settings := GetSettings()
 	uploadCourses(settings)
 	uploadLocations(settings)
-	uploadCourseLocationInfo(settings)
 	uploadReportSets(settings)
 
 }
@@ -25,20 +24,7 @@ func uploadLocations(settings Settings) {
 	}
 }
 
-func uploadCourseLocationInfo(settings Settings) {
-	locations := settings[0].Locations
-	for i := 0; i < len(locations); i++ {
-		location := locations[i]
 
-		for j := 0; j < len(location.CourseIDS); j++ {
-			Query("INSERT INTO `Course_Location_Information` (`course_id`, `location_id`) VALUES (?, ?);",
-				Hash(location.CourseIDS[j]),
-				Hash(location.ID),
-			)
-		}
-
-	}
-}
 
 func uploadCourses(settings Settings) {
 	courses := settings[0].Courses
@@ -56,8 +42,7 @@ func uploadReportSets(settings Settings) {
 
 	for i := 0; i < len(reportSets); i++ {
 		set := reportSets[i]
-		Query("INSERT INTO `Report_Set` (`id`, `name`, `image_url`, `report_type`) VALUES (?, ?, ? , ?);",
-			Hash(set.Name),
+		setId := Query("INSERT INTO `Report_Set` (`name`, `image_url`, `report_type`) VALUES (?, ?, ?);",
 			set.Name,
 			set.Image,
 			set.Type,
@@ -69,18 +54,17 @@ func uploadReportSets(settings Settings) {
 			if field.AddSecondField != nil && strings.Compare(*field.AddSecondField, "true") == 0 {
 				secondField = true
 			}
-			Query("INSERT INTO `Report_Field` (`id`, `name`, `field_type`, `add_second_field`, `report_set_id`) VALUES (?, ?, ? , ?, ?);",
-				Hash(field.Name),
+			fieldId := Query("INSERT INTO `Report_Field` (`name`, `field_type`, `add_second_field`, `report_set_id`) VALUES (?, ?, ? , ?);",
 				field.Name,
 				field.FieldType,
 				secondField,
-				Hash(set.Name),
+				setId,
 			)
 
 			for k := 0; k < len(field.Labels); k++ {
 				label := field.Labels[k]
 				Query("INSERT INTO `Report_Label` (`report_field_id`, `name`) VALUES (?, ?);",
-					Hash(field.Name),
+					fieldId,
 					label,
 				)
 			}
@@ -88,7 +72,7 @@ func uploadReportSets(settings Settings) {
 			for k := 0; k < len(field.VitalsOptions); k++ {
 				option := field.VitalsOptions[k]
 				Query("INSERT INTO `Report_Option` (`report_field_id`, `name`) VALUES (?, ?);",
-					Hash(field.Name),
+					fieldId,
 					option.Name,
 				)
 			}

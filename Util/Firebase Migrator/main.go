@@ -5,5 +5,5 @@ func main() {
 	UploadSettings()
 	UploadMeds()
 	UploadTemplatePatients()
-	UploadRegularPatient()
+	// UploadRegularPatient()
 }

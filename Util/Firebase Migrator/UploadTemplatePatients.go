@@ -99,7 +99,7 @@ func uploadMedOrder(patient Patient, pid int) {
 func uploadMarRecord(order MedicationOrder, orderId int) {
 	for i := 0; i < len(order.Mar); i++ {
 		record := order.Mar[i]
-		Query("INSERT INTO `Mar_Record` (`med_order_id`, `hour`,`minutes`,`dose`) VALUES (?, ?, ?, ?);",
+		Query("INSERT INTO `Mar_Record` (`med_order_id`, `hour`,`minute`,`dose`) VALUES (?, ?, ?, ?);",
 			orderId,
 			record.Hour,
 			record.Minutes,
@@ -130,7 +130,7 @@ func uploadFlags(p Patient, id int) {
 func uploadStudentReports(p Patient, id int) {
 	for i := 0; i < len(p.StudentReports); i++ {
 		r := p.StudentReports[i]
-		Query("INSERT INTO `Student_Report` (`patient_id`, `set_name`, `vital_name`, `time`, `value`, `date`, `report_type`) VALUES (?, ?, ?, ?, ?, ?, ?);",
+		Query("INSERT INTO `Student_Report` (`patient_id`, `set_name`, `field_name`, `time`, `value`, `date`, `report_type`) VALUES (?, ?, ?, ?, ?, ?, ?);",
 			id,
 			r.SetName,
 			r.VitalName,
@@ -155,7 +155,7 @@ func uploadAllergy(p Patient, id int) {
 func uploadCustomOrders(p Patient, id int) {
 	for i := 0; i < len(p.CustomOrders); i++ {
 		o := p.CustomOrders[i]
-		Query("INSERT INTO `Custom_Order` (`patient_id`, `order_kind`, `order_type`, `time`, `order`) VALUES (?, ?, ?, ?, ?);",
+		Query("INSERT INTO `Custom_Order` (`patient_id`, `order_kind`, `order_type`, `time`, `order_text`) VALUES (?, ?, ?, ?, ?);",
 			id,
 			o.OrderKind,
 			o.OrderType,

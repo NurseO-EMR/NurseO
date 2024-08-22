@@ -25,6 +25,10 @@ func uploadMedsLocation(meds Medication) {
 		med := meds[i]
 		for j := 0; j < len(med.Locations); j++ {
 			location := med.Locations[j]
+			if location.ID != "136d8ca6-bb1c-4e59-85be-e3f73aee08cd" && location.ID != "ccd9556a-f87b-4716-ab14-99c6e2a73e08" {
+				continue
+			}
+
 			Query("INSERT INTO `Medication_Location_Information` (`med_id`, `location_id`, `drawer`, `slot`, `barcode`, `dose`, `type`) VALUES (?,?,?,?,?,?,?);",
 				Hash(med.ID),
 				Hash(location.ID),
