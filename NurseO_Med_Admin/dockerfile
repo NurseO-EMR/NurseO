@@ -18,6 +18,7 @@ RUN npm i
 FROM --platform=linux/amd64 node:20-alpine AS builder
 ARG DATABASE_URL
 ARG NEXT_PUBLIC_CLIENTVAR
+ARG NEXT_PUBLIC_BASE_PATH
 WORKDIR /NurseO_Core
 COPY --from=core . .
 RUN npm i

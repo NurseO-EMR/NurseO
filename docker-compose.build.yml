@@ -6,6 +6,8 @@ services:
       context: ./NurseO_Admin
       additional_contexts:
         core: ./NurseO_Core
+      args:
+        - NEXT_PUBLIC_BASE_PATH=nurseo_admin
       tags:
       - moahmmed199898/nurseo_admin:3.0.0
     environment:
@@ -27,6 +29,8 @@ services:
       context: ./NurseO_EMR
       additional_contexts:
         core: ./NurseO_Core
+      args:
+        - NEXT_PUBLIC_BASE_PATH=nurseo_emr
       tags:
         - moahmmed199898/nurseo_emr:3.0.0
     environment:

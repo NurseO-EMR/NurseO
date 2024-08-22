@@ -2,6 +2,7 @@ import { Background } from "~/components/Background";
 import { Logo } from "~/components/Logo";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "~/components/Form/Button";
+import { env } from "~/env";
 
 
 export default function Error401NotAuthorizedPage() {
@@ -17,7 +18,7 @@ export default function Error401NotAuthorizedPage() {
                     <Logo className="text-5xl" />
                     <h1 className="my-5 font-bold">Hi {session.data?.user.name}</h1>
                     <h1 className="my-5 font-bold">You are not authorized to access this page</h1>
-                    <Button className="bg-blue w-1/2 rounded-full" onClick={()=>signOut({callbackUrl: "/login"})}>Sign out</Button>
+                    <Button className="bg-blue w-1/2 rounded-full" onClick={() => signOut({ callbackUrl: "/" + env.NEXT_PUBLIC_BASE_PATH + "/login" })}>Sign out</Button>
                 </form>
             </div>
 
