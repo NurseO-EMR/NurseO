@@ -17,7 +17,7 @@ export function TopNav(props: Props) {
 
 
     const onBackClickHandler = ()=>{
-        if(window.location.pathname === "/dashboard") router.push("/selectPatient")
+        if (window.location.pathname.includes("/dashboard")) router.push("/selectPatient")
         else router.push("/dashboard")
     }
 
