@@ -4,7 +4,6 @@ import {
   OrderKind,
   OrderType,
   Frequency,
-  Routine,
   ReportType,
   Gender,
 } from "@nurse-o-core/index";
@@ -27,7 +26,7 @@ export const orderSchema = z.object({
 
 export const frequencySchema = z.nativeEnum(Frequency);
 
-export const routineSchema = z.nativeEnum(Routine);
+export const routineSchema = z.string();
 
 export const marRecordSchema = z.object({
   hour: z.number(),

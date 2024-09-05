@@ -19,12 +19,12 @@ export type Props = BaseStageProps & {
 }
 
 export function OrdersStage(props: Props) {
-    const {data: meds, isLoading} = api.medication.getAllMeds.useQuery()
+    const { data: meds, isLoading } = api.medication.getAllMeds.useQuery()
 
     const [id, setId] = useState(-1);
     const [concentration, setConcentration] = useState("");
     const [route, setRoute] = useState("");
-    const [routine, setRoutine] = useState(Routine.NA);
+    const [routine, setRoutine] = useState("");
     const [PRNNote, setPRNNote] = useState("");
     const [frequency, setFrequency] = useState(Frequency.NA);
     const [mar, setMar] = useState<MarRecord[]>([]);
@@ -34,16 +34,16 @@ export function OrdersStage(props: Props) {
     const [showMar, setShowMar] = useState(false);
     const [time, setTime] = useState("");
 
-    const [orders, setOrders] = useState(props.patient?.medicationOrders.sort((a,b)=>a.orderIndex - b.orderIndex) ?? [] as MedicationOrder[]);
+    const [orders, setOrders] = useState(props.patient?.medicationOrders.sort((a, b) => a.orderIndex - b.orderIndex) ?? [] as MedicationOrder[]);
 
     const onOrderAddClickHandler = () => {
 
         //check if there is med 
         if (!id) { broadcastAnnouncement("No med selected", Announcement.error); return; }
-        if (orderType === OrderType.NA) {broadcastAnnouncement("must select order type", Announcement.error); return; }
-        if(!meds) return
+        if (orderType === OrderType.NA) { broadcastAnnouncement("must select order type", Announcement.error); return; }
+        if (!meds) return
 
-        const med = meds.find(m=>m.id === id)
+        const med = meds.find(m => m.id === id)
 
         const order: MedicationOrder = {
             id: id,
@@ -73,7 +73,7 @@ export function OrdersStage(props: Props) {
         setId(-1)
         setConcentration("")
         setRoute("")
-        setRoutine(Routine.NA)
+        setRoutine("")
         setPRNNote("")
         setFrequency(Frequency.NA)
         setMar(new Array<MarRecord>())
@@ -85,25 +85,25 @@ export function OrdersStage(props: Props) {
 
 
     const onNextClickHandler = () => {
-        orders.map(o=>o.orderId = -1)
+        orders.map(o => o.orderId = -1)
         props.onNext(orders)
     }
 
-    const onIndexChangeHandler = (oldIndex:number, newIndex: number) => {
+    const onIndexChangeHandler = (oldIndex: number, newIndex: number) => {
         if (newIndex < 0 || newIndex > orders.length - 1) {
-            broadcastAnnouncement("can't move this item", Announcement.error); 
-            return; 
+            broadcastAnnouncement("can't move this item", Announcement.error);
+            return;
         }
 
         // the order index needs to be changed not the orders array it self
         const temp = orders[oldIndex]!
-        orders.splice(oldIndex,1)
+        orders.splice(oldIndex, 1)
         orders.splice(newIndex, 0, temp)
 
-        orders.forEach((o,i)=>o.orderIndex = i)
+        orders.forEach((o, i) => o.orderIndex = i)
 
         setOrders([...orders]);
-        
+
         broadcastAnnouncement("Order Moved", Announcement.success)
     }
 
@@ -115,8 +115,8 @@ export function OrdersStage(props: Props) {
 
     const onEditClickHandler = (index: number) => {
         const order = orders[index];
-        if(!order) return;
-        
+        if (!order) return;
+
         setId(order.id)
         setConcentration(order.concentration)
         setRoute(order.route)
@@ -130,13 +130,13 @@ export function OrdersStage(props: Props) {
         setTime(order.time ?? "")
     }
 
-    if(isLoading || !meds) return <LoadingCard />
+    if (isLoading || !meds) return <LoadingCard />
 
     return (
         <div className="relative w-screen">
             <BaseStage {...props} onNext={onNextClickHandler} title="Medication Orders" icon={faBookMedical} moveLeft={orders.length > 0}>
                 <div className="grid grid-cols-3 gap-x-8 max-w-[50vw]">
-                    <SearchableSelect label="Medication Name (generic)" options={meds} labelKeys={["genericName", "brandName"]} valueKey="id" value={id} onChange={v=>setId(parseInt(v))} />
+                    <SearchableSelect label="Medication Name (generic)" options={meds} labelKeys={["genericName", "brandName"]} valueKey="id" value={id} onChange={v => setId(parseInt(v))} />
 
                     <Input label="Prescribed Dose" onChange={e => setConcentration(e.currentTarget.value)} value={concentration} optional placeholder="ex: 20mg/kg" />
                     <Input label="Route" onChange={e => setRoute(e.currentTarget.value)} value={route} optional />
@@ -145,14 +145,14 @@ export function OrdersStage(props: Props) {
                         {Object.values(Routine).map((r, i) => <option value={r} key={i}>{r}</option>)}
                     </Select>
 
-                    {routine === Routine.PRN ? <Input label="PRN Note" onChange={e => setPRNNote(e.currentTarget.value)} value={PRNNote} optional /> : null}
+                    {routine === Routine.PRN.valueOf() ? <Input label="PRN Note" onChange={e => setPRNNote(e.currentTarget.value)} value={PRNNote} optional /> : null}
 
                     <Select label="Frequency" onChange={e => setFrequency(e.currentTarget.value as Frequency)} value={frequency} optional>
                         {Object.values(Frequency).map((f, i) => <option value={f} key={i}>{f}</option>)}
                     </Select>
 
                     <div className="grid items-center">
-                        <Button className="bg-red py-0" onClick={()=>setShowMar(true)}>Add/Edit Mar Record</Button>
+                        <Button className="bg-red py-0" onClick={() => setShowMar(true)}>Add/Edit Mar Record</Button>
                     </div>
 
                     <Input label="Notes" onChange={e => setNotes(e.currentTarget.value)} value={notes} optional />
@@ -161,7 +161,7 @@ export function OrdersStage(props: Props) {
                         {Object.values(OrderType).map((t, i) => <option value={t} key={i}>{t}</option>)}
                     </Select>
 
-                    <Select label="Completed" onChange={e=>setCompleted(e.currentTarget.value === "true")}>
+                    <Select label="Completed" onChange={e => setCompleted(e.currentTarget.value === "true")}>
                         <option value="false">No</option>
                         <option value="true">Yes</option>
                     </Select>
@@ -186,7 +186,7 @@ export function OrdersStage(props: Props) {
             </div>
 
 
-            <MarRecordEditor show={showMar} onClose={()=>setShowMar(false)} marRecords={[...mar]} onSave={setMar}/>
+            <MarRecordEditor show={showMar} onClose={() => setShowMar(false)} marRecords={[...mar]} onSave={setMar} />
 
         </div>
     )

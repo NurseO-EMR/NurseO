@@ -3,8 +3,8 @@ import { ReportType, StudentReport } from "./Report";
 
 
 export class Time {
-    hour:number = 0;
-    minute:number = 0;
+    hour: number = 0;
+    minute: number = 0;
 }
 export class PatientChart {
     id: string = "";
@@ -40,17 +40,17 @@ export type Order = {
 }
 
 export type CustomOrder = Order & {
-    order: string,    
+    order: string,
 }
 
 
-export type MedicationOrder  = Order & {
+export type MedicationOrder = Order & {
     id: number; // med id 
     orderId: number;
-    concentration:string;
+    concentration: string;
     route: string;
     frequency: Frequency;
-    routine: Routine;
+    routine: string;
     PRNNote: string | null;
     notes: string;
     mar: MarRecord[];
@@ -60,7 +60,7 @@ export type MedicationOrder  = Order & {
     // these are for data fetching to make it cheaper to pull meds from db
     genericName?: string;
     brandName?: string;
-    narcoticCountNeeded?: boolean 
+    narcoticCountNeeded?: boolean
 }
 
 export type MarRecord = Time & {
@@ -70,7 +70,7 @@ export type MarRecord = Time & {
 export type MedicalHistory = {
     date: string
     title: string
-    notes:string
+    notes: string
 }
 
 export type Assessment = {
@@ -80,7 +80,7 @@ export type Assessment = {
 
 export class Flag {
     name: string = ""
-    reason:string = ""
+    reason: string = ""
 }
 
 export enum OrderKind {
@@ -118,15 +118,15 @@ export enum Frequency {
     q12hr = "every twelve hours",
     qhs = "daily at bedtime",
     qd = " daily",
-    bid="two times daily",
-    qam="in the morning",
-    qpm="in the evening",
-    qac="before meals",
-    qpc="after meals",
-    tid="three times daily",
-    qid="four times daily",
+    bid = "two times daily",
+    qam = "in the morning",
+    qpm = "in the evening",
+    qac = "before meals",
+    qpc = "after meals",
+    tid = "three times daily",
+    qid = "four times daily",
     once = "once",
-    continuous  = "continuous"
+    continuous = "continuous"
 }
 
 export class Allergy {
