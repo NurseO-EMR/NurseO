@@ -31,12 +31,12 @@ export default function CreateLocationPage() {
     }
 
 
-    const onBasicInfoHandler = async (building: string, station: string)=>{
+    const onBasicInfoHandler = async (building: string, station: string) => {
         setBuildingName(building)
         setStationName(station)
-        const {status, message} = await addLocationMutation.mutateAsync({building, station})
+        const { status, message } = await addLocationMutation.mutateAsync({ building, station })
         broadcastAnnouncement(message, status === "Error" ? Announcement.error : Announcement.success)
-        if(status === "Success") {
+        if (status === "Success") {
             moveStage()
         }
 

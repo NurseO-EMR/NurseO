@@ -19,7 +19,7 @@ export default function CreateMedicationPage() {
     const addMedicationMutation = api.medication.addMedication.useMutation()
     const addMedLocationMutation = api.medication.addMedicationLocation.useMutation()
 
-    const emptyMed:Medication = {
+    const emptyMed: Medication = {
         id: -1,
         brandName: "",
         genericName: "",
@@ -29,7 +29,7 @@ export default function CreateMedicationPage() {
 
     const [med, setMed] = useState<Medication>(emptyMed)
     const router = useRouter()
-    
+
 
     const moveStage = () => {
         const stage = currentStage + 1;
@@ -37,40 +37,40 @@ export default function CreateMedicationPage() {
     }
     const onPrevClickHandler = () => {
         const stage = currentStage - 1;
-        if (stage < 0) router.push("/")
+        if (stage < 0) router.push("/nurseo_admin")
         setCurrentStage(stage);
     }
 
-    const onMedBasicInfo = async (id: number, brandName: string, genericName: string, narcoticCountNeeded: boolean)=>{
-        if(!id) {
+    const onMedBasicInfo = async (id: number, brandName: string, genericName: string, narcoticCountNeeded: boolean) => {
+        if (!id) {
             broadcastAnnouncement("Can't move to the next stage without entering med info first", Announcement.error)
             return
         }
-        
+
         med.id = id
         med.brandName = brandName
         med.genericName = genericName
         med.narcoticCountNeeded = narcoticCountNeeded
- 
+
         // checking if new med
-        if(id === -1 ) {
-            const id = await addMedicationMutation.mutateAsync({medication: med})
+        if (id === -1) {
+            const id = await addMedicationMutation.mutateAsync({ medication: med })
             med.id = id
         }
 
         // see if the -1 stays after adding the med
-        if(med.id === -1) {
+        if (med.id === -1) {
             broadcastAnnouncement("Error while adding medication", Announcement.error)
         } else {
             setMed(med);
             moveStage()
         }
-    
+
     }
 
-    const onMedLocationInfo = async (locationId: number, drawerName: string, slotName: string,dose: string, type: string, barcode: string)=>{
-        
-        const location:MedicationLocation = {
+    const onMedLocationInfo = async (locationId: number, drawerName: string, slotName: string, dose: string, type: string, barcode: string) => {
+
+        const location: MedicationLocation = {
             id: locationId,
             drawer: drawerName,
             slot: slotName,
@@ -79,13 +79,13 @@ export default function CreateMedicationPage() {
             type: type
         }
 
-        const results = await addMedLocationMutation.mutateAsync({medId: med.id, locationId: location.id, locationInfo: location})
+        const results = await addMedLocationMutation.mutateAsync({ medId: med.id, locationId: location.id, locationInfo: location })
 
-         if(results.status === "Error") {
+        if (results.status === "Error") {
             broadcastAnnouncement(results.message, Announcement.error)
-         } else {
+        } else {
             moveStage();
-         }
+        }
     }
 
 
@@ -100,7 +100,7 @@ export default function CreateMedicationPage() {
 
             <Stages stage={currentStage}>
                 <MedBasicInfoStage onPrev={onPrevClickHandler} onNext={onMedBasicInfo} />
-                <MedLocationStage onPrev={onPrevClickHandler}  onNext={onMedLocationInfo} />
+                <MedLocationStage onPrev={onPrevClickHandler} onNext={onMedLocationInfo} />
                 <MedFinalizeStage onPrev={onPrevClickHandler} med={med} />
             </Stages>
         </PageView>

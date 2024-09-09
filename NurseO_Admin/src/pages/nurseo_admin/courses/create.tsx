@@ -28,10 +28,10 @@ export default function CreateCoursePage() {
     }
 
 
-    const onBasicInfoHandler = async (courseName: string)=>{
-        const {status, message} = await addCourseMutation.mutateAsync({courseName})
+    const onBasicInfoHandler = async (courseName: string) => {
+        const { status, message } = await addCourseMutation.mutateAsync({ courseName })
         broadcastAnnouncement(message, status === "Error" ? Announcement.error : Announcement.success)
-        if(status === "Success") {
+        if (status === "Success") {
             setCourseName(courseName)
             moveStage()
         }

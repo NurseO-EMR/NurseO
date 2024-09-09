@@ -11,7 +11,7 @@ export function PatientFinalizeStage(props: Props) {
     const router = useRouter()
 
     const onNextClickHandler = () => {
-        router.push("/")
+        router.push("/nurseo_admin")
     }
 
     return <BaseStage {...props} title="Congratulations" icon={faFileInvoice} onNext={onNextClickHandler} customNextText="Go Home" hideBackButton>

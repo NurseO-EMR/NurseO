@@ -9,7 +9,7 @@ export default function ViewAdminsPage() {
     const admins = api.setting.getUsersList.useQuery()
 
 
-    if(admins.isLoading) return <LoadingCard />
+    if (admins.isLoading) return <LoadingCard />
 
     return <PageView>
         <Card>

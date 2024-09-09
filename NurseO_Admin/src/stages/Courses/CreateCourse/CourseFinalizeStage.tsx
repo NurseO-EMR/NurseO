@@ -6,11 +6,11 @@ export type Props = BaseStageProps & {
     courseName: string,
 };
 
-export function CourseFinalizeStage(props:Props) {
+export function CourseFinalizeStage(props: Props) {
     const router = useRouter()
 
     const onNextClickHandler = () => {
-        router.push("/")
+        router.push("/nurseo_admin")
     }
 
     return <BaseStage {...props} title="" icon={faFileInvoice} onNext={onNextClickHandler} customNextText="Go Home" hideBackButton>

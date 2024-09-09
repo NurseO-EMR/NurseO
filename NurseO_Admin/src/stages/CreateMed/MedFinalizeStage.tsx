@@ -13,12 +13,12 @@ export type Props = BaseStageProps & {
 
 export function MedFinalizeStage(props: Props) {
 
-    const {data} = api.medication.getMedDetails.useQuery({id: props.med.id})
+    const { data } = api.medication.getMedDetails.useQuery({ id: props.med.id })
     const locations = data?.locations
     const router = useRouter()
 
     const onNextClickHandler = () => {
-        router.push("/")
+        router.push("/nurseo_admin")
     }
 
     if (!locations) return <div>Loading...</div>

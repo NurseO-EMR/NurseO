@@ -10,26 +10,26 @@ import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementServ
 import { useRouter } from "next/navigation";
 
 export default function ViewMedsPage() {
-    const {data: meds, isLoading, refetch} = api.medication.getAllMedsWithLocationCount.useQuery()
+    const { data: meds, isLoading, refetch } = api.medication.getAllMedsWithLocationCount.useQuery()
     const deleteMedMutation = api.medication.deleteMed.useMutation()
     const router = useRouter()
 
     const [filteredMeds, setFilteredMeds] = useState<{ id: number; brandName: string; genericName: string; narcoticCountNeeded: boolean; numberOfLocations: number; }[]>([]);
 
     useEffect(() => {
-        if(isLoading || !meds) return;
+        if (isLoading || !meds) return;
         const medications = meds.sort((a, b) => {
-            const first:string = a.genericName ?? a.brandName ?? ""
-            const second:string = b.genericName ?? b.brandName ?? ""
-            return first.toLowerCase().localeCompare(second.toLowerCase())   
+            const first: string = a.genericName ?? a.brandName ?? ""
+            const second: string = b.genericName ?? b.brandName ?? ""
+            return first.toLowerCase().localeCompare(second.toLowerCase())
         })
         setFilteredMeds([...medications])
     }, [isLoading, meds])
 
 
     const onDeleteClickHandler = async (id: number) => {
-        const {state ,message} = await deleteMedMutation.mutateAsync({id})
-        if(state === "Error"){
+        const { state, message } = await deleteMedMutation.mutateAsync({ id })
+        if (state === "Error") {
             broadcastAnnouncement(message, Announcement.error)
         } else {
             broadcastAnnouncement(message, Announcement.success)
@@ -42,7 +42,7 @@ export default function ViewMedsPage() {
     }
 
     const onSearchChangeHandler = (searchPhrase: string) => {
-        if(isLoading || !meds) return;
+        if (isLoading || !meds) return;
         const filtered = meds.filter(m => {
             const phrase = searchPhrase.toLowerCase()
             if (m.brandName && m.brandName.length > 0 && m.brandName.toLowerCase().startsWith(phrase)) return true;
@@ -76,9 +76,9 @@ export default function ViewMedsPage() {
                             <Td>{String(m.narcoticCountNeeded ? "True" : "False")}</Td>
                             <Td>{m.numberOfLocations}</Td>
                             <td><button className="bg-blue text-white px-4 py-2 mx-auto w-full" onClick={() => onEditClickHandler(m.id)}>Edit</button></td>
-                            <td><ButtonWConfirmBox className="bg-red text-white px-4 py-2 mx-auto w-full rounded-none " 
-                            confirmPrompt={`Are you sure you want to delete ${m.genericName}?`}
-                            onConfirm={() => onDeleteClickHandler(m.id)}>Delete</ButtonWConfirmBox></td>
+                            <td><ButtonWConfirmBox className="bg-red text-white px-4 py-2 mx-auto w-full rounded-none "
+                                confirmPrompt={`Are you sure you want to delete ${m.genericName}?`}
+                                onConfirm={() => onDeleteClickHandler(m.id)}>Delete</ButtonWConfirmBox></td>
                         </Tr>
                     )}
                 </tbody>

@@ -7,11 +7,11 @@ export type Props = BaseStageProps & {
     stationName: string
 };
 
-export function LocationFinalizeStage(props:Props) {
+export function LocationFinalizeStage(props: Props) {
     const router = useRouter()
 
     const onNextClickHandler = () => {
-        router.push("/")
+        router.push("/nurseo_admin")
     }
 
     return <BaseStage {...props} title="" icon={faFileInvoice} onNext={onNextClickHandler} customNextText="Go Home" hideBackButton>

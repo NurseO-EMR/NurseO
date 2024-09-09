@@ -1,7 +1,7 @@
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {Card} from "~/components/Card"
-import PageView from "~/pages/_PageView"
+import { Card } from "~/components/Card"
+import PageView from "~/pages/nurseo_admin/_PageView"
 
 export function LoadingCard() {
     return <PageView>

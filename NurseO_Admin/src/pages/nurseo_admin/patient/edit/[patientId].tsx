@@ -13,27 +13,27 @@ import { LoadingCard } from "~/components/loadingCard";
 export default function EditPatientPage() {
     const params = useParams()
     const patientId = parseInt(params?.patientId as string)
-    const {data: patient, isLoading} = api.patient.getPatientChartById.useQuery({patientId})
+    const { data: patient, isLoading } = api.patient.getPatientChartById.useQuery({ patientId })
     const [oldPatient, setOldPatient] = useState(patient)
     const [newPatient, setNewPatient] = useState(cloneDeep(oldPatient))
     const [currentStage, setCurrentStage] = useState(0)
     const updatePatientMutation = api.patient.updatePatient.useMutation()
 
-    useEffect(()=>{
-        if(patient) {setOldPatient(patient)}
+    useEffect(() => {
+        if (patient) { setOldPatient(patient) }
     }, [patient])
 
-    useEffect(()=>{
+    useEffect(() => {
         setNewPatient(cloneDeep(oldPatient))
     }, [oldPatient])
 
-    const onNextClickHandler = async (newPatient:PatientChart) => {
+    const onNextClickHandler = async (newPatient: PatientChart) => {
         const stage = currentStage + 1;
         setCurrentStage(stage);
         console.log(oldPatient)
         if (oldPatient && newPatient && !isEqual(oldPatient, newPatient)) {
             console.log("updating...")
-            await updatePatientMutation.mutateAsync({oldPatient, newPatient}).catch((e)=>broadcastAnnouncement("Error while updating: " +  e, Announcement.error))
+            await updatePatientMutation.mutateAsync({ oldPatient, newPatient }).catch((e) => broadcastAnnouncement("Error while updating: " + e, Announcement.error))
             setOldPatient(cloneDeep(newPatient))
             broadcastAnnouncement("Patient Updated", Announcement.success)
         } else { console.log("no update") }
@@ -47,16 +47,16 @@ export default function EditPatientPage() {
 
 
     const onUpdatePatientClickHandler = async () => {
-        if(newPatient) await onNextClickHandler(newPatient);
+        if (newPatient) await onNextClickHandler(newPatient);
     }
 
 
-    if(isLoading || !newPatient) return <LoadingCard />
+    if (isLoading || !newPatient) return <LoadingCard />
 
     return <PageView>
         <PatientProcess currentStage={currentStage} initialPatient={newPatient}
-            onNext={onNextClickHandler} 
-            onPrev={onPrevClickHandler} 
+            onNext={onNextClickHandler}
+            onPrev={onPrevClickHandler}
             onFinialStage={onUpdatePatientClickHandler}
             skipStage={setCurrentStage}
         />
