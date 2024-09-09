@@ -33,7 +33,7 @@ export default function DashboardPage() {
                         <Link href={"/courses/"}>View/delete courses</Link>
 
                     </DashboardNavCard>
-                    
+
                     <DashboardNavCard icon={faBuilding} title="Admin">
                         <Link href={"/admins/"}>View/Edit Admins</Link>
                     </DashboardNavCard>
@@ -49,13 +49,13 @@ export default function DashboardPage() {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const session = await getServerAuthSession(ctx);
 
-    if(env.TEST_ENV) {
+    if (env.TEST_ENV) {
         return {
-            props: {session}
+            props: { session }
         }
     }
 
-    if(!session) {
+    if (!session) {
         return {
             redirect: {
                 destination: "/login",
@@ -65,6 +65,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
 
     return {
-        props: {session}
+        props: { session }
     }
 };
