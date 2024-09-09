@@ -1,21 +1,21 @@
 import { faSyringe } from "@fortawesome/free-solid-svg-icons";
 import type { PatientChart } from "@nurse-o-core/index";
 import { useState } from "react";
-import { Button } from "~/components/Form/Button";
-import { Input } from "~/components/Form/Input";
-import { ArrayPreviewer } from "~/components/Stages/ArrayPreviewer";
-import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
-import { Td } from "~/components/Table/Td";
-import { Tr } from "~/components/Table/Tr";
+import { Button } from "~/components/Admin/Form/Button";
+import { Input } from "~/components/Admin/Form/Input";
+import { ArrayPreviewer } from "~/components/Admin/Stages/ArrayPreviewer";
+import { type BaseStageProps, BaseStage } from "~/components/Admin/Stages/BaseStage"
+import { Td } from "~/components/Admin/Table/Td";
+import { Tr } from "~/components/Admin/Table/Tr";
 
 export type Props = BaseStageProps & {
     onNext: (socialHistory: string[]) => void,
-    patient?:PatientChart
+    patient?: PatientChart
 }
 
 export function ImmunizationsStage(props: Props) {
-    const [immunizations, setImmunizations] = useState( props.patient?.immunizations ?? [] as string[]);
-    
+    const [immunizations, setImmunizations] = useState(props.patient?.immunizations ?? [] as string[]);
+
     const [entry, setEntry] = useState("");
 
 
@@ -26,12 +26,12 @@ export function ImmunizationsStage(props: Props) {
     }
 
 
-    const onNextClickHandler = ()=> {
+    const onNextClickHandler = () => {
         props.onNext(immunizations)
     }
 
-    const onDeleteClickHandler = (index:number)=>{
-        immunizations.splice(index,1)
+    const onDeleteClickHandler = (index: number) => {
+        immunizations.splice(index, 1)
         setImmunizations([...immunizations]);
     }
 
@@ -39,18 +39,18 @@ export function ImmunizationsStage(props: Props) {
     return (
         <div className="overflow-hidden relative">
             <BaseStage {...props} onNext={onNextClickHandler} title="Immunizations" icon={faSyringe} moveLeft={immunizations.length > 0}>
-                <Input label="Immunization name" onChange={e => setEntry(e.currentTarget.value)} value={entry} optional/>
-                
+                <Input label="Immunization name" onChange={e => setEntry(e.currentTarget.value)} value={entry} optional />
+
                 <Button onClick={onHistoryAddClickHandler} className="bg-blue my-4">Add Immunization Entry</Button>
             </BaseStage>
 
             <ArrayPreviewer headerItems={["Immunization", "Delete"]} show={immunizations.length > 0} title="Added Immunizations">
-                {immunizations.map((entry,i)=>
+                {immunizations.map((entry, i) =>
                     <Tr key={i}>
                         <Td>{entry}</Td>
                         <Td>
                             <button className="bg-red w-full h-10 text-white font-bold"
-                            onClick={()=>onDeleteClickHandler(i)}>Delete</button>
+                                onClick={() => onDeleteClickHandler(i)}>Delete</button>
                         </Td>
                     </Tr>
                 )}

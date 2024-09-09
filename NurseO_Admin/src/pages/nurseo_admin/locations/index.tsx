@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
-import { Card } from "~/components/Card";
-import { Td } from "~/components/Table/Td";
-import { Tr } from "~/components/Table/Tr";
+import { Card } from "~/components/Admin/Card";
+import { Td } from "~/components/Admin/Table/Td";
+import { Tr } from "~/components/Admin/Table/Tr";
 import type { LocationDefinition } from "@nurse-o-core/index";
 import PageView from "../_PageView";
 import { cloneDeep, findIndex } from "lodash";
-import { Input } from "~/components/Form/Input";
-import { Button } from "~/components/Form/Button";
-import { ButtonWConfirmBox } from "~/components/Form/ButtonWConfirmBox"
-import { CourseEditorModal } from "~/components/Courses/CourseEditorModal";
+import { Input } from "~/components/Admin/Form/Input";
+import { Button } from "~/components/Admin/Form/Button";
+import { ButtonWConfirmBox } from "~/components/Admin/Form/ButtonWConfirmBox"
+import { CourseEditorModal } from "~/components/Admin/Courses/CourseEditorModal";
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
 import { api } from "~/utils/api";
 

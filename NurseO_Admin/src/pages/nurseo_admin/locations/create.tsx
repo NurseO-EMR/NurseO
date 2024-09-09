@@ -2,10 +2,10 @@ import { useState } from "react";
 import { faBuilding, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 
 import PageView from "../_PageView";
-import { Steps } from "~/components/Steps/Steps";
+import { Steps } from "~/components/Admin/Steps/Steps";
 
-import { Stages } from "~/components/Stages/Stages";
-import { Step } from "~/components/Steps/Step";
+import { Stages } from "~/components/Admin/Stages/Stages";
+import { Step } from "~/components/Admin/Steps/Step";
 import { LocationBasicInfoStage } from "~/stages/CreateLocation/LocationBasicInfo";
 import { LocationFinalizeStage } from "~/stages/CreateLocation/LocationFinalizeStage";
 import { api } from "~/utils/api";

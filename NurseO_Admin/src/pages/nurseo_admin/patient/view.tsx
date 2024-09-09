@@ -1,9 +1,9 @@
 import { groupBy } from "lodash";
 import { useEffect, useState } from "react";
-import { ButtonWConfirmBox } from "~/components/Form/ButtonWConfirmBox";
-import { Input } from "~/components/Form/Input";
-import { Td } from "~/components/Table/Td";
-import { Tr } from "~/components/Table/Tr";
+import { ButtonWConfirmBox } from "~/components/Admin/Form/ButtonWConfirmBox";
+import { Input } from "~/components/Admin/Form/Input";
+import { Td } from "~/components/Admin/Table/Td";
+import { Tr } from "~/components/Admin/Table/Tr";
 import PageView from "../_PageView";
 import { api } from "~/utils/api";
 import { useRouter } from "next/navigation";
@@ -25,7 +25,7 @@ export default function ViewPatientsPage() {
     }
 
     const onEditClickHandler = async (patientId: number) => {
-        router.push("/patient/edit/" + patientId)
+        router.push("/nurseo_admin/patient/edit/" + patientId)
     }
 
     const onSearchChangeHandler = (searchPhrase: string) => {

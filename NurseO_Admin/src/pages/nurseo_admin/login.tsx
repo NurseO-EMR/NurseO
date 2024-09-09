@@ -1,6 +1,6 @@
 import GoogleButton from "react-google-button";
-import { Logo } from "~/components/Logo";
-import { Background } from "~/components/Background";
+import { Logo } from "~/components/Admin/Logo";
+import { Background } from "~/components/Admin/Background";
 import { signIn, getProviders } from "next-auth/react";
 import { type GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
@@ -8,9 +8,9 @@ import { authOptions } from "~/server/auth";
 import { userRoles } from "~/types/userRoles";
 
 export default function LoginPage() {
-    
+
     const year = new Date().getFullYear()
- 
+
     return (
         <div>
             <Background />
@@ -20,7 +20,7 @@ export default function LoginPage() {
                     <Logo className="text-5xl" />
                     <h1 className="my-5 font-bold">Click bellow to sign in as an admin</h1>
                     <div className="flex justify-center">
-                        <GoogleButton onClick={()=> signIn('google')} />
+                        <GoogleButton onClick={() => signIn('google')} />
                     </div>
                 </form>
             </div>
@@ -40,12 +40,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const session = await getServerSession(context.req, context.res, authOptions)
 
     if (session && session.user.role === userRoles.sim.valueOf()) {
-      return { redirect: { destination: "/" } }
+        return { redirect: { destination: "/" } }
     } else if (session?.user) {
         return { redirect: { destination: "/401" } }
-    } 
-  
-    return {
-      props: { session },
     }
-  }
+
+    return {
+        props: { session },
+    }
+}

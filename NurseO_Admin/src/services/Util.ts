@@ -1,7 +1,7 @@
 import { Gender, type PatientChart, type Time } from "@nurse-o-core/index";
 
-export function createEmptyPatient():PatientChart {
-    const patient:PatientChart = {
+export function createEmptyPatient(): PatientChart {
+    const patient: PatientChart = {
         id: "",
         dbId: -1,
         name: "",
@@ -16,7 +16,7 @@ export function createEmptyPatient():PatientChart {
         medicalHistory: [],
         socialHistory: [],
         notes: [],
-        time: {hour: 0,minute: 0},
+        time: { hour: 0, minute: 0 },
         studentReports: [],
         medicationOrders: [],
         immunizations: [],
@@ -30,7 +30,7 @@ export function createEmptyPatient():PatientChart {
 
 export function makeTimeObject(timeString: string) {
     const splited = timeString.split(":");
-    if(!(splited[0] && splited[1])) throw new Error("wrong time string");
+    if (!(splited[0] && splited[1])) throw new Error("wrong time string");
     const output: Time = {
         hour: Number.parseInt(splited[0]),
         minute: Number.parseInt(splited[1]),
@@ -39,6 +39,15 @@ export function makeTimeObject(timeString: string) {
 }
 
 
-export function convertTimeToString(time:Time):string {
-    return `${time.hour.toString().padStart(2,"0")}:${time.minute.toString().padStart(2,"0")}`
+export function convertTimeToString(time: Time): string {
+    return `${time.hour.toString().padStart(2, "0")}:${time.minute.toString().padStart(2, "0")}`
+}
+
+
+export function getTodaysDateAsString(): string {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = `${(date.getMonth() + 1)}`.padStart(2, "0");
+    const day = `${(date.getDate())}`.padStart(2, "0");
+    return `${year}-${month}-${day}`;
 }

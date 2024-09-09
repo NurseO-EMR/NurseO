@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
-import { Background } from "~/components/Background";
-import { Nav } from "~/components/nav/Nav";
-import { AnnouncementViewer } from "~/components/AnnouncementViewer";
+import { Background } from "~/components/Admin/Background";
+import { Nav } from "~/components/Admin/nav/Nav";
+import { AnnouncementViewer } from "~/components/Admin/AnnouncementViewer";
 
 type Props = {
     children: ReactNode

@@ -1,7 +1,7 @@
-import { Background } from "~/components/Background";
-import { Logo } from "~/components/Logo";
+import { Background } from "~/components/Admin/Background";
+import { Logo } from "~/components/Admin/Logo";
 import { signOut, useSession } from "next-auth/react";
-import { Button } from "~/components/Form/Button";
+import { Button } from "~/components/Admin/Form/Button";
 
 
 export default function Error401NotAuthorizedPage() {

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { Card } from "~/components/Card";
-import { Td } from "~/components/Table/Td";
-import { Tr } from "~/components/Table/Tr";
+import { Card } from "~/components/Admin/Card";
+import { Td } from "~/components/Admin/Table/Td";
+import { Tr } from "~/components/Admin/Table/Tr";
 import PageView from "../_PageView";
-import { Input } from "~/components/Form/Input";
-import { ButtonWConfirmBox } from "~/components/Form/ButtonWConfirmBox";
+import { Input } from "~/components/Admin/Form/Input";
+import { ButtonWConfirmBox } from "~/components/Admin/Form/ButtonWConfirmBox";
 import { api } from "~/utils/api";
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
 import { useRouter } from "next/navigation";
@@ -38,7 +38,7 @@ export default function ViewMedsPage() {
     }
 
     const onEditClickHandler = async (id: number) => {
-        router.push("/meds/edit/" + id)
+        router.push("/nurseo_admin/meds/edit/" + id)
     }
 
     const onSearchChangeHandler = (searchPhrase: string) => {

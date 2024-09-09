@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { faBook, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import PageView from "../_PageView";
-import { Steps } from "~/components/Steps/Steps";
-import { Stages } from "~/components/Stages/Stages";
-import { Step } from "~/components/Steps/Step";
+import { Steps } from "~/components/Admin/Steps/Steps";
+import { Stages } from "~/components/Admin/Stages/Stages";
+import { Step } from "~/components/Admin/Steps/Step";
 import { CreateCourseBasicInfoStage } from "~/stages/Courses/CreateCourse/CreateCourseBasicInfo";
 import { CourseFinalizeStage } from "~/stages/Courses/CreateCourse/CourseFinalizeStage";
 import { api } from "~/utils/api";

@@ -1,7 +1,7 @@
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import { BaseStage, type BaseStageProps } from "~/components/Stages/BaseStage";
-import { Td } from "~/components/Table/Td";
-import { Tr } from "~/components/Table/Tr";
+import { BaseStage, type BaseStageProps } from "~/components/Admin/Stages/BaseStage";
+import { Td } from "~/components/Admin/Table/Td";
+import { Tr } from "~/components/Admin/Table/Tr";
 import type { Medication } from "@nurse-o-core/index";
 import { useRouter } from "next/navigation";
 import { api } from "~/utils/api";

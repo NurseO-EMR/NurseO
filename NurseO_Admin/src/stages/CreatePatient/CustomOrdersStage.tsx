@@ -1,12 +1,12 @@
 import { faStethoscope } from "@fortawesome/free-solid-svg-icons";
 import { type CustomOrder, OrderKind, OrderType, type PatientChart } from "@nurse-o-core/index";
 import { useState } from "react";
-import { Button } from "~/components/Form/Button";
-import { Input } from "~/components/Form/Input";
-import { RichTextArea } from "~/components/Form/RichTextArea";
-import { Select } from "~/components/Form/Select";
-import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
-import { CustomOrderPreviewer } from "~/components/Stages/CustomOrders/CustomOrderPreviewer";
+import { Button } from "~/components/Admin/Form/Button";
+import { Input } from "~/components/Admin/Form/Input";
+import { RichTextArea } from "~/components/Admin/Form/RichTextArea";
+import { Select } from "~/components/Admin/Form/Select";
+import { type BaseStageProps, BaseStage } from "~/components/Admin/Stages/BaseStage"
+import { CustomOrderPreviewer } from "~/components/Admin/Stages/CustomOrders/CustomOrderPreviewer";
 import { broadcastAnnouncement, Announcement } from "~/services/AnnouncementService";
 
 
@@ -36,14 +36,14 @@ export function CustomOrdersStage(props: Props) {
         setOrder("");
     }
 
-    const onIndexChangeHandler = (oldIndex:number, newIndex: number) => {
+    const onIndexChangeHandler = (oldIndex: number, newIndex: number) => {
         if (newIndex < 0 || newIndex > orders.length - 1) {
-            broadcastAnnouncement("can't move this item", Announcement.error); 
-            return; 
+            broadcastAnnouncement("can't move this item", Announcement.error);
+            return;
         }
 
         const temp = orders[oldIndex]!
-        orders.splice(oldIndex,1)
+        orders.splice(oldIndex, 1)
         orders.splice(newIndex, 0, temp)
 
         setOrders([...orders]);
@@ -60,7 +60,7 @@ export function CustomOrdersStage(props: Props) {
         setOrders([...orders]);
     }
 
-    const onEditClickHandler = (index:number) =>{
+    const onEditClickHandler = (index: number) => {
         console.log("heuhwefuihuihwefiwefiu")
         const tempOrder = orders[index]!
         setTime(tempOrder.time ?? "")
@@ -76,8 +76,8 @@ export function CustomOrdersStage(props: Props) {
                     onChange={e => setTime(e.currentTarget.value)} />
 
                 <label className="block text-left">Entry: </label>
-                <RichTextArea onChange={e=>setOrder(e)} value={order}
-                className="h-40 bg-white border"/>
+                <RichTextArea onChange={e => setOrder(e)} value={order}
+                    className="h-40 bg-white border" />
 
 
                 <Select label="Order Type" value={orderType}
@@ -90,10 +90,10 @@ export function CustomOrdersStage(props: Props) {
             </BaseStage>
 
             <CustomOrderPreviewer orders={orders}
-             onDeleteClickHandler={onDeleteClickHandler} 
-             onIndexChangeHandler={onIndexChangeHandler}
-             onEdit={onEditClickHandler}
-             />
+                onDeleteClickHandler={onDeleteClickHandler}
+                onIndexChangeHandler={onIndexChangeHandler}
+                onEdit={onEditClickHandler}
+            />
 
 
         </div>

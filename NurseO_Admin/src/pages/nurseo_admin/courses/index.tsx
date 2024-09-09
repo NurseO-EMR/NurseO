@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { Card } from "~/components/Card";
-import { Td } from "~/components/Table/Td";
-import { Tr } from "~/components/Table/Tr";
+import { Card } from "~/components/Admin/Card";
+import { Td } from "~/components/Admin/Table/Td";
+import { Tr } from "~/components/Admin/Table/Tr";
 import type { Course } from "@nurse-o-core/index";
 import PageView from "../_PageView";
 import { cloneDeep } from "lodash";
-import { Input } from "~/components/Form/Input";
-import { ButtonWConfirmBox } from "~/components/Form/ButtonWConfirmBox"
+import { Input } from "~/components/Admin/Form/Input";
+import { ButtonWConfirmBox } from "~/components/Admin/Form/ButtonWConfirmBox"
 import { api } from "~/utils/api";
 import { broadcastAnnouncement, Announcement } from "~/services/AnnouncementService";
 

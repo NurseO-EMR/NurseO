@@ -6,7 +6,7 @@ import { PatientProcess } from "~/stages/CreatePatient/PatientProcess";
 import { useParams } from "next/navigation";
 import { api } from "~/utils/api";
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
-import { LoadingCard } from "~/components/loadingCard";
+import { LoadingCard } from "~/components/Admin/loadingCard";
 
 
 

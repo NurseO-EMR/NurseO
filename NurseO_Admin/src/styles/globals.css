@@ -6,33 +6,34 @@
 
 
 #root {
-    position: relative;
-    font-family: 'Montserrat', sans-serif;
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
 }
+
 .hillsBackground {
-    background-image: url("./../assets/background.svg");
-    min-width: 100%;
-    min-height: 100%;
-    /* overflow: hidden; */
-    /* aspect-ratio: 1920/1080; */
-    background-size: auto auto;
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -20;
+  background-image: url("./../assets/background.svg");
+  min-width: 100%;
+  min-height: 100%;
+  /* overflow: hidden; */
+  /* aspect-ratio: 1920/1080; */
+  background-size: auto auto;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -20;
 }
 
 
 /* ensures the increment/decrement arrows always display */
-input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   opacity: 1;
 }
 
 
 /* hide them with this */
-input[type=number].hideInputArrows::-webkit-inner-spin-button , 
+input[type=number].hideInputArrows::-webkit-inner-spin-button,
 input[type=number].hideInputArrows::-webkit-outer-spin-button {
   opacity: 0;
   display: none;
@@ -63,4 +64,33 @@ input[type=number].hideInputArrows::-webkit-outer-spin-button {
 
 .ql-editor {
   height: 7rem !important;
+}
+
+
+
+* {
+  word-break: keep-all;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+input {
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: currentColor;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
 }

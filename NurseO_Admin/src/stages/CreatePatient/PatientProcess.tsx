@@ -1,7 +1,7 @@
 import { faIdCard, faHouseChimneyUser, faFlag, faHeadSideCough, faSyringe, faBookMedical, faHeart, faPills, faStethoscope, faComputer, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import { Stages } from "~/components/Stages/Stages";
-import { Step } from "~/components/Steps/Step";
-import { Steps } from "~/components/Steps/Steps";
+import { Stages } from "~/components/Admin/Stages/Stages";
+import { Step } from "~/components/Admin/Steps/Step";
+import { Steps } from "~/components/Admin/Steps/Steps";
 import { AllergiesStage } from "./AllergiesStage";
 import { type BasicInfo, BasicInfoStage } from "./BasicInfoStage";
 import { ChartingStage } from "./ChartingStage";
@@ -18,16 +18,16 @@ import type { Allergy, Flag, MedicalHistory, MedicationOrder, CustomOrder, Stude
 import { useState } from "react";
 
 type Props = {
-    onNext: (patient:PatientChart)=>void
-    onPrev: ()=>void
+    onNext: (patient: PatientChart) => void
+    onPrev: () => void
     onFinialStage: () => void
-    skipStage: (stage:number)=>void
+    skipStage: (stage: number) => void
     currentStage: number
     initialPatient: PatientChart
-    
+
 }
 
-export function PatientProcess(props:Props) {
+export function PatientProcess(props: Props) {
 
 
     const [dob, setDOB] = useState("")
@@ -36,7 +36,7 @@ export function PatientProcess(props:Props) {
     const onNextClickHandler = () => {
         props.onNext(patient)
     }
-    
+
 
     const onBasicInfoHandler = (basicInfo: BasicInfo) => {
         patient.name = basicInfo.name
@@ -67,8 +67,8 @@ export function PatientProcess(props:Props) {
         onNextClickHandler();
     }
 
-    const onFlagsHandler = (flags:Flag[])=>{
-        patient.flags  = flags;
+    const onFlagsHandler = (flags: Flag[]) => {
+        patient.flags = flags;
         setPatient(patient);
         onNextClickHandler();
     }

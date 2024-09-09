@@ -10,7 +10,7 @@ await import("./src/env.js");
 const config = {
   reactStrictMode: true,
   output: "standalone",
-  basePath: "/" + env.NEXT_PUBLIC_BASE_PATH,
+  // basePath: "/" + env.NEXT_PUBLIC_BASE_PATH,
 
   /**
    * If you are using `appDir` then you must comment the below `i18n` config out.

@@ -1,9 +1,9 @@
-import { Card } from "~/components/Card";
-import { Td } from "~/components/Table/Td";
-import { Tr } from "~/components/Table/Tr";
+import { Card } from "~/components/Admin/Card";
+import { Td } from "~/components/Admin/Table/Td";
+import { Tr } from "~/components/Admin/Table/Tr";
 import PageView from "../_PageView";
 import { api } from "~/utils/api";
-import { LoadingCard } from "~/components/loadingCard";
+import { LoadingCard } from "~/components/Admin/loadingCard";
 
 export default function ViewAdminsPage() {
     const admins = api.setting.getUsersList.useQuery()

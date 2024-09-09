@@ -1,5 +1,5 @@
 import { faBook, faBuilding, faIdCard, faPills } from "@fortawesome/free-solid-svg-icons";
-import { DashboardNavCard } from "~/components/DashboardNavCard";
+import { DashboardNavCard } from "~/components/Admin/DashboardNavCard";
 import PageView from "./_PageView";
 import Link from "next/link";
 import type { GetServerSideProps } from "next";

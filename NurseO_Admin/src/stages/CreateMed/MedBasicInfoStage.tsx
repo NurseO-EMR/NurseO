@@ -1,12 +1,12 @@
 import { faPills } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { Input } from "~/components/Form/Input";
-import { SearchableSelect } from "~/components/Form/SearchableSelect";
-import { Select } from "~/components/Form/Select";
-import { BaseStage, type BaseStageProps } from "~/components/Stages/BaseStage";
+import { Input } from "~/components/Admin/Form/Input";
+import { SearchableSelect } from "~/components/Admin/Form/SearchableSelect";
+import { Select } from "~/components/Admin/Form/Select";
+import { BaseStage, type BaseStageProps } from "~/components/Admin/Stages/BaseStage";
 import type { Medication } from "@nurse-o-core/index";
 import { api } from "~/utils/api";
-import { LoadingCard } from "~/components/loadingCard";
+import { LoadingCard } from "~/components/Admin/loadingCard";
 
 export type Props = BaseStageProps & {
     onNext: (id: number, brandName: string, genericName: string, narcoticCountNeeded: boolean) => void
@@ -14,7 +14,7 @@ export type Props = BaseStageProps & {
 
 export function MedBasicInfoStage(props: Props) {
 
-    const {data: meds, isLoading} = api.medication.getAllMeds.useQuery()
+    const { data: meds, isLoading } = api.medication.getAllMeds.useQuery()
 
     const [id, setId] = useState(-1)
     const [brandName, setBrandName] = useState("")
@@ -32,7 +32,7 @@ export function MedBasicInfoStage(props: Props) {
 
     const onMedNameChangeHandler = (id: string) => {
         const numericId = parseInt(id)
-        const IDedMed = meds?.find(m=>m.id === numericId)
+        const IDedMed = meds?.find(m => m.id === numericId)
         setId(numericId)
         if (IDedMed) {
             setNarcoticCount(IDedMed.narcoticCountNeeded ? "true" : "false")
@@ -53,7 +53,7 @@ export function MedBasicInfoStage(props: Props) {
             locations: []
         }
 
-        if(!meds) return;
+        if (!meds) return;
 
         meds.push(med);
         setBrandName(brandName ?? "")
@@ -64,7 +64,7 @@ export function MedBasicInfoStage(props: Props) {
         setDisableBrandName(false)
     }
 
-    if(isLoading && !meds) return <LoadingCard />
+    if (isLoading && !meds) return <LoadingCard />
 
     return <BaseStage {...props} title="Let's start with the basics, brand, generic, and barcode please!" icon={faPills} onNext={onNextClickHandler}>
 

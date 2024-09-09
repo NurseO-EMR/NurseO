@@ -1,17 +1,17 @@
 import { faBookMedical } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { Button } from "~/components/Form/Button";
-import { Input } from "~/components/Form/Input";
-import { Select } from "~/components/Form/Select";
-import { type BaseStageProps, BaseStage } from "~/components/Stages/BaseStage"
+import { Button } from "~/components/Admin/Form/Button";
+import { Input } from "~/components/Admin/Form/Input";
+import { Select } from "~/components/Admin/Form/Select";
+import { type BaseStageProps, BaseStage } from "~/components/Admin/Stages/BaseStage"
 import { type MedicationOrder, OrderKind, OrderType, Frequency, Routine, type PatientChart, type MarRecord } from "@nurse-o-core/index"
-import { MedicationOrdersPreviewer } from "~/components/Stages/MedicationOrdersPreviewer";
+import { MedicationOrdersPreviewer } from "~/components/Admin/Stages/MedicationOrdersPreviewer";
 import { AnimatePresence } from "framer-motion";
-import { SearchableSelect } from "~/components/Form/SearchableSelect";
+import { SearchableSelect } from "~/components/Admin/Form/SearchableSelect";
 import { broadcastAnnouncement, Announcement } from "~/services/AnnouncementService";
-import { MarRecordEditor } from "~/components/Stages/MarRecordEditor";
+import { MarRecordEditor } from "~/components/Admin/Stages/MarRecordEditor";
 import { api } from "~/utils/api";
-import { LoadingCard } from "~/components/loadingCard";
+import { LoadingCard } from "~/components/Admin/loadingCard";
 
 export type Props = BaseStageProps & {
     onNext: (orders: MedicationOrder[]) => void,

@@ -1,10 +1,10 @@
 import PageView from "../_PageView";
-import { Steps } from "~/components/Steps/Steps";
+import { Steps } from "~/components/Admin/Steps/Steps";
 import { useState } from "react";
-import { Stages } from "~/components/Stages/Stages";
+import { Stages } from "~/components/Admin/Stages/Stages";
 import type { MedicationLocation, Medication } from "@nurse-o-core/index";
 import { MedBasicInfoStage } from "~/stages/CreateMed/MedBasicInfoStage";
-import { Step } from "~/components/Steps/Step";
+import { Step } from "~/components/Admin/Steps/Step";
 import { faBuilding, faFileInvoice, faPills } from "@fortawesome/free-solid-svg-icons";
 import { MedLocationStage } from "~/stages/CreateMed/MedLocationStage";
 import { MedFinalizeStage } from "~/stages/CreateMed/MedFinalizeStage";
