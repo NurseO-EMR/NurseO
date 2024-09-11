@@ -18,13 +18,13 @@ export default function MedicationEntry(props: Props) {
 
     return (
         <tr>
-            <td className="border-2 p-2">{medication.data?.genericName}</td>
-            <td className="border-2 p-2">{medication.data?.brandName}</td>
-            <td className="border-2 p-2">{props.order.concentration}</td>
-            <td className="border-2 p-2">{props.order.route}</td>
-            <td className="border-2 p-2">{props.order.frequency}</td>
-            <td className="border-2 p-2">{props.order.routine} {props.order.PRNNote}</td>
-            <td className="border-2 p-2">{props.order.notes}</td>
+            <td className="border-2 p-2 border-trueGray-200">{medication.data?.genericName}</td>
+            <td className="border-2 p-2 border-trueGray-200">{medication.data?.brandName}</td>
+            <td className="border-2 p-2 border-trueGray-200">{props.order.concentration}</td>
+            <td className="border-2 p-2 border-trueGray-200">{props.order.route}</td>
+            <td className="border-2 p-2 border-trueGray-200">{props.order.frequency}</td>
+            <td className="border-2 p-2 border-trueGray-200">{props.order.routine} {props.order.PRNNote}</td>
+            <td className="border-2 p-2 border-trueGray-200">{props.order.notes}</td>
         </tr>
     );
 }

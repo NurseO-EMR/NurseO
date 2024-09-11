@@ -13,8 +13,8 @@ export default function AllergyCard(props: Props) {
         <Card title="Allergies" className={props.className}>
             <thead className="font-bold">
                 <tr>
-                    <td className="border-2 p-2">Name</td>
-                    <td className="border-2 p-2">Reaction</td>
+                    <td className="border-2 p-2 border-trueGray-200">Name</td>
+                    <td className="border-2 p-2 border-trueGray-200">Reaction</td>
                 </tr>
             </thead>
             <tbody>

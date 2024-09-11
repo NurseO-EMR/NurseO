@@ -35,8 +35,8 @@ export default class Orders extends React.Component<Props, State> {
             <Card className={this.props.className} title={this.props.orderType ? this.props.orderType + " Orders" : "Orders"}>
                 <thead className="font-bold">
                     <tr>
-                        <td className="border-2 p-2">Type</td>
-                        <td className="border-2 p-2">Order</td>
+                        <td className="border-2 p-2 border-trueGray-200">Type</td>
+                        <td className="border-2 p-2 border-trueGray-200">Order</td>
                     </tr>
                 </thead>
                 <tbody>

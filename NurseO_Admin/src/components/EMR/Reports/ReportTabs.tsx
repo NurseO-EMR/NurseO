@@ -13,7 +13,7 @@ export default class ReportTabs extends React.Component<Props> {
         super(props);
         this.tabsButtonClassNames = {
             active: "border-b-2 border-primary py-2 px-5 my-2 text-primary font-bold",
-            inactive: "border-b-2 py-2 px-5 my-2"
+            inactive: "border-b-2 border-gray-200 py-2 px-5 my-2"
         }
     }
 
@@ -24,7 +24,7 @@ export default class ReportTabs extends React.Component<Props> {
 
     public render() {
         return (
-            <div className='overflow-x-auto '>
+            <div className='overflow-x-auto'>
                 <div className="flex gap-3 w-max">
                     {this.props.reportSets ?
                         <>

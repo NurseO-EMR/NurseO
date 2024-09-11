@@ -13,9 +13,9 @@ export default function OrdersCard(props: Props) {
         <Card title="Orders" className={props.className}>
             <thead className="font-bold">
                 <tr>
-                    <td className="border-2 p-2">Time</td>
-                    <td className="border-2 p-2">Order Type</td>
-                    <td className="border-2 p-2">Order</td>
+                    <td className="border-2 p-2 border-trueGray-200">Time</td>
+                    <td className="border-2 p-2 border-trueGray-200">Order Type</td>
+                    <td className="border-2 p-2 border-trueGray-200">Order</td>
                 </tr>
             </thead>
             <tbody>

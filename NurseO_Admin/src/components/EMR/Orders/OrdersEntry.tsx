@@ -14,7 +14,7 @@ export type State = {
 }
 export default class OrderEntry extends React.Component<Props, State> {
 
-    constructor(props:Props){
+    constructor(props: Props) {
         super(props);
         this.state = {
             isModalShown: false,
@@ -22,34 +22,34 @@ export default class OrderEntry extends React.Component<Props, State> {
     }
 
     onClickHandler() {
-        this.setState({isModalShown: true})
+        this.setState({ isModalShown: true })
     }
 
     onModalCloseHandler() {
-        this.setState({isModalShown: false})
+        this.setState({ isModalShown: false })
     }
 
     public render() {
         return (
             <>
-            <tr onClick={this.onClickHandler.bind(this)} 
-              className="hover:bg-primary hover:text-white transition-all duration-200  even:bg-gray-300 cursor-pointer">
-                <td className="border-2 p-2">{this.props.order.time}</td>
-                <td className="border-2 p-2">{this.props.order.orderType}</td>
-                <td className="border-2 p-2">
-                    {this.props.order.orderKind === OrderKind.med ? 
-                    <MedicationOrderSyntax order={this.props.order as MedicationOrder}/>: 
-                    <pre className='font-sans whitespace-pre-wrap'>{parse((this.props.order as CustomOrder).order)}</pre>}
-                    
-                </td>
-            </tr>
+                <tr onClick={this.onClickHandler.bind(this)}
+                    className="hover:bg-primary hover:text-white transition-all duration-200  even:bg-gray-300 cursor-pointer border-trueGray-200">
+                    <td className="border-2 p-2 border-trueGray-200">{this.props.order.time}</td>
+                    <td className="border-2 p-2 border-trueGray-200">{this.props.order.orderType}</td>
+                    <td className="border-2 p-2 border-trueGray-200">
+                        {this.props.order.orderKind === OrderKind.med ?
+                            <MedicationOrderSyntax order={this.props.order as MedicationOrder} /> :
+                            <pre className='font-sans whitespace-pre-wrap'>{parse((this.props.order as CustomOrder).order)}</pre>}
 
-            <PureModal header="Order" width="60vw" className="text-center font-bold" isOpen={this.state.isModalShown} onClose={this.onModalCloseHandler.bind(this)}>
-                <div>
-                {this.props.order.orderKind === OrderKind.med ? <MedicationOrderSyntax order={this.props.order as MedicationOrder}/>:
-                 <pre className='text-left'>{parse((this.props.order as CustomOrder).order)}</pre>}
-                </div>
-            </PureModal>
+                    </td>
+                </tr>
+
+                <PureModal header="Order" width="60vw" className="text-center font-bold" isOpen={this.state.isModalShown} onClose={this.onModalCloseHandler.bind(this)}>
+                    <div>
+                        {this.props.order.orderKind === OrderKind.med ? <MedicationOrderSyntax order={this.props.order as MedicationOrder} /> :
+                            <pre className='text-left'>{parse((this.props.order as CustomOrder).order)}</pre>}
+                    </div>
+                </PureModal>
             </>
         );
     }
