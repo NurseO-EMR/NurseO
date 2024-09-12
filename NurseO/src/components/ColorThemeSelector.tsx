@@ -1,4 +1,4 @@
-import colorThemes from "../../colorThemes.json"
+import colorThemes from "~/colorThemes.json"
 
 type SelectorProps = {
     hideLabels?: boolean
@@ -9,10 +9,8 @@ export function ColorThemeSelector(props: SelectorProps) {
     const colors = Object.entries(colorThemes)
 
     const onColorThemeChange = (colorTheme: string) => {
-        if (document.getElementsByTagName("html")[0]?.className) {
-            document.getElementsByTagName("html")[0]!.className = colorTheme // checked in the if above
-        }
-
+        if (document.getElementById("topLevelDiv")) document.getElementById("topLevelDiv")!.className = colorTheme
+        console.log(colorTheme)
     }
     return (
         <div className="flex gap-4 justify-center">

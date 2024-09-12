@@ -2,7 +2,7 @@ import Logo from '~/components/EMR/Nav/TopMenu/Logo';
 import { Background } from '~/components/EMR/Background';
 import SignInButton from '~/components/EMR/Form/SignInButton';
 import AnonymousSignInButton from '~/components/EMR/Form/AnonymousSignInButton';
-import { ColorThemeSelector } from '~/components/EMR/ColorThemeSelector';
+import { ColorThemeSelector } from '~/components/ColorThemeSelector';
 import Head from 'next/head';
 import { useContext, useState } from 'react';
 import { GlobalContext } from '~/services/State';
