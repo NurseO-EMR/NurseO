@@ -4,7 +4,7 @@ import SideNav from '~/components/EMR/Nav/SideBar/SideNav';
 import SideNavHeader from '~/components/EMR/Nav/SideBar/SideNavHeader';
 import SideNavItem from '~/components/EMR/Nav/SideBar/SideNavItem';
 import TopNav from '~/components/EMR/Nav/TopMenu/TopNav';
-import TapOutService from '../../../Services/TapOutService';
+import TapOutService from '~/services/TapOutService';
 import { ColorThemeSelector } from '~/components/EMR/ColorThemeSelector';
 import { GlobalContext } from '~/services/State';
 import { useRouter } from 'next/router';
