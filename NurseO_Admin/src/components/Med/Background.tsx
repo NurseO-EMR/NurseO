@@ -1,4 +1,4 @@
-import backgroundImage from "./../assets/background.jpg";
+import backgroundImage from "~/assets/background.jpg";
 import Image from "next/image"
 
 export function Background() {

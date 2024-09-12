@@ -12,6 +12,7 @@ import { patientChartSchema } from "~/types/zodSchemaPatientChart";
 
 import { getPatientByBarCode } from "~/server/database/student/patientDB/getPatientDB";
 import { addNote, updateOrderHoldInfo } from "~/server/database/student/patientDB/updatePatientDB";
+import { getListOfPatients, getPatientMedOrders } from "~/server/database/med/patientDB";
 
 export const patientRouter = createTRPCRouter({
   getPatientList: protectedProcedure.query(({ ctx }) => getPatientList(ctx.db)),
@@ -25,4 +26,8 @@ export const patientRouter = createTRPCRouter({
   student_getPatient: publicProcedure.input(z.object({ barcode: z.string(), locationId: z.number(), studentId: z.string() || z.null() })).mutation(async ({ input, ctx }) => getPatientByBarCode(ctx.db, input.barcode, input.locationId, input.studentId)),
   student_updatePatientHoldInfo: publicProcedure.input(z.object({ orderId: z.number(), holdReason: z.string().nullable() })).mutation(async ({ input, ctx }) => updateOrderHoldInfo(ctx.db, input.orderId, input.holdReason)),
   student_addNote: publicProcedure.input(z.object({ patientId: z.number(), date: z.string(), reportName: z.string(), reportType: z.string(), note: z.string() })).mutation(async ({ input, ctx }) => addNote(ctx.db, input.patientId, input.date, input.reportName, input.reportType, input.note)),
+
+  //med
+  student_getListOfPatients: publicProcedure.input(z.object({ locationId: z.number() })).query(async ({ input, ctx }) => getListOfPatients(ctx.db, input.locationId)),
+  student_getPatientMedOrders: publicProcedure.input(z.object({ patientId: z.number() })).mutation(async ({ input, ctx }) => getPatientMedOrders(ctx.db, input.patientId))
 });

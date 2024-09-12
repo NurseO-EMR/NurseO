@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     if (!session) {
         return {
             redirect: {
-                destination: "/login",
+                destination: "/nurseo_admin/login",
                 permanent: false,
             }
         }

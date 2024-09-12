@@ -40,9 +40,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const session = await getServerSession(context.req, context.res, authOptions)
 
     if (session && session.user.role === userRoles.sim.valueOf()) {
-        return { redirect: { destination: "/" } }
+        return { redirect: { destination: "/nurseo_admin" } }
     } else if (session?.user) {
-        return { redirect: { destination: "/401" } }
+        return { redirect: { destination: "/nurseo_admin/401" } }
     }
 
     return {

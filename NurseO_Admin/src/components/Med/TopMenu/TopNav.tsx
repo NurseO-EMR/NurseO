@@ -12,13 +12,13 @@ export function TopNav(props: Props) {
     const router = useRouter()
 
     const onLogoutClickHandler = async () => {
-        router.push("/")
+        router.push("/nurseo_med")
     }
 
 
-    const onBackClickHandler = ()=>{
-        if (window.location.pathname.includes("/dashboard")) router.push("/selectPatient")
-        else router.push("/dashboard")
+    const onBackClickHandler = () => {
+        if (window.location.pathname.includes("/nurseo_med/dashboard")) router.push("/nurseo_med/selectPatient")
+        else router.push("/nurseo_med/dashboard")
     }
 
     return (
@@ -26,16 +26,16 @@ export function TopNav(props: Props) {
             <div className="flex justify-around">
                 <div className='flex items-center'>
                     <FontAwesomeIcon icon={faArrowLeftLong} onClick={onBackClickHandler}
-                    className="text-xl mr-10 cursor-pointer" /> 
+                        className="text-xl mr-10 cursor-pointer" />
                     <Logo className='flex-row text-xl' />
                 </div>
-                
+
                 <div className="flex items-center space-x-8">
-                    
+
                 </div>
 
                 <div className="flex items-center space-x-3">
-                    <Link href="/AZListing" className='bg-primary rounded-md text-white px-8 py-2 text-center'>
+                    <Link href="/nurseo_med/AZListing" className='bg-primary rounded-md text-white px-8 py-2 text-center'>
                         A-Z Medication List
                     </Link>
                     <span className="font-medium rounded ">

@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
-import { Logo } from '~/components/Nav/TopMenu/Logo';
-import { Button } from '~/components/Form/Button';
-import { Background } from '~/components/Background';
+import { Logo } from '~/components/Med/TopMenu/Logo';
+import { Button } from '~/components/Med/Form/Button';
+import { Background } from '~/components/Med/Background';
 import TapOutService from '~/services/TapOutService';
-import { ColorThemeSelector } from '~/components/ColorThemeSelector';
+import { ColorThemeSelector } from '~/components/Med/ColorThemeSelector';
 import { useRouter } from 'next/navigation';
 
 
 export default function LoginPage() {
     const router = useRouter()
-    
+
     useEffect(() => TapOutService.initialize(), [])
 
     const onClickHandler = async () => {
-        router.push("/selectPatient")
+        router.push("/nurseo_med/selectPatient")
     }
 
     return (
@@ -32,7 +32,7 @@ export default function LoginPage() {
                     <hr className="w-full my-4 border-primary" />
                     <h1 className="font-bold">If you forgot your ID click bellow:</h1>
                     <Button className="rounded-full bg-grayBackground text-white py-2 font-bold tracking-wider w-full block mx-auto" onClick={onClickHandler}>Anonymously Sign In</Button>
-                    <hr className="w-full my-4 border-primary"/>
+                    <hr className="w-full my-4 border-primary" />
                     <h1 className="font-bold mb-3">Select colors that best fit you</h1>
                     <ColorThemeSelector />
                 </form>

@@ -1,5 +1,5 @@
-import { Mar } from '~/components/Mar/Mar';
-import { TopNav } from '~/components/Nav/TopMenu/TopNav';
+import { Mar } from '~/components/Med/Mar/Mar';
+import { TopNav } from '~/components/Med/TopMenu/TopNav';
 import { useContext } from "react";
 import { GlobalContext } from '~/services/State';
 import Link from 'next/link';
@@ -13,7 +13,7 @@ export default function DashboardPage() {
             <TopNav />
             <Mar orders={patientMedOrders} simTime={time} />
             <div className="w-screen flex justify-center">
-            <Link href="/AZListing">
+                <Link href="/nurseo_med/AZListing">
                     <button className=" w-screen h-20 bg-primary text-xl text-white font-bold animate-pulse ">
                         Click here if you can&apos;t find your order/medication above</button></Link>
 

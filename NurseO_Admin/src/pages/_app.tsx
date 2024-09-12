@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 
 import 'react-pure-modal/dist/react-pure-modal.min.css';
 import "~/styles/globals.css";
-import { PatientChart } from "@nurse-o-core/index";
+import { type MedicationOrder, PatientChart, type Time } from "@nurse-o-core/index";
 import { useState, useEffect } from "react";
 import { storeLocation, getLocationFromStorage } from "~/services/LocalStorage";
 import { GlobalContext } from "~/services/State";
@@ -22,7 +22,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
   const [studentId, setStudentId] = useState("")
   const [patient, setPatient] = useState<PatientChart>(new PatientChart())
   const [locationId, setLocationId] = useState(-1)
-
+  const [patientMedOrders, setPatientMedOrders] = useState<MedicationOrder[]>([])
+  const [time, setTime] = useState<Time>({ hour: 0, minute: 0 })
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -37,7 +38,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session}>
-      <GlobalContext.Provider value={{ studentId, setStudentId, patient, setPatient, locationId, setLocationId }}>
+      <GlobalContext.Provider value={{ studentId, setStudentId, patient, setPatient, locationId, setLocationId, patientMedOrders, setPatientMedOrders, time, setTime }}>
         <div id="topLevelDiv" className={"standard " + GeistSans.className}>
           <Component {...pageProps} />
         </div>
