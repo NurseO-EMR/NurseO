@@ -9,7 +9,7 @@ export function Logo(props: Props) {
 
     return (
         <div>
-            <Link href={"/"}>
+            <Link href={"/nurseo_med"}>
                 <div className={`flex items-center py-4 px-2 font-bold ${props.className}`}>
                     <div className="tracking-wider">Nurse<abbr title="Open Source">O</abbr>&#160;</div>
                     <div className={`text-primary`}>Medication Administration
