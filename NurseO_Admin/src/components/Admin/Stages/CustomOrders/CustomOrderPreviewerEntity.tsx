@@ -1,6 +1,6 @@
 import { faSquareCaretUp, faSquareCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { CustomOrder } from "@nurse-o-core/index";
+import type { CustomOrder } from "~/core/index";
 import { useState, type FocusEvent } from "react";
 import { Td } from "../../Table/Td";
 import { Tr } from "../../Table/Tr";

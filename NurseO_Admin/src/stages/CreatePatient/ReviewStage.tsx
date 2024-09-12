@@ -1,5 +1,5 @@
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import { MedicationOrderSyntax, type PatientChart } from "@nurse-o-core/index";
+import { MedicationOrderSyntax, type PatientChart } from "~/core/index";
 import { useState } from "react";
 import { BaseStage, type BaseStageProps } from "~/components/Admin/Stages/BaseStage";
 import { ReviewItem } from "~/components/Admin/Stages/Review/ReviewItem";

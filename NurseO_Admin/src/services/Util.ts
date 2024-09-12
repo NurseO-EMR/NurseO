@@ -1,4 +1,4 @@
-import { Gender, type PatientChart, type Time } from "@nurse-o-core/index";
+import { Gender, type PatientChart, type Time } from "~/core/index";
 
 export function createEmptyPatient(): PatientChart {
     const patient: PatientChart = {

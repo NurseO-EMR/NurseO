@@ -1,5 +1,5 @@
 import React from 'react';
-import { type Allergy } from '@nurse-o-core/index';
+import { type Allergy } from '~/core/index';
 import AllergyEntry from './AllergyEntry';
 import Card from './Card';
 

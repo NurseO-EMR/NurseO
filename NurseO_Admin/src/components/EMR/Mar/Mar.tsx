@@ -1,6 +1,6 @@
 import { findIndex, uniq } from 'lodash';
 import React, { useContext, useMemo } from 'react';
-import type { MedicationOrder, Time } from "@nurse-o-core/index";
+import type { MedicationOrder, Time } from "~/core/index";
 import MarEntry from './MarEntry';
 import { GlobalContext } from '~/services/State';
 import { api } from '~/utils/api';

@@ -1,7 +1,7 @@
 import { faPenToSquare, faSquareCaretDown, faSquareCaretUp, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion} from "framer-motion";
-import { type Medication, type MedicationOrder, MedicationOrderSyntax } from "@nurse-o-core/index";
+import { type Medication, type MedicationOrder, MedicationOrderSyntax } from "~/core/index";
 import { useMemo, useState } from "react";
 
 

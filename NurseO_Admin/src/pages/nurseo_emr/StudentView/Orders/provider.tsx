@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Orders from '~/components/EMR/Orders/Orders';
-import { OrderType } from "@nurse-o-core/index";
+import { OrderType } from "~/core/index";
 import StudentViewPage from '../_StudentViewPage';
 import { GlobalContext } from '~/services/State';
 

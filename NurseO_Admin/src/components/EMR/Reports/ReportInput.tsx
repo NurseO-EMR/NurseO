@@ -1,4 +1,4 @@
-import type { ReportField } from "@nurse-o-core/index";
+import type { ReportField } from "~/core/index";
 import { Fragment, useEffect, useState } from 'react';
 import ReportDynamicInput from './ReportDynamicInput';
 

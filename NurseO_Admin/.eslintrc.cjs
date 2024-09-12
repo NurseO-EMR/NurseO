@@ -16,6 +16,8 @@ const config = {
     "@typescript-eslint/prefer-for-of": "off",
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/consistent-indexed-object-style": "off",
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {

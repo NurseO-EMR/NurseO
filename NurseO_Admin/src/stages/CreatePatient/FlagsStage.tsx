@@ -1,5 +1,5 @@
 import { faFlag } from "@fortawesome/free-solid-svg-icons";
-import type { Flag, PatientChart } from "@nurse-o-core/index";
+import type { Flag, PatientChart } from "~/core/index";
 import { useState } from "react";
 import { useFocus } from "~/components/Admin/customHooks";
 import { Button } from "~/components/Admin/Form/Button";

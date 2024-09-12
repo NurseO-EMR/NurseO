@@ -1,5 +1,5 @@
 import { Gender } from "./Gender"
-import { ReportType, StudentReport } from "./Report";
+import type { ReportType, StudentReport } from "./Report";
 
 
 export class Time {

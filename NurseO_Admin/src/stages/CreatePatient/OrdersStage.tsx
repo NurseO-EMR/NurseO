@@ -4,7 +4,7 @@ import { Button } from "~/components/Admin/Form/Button";
 import { Input } from "~/components/Admin/Form/Input";
 import { Select } from "~/components/Admin/Form/Select";
 import { type BaseStageProps, BaseStage } from "~/components/Admin/Stages/BaseStage"
-import { type MedicationOrder, OrderKind, OrderType, Frequency, Routine, type PatientChart, type MarRecord } from "@nurse-o-core/index"
+import { type MedicationOrder, OrderKind, OrderType, Frequency, Routine, type PatientChart, type MarRecord } from "~/core/index"
 import { MedicationOrdersPreviewer } from "~/components/Admin/Stages/MedicationOrdersPreviewer";
 import { AnimatePresence } from "framer-motion";
 import { SearchableSelect } from "~/components/Admin/Form/SearchableSelect";

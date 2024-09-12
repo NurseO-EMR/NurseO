@@ -26,8 +26,9 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
-      "@nurse-o-core/*": ["./../NurseO_Core/src/*"]
+      "~/*": [
+        "./src/*"
+      ],
 
     }
   },
@@ -39,7 +40,6 @@
     "**/*.cjs",
     "**/*.js",
     ".next/types/**/*.ts",
-    "./../NurseO_Core/src/*.ts"
   ],
   "exclude": ["node_modules"]
 }

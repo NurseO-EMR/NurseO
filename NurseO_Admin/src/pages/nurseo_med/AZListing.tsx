@@ -1,4 +1,4 @@
-import type { Medication } from "@nurse-o-core/index";
+import type { Medication } from "~/core/index";
 import { useEffect, useState } from "react";
 import { MedLocationModal } from "~/components/Med/Mar/MedLocationModal";
 import { TopNav } from "~/components/Med/TopMenu/TopNav";

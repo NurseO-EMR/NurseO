@@ -1,4 +1,4 @@
-import { Frequency, OrderKind, OrderType, Routine, type Medication } from "@nurse-o-core/index";
+import { Frequency, OrderKind, OrderType, Routine, type Medication } from "~/core/index";
 import { type PrismaClient } from "@prisma/client";
 
 

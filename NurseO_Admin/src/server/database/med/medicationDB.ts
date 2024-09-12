@@ -1,5 +1,5 @@
 import { type PrismaClient } from '@prisma/client';
-import type { Medication, MedicationLocation } from '@nurse-o-core/index';
+import type { Medication, MedicationLocation } from '~/core/index';
 
 export async function getMedicationLocations(db: PrismaClient, medId: number, locationId: number): Promise<MedicationLocation[]> {
     const locations = await db.$queryRaw<{ drawer: string, slot: string, dose: string, type: string }[]>`

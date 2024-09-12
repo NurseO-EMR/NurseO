@@ -1,4 +1,4 @@
-import type { Course } from "@nurse-o-core/index"
+import type { Course } from "~/core/index"
 import { useMemo } from "react"
 import PureModal from "react-pure-modal"
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService"

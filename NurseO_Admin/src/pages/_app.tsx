@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 
 import 'react-pure-modal/dist/react-pure-modal.min.css';
 import "~/styles/globals.css";
-import { type MedicationOrder, PatientChart, type Time } from "@nurse-o-core/index";
+import { type MedicationOrder, PatientChart, type Time } from "~/core/index";
 import { useState, useEffect } from "react";
 import { storeLocation, getLocationFromStorage } from "~/services/LocalStorage";
 import { GlobalContext } from "~/services/State";

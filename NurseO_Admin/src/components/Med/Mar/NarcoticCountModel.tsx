@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PureModal from "react-pure-modal";
-import type { Medication, MedicationOrder } from "@nurse-o-core/index"
+import type { Medication, MedicationOrder } from "~/core/index"
 import { Input } from "../Form/Input"
 import { Button } from "../Form/Button"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

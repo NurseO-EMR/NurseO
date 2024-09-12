@@ -1,5 +1,5 @@
 import { faHouseChimneyUser } from "@fortawesome/free-solid-svg-icons";
-import type { PatientChart, Time } from "@nurse-o-core/index";
+import type { PatientChart, Time } from "~/core/index";
 import { useState, type ChangeEvent } from "react";
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
 import { Input } from "~/components/Admin/Form/Input";

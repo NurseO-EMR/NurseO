@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import PureModal from "react-pure-modal"
 
 import { NarcoticCountModel } from "./NarcoticCountModel"
-import type { Medication, MedicationOrder } from '@nurse-o-core/index';
+import type { Medication, MedicationOrder } from '~/core/index';
 import { api } from '~/utils/api';
 import { GlobalContext } from '~/services/State';
 

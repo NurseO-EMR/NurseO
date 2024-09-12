@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { type MedicationOrder, PatientChart, type Time } from "@nurse-o-core/index";
+import { type MedicationOrder, PatientChart, type Time } from "~/core/index";
 
 export const GlobalContext = createContext({
     studentId: "",

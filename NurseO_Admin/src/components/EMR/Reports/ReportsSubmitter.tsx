@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { GlobalContext } from '~/services/State';
-import type { ReportType, StudentReport } from "@nurse-o-core/index";
+import type { ReportType, StudentReport } from "~/core/index";
 import { getTodaysDateAsString } from '~/services/Util';
 import ReportsSubmitterTabContent from './ReportsSubmitterTabContent';
 import ReportTabs from './ReportTabs';

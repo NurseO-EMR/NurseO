@@ -7,7 +7,7 @@ import { ArrayPreviewer } from "~/components/Admin/Stages/ArrayPreviewer";
 import { type BaseStageProps, BaseStage } from "~/components/Admin/Stages/BaseStage"
 import { Td } from "~/components/Admin/Table/Td";
 import { Tr } from "~/components/Admin/Table/Tr";
-import type { MedicalHistory, PatientChart } from "@nurse-o-core/index";
+import type { MedicalHistory, PatientChart } from "~/core/index";
 
 export type Props = BaseStageProps & {
     onNext: (medicalHistory: MedicalHistory[]) => void,

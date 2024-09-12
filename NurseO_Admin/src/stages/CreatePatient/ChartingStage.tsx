@@ -1,7 +1,7 @@
 import { faBedPulse, faBong, faComputer, faDroplet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { filter } from "lodash";
-import { type PatientChart, type ReportSet, ReportType, type StudentReport } from "@nurse-o-core/index";
+import { type PatientChart, type ReportSet, ReportType, type StudentReport } from "~/core/index";
 import { useEffect, useState } from "react";
 import { type BaseStageProps, BaseStage } from "~/components/Admin/Stages/BaseStage"
 import { ChartPreviewer } from "~/components/Admin/Reports/ChartPreviewer";

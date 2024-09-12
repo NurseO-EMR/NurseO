@@ -1,4 +1,4 @@
-import type { MarRecord, Time } from "@nurse-o-core/index";
+import type { MarRecord, Time } from "~/core/index";
 import { useEffect, useState } from "react";
 import PureModal from "react-pure-modal";
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";

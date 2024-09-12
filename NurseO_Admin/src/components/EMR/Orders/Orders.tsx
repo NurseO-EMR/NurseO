@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import React from 'react';
-import type { Order, OrderType } from "@nurse-o-core/index";
+import type { Order, OrderType } from "~/core/index";
 import Card from '../Dashboard/Card/Card';
 import OrderEntry from './OrdersEntry';
 

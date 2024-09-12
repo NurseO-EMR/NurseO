@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import {type MedicationOrder, type Time, type Medication, MedicationOrderSyntax, type MarRecord } from '@nurse-o-core/index';
+import { type MedicationOrder, type Time, type Medication, MedicationOrderSyntax, type MarRecord } from '~/core/index';
 import { MedLocationModal } from './MedLocationModal';
 
 type Props = {

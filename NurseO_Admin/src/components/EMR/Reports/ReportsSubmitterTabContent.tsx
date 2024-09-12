@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { ReportSet } from "@nurse-o-core/index";
+import type { ReportSet } from "~/core/index";
 import ReportInput from './ReportInput';
 import ReportsHeaderTimeSlots from './ReportsHeaderTimeSlots';
 import Image from "next/image"

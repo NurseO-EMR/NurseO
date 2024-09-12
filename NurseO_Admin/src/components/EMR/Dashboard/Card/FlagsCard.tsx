@@ -1,5 +1,5 @@
 import React from 'react';
-import { type Flag } from '@nurse-o-core/index';
+import { type Flag } from '~/core/index';
 import Card from './Card';
 import FlagEntry from './FlagEntry';
 

@@ -14,7 +14,7 @@ import { PatientFinalizeStage } from "./PatientFinalizeStage";
 import { ReviewStage } from "./ReviewStage";
 import { type SimSpecificInfo, SimSpecificInfoStage } from "./SimSpecificInfoStage";
 import { SocialHistoryStage } from "./SocialHistoryStage";
-import type { Allergy, Flag, MedicalHistory, MedicationOrder, CustomOrder, StudentReport, PatientChart } from "@nurse-o-core/index";
+import type { Allergy, Flag, MedicalHistory, MedicationOrder, CustomOrder, StudentReport, PatientChart } from "~/core/index";
 import { useState } from "react";
 
 type Props = {

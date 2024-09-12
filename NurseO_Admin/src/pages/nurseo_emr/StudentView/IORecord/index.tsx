@@ -1,6 +1,6 @@
 import React from 'react';
 import EmptyCard from '~/components/EMR/Dashboard/Card/EmptyCard';
-import { ReportType } from "@nurse-o-core/index";
+import { ReportType } from "~/core/index";
 import StudentViewPage from '../_StudentViewPage';
 import ReportSubmitter from "~/components/EMR/Reports/ReportsSubmitter";
 

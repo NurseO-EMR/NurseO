@@ -1,7 +1,7 @@
 import { faPills } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { isEqual } from "lodash";
-import type { Medication } from "@nurse-o-core/index";
+import type { Medication } from "~/core/index";
 import { useEffect, useState } from "react";
 import { Card } from "~/components/Admin/Card";
 import { Button } from "~/components/Admin/Form/Button";

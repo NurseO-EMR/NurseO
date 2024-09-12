@@ -1,5 +1,5 @@
 import { cloneDeep, isEqual } from "lodash";
-import { type PatientChart } from "@nurse-o-core/index";
+import { type PatientChart } from "~/core/index";
 import { useEffect, useState } from "react";
 import PageView from "../../_PageView";
 import { PatientProcess } from "~/stages/CreatePatient/PatientProcess";

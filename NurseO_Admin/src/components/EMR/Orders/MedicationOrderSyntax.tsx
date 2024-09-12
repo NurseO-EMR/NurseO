@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { MedicationOrderSyntax as BaseMedicationOrderSyntax, type MedicationOrder } from "@nurse-o-core/index";
+import { MedicationOrderSyntax as BaseMedicationOrderSyntax, type MedicationOrder } from "~/core/index";
 import { api } from '~/utils/api';
 import { GlobalContext } from '~/services/State';
 type Props = {

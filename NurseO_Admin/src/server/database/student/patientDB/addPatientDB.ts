@@ -1,4 +1,4 @@
-import type { MedicationOrder, PatientChart } from "@nurse-o-core/index";
+import type { MedicationOrder, PatientChart } from "~/core/index";
 import { Prisma, type PrismaPromise, type PrismaClient } from "@prisma/client";
 import { getPatientById } from "./getPatientDB";
 

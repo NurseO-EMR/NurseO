@@ -1,5 +1,5 @@
 import { type ChangeEvent, useEffect, useRef, useState } from 'react';
-import type { ReportInputType } from "@nurse-o-core/index";
+import type { ReportInputType } from "~/core/index";
 
 type Props = {
     fieldType: ReportInputType,

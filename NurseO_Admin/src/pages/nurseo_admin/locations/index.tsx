@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card } from "~/components/Admin/Card";
 import { Td } from "~/components/Admin/Table/Td";
 import { Tr } from "~/components/Admin/Table/Tr";
-import type { LocationDefinition } from "@nurse-o-core/index";
+import type { LocationDefinition } from "~/core/index";
 import PageView from "../_PageView";
 import { cloneDeep, findIndex } from "lodash";
 import { Input } from "~/components/Admin/Form/Input";

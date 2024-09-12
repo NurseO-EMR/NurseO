@@ -3,7 +3,7 @@ import Logo from './Logo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { GlobalContext } from '~/services/State';
-import { PatientChart } from '@nurse-o-core/index';
+import { PatientChart } from '~/core/index';
 import { useRouter } from 'next/router';
 
 type Props = React.HTMLAttributes<HTMLDivElement>

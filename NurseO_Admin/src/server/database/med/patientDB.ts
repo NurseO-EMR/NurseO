@@ -1,4 +1,4 @@
-import type { Frequency, MarRecord, MedicationOrder, OrderKind, OrderType, Routine } from '@nurse-o-core/index';
+import type { Frequency, MarRecord, MedicationOrder, OrderKind, OrderType, Routine } from '~/core/index';
 import { Prisma, type PrismaClient } from '@prisma/client';
 export async function getListOfPatients(db: PrismaClient, locationId: number) {
     const patients = await db.$queryRaw<{name: string, dob: string, id:number, timeHour: number, timeMinute: number}[]>`

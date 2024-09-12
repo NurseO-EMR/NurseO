@@ -1,6 +1,6 @@
 import { orderBy } from 'lodash';
 import React from 'react';
-import type { MedicalHistory } from '@nurse-o-core/index';
+import type { MedicalHistory } from '~/core/index';
 import Card from './Card';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {

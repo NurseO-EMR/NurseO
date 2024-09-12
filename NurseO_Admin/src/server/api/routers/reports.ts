@@ -1,4 +1,4 @@
-import { ReportType } from "@nurse-o-core/index";
+import { ReportType } from "~/core/index";
 import { z } from "zod";
 import {
   createTRPCRouter,

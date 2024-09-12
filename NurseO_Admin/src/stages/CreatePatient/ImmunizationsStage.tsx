@@ -1,5 +1,5 @@
 import { faSyringe } from "@fortawesome/free-solid-svg-icons";
-import type { PatientChart } from "@nurse-o-core/index";
+import type { PatientChart } from "~/core/index";
 import { useState } from "react";
 import { Button } from "~/components/Admin/Form/Button";
 import { Input } from "~/components/Admin/Form/Input";

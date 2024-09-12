@@ -1,5 +1,5 @@
 import { faHeadSideCough } from "@fortawesome/free-solid-svg-icons";
-import type { Allergy, PatientChart } from "@nurse-o-core/index";
+import type { Allergy, PatientChart } from "~/core/index";
 import { useState } from "react";
 import { useFocus } from "~/components/Admin/customHooks";
 import { Button } from "~/components/Admin/Form/Button";

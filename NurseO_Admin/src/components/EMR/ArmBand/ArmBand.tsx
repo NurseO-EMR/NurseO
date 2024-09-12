@@ -1,5 +1,5 @@
 import React from 'react';
-import type { PatientChart } from "@nurse-o-core/index"
+import type { PatientChart } from "~/core/index"
 import SectionNamedInfo from './SectionNamedInfo';
 import Image from 'next/image';
 

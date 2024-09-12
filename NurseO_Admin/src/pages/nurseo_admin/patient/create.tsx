@@ -4,7 +4,7 @@ import { createEmptyPatient } from "~/services/Util";
 import { cloneDeep, isEqual } from "lodash";
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
 import { PatientProcess } from "~/stages/CreatePatient/PatientProcess";
-import type { PatientChart } from "@nurse-o-core/index";
+import type { PatientChart } from "~/core/index";
 import { api } from "~/utils/api";
 
 

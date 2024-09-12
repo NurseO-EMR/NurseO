@@ -1,5 +1,5 @@
 import React from 'react';
-import { Allergy } from '@nurse-o-core/index';
+import { Allergy } from '~/core/index';
 
 
 export type Props = {

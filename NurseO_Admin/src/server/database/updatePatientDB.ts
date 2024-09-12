@@ -1,4 +1,4 @@
-import type { PatientChart } from "@nurse-o-core/index";
+import type { PatientChart } from "~/core/index";
 import {type PrismaClient } from "@prisma/client";
 import { isEqual } from "lodash";
 

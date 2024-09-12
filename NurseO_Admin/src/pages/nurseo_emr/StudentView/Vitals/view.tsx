@@ -1,6 +1,6 @@
 import ReportsViewer from '~/components/EMR/Reports/ReportsViewer';
 import StudentViewPage from '../_StudentViewPage';
-import { ReportType } from '@nurse-o-core/index';
+import { ReportType } from '~/core/index';
 
 export default function VitalsViewPage() {
     return (

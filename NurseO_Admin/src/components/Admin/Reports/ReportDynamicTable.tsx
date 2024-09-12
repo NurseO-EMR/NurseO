@@ -1,5 +1,5 @@
 import { groupBy, uniq } from "lodash";
-import { ReportType, type StudentReport, type ReportField } from "@nurse-o-core/index";
+import { ReportType, type StudentReport, type ReportField } from "~/core/index";
 import { useEffect, useState } from "react";
 import { Button } from "../Form/Button";
 import { Input } from "../Form/Input";

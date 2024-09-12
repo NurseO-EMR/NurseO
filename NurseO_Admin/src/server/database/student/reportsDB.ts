@@ -1,5 +1,5 @@
 import { Prisma, type PrismaClient } from '@prisma/client';
-import type { ReportInputType, ReportSet, ReportField, ReportType, StudentReport } from "@nurse-o-core/index";
+import type { ReportInputType, ReportSet, ReportField, ReportType, StudentReport } from "~/core/index";
 
 export async function getReportSets(db: PrismaClient, reportType: string): Promise<ReportSet[]> {
     const sets = await db.$queryRaw<{ id: number, name: string, image_url: string, image_alt: string }[]>`SELECT id, name, image_url, image_alt FROM Report_Set WHERE report_type = ${reportType}`

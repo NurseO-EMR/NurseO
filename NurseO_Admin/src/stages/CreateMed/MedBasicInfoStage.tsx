@@ -4,7 +4,7 @@ import { Input } from "~/components/Admin/Form/Input";
 import { SearchableSelect } from "~/components/Admin/Form/SearchableSelect";
 import { Select } from "~/components/Admin/Form/Select";
 import { BaseStage, type BaseStageProps } from "~/components/Admin/Stages/BaseStage";
-import type { Medication } from "@nurse-o-core/index";
+import type { Medication } from "~/core/index";
 import { api } from "~/utils/api";
 import { LoadingCard } from "~/components/Admin/loadingCard";
 

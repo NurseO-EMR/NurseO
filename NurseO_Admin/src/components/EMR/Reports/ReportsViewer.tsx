@@ -1,5 +1,5 @@
 import { useContext, useMemo, useState } from 'react';
-import type { ReportType } from "@nurse-o-core/index";
+import type { ReportType } from "~/core/index";
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 import ReportTabs from './ReportTabs';
 import { GlobalContext } from '~/services/State';

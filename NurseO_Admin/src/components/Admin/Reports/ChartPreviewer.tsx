@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { countBy} from "lodash";
-import { type StudentReport } from "@nurse-o-core/index";
+import { type StudentReport } from "~/core/index";
 import { useEffect, useState } from "react";
 import { STAGE_ANIMATION_DURATION } from "~/services/AnimationConfig";
 

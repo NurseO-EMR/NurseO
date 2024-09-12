@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Input } from "~/components/Admin/Form/Input";
 import { Select } from "~/components/Admin/Form/Select";
 import { BaseStage, type BaseStageProps } from "~/components/Admin/Stages/BaseStage";
-import type { LocationDefinition } from "@nurse-o-core/index";
+import type { LocationDefinition } from "~/core/index";
 import { api } from "~/utils/api";
 
 export type Props = BaseStageProps & {

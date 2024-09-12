@@ -1,5 +1,5 @@
 import React from 'react';
-import { type MedicationOrder } from '@nurse-o-core/index';
+import { type MedicationOrder } from '~/core/index';
 import Card from './Card';
 import MedicationEntry from './MedicationEntry';
 

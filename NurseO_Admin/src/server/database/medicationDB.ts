@@ -1,4 +1,4 @@
-import { type MedicationLocation, type Medication } from "@nurse-o-core/index";
+import { type MedicationLocation, type Medication } from "~/core/index";
 import { type PrismaClient } from "@prisma/client";
 
 export async function getAllMeds(db:PrismaClient):Promise<Medication[]> {

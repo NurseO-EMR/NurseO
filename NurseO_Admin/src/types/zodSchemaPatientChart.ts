@@ -6,7 +6,7 @@ import {
   Frequency,
   ReportType,
   Gender,
-} from "@nurse-o-core/index";
+} from "~/core/index";
 
 export const timeSchema = z.object({
   hour: z.number(),

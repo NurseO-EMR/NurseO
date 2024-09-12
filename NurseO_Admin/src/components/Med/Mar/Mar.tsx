@@ -1,5 +1,5 @@
 import React from 'react';
-import type { MedicationOrder, Time } from '@nurse-o-core/index';
+import type { MedicationOrder, Time } from '~/core/index';
 import { MarEntry } from './MarEntry';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
