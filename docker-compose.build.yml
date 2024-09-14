@@ -1,67 +1,21 @@
 version: '3'
 services:
-  admin: 
-    container_name: NurseO_Admin
+  nurseo: 
+    container_name: NurseO
     build: 
-      context: ./NurseO_Admin
-      additional_contexts:
-        core: ./NurseO_Core
-      args:
-        - NEXT_PUBLIC_BASE_PATH=nurseo_admin
-      tags:
-      - moahmmed199898/nurseo_admin:3.0.0
+      context: ./NurseO
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
       - NEXTAUTH_URL=${NEXTAUTH_URL}
       - Google_CLIENT_ID=${Google_CLIENT_ID}
       - Google_CLIENT_SECRET=${Google_CLIENT_SECRET}
-      - TEST_ENV=false
-      - Demo_Mode=false
-
-    ports:
-      - 3100:3000
-
-
-  emr: 
-    container_name: NurseO_EMR
-    build: 
-      context: ./NurseO_EMR
-      additional_contexts:
-        core: ./NurseO_Core
-      args:
-        - NEXT_PUBLIC_BASE_PATH=nurseo_emr
-      tags:
-        - moahmmed199898/nurseo_emr:3.0.0
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-      - NEXTAUTH_URL=${NEXTAUTH_URL}
-      - Google_CLIENT_ID=${Google_CLIENT_ID}
-      - Google_CLIENT_SECRET=${Google_CLIENT_SECRET}
+      - TEST_ENV=true
+      - Demo_Mode=true
     volumes:
       - ./logo.png:/app/public/logo.png
     ports:
-      - 3101:3000
+      - 3000:3000
 
 
 
-  med_admin: 
-    container_name: NurseO_Medication_Administration
-    build: 
-      context: ./NurseO_Med_Admin
-      additional_contexts:
-        core: ./NurseO_Core
-      tags:
-        - moahmmed199898/nurseo_med_admin:3.0.0
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-      - NEXTAUTH_URL=${NEXTAUTH_URL}
-      - Google_CLIENT_ID=${Google_CLIENT_ID}
-      - Google_CLIENT_SECRET=${Google_CLIENT_SECRET}
-
-    ports:
-      - 3102:3000
-
-      

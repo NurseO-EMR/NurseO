@@ -11,7 +11,7 @@ export default function AssessmentSubmitPage() {
     return (
         <StudentViewPage>
             <EmptyCard title="Assessments">
-                <ReportSubmitter reportType={ReportType.studentAssessmentReport} className="grid-in-main" title="Assessment" viewPageURL="/StudentView/Assessments/view" />
+                <ReportSubmitter reportType={ReportType.studentAssessmentReport} className="grid-in-main" title="Assessment" viewPageURL="/nurseo_emr/StudentView/Assessments/view" />
             </EmptyCard>
         </StudentViewPage>
     );

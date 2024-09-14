@@ -12,7 +12,7 @@ export default function VitalsSubmitPage() {
     return (
         <StudentViewPage>
             <EmptyCard title="Vitals">
-                <ReportSubmitter reportType={ReportType.studentVitalsReport} className="grid-in-main" title="Vitals" viewPageURL="/StudentView/Vitals/view" />
+                <ReportSubmitter reportType={ReportType.studentVitalsReport} className="grid-in-main" title="Vitals" viewPageURL="/nurseo_emr/StudentView/Vitals/view" />
             </EmptyCard>
         </StudentViewPage>
     );

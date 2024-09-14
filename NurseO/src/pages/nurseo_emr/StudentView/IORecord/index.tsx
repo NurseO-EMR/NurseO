@@ -10,7 +10,7 @@ export default function IORecordSubmitPage() {
     return (
         <StudentViewPage>
             <EmptyCard title="Scales">
-                <ReportSubmitter reportType={ReportType.studentIOReport} className="grid-in-main" title="Scales" viewPageURL="/StudentView/IORecord/view" />
+                <ReportSubmitter reportType={ReportType.studentIOReport} className="grid-in-main" title="Scales" viewPageURL="/nurseo_emr/StudentView/IORecord/view" />
             </EmptyCard>
         </StudentViewPage>
     );

@@ -17,7 +17,7 @@ export default function Error401NotAuthorizedPage() {
                     <Logo className="text-5xl" />
                     <h1 className="my-5 font-bold">Hi {session.data?.user.name}</h1>
                     <h1 className="my-5 font-bold">You are not authorized to access this page</h1>
-                    <Button className="bg-blue w-1/2 rounded-full" onClick={() => signOut({ callbackUrl: "/login" })}>Sign out</Button>
+                    <Button className="bg-blue w-1/2 rounded-full" onClick={() => signOut({ callbackUrl: "/nurseo_admin/login" })}>Sign out</Button>
                 </form>
             </div>
 
