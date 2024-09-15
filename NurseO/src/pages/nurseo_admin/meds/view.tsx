@@ -37,7 +37,7 @@ export default function ViewMedsPage() {
         await refetch()
     }
 
-    const onEditClickHandler = async (id: number) => {
+    const onEditClickHandler = (id: number) => {
         router.push("/nurseo_admin/meds/edit/" + id)
     }
 

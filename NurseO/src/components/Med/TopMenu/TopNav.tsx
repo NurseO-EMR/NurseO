@@ -11,7 +11,7 @@ export function TopNav(props: Props) {
 
     const router = useRouter()
 
-    const onLogoutClickHandler = async () => {
+    const onLogoutClickHandler = () => {
         router.push("/nurseo_med")
     }
 

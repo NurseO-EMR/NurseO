@@ -20,6 +20,7 @@ type State = {
 type TimeSlotStatus = JSX.Element | "-"
 export default class MarEntry extends React.Component<Props, State> {
 
+
     private timeSlots: Map<number, TimeSlotStatus>;
 
     constructor(props: Props) {

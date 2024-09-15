@@ -24,7 +24,7 @@ export default function ViewPatientsPage() {
         await refetch()
     }
 
-    const onEditClickHandler = async (patientId: number) => {
+    const onEditClickHandler = (patientId: number) => {
         router.push("/nurseo_admin/patient/edit/" + patientId)
     }
 
