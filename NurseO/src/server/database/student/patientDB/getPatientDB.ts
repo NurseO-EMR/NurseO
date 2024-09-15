@@ -21,6 +21,10 @@ type patientMetaData = {
        student_id: string
 }
 
+export async function isBarcodeUsedByPatient(db: PrismaClient, templatePatientBarCode: string) {
+       const patients = await db.$queryRaw<{ id: number }[]>`SELECT id FROM Patient WHERE Patient.template = true AND Patient.patient_bar_code = ${templatePatientBarCode} LIMIT 1;`
+       return patients.length > 0
+}
 
 export async function getPatientByBarCode(db: PrismaClient, templatePatientBarCode: string, locationId: number, studentId: string): Promise<PatientChart | null> {
 

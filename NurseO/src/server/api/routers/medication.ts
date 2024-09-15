@@ -24,13 +24,13 @@ export const medicationRouter = createTRPCRouter({
   addMedicationLocation: protectedProcedure.input(z.object({ medId: z.number(), locationId: z.number(), locationInfo: medicationLocationSchema })).mutation(async ({ input, ctx }) => await addMedicationLocation(ctx.db, input.medId, input.locationId, input.locationInfo)),
 
   // Student Side
-  student_getMedicationById: publicProcedure.input(z.object({ medId: z.number(), locationId: z.number() })).query(async ({ input, ctx }) => getMedicationById(ctx.db, input.medId, input.locationId)),
-  student_getMedicationByBarcode: publicProcedure.input(z.object({ barcode: z.string(), locationId: z.number() })).mutation(async ({ input, ctx }) => getMedicationByBarcode(ctx.db, input.barcode, input.locationId)),
-  student_addMarEntry: publicProcedure.input(z.object({ orderId: z.number(), dose: z.string(), hour: z.number(), minute: z.number() })).mutation(async ({ input, ctx }) => addMarEntry(ctx.db, input.orderId, input.dose, input.hour, input.minute)),
-  student_addMarWithNoOrder: publicProcedure.input(z.object({ medId: z.number(), dose: z.string(), hour: z.number(), minute: z.number(), patientId: z.number() })).mutation(async ({ input, ctx }) => addMarWithNoOrder(ctx.db, input.medId, input.dose, input.hour, input.minute, input.patientId)),
+  student_getMedicationById: publicProcedure.input(z.object({ medId: z.number(), locationId: z.number() })).query(async ({ input, ctx }) => await getMedicationById(ctx.db, input.medId, input.locationId)),
+  student_getMedicationByBarcode: publicProcedure.input(z.object({ barcode: z.string(), locationId: z.number() })).mutation(async ({ input, ctx }) => await getMedicationByBarcode(ctx.db, input.barcode, input.locationId)),
+  student_addMarEntry: publicProcedure.input(z.object({ orderId: z.number(), dose: z.string(), hour: z.number(), minute: z.number() })).mutation(async ({ input, ctx }) => await addMarEntry(ctx.db, input.orderId, input.dose, input.hour, input.minute)),
+  student_addMarWithNoOrder: publicProcedure.input(z.object({ medId: z.number(), dose: z.string(), hour: z.number(), minute: z.number(), patientId: z.number() })).mutation(async ({ input, ctx }) => await addMarWithNoOrder(ctx.db, input.medId, input.dose, input.hour, input.minute, input.patientId)),
 
 
   // med
-  student_getMedicationLocations: publicProcedure.input(z.object({ medId: z.number(), locationId: z.number() })).query(async ({ input, ctx }) => getMedicationLocations(ctx.db, input.medId, input.locationId)),
-  student_getAllMeds: publicProcedure.mutation(async ({ ctx }) => getAllMeds(ctx.db)),
+  student_getMedicationLocations: publicProcedure.input(z.object({ medId: z.number(), locationId: z.number() })).query(async ({ input, ctx }) => await getMedicationLocations(ctx.db, input.medId, input.locationId)),
+  student_getAllMeds: publicProcedure.mutation(async ({ ctx }) => await getAllMeds(ctx.db)),
 });

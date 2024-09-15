@@ -18,6 +18,7 @@ const config = {
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/consistent-indexed-object-style": "off",
+    "@typescript-eslint/no-floating-promises": ["error"],
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {
@@ -31,7 +32,7 @@ const config = {
         "argsIgnorePattern": "^_"
       }
     ],
-    "@typescript-eslint/require-await": "off",
+    "@typescript-eslint/require-await": "error",
     "@typescript-eslint/no-misused-promises": [
       "error",
       {

@@ -19,8 +19,8 @@ const StudentReportSchema = z.object({
 })
 
 export const reportsRouter = createTRPCRouter({
-  getReportSets: protectedProcedure.query(async ({ ctx }) => getReportSets(ctx.db)),
-  student_getReportSets: publicProcedure.input(z.object({ reportType: z.string() })).query(async ({ input, ctx }) => getStudentReportSets(ctx.db, input.reportType)),
-  student_saveStudentsReports: publicProcedure.input(z.object({ studentReport: z.array(StudentReportSchema), patientId: z.number() })).mutation(async ({ input, ctx }) => saveStudentsReports(ctx.db, input.studentReport, input.patientId)),
-  student_getStudentsReports: publicProcedure.input(z.object({ reportType: z.nativeEnum(ReportType), patientId: z.number() })).query(async ({ input, ctx }) => getStudentsReport(ctx.db, input.reportType, input.patientId)),
+  getReportSets: protectedProcedure.query(async ({ ctx }) => await getReportSets(ctx.db)),
+  student_getReportSets: publicProcedure.input(z.object({ reportType: z.string() })).query(async ({ input, ctx }) => await getStudentReportSets(ctx.db, input.reportType)),
+  student_saveStudentsReports: publicProcedure.input(z.object({ studentReport: z.array(StudentReportSchema), patientId: z.number() })).mutation(async ({ input, ctx }) => await saveStudentsReports(ctx.db, input.studentReport, input.patientId)),
+  student_getStudentsReports: publicProcedure.input(z.object({ reportType: z.nativeEnum(ReportType), patientId: z.number() })).query(async ({ input, ctx }) => await getStudentsReport(ctx.db, input.reportType, input.patientId)),
 });

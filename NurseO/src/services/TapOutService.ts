@@ -24,7 +24,7 @@ export default class TapOutService {
         setInterval(()=>this.writtenInfo="", 500);
     }
 
-    private async checkIfWrittenInfoIsSameAsID() {
+    private checkIfWrittenInfoIsSameAsID() {
         // if(this.writtenInfo === this.id) {
         //     await getAuth().signOut();
         //     $history.value.push("/");

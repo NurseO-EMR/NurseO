@@ -8,6 +8,7 @@ import { useContext, useState } from 'react';
 import { GlobalContext } from '~/services/State';
 import { signInState } from '~/types/flags';
 import { useRouter } from 'next/router';
+import { api } from '~/utils/api';
 
 
 export default function Login() {
@@ -15,14 +16,23 @@ export default function Login() {
     const { setStudentId } = useContext(GlobalContext)
     const [error, setError] = useState("")
     const [badgeNumber, setBadgeNumber] = useState("")
+    const isBarcodeUsedByPatient = api.patient.student_isBarcodeUsedByPatient.useMutation()
 
     const onSignInHandler = async () => {
         if (badgeNumber.length == 0) {
             setError("Please enter your badge number or sign in anonymously")
-        } else {
-            setStudentId(badgeNumber)
-            await router.push("/nurseo_emr/SelectPatient")
+            return;
         }
+
+        const barcodeUsedByPatient = await isBarcodeUsedByPatient.mutateAsync({ barcode: badgeNumber })
+        if (barcodeUsedByPatient) {
+            setError("Please scan your name badge instead of the patient armband")
+            return;
+        }
+
+        setStudentId(badgeNumber)
+        await router.push("/nurseo_emr/SelectPatient")
+        return;
     }
 
 

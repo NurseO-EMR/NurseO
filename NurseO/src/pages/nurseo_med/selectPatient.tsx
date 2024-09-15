@@ -23,7 +23,7 @@ export default function SelectPatient() {
         router.push("/nurseo_med/dashboard")
     }
 
-    const onLogoutClickHandler = async () => {
+    const onLogoutClickHandler = () => {
         router.push("/nurseo_med")
     }
 

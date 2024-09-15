@@ -12,7 +12,7 @@ export default function LoginPage() {
 
     useEffect(() => TapOutService.initialize(), [])
 
-    const onClickHandler = async () => {
+    const onClickHandler = () => {
         router.push("/nurseo_med/selectPatient")
     }
 
