@@ -6,6 +6,7 @@ services:
       context: ./NurseO
       args:
         - NEXT_PUBLIC_basePath=${NEXT_PUBLIC_basePath}
+        - NEXT_PUBLIC_domain=${NEXT_PUBLIC_domain}
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
