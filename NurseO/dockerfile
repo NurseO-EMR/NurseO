@@ -17,8 +17,8 @@ RUN npm i
 ##### BUILDER
 FROM --platform=linux/amd64 node:20-alpine AS builder
 ARG DATABASE_URL
+ARG NEXT_PUBLIC_BASE_PATH
 WORKDIR /app
-# RUN npm i
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 

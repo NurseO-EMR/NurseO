@@ -11,6 +11,7 @@ import { type MedicationOrder, PatientChart, type Time } from "~/core/index";
 import { useState, useEffect } from "react";
 import { storeLocation, getLocationFromStorage } from "~/services/LocalStorage";
 import { GlobalContext } from "~/services/State";
+import { env } from "~/env.js";
 
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -37,7 +38,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} basePath={`/${env.NEXT_PUBLIC_basePath}/api/auth`}>
       <GlobalContext.Provider value={{ studentId, setStudentId, patient, setPatient, locationId, setLocationId, patientMedOrders, setPatientMedOrders, time, setTime }}>
         <div id="topLevelDiv" className={"standard " + GeistSans.className}>
           <Component {...pageProps} />
