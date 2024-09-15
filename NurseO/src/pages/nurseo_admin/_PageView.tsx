@@ -1,7 +1,6 @@
 import { type ReactNode } from "react";
 import { Background } from "~/components/Admin/Background";
 import { Nav } from "~/components/Admin/nav/Nav";
-import { AnnouncementViewer } from "~/components/Admin/AnnouncementViewer";
 
 type Props = {
     children: ReactNode
@@ -24,9 +23,6 @@ export default function PageView(props: Props) {
                     <li>Version 3.1.0</li>
                 </ul>
             </footer>
-
-
-            <AnnouncementViewer />
 
         </div>
 

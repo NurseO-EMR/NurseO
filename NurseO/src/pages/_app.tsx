@@ -12,6 +12,8 @@ import { useState, useEffect } from "react";
 import { storeLocation, getLocationFromStorage } from "~/services/LocalStorage";
 import { GlobalContext } from "~/services/State";
 import { env } from "~/env.js";
+import { AnnouncementViewer } from "~/components/common/AnnouncementViewer";
+import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService";
 
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -34,14 +36,19 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
     if (location && !Number.isNaN(location)) setLocationId(Number.parseInt(location))
 
+    navigator.wakeLock.request("screen")
+      .then(_ => broadcastAnnouncement("Screen lock is enabled, the screen will stay on while NurseO is open", Announcement.success))
+      .catch(e => broadcastAnnouncement("Error: Screen is disabled, " + e, Announcement.error))
+
   }, [])
 
 
   return (
     <SessionProvider session={session} basePath={env.NEXT_PUBLIC_basePath ? `/${env.NEXT_PUBLIC_basePath}/api/auth` : `/api/auth`}>
       <GlobalContext.Provider value={{ studentId, setStudentId, patient, setPatient, locationId, setLocationId, patientMedOrders, setPatientMedOrders, time, setTime }}>
-        <div id="topLevelDiv" className={"standard " + GeistSans.className}>
+        <div id="topLevelDiv" className={"relative standard " + GeistSans.className}>
           <Component {...pageProps} />
+          <AnnouncementViewer />
         </div>
       </GlobalContext.Provider>
     </SessionProvider>
