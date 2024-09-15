@@ -10,7 +10,7 @@ console.log(process.env.NEXT_PUBLIC_basePath)
 const config = {
   reactStrictMode: true,
   output: "standalone",
-  basePath: "/" + env.NEXT_PUBLIC_basePath,
+  basePath: env.NEXT_PUBLIC_basePath ? "/" + env.NEXT_PUBLIC_basePath : undefined,
   /**
    * If you are using `appDir` then you must comment the below `i18n` config out.
    *

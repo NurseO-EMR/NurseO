@@ -38,7 +38,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
 
   return (
-    <SessionProvider session={session} basePath={`/${env.NEXT_PUBLIC_basePath}/api/auth`}>
+    <SessionProvider session={session} basePath={env.NEXT_PUBLIC_basePath ? `/${env.NEXT_PUBLIC_basePath}/api/auth` : `/api/auth`}>
       <GlobalContext.Provider value={{ studentId, setStudentId, patient, setPatient, locationId, setLocationId, patientMedOrders, setPatientMedOrders, time, setTime }}>
         <div id="topLevelDiv" className={"standard " + GeistSans.className}>
           <Component {...pageProps} />
