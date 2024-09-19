@@ -9,7 +9,7 @@ export default function AdmissionOrdersPage() {
 
     return (
         <StudentViewPage>
-            <Orders orderType={OrderType.admission} orders={[...patient.customOrders, ...patient.medicationOrders]}></Orders>
+            <Orders showEmpty orderType={OrderType.admission} orders={[...patient.customOrders, ...patient.medicationOrders]}></Orders>
         </StudentViewPage>
 
     );

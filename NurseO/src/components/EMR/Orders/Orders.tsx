@@ -9,6 +9,7 @@ type Props = {
     className?: string,
     orderType?: OrderType,
     orders: Order[] | undefined,
+    showEmpty?: boolean
 }
 
 type State = {
@@ -31,6 +32,9 @@ export default class Orders extends React.Component<Props, State> {
     }
 
     public render() {
+        if (!this.props.showEmpty && this.state.filteredOrders?.length === 0) {
+            return <></>;
+        }
         return (
             <Card className={this.props.className} title={this.props.orderType ? this.props.orderType + " Orders" : "Orders"}>
                 <thead className="font-bold">

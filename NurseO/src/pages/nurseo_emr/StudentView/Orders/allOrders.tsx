@@ -10,7 +10,7 @@ export default function AllOrders() {
 
     return (
         <StudentViewPage>
-            <Orders orders={[...patient.customOrders, ...patient.medicationOrders]}></Orders>
+            <Orders showEmpty orders={[...patient.customOrders, ...patient.medicationOrders]}></Orders>
         </StudentViewPage>
 
     );
