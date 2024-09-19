@@ -19,6 +19,7 @@ type patientMetaData = {
        course_id: number;
        patient_bar_code: string;
        student_id: string
+       chief_complaint: string
 }
 
 export async function isBarcodeUsedByPatient(db: PrismaClient, templatePatientBarCode: string) {
@@ -51,28 +52,28 @@ export async function getPatientById(db: PrismaClient, patientId: number, studen
               return null
        }
 
-       
+
 }
 
 
 
 async function getPatientChart(db: PrismaClient, metaData: patientMetaData, studentId: string | undefined | null) {
 
-       const [allergies, customOrders, socialHistory, 
-              medicalHistory, notes, studentReports, 
+       const [allergies, customOrders, socialHistory,
+              medicalHistory, notes, studentReports,
               flags, immunizations, medicationOrders] = await Promise.all([
-              getAllergies(db, metaData.id),
-              getCustomOrders(db, metaData.id),
-              getSocialHistory(db, metaData.id),
-              getMedicalHistory(db, metaData.id),
-              getNotes(db, metaData.id),
-              getStudentReports(db, metaData.id),
-              getFlags(db, metaData.id),
-              getImmunizations(db, metaData.id),
-              getMedOrders(db, metaData.id),
-       ]).catch((e)=>{
-              throw new Error("One or more parts of the chart failed to fetch error: " + e)
-       })
+                     getAllergies(db, metaData.id),
+                     getCustomOrders(db, metaData.id),
+                     getSocialHistory(db, metaData.id),
+                     getMedicalHistory(db, metaData.id),
+                     getNotes(db, metaData.id),
+                     getStudentReports(db, metaData.id),
+                     getFlags(db, metaData.id),
+                     getImmunizations(db, metaData.id),
+                     getMedOrders(db, metaData.id),
+              ]).catch((e) => {
+                     throw new Error("One or more parts of the chart failed to fetch error: " + e)
+              })
 
        const patient: PatientChart = {
               dbId: metaData.id,
@@ -82,6 +83,7 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData, stud
               gender: metaData.gender as Gender,
               height: metaData.height,
               weight: metaData.weight,
+              chiefComplaint: metaData.chief_complaint,
               time: {
                      hour: metaData.time_hour,
                      minute: metaData.time_minute,
@@ -109,7 +111,7 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData, stud
 async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
        const patient = await db.$queryRaw<patientMetaData[]>`
                         SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                               diagnosis, course_id, patient_bar_code 
+                               diagnosis, course_id, patient_bar_code, chief_complaint 
                         FROM Patient WHERE id = ${patientId} LIMIT 1;`
        if (!patient || patient.length == 0) return null
        return patient[0]
@@ -117,12 +119,12 @@ async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
 
 async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBarCode: string, studentId: string, locationId: number) {
 
-       let patient:patientMetaData[] = []
+       let patient: patientMetaData[] = []
 
-       if(studentId.length > 0 && studentId!==signInState.anonymousSignIn.valueOf()) {
+       if (studentId.length > 0 && studentId !== signInState.anonymousSignIn.valueOf()) {
               patient = await db.$queryRaw<patientMetaData[]>`
               SELECT Patient.id , Patient.name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                     diagnosis, Patient.course_id, patient_bar_code, student_id
+                     diagnosis, Patient.course_id, patient_bar_code, student_id, chief_complaint
               FROM Patient 
               JOIN Course ON Course.id = Patient.course_id
               JOIN Course_Location_Information ON Course_Location_Information.course_id = Course.id
@@ -130,12 +132,12 @@ async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBar
               AND patient_bar_code = ${templatePatientBarCode} 
               AND student_id = ${studentId}  
               LIMIT 1;`
-       } 
+       }
 
-       if(studentId.length === 0 || studentId === signInState.anonymousSignIn.valueOf() || patient.length === 0) {
+       if (studentId.length === 0 || studentId === signInState.anonymousSignIn.valueOf() || patient.length === 0) {
               patient = await db.$queryRaw<patientMetaData[]>`
               SELECT Patient.id ,Patient.name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                     diagnosis, Patient.course_id, patient_bar_code, student_id
+                     diagnosis, Patient.course_id, patient_bar_code, student_id, chief_complaint
               FROM Patient 
               JOIN Course ON Course.id = Patient.course_id
               JOIN Course_Location_Information ON Course_Location_Information.course_id = Course.id
@@ -210,8 +212,8 @@ async function getMedOrders(db: PrismaClient, patientId: number): Promise<Medica
                             WHERE patient_id = ${patientId}  
                             ORDER BY order_index ASC;
                         `
-       
-       if(orders.length === 0) return [];
+
+       if (orders.length === 0) return [];
 
        const orderIds = orders.map(o => o.orderId)
 

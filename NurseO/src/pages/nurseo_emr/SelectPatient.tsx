@@ -27,7 +27,6 @@ export default function SelectPatient() {
     const onClickHandler = async (wait: () => void, keepGoing: () => void) => {
         wait();
         const patient = await patientMutation.mutateAsync({ barcode: barcode, locationId, studentId })
-
         if (patient) {
             setPatient(patient)
             router.push("/nurseo_emr/StudentView/Dashboard")
