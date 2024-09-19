@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 test('Adding Course', async ({ page }) => {
-  await page.goto('http://localhost:3100/');
-  
+  await page.goto('http://localhost:3000/nurseo_admin');
+
   await page.getByRole('link', { name: 'Create a new course' }).click();
   await page.getByLabel('Course Name').click();
   await page.getByLabel('Course Name').fill('Test Course ');

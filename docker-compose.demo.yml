@@ -32,7 +32,8 @@ services:
       - NEXTAUTH_URL=${NEXTAUTH_URL}
       - Google_CLIENT_ID=${Google_CLIENT_ID}
       - Google_CLIENT_SECRET=${Google_CLIENT_SECRET}
-
+    volumes:
+      - ./logo.png:/app/public/logo.png
     ports:
       - 3101:3000
     depends_on:
@@ -65,7 +66,7 @@ services:
       - MARIADB_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
       - MARIADB_DATABASE=NurseO
     volumes:
-      - ./Tests/demoDB.sql:/docker-entrypoint-initdb.d/db.sql
+      - ./demoDB.sql:/docker-entrypoint-initdb.d/db.sql
 
   phpmyadmin:
     image: phpmyadmin

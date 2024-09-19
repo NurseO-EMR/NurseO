@@ -1,7 +1,7 @@
 import { test, expect, Page } from '@playwright/test';
 
 test('EMR', async ({ page }) => {
-  await page.goto('http://localhost:3101/?location=1');
+  await page.goto('http://localhost:3000/nurseo_emr/?location=14');
   await page.getByPlaceholder('Or type your badge number here').click();
   await page.getByPlaceholder('Or type your badge number here').fill('1');
   await page.getByRole('button', { name: 'Sign In', exact: true }).click();

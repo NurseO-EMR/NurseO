@@ -1,7 +1,7 @@
 import { test, expect, Page } from '@playwright/test';
 
 test('test', async ({ page }) => {
-  await page.goto('http://localhost:3102/?location=1');
+  await page.goto('http://localhost:3000/nurseo_med/?location=14');
   await page.getByRole('button', { name: 'Anonymously Sign In' }).click();
   await medTests(page)
   await page.getByPlaceholder('Or type your badge number here').click();

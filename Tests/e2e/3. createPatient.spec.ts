@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('create patient', async ({ page }) => {
-  await page.goto('http://localhost:3100/');
+  await page.goto('http://localhost:3000/nurseo_admin');
   await page.getByRole('link', { name: 'Create Patient' }).click();
   await page.getByLabel('Name').click();
   await page.getByLabel('Name').fill('Test Patient');
@@ -183,7 +183,7 @@ test('create patient', async ({ page }) => {
   await page.getByPlaceholder('Day/Time').first().fill('today');
   await page.getByPlaceholder('Day/Time').first().press('Tab');
   await page.getByPlaceholder('Day/Time').nth(1).fill('tomorrow');
-  
+
   await page.locator('div').filter({ hasText: /^Select\.\.\.$/ }).nth(0).click();
   await page.getByRole('option', { name: 'Temp' }).click();
   await page.getByRole('row', { name: 'Temp' }).getByLabel('value (optional)').first().click();

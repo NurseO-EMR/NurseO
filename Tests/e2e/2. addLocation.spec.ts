@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('Adding Location', async ({ page }) => {
-  await page.goto('http://localhost:3100/');
+  await page.goto('http://localhost:3000/nurseo_admin');
   await page.getByRole('link', { name: 'Create a new location' }).click();
   await page.getByLabel('Building Name').click();
   await page.getByLabel('Building Name').fill('Building 1');

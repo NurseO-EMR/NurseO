@@ -1,1 +1,0 @@
-# NurseO Core Library
