@@ -30,6 +30,7 @@ export class PatientChart {
     diagnosis?: string | null = "";
     courseId: number = -1;
     dbId: number = -1;
+    chiefComplaint?: string | null = "";
 };
 
 export type Order = {

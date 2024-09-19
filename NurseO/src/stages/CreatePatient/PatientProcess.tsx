@@ -44,8 +44,9 @@ export function PatientProcess(props: Props) {
         patient.height = basicInfo.height
         patient.weight = basicInfo.weight
         patient.diagnosis = basicInfo.diagnosis
+        patient.chiefComplaint = basicInfo.chiefComplaint
         setDOB(basicInfo.dob)
-        setPatient(patient);
+        setPatient({ ...patient });
         onNextClickHandler();
     }
 

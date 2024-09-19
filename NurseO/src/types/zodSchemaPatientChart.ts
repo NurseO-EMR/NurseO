@@ -141,6 +141,7 @@ export const patientChartSchema = z.object({
   diagnosis: z.string().nullable().optional(),
   courseId: z.number(),
   dbId: z.number(),
+  chiefComplaint: z.string().nullable().optional()
 });
 
 export const reportSetSchema = z.object({

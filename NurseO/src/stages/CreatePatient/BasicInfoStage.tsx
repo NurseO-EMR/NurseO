@@ -11,8 +11,9 @@ export type BasicInfo = {
     dob: string,
     gender: Gender,
     height: string,
-    weight: string
-    diagnosis: string
+    weight: string,
+    diagnosis: string,
+    chiefComplaint: string
 }
 
 export type Props = BaseStageProps & {
@@ -29,6 +30,7 @@ export function BasicInfoStage(props: Props) {
     const [height, setHeight] = useState<string>(patient?.height ?? "0")
     const [weight, setWeight] = useState<string>(patient?.weight ?? "0")
     const [diagnosis, setDiagnosis] = useState(patient?.diagnosis ?? "")
+    const [chiefComplaint, setChiefComplaint] = useState(patient?.chiefComplaint ?? "")
 
     const onNextClickHandler = () => {
         const basicInfo: BasicInfo = {
@@ -37,7 +39,8 @@ export function BasicInfoStage(props: Props) {
             gender,
             height: height,
             weight: weight,
-            diagnosis
+            diagnosis,
+            chiefComplaint
         }
         props.onNext(basicInfo)
     }
@@ -60,6 +63,12 @@ export function BasicInfoStage(props: Props) {
             <textarea className="border w-full p-2" cols={45} rows={5}
                 value={diagnosis} onChange={e => setDiagnosis(e.currentTarget.value)}
             />
+
+            <label className="block text-left">Chief Complaint: </label>
+            <textarea className="border w-full p-2" cols={45} rows={5}
+                value={chiefComplaint} onChange={e => setChiefComplaint(e.currentTarget.value)}
+            />
+
         </BaseStage>
     )
 
