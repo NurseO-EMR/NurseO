@@ -105,8 +105,6 @@ export const customOrderSchema = orderSchema.and(
 export const noteSchema = z.object({
   date: z.string(),
   note: z.string(),
-  reportName: z.string(),
-  reportType: reportTypeSchema,
 });
 
 export const reportFieldSchema = z.object({

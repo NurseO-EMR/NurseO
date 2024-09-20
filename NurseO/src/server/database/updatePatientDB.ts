@@ -134,8 +134,6 @@ function updateNotes(db: PrismaClient, patient: PatientChart) {
             return {
                 date: v.date,
                 note: v.note,
-                report_name: v.reportName,
-                report_type: v.reportType,
                 patient_id: patient.dbId,
             }
         })
