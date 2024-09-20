@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { GlobalContext } from '~/services/State';
-import type { ReportType, StudentReport } from "~/core/index";
+import type { Note, ReportType, StudentReport } from "~/core/index";
 import { getTodaysDateAsString } from '~/services/Util';
 import ReportsSubmitterTabContent from './ReportsSubmitterTabContent';
 import ReportTabs from './ReportTabs';
@@ -8,6 +8,7 @@ import SaveButton from '../Form/SaveButton';
 import { api } from '~/utils/api';
 import { useRouter } from 'next/navigation';
 import { signInState } from '~/types/flags';
+import TextArea from '../Form/TextArea';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     reportType: ReportType,
@@ -61,10 +62,25 @@ export default function ReportsSubmitter(props: Props) {
 
         const tempPatient = { ...patient }
         tempPatient.studentReports.push(...output)
-        setPatient(patient)
+        const formattedNote = getNote()
+        console.log(formattedNote)
+        if (formattedNote) tempPatient.notes.push(formattedNote)
+
+        setPatient({ ...patient })
 
         keepGoing()
         router.push(props.viewPageURL)
+    }
+
+    const getNote = () => {
+        if (!reportSets?.[selectedTabIndex]) return;
+
+        const temp: Note = {
+            date,
+            note
+        }
+
+        return temp;
     }
 
     return (
@@ -93,12 +109,7 @@ export default function ReportsSubmitter(props: Props) {
                 />
                 : null}
 
-            <div>
-                <h1 className={`text-primary text-xl font-bold`}>Nurse Note</h1>
-                <textarea className={`w-full border-2 border-primary p-4`} rows={5}
-                    spellCheck="true"
-                    onChange={e => setNote(e.currentTarget.value)}></textarea>
-            </div>
+            <TextArea label='Nurse Note' onChange={e => setNote(e.currentTarget.value)} />
 
         </div>
     );

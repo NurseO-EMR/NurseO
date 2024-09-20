@@ -62,7 +62,7 @@ export default function ReportsViewer(props: Props) {
                 {filteredReports && filteredReports.length > 0 ?
                     <table className="w-full table-auto text-center">
                         <thead>
-                            <tr className="">
+                            <tr>
                                 <th key={-1}>{props.title}</th>
                                 {times.map((time, i) =>
                                     <th key={i}>{time}</th>
@@ -73,9 +73,7 @@ export default function ReportsViewer(props: Props) {
                             {getRows()}
                         </tbody>
                     </table>
-                    : <h1 className='font-bold text-center pt-5 pb-4'>No Data Available</h1>}
-                {/* {this.props.showNotes ? this.getNotes(this.state.selectedTab) : null} */}
-
+                    : <h1 className='font-bold text-left pt-5 pb-4'>No Data Available</h1>}
             </EmptyCard>
         </div>
 

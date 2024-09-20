@@ -1,6 +1,6 @@
 import React from 'react';
 import PureModal from "react-pure-modal";
-import { CustomOrder, MedicationOrder, Order, OrderKind } from "~/core/index";
+import { type CustomOrder, type MedicationOrder, type Order, OrderKind } from "~/core/index";
 import MedicationOrderSyntax from './MedicationOrderSyntax';
 import parse from 'html-react-parser';
 

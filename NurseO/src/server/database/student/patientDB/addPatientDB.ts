@@ -21,7 +21,7 @@ export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTri
     const customOrders = p.customOrders.map(v => Prisma.sql`(${v.orderKind}, ${v.orderType}, ${v.time}, ${v.order}, ${patient.id}, ${v.orderIndex})`)
     const socialHistory = p.socialHistory.map(v => Prisma.sql`(${v}, ${patient.id})`)
     const medicalHistory = p.medicalHistory.map(v => Prisma.sql`(${v.date}, ${v.title}, ${v.notes}, ${patient.id})`)
-    const notes = p.notes.map(v => Prisma.sql`(${v.date}, ${v.note}, ${v.reportName}, ${v.reportType}, ${patient.id})`)
+    const notes = p.notes.map(v => Prisma.sql`(${v.date}, ${v.note}, ${patient.id})`)
     const immunizations = p.immunizations.map(v => Prisma.sql`(${v}, ${patient.id})`)
     const flags = p.flags.map(v => Prisma.sql`(${v.name}, ${v.reason}, ${patient.id})`)
     const studentReports = p.studentReports.map(v => Prisma.sql`(${v.setName}, ${v.fieldName}, ${v.time}, ${v.value}, ${v.date}, ${v.reportType}, ${patient.id})`)
@@ -45,13 +45,13 @@ export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTri
     } else if (transactions.length === 1) {
         await transactions[0]
     }
-    
+
 
     const finalCopy = await getPatientById(db, patient.id, studentId)
 
-    if(finalCopy) return finalCopy
-    else if(numberOfTries && numberOfTries < 3) {
-        return await copyPatient(db,p, (numberOfTries | 0) + 1)
+    if (finalCopy) return finalCopy
+    else if (numberOfTries && numberOfTries < 3) {
+        return await copyPatient(db, p, (numberOfTries | 0) + 1)
     } else {
         throw new Error("Error while copying patient: " + p.dbId)
     }

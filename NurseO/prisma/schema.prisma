@@ -115,8 +115,6 @@ model Note {
     patient_id Int
     date      String
     note     String
-    report_name String
-    report_type String
 
     patient Patient @relation(fields: [patient_id], references: [id])
 }

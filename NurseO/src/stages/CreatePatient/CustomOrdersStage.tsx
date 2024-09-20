@@ -3,7 +3,7 @@ import { type CustomOrder, OrderKind, OrderType, type PatientChart } from "~/cor
 import { useState } from "react";
 import { Button } from "~/components/Admin/Form/Button";
 import { Input } from "~/components/Admin/Form/Input";
-import { RichTextArea } from "~/components/Admin/Form/RichTextArea";
+import { RichTextArea } from "~/components/common/RichTextArea";
 import { Select } from "~/components/Admin/Form/Select";
 import { type BaseStageProps, BaseStage } from "~/components/Admin/Stages/BaseStage"
 import { CustomOrderPreviewer } from "~/components/Admin/Stages/CustomOrders/CustomOrderPreviewer";
@@ -61,7 +61,6 @@ export function CustomOrdersStage(props: Props) {
     }
 
     const onEditClickHandler = (index: number) => {
-        console.log("heuhwefuihuihwefiwefiu")
         const tempOrder = orders[index]!
         setTime(tempOrder.time ?? "")
         setOrder(tempOrder.order)

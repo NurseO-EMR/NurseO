@@ -139,6 +139,4 @@ export class Allergy {
 export type Note = {
     date: string,
     note: string,
-    reportName: string,
-    reportType: ReportType
 }

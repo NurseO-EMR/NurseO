@@ -60,11 +60,11 @@ input[type=number].hideInputArrows::-webkit-outer-spin-button {
 
 .ql-container {
   border: none !important;
+  font-size: inherit !important;
+  height: calc(100% - 50px) !important;
 }
 
-.ql-editor {
-  height: 7rem !important;
-}
+
 
 
 
