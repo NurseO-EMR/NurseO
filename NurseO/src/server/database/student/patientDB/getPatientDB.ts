@@ -179,8 +179,8 @@ async function getMedicalHistory(db: PrismaClient, patientId: number) {
 }
 
 async function getNotes(db: PrismaClient, patientId: number) {
-       const data = await db.$queryRaw<{ date: string, note: string, reportName: string, reportType: ReportType }[]>`
-                        SELECT date, note, report_name as reportName, report_type as reportType FROM Note WHERE patient_id = ${patientId};`
+       const data = await db.$queryRaw<{ date: string, note: string }[]>`
+                        SELECT date, note FROM Note WHERE patient_id = ${patientId};`
        return data
 }
 
