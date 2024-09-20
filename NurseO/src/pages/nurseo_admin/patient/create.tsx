@@ -21,8 +21,6 @@ export default function CreatePatientPage() {
         const stage = currentStage + 1;
         setCurrentStage(stage);
         // if no patient exist create it
-        console.log(oldPatient.id)
-        console.log(newPatient.id)
         if (oldPatient.name === "") {
             console.log("creating new patient")
             const id = await addPatientWMetaDataOnlyMutation.mutateAsync({ patient: newPatient })
@@ -32,6 +30,7 @@ export default function CreatePatientPage() {
         } else if (!isEqual(oldPatient, newPatient)) {
             // once it's created move to updating it
             console.log("updating...")
+            newPatient.dbId = oldPatient.dbId
             await updateTemplatePatientMutation.mutateAsync({ oldPatient, newPatient }).catch((e) => broadcastAnnouncement("Error while updating patient " + e, Announcement.error))
             broadcastAnnouncement("patient updated", Announcement.success)
         }
