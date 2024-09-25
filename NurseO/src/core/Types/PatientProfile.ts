@@ -30,6 +30,7 @@ export class PatientChart {
     diagnosis?: string | null = "";
     courseId: number = -1;
     dbId: number = -1;
+    chiefComplaint?: string | null = "";
 };
 
 export type Order = {
@@ -111,6 +112,7 @@ export enum Frequency {
     q30m = "every 30 minutes",
     q1hr = "every hour",
     q2hr = "every two hours",
+    q3hr = "every three hours",
     q4hr = "every four hours",
     q5hr = "every five hours",
     q6hr = "every six hours",
@@ -137,6 +139,4 @@ export class Allergy {
 export type Note = {
     date: string,
     note: string,
-    reportName: string,
-    reportType: ReportType
 }

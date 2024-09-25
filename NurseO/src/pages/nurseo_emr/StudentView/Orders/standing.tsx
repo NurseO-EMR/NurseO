@@ -10,7 +10,7 @@ export default function StandingOrdersPage() {
 
     return (
         <StudentViewPage>
-            <Orders orderType={OrderType.standing} orders={[...patient.customOrders, ...patient.medicationOrders]}></Orders>
+            <Orders showEmpty orderType={OrderType.standing} orders={[...patient.customOrders, ...patient.medicationOrders]}></Orders>
         </StudentViewPage>
 
     );

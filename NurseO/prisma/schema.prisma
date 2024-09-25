@@ -32,6 +32,7 @@ model Patient {
     template         Boolean
     patient_bar_code String
     student_id String?
+    chief_complaint String?
 
     student         User?             @relation(fields: [studentUID], references: [id]) 
     course          Course            @relation(fields: [course_id], references: [id])
@@ -114,8 +115,6 @@ model Note {
     patient_id Int
     date      String
     note     String
-    report_name String
-    report_type String
 
     patient Patient @relation(fields: [patient_id], references: [id])
 }

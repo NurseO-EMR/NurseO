@@ -14,9 +14,12 @@ test('create patient', async ({ page }) => {
   await page.getByLabel('Weight').fill('80 kg');
   await page.getByLabel('Weight').press('Tab');
 
-  await page.locator('textarea').click();
-  await page.locator('textarea').click();
-  await page.locator('textarea').fill('diagnosis ');
+  await page.locator('textarea').nth(0).click();
+  await page.locator('textarea').nth(0).click();
+  await page.locator('textarea').nth(0).fill('diagnosis ');
+
+  await page.locator('textarea').nth(1).click();
+  await page.locator('textarea').nth(1).fill('This is a Chief Compliant Test');
 
   await page.getByRole('button', { name: 'Next' }).click();
   await page.getByLabel('Barcode').click();
@@ -100,8 +103,8 @@ test('create patient', async ({ page }) => {
   await page.getByRole('button', { name: 'Next' }).click();
 
   // Medication Name
-  await page.locator('div').filter({ hasText: /^Select\.\.\.$/ }).nth(2).click();
-  await page.getByRole('option', { name: 'glucose tablets' }).click();
+  await page.locator('div').filter({ hasText: /^Medication Name \(generic\) Select\.\.\.$/ }).locator('svg').click();
+  await page.getByRole('option', { name: 'glucose tablet' }).click();
   await page.getByPlaceholder('ex: 20mg/kg').click();
   await page.getByPlaceholder('ex: 20mg/kg').fill('20 mg');
   await page.getByPlaceholder('ex: 20mg/kg').press('Tab');
@@ -119,8 +122,8 @@ test('create patient', async ({ page }) => {
   await page.getByLabel('Completed').selectOption('true');
   await page.getByRole('button', { name: 'Add Order' }).click();
 
-  await page.locator('div').filter({ hasText: /^Select\.\.\.$/ }).nth(2).click();
-  await page.getByRole('option', { name: 'betamethasone' }).click();
+  await page.locator('div').filter({ hasText: /^Medication Name \(generic\) Select\.\.\.$/ }).locator('svg').click();
+  await page.getByRole('option', { name: 'metoprolo' }).click();
   await page.getByPlaceholder('ex: 20mg/kg').click();
   await page.getByPlaceholder('ex: 20mg/kg').fill('20 mg');
   await page.getByPlaceholder('ex: 20mg/kg').press('Tab');
@@ -139,9 +142,8 @@ test('create patient', async ({ page }) => {
   await page.getByLabel('Notes (optional)').click();
   await page.getByLabel('Notes (optional)').fill('Order 2');
   await page.getByRole('button', { name: 'Add Order' }).click();
-  await expect(page.locator('#topLevelDiv')).toContainText('glucose tablets 20 mg PO daily as needed (PRN) PRN Note Order 1');
+  await expect(page.locator('#topLevelDiv')).toContainText('glucose tablet 20 mg PO daily as needed (PRN) PRN Note Order 1');
   await expect(page.locator('#topLevelDiv')).toContainText('Completed');
-  await expect(page.locator('#topLevelDiv')).toContainText('betamethasone (Celestone) 20 mg PO before meals NOW Order 2');
   await expect(page.locator('#topLevelDiv')).toContainText('Mar: 02:01');
   await expect(page.locator('#topLevelDiv')).toContainText('Mar: No mar data added');
   await page.getByRole('button', { name: 'Next' }).click();

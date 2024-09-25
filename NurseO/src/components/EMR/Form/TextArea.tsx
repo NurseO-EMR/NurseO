@@ -1,25 +1,21 @@
-import React from 'react';
-import LabelInputWrapper from './LabelInputWrapper';
+import React, { useId } from 'react';
 
 type Props = {
-    cols: number,
-    rows: number,
-    id: string,
     label: string,
     onChange?: React.ChangeEventHandler<HTMLTextAreaElement>
+    vertical?: boolean
+    value?: string
 }
 
-export default class TextArea extends React.Component<Props> {
+export default function TextArea(props: Props) {
+    const id = useId()
+    return (
 
-    public render() {	
-        return (
-            <LabelInputWrapper>
-                <label htmlFor={this.props.id}>{this.props.label}</label>
-                <textarea className='border-2 border-primary rounded-md ml-6 p-4 col-span-3' id={this.props.id}
-                 cols={this.props.cols} rows={this.props.rows}
-                 onChange={this.props.onChange}
-                 ></textarea>
-            </LabelInputWrapper>
-        );
-    }	
-}
+        <div>
+            <label htmlFor={id} className={`text-primary text-xl font-bold`}>{props.label}</label>
+            <textarea className={`w-full border-2 border-primary p-4 mt-4 rounded-xl`} rows={5} value={props.value}
+                spellCheck="true" id={id}
+                onChange={props.onChange}></textarea>
+        </div>
+    );
+}	
