@@ -10,7 +10,7 @@ type Props = {
 }
 
 export default function ReportDynamicInput(props: Props) {
-    const inputStyle = "w-9/12 max-w-xs border border-black disabled:bg-gray-300 disabled:cursor-not-allowed";
+    const inputStyle = "w-9/12 max-w-xs border border-black disabled:bg-gray-300 disabled:cursor-not-allowed pl-2";
     const [checkBoxChecked, setCheckBoxChecked] = useState(new Set<string>())
     const inputRef = useRef<HTMLInputElement>(null)
     const selectRef = useRef<HTMLSelectElement>(null)

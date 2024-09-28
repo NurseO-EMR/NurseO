@@ -21,7 +21,7 @@ export function Nav() {
                     <Link href="/nurseo_admin/patient/view">View/Edit Patients</Link>
                 </Dropdown>
                 <Dropdown label="Medications">
-                    <Link href="/nurseo_admin/meds/create">Create Medication</Link>
+                    <Link href="/nurseo_admin/meds/">Create Medication</Link>
                     <Link href="/nurseo_admin/meds/view">View/Edit Medications</Link>
                 </Dropdown>
                 <Dropdown label="Locations">
