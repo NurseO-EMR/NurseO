@@ -25,8 +25,9 @@ export const patientRouter = createTRPCRouter({
   // Student Side
   student_getPatient: publicProcedure.input(z.object({ barcode: z.string(), locationId: z.number(), studentId: z.string() || z.null() })).mutation(async ({ input, ctx }) => await getPatientByBarCode(ctx.db, input.barcode, input.locationId, input.studentId)),
   student_updatePatientHoldInfo: publicProcedure.input(z.object({ orderId: z.number(), holdReason: z.string().nullable() })).mutation(async ({ input, ctx }) => await updateOrderHoldInfo(ctx.db, input.orderId, input.holdReason)),
-  student_addNote: publicProcedure.input(z.object({ patientId: z.number(), date: z.string(), reportName: z.string(), reportType: z.string(), note: z.string() })).mutation(async ({ input, ctx }) => await addNote(ctx.db, input.patientId, input.date, input.note)),
+  student_addNote: publicProcedure.input(z.object({ patientId: z.number(), date: z.string(), note: z.string() })).mutation(async ({ input, ctx }) => await addNote(ctx.db, input.patientId, input.date, input.note)),
   student_isBarcodeUsedByPatient: publicProcedure.input(z.object({ barcode: z.string() })).mutation(async ({ ctx, input }) => await isBarcodeUsedByPatient(ctx.db, input.barcode)),
+
 
   //med
   student_getListOfPatients: publicProcedure.input(z.object({ locationId: z.number() })).query(async ({ input, ctx }) => await getListOfPatients(ctx.db, input.locationId)),
