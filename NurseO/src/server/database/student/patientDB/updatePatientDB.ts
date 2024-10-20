@@ -3,7 +3,7 @@ import { type PrismaClient } from "@prisma/client";
 export async function updateOrderHoldInfo(db: PrismaClient, orderId: number, holdReason: string | null) {
     const isTemplatePatient = await isOrderIsForTemplatePatient(db, orderId)
     if (isTemplatePatient) return false
-    const rowEffected = await db.$executeRaw`UPDATE Med_Order SET hold_reason = ${holdReason} WHERE id = ${orderId};`
+    const rowEffected = await db.$executeRaw`UPDATE Med_Order SET hold_reason = ${holdReason} WHERE id = ${orderId} LIMIT 1;`
     return rowEffected > 0
 }
 
@@ -22,9 +22,7 @@ export async function addNote(db: PrismaClient, patientId: number, date: string,
 }
 
 export async function updateChiefCompliant(db: PrismaClient, patientId: number, chiefCompliant: string) {
-    const isTemplate = await checkIfPatientIdIsTemplatePatient(db, patientId)
-    if (isTemplate) return;
-    await db.$executeRaw`UPDATE Patient SET chief_complaint = ${chiefCompliant} WHERE id = ${patientId};`
+    await db.$executeRaw`UPDATE Patient SET chief_complaint = ${chiefCompliant} WHERE id = ${patientId} AND template = false LIMIT 1; `
 }
 
 async function isOrderIsForTemplatePatient(db: PrismaClient, orderId: number) {
@@ -34,8 +32,6 @@ async function isOrderIsForTemplatePatient(db: PrismaClient, orderId: number) {
     if (patients[0].template === true) return true
     else return false
 }
-
-
 
 async function checkIfPatientIdIsTemplatePatient(db: PrismaClient, patientId: number): Promise<boolean> {
     const data = await db.$queryRaw<{ template: boolean }[]>`SELECT Patient.template FROM Patient WHERE Patient.id = ${patientId} LIMIT 1;`

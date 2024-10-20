@@ -7,6 +7,7 @@ import { GlobalContext } from "~/services/State";
 import { RichTextArea } from '~/components/common/RichTextArea';
 import { RichTextViewer } from '~/components/common/RichTextViewer';
 import { api } from '~/utils/api';
+import { signInState } from '~/types/flags';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     notes: Note[]
@@ -16,7 +17,7 @@ export default function NotesCard(props: Props) {
     const [openAddNoteModel, setOpenAddNoteModel] = useState(false)
     const [preViewModelNote, setPreviewModelNote] = useState("")
     const [newNote, setNewNote] = useState("")
-    const { patient, setPatient } = useContext(GlobalContext)
+    const { patient, setPatient, studentId } = useContext(GlobalContext)
     const addNoteMutation = api.patient.student_addNote.useMutation()
 
 
@@ -26,7 +27,7 @@ export default function NotesCard(props: Props) {
             note: newNote
         }
 
-        await addNoteMutation.mutateAsync({ note: note.note, date: note.date, patientId: patient.dbId })
+        if (studentId !== signInState.anonymousSignIn.valueOf()) await addNoteMutation.mutateAsync({ note: note.note, date: note.date, patientId: patient.dbId })
         patient.notes.push(note)
         setPatient({ ...patient })
         setOpenAddNoteModel(false)

@@ -11,7 +11,7 @@ import { updatePatient } from "~/server/database/updatePatientDB";
 import { patientChartSchema } from "~/types/zodSchemaPatientChart";
 
 import { getPatientByBarCode, isBarcodeUsedByPatient } from "~/server/database/student/patientDB/getPatientDB";
-import { addNote, updateOrderHoldInfo } from "~/server/database/student/patientDB/updatePatientDB";
+import { addNote, updateChiefCompliant, updateOrderHoldInfo } from "~/server/database/student/patientDB/updatePatientDB";
 import { getListOfPatients, getPatientMedOrders } from "~/server/database/med/patientDB";
 
 export const patientRouter = createTRPCRouter({
@@ -27,6 +27,7 @@ export const patientRouter = createTRPCRouter({
   student_updatePatientHoldInfo: publicProcedure.input(z.object({ orderId: z.number(), holdReason: z.string().nullable() })).mutation(async ({ input, ctx }) => await updateOrderHoldInfo(ctx.db, input.orderId, input.holdReason)),
   student_addNote: publicProcedure.input(z.object({ patientId: z.number(), date: z.string(), note: z.string() })).mutation(async ({ input, ctx }) => await addNote(ctx.db, input.patientId, input.date, input.note)),
   student_isBarcodeUsedByPatient: publicProcedure.input(z.object({ barcode: z.string() })).mutation(async ({ ctx, input }) => await isBarcodeUsedByPatient(ctx.db, input.barcode)),
+  student_updateChiefCompliant: publicProcedure.input(z.object({ patientId: z.number(), chiefCompliant: z.string() })).mutation(async ({ ctx, input }) => await updateChiefCompliant(ctx.db, input.patientId, input.chiefCompliant)),
 
 
   //med
