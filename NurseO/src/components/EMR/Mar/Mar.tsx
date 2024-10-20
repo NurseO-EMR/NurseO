@@ -14,7 +14,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 export default function Mar(props: Props) {
     const { patient, setPatient, studentId } = useContext(GlobalContext)
     const timeSlots = useMemo(() => getTimeSlots(props.simTime.hour, props.orders), [props.orders, props.simTime.hour])
-    const holdInfo = api.patient.student_updatePatientHoldInfo.useMutation()
+    const holdInfo = api.emr.student_updatePatientHoldInfo.useMutation()
 
     const onMarHoldHandler = (order: MedicationOrder) => {
         const orderIndex = findIndex(patient.medicationOrders, { ...order })

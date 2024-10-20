@@ -36,7 +36,7 @@ export function SimSpecificInfoStage(props: Props) {
     const [labsURL, setLabsURL] = useState(props.patient?.labDocURL ?? "")
     const [imagingURL, setImagingURL] = useState(props.patient?.imagingURL ?? "")
     const [courseId, setCourseId] = useState(props.patient?.courseId ?? -1)
-    const { data: courses } = api.setting.getCourses.useQuery()
+    const { data: courses } = api.admin.getCourses.useQuery()
 
     const onNextClickHandler = () => {
         const simInfo: SimSpecificInfo = {

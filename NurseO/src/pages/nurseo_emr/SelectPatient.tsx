@@ -11,7 +11,7 @@ export default function SelectPatient() {
     const { studentId, setPatient, locationId } = useContext(GlobalContext)
     const [barcode, setProvidedBarcode] = useState("")
     const [error, setError] = useState("")
-    const patientMutation = api.patient.student_getPatient.useMutation()
+    const patientMutation = api.emr.student_getPatient.useMutation()
     const inputRef = useRef<HTMLInputElement>(null)
 
 

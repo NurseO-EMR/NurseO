@@ -10,8 +10,8 @@ import { api } from "~/utils/api";
 
 export default function CreatePatientPage() {
 
-    const updateTemplatePatientMutation = api.patient.updatePatient.useMutation()
-    const addPatientWMetaDataOnlyMutation = api.patient.addPatientWMetaDataOnly.useMutation()
+    const updateTemplatePatientMutation = api.admin.updatePatient.useMutation()
+    const addPatientWMetaDataOnlyMutation = api.admin.addPatientWMetaDataOnly.useMutation()
     const [currentStage, setCurrentStage] = useState(0)
     const [patient, setPatient] = useState(createEmptyPatient());
     const [oldPatient, setOldPatient] = useState(createEmptyPatient());

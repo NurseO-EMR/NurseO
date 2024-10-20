@@ -10,8 +10,8 @@ import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementServ
 import { useRouter } from "next/navigation";
 
 export default function ViewMedsPage() {
-    const { data: meds, isLoading, refetch } = api.medication.getAllMedsWithLocationCount.useQuery()
-    const deleteMedMutation = api.medication.deleteMed.useMutation()
+    const { data: meds, isLoading, refetch } = api.admin.getAllMedsWithLocationCount.useQuery()
+    const deleteMedMutation = api.admin.deleteMed.useMutation()
     const router = useRouter()
 
     const [filteredMeds, setFilteredMeds] = useState<{ id: number; brandName: string; genericName: string; narcoticCountNeeded: boolean; numberOfLocations: number; }[]>([]);

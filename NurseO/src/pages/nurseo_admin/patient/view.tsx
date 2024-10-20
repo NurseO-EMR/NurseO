@@ -10,8 +10,8 @@ import { useRouter } from "next/navigation";
 
 export default function ViewPatientsPage() {
 
-    const { data: dbPatients, refetch } = api.patient.getPatientList.useQuery()
-    const deletePatientMutation = api.patient.deletePatient.useMutation()
+    const { data: dbPatients, refetch } = api.admin.getPatientList.useQuery()
+    const deletePatientMutation = api.admin.deletePatient.useMutation()
     const router = useRouter()
     const [patients, setPatients] = useState(dbPatients)
 

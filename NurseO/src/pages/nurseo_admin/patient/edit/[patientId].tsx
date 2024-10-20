@@ -13,11 +13,11 @@ import { LoadingCard } from "~/components/Admin/loadingCard";
 export default function EditPatientPage() {
     const params = useParams()
     const patientId = parseInt(params?.patientId as string)
-    const { data: patient, isLoading } = api.patient.getPatientChartById.useQuery({ patientId })
+    const { data: patient, isLoading } = api.admin.getPatientChartById.useQuery({ patientId })
     const [oldPatient, setOldPatient] = useState(patient)
     const [newPatient, setNewPatient] = useState(cloneDeep(oldPatient))
     const [currentStage, setCurrentStage] = useState(0)
-    const updatePatientMutation = api.patient.updatePatient.useMutation()
+    const updatePatientMutation = api.admin.updatePatient.useMutation()
 
     useEffect(() => {
         if (patient) { setOldPatient(patient) }

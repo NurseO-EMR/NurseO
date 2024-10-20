@@ -1,6 +1,5 @@
 import { faBedPulse, faBong, faComputer, faDroplet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { filter } from "lodash";
 import { type PatientChart, type ReportSet, ReportType, type StudentReport } from "~/core/index";
 import { useEffect, useState } from "react";
 import { type BaseStageProps, BaseStage } from "~/components/Admin/Stages/BaseStage"
@@ -15,7 +14,7 @@ export type Props = BaseStageProps & {
 }
 
 export function ChartingStage(props: Props) {
-    const { data: allReports } = api.report.getReportSets.useQuery()
+    const { data: allReports } = api.admin.getReportSets.useQuery()
     const [reportSets, setReportSets] = useState([] as ReportSet[])
     const [studentReports, setStudentReports] = useState(props.patient?.studentReports ?? [] as StudentReport[])
     const [activeReportSet, setActiveReportSet] = useState(0)

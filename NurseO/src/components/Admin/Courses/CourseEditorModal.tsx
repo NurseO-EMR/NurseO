@@ -12,10 +12,10 @@ type Props = {
     onClose: ()=>void
 }
 export function CourseEditorModal(props:Props) {
-    const {data: allCourses} = api.setting.getCourses.useQuery()
-    const {data: courses, refetch} = api.setting.getCoursesInSpecificLocation.useQuery({locationId: props.locationId})
-    const deleteCourseFromLocationMutation = api.setting.deleteCourseFromLocation.useMutation()
-    const addCourseToLocationMutation = api.setting.addCourseToLocation.useMutation()
+    const { data: allCourses } = api.admin.getCourses.useQuery()
+    const { data: courses, refetch } = api.admin.getCoursesInSpecificLocation.useQuery({ locationId: props.locationId })
+    const deleteCourseFromLocationMutation = api.admin.deleteCourseFromLocation.useMutation()
+    const addCourseToLocationMutation = api.admin.addCourseToLocation.useMutation()
     const coursesToBeAdded = useMemo(()=>getCoursesDiff(allCourses ?? [], courses ?? []),[allCourses, courses])
 
     

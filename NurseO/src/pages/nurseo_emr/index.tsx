@@ -16,7 +16,7 @@ export default function Login() {
     const { setStudentId } = useContext(GlobalContext)
     const [error, setError] = useState("")
     const [badgeNumber, setBadgeNumber] = useState("")
-    const isBarcodeUsedByPatient = api.patient.student_isBarcodeUsedByPatient.useMutation()
+    const isBarcodeUsedByPatient = api.emr.student_isBarcodeUsedByPatient.useMutation()
 
     const onSignInHandler = async () => {
         if (badgeNumber.length == 0) {

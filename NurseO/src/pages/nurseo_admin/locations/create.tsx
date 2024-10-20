@@ -14,7 +14,7 @@ import { broadcastAnnouncement, Announcement } from "~/services/AnnouncementServ
 
 export default function CreateLocationPage() {
 
-    const addLocationMutation = api.setting.addLocation.useMutation()
+    const addLocationMutation = api.admin.addLocation.useMutation()
     const [currentStage, setCurrentStage] = useState(0)
     const [buildingName, setBuildingName] = useState("");
     const [stationName, setStationName] = useState("");

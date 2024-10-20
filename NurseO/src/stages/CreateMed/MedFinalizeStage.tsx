@@ -13,7 +13,7 @@ export type Props = BaseStageProps & {
 
 export function MedFinalizeStage(props: Props) {
 
-    const { data } = api.medication.getMedDetails.useQuery({ id: props.med.id })
+    const { data } = api.admin.getMedDetails.useQuery({ id: props.med.id })
     const locations = data?.locations
     const router = useRouter()
 

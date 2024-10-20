@@ -11,9 +11,9 @@ import { api } from "~/utils/api";
 import { broadcastAnnouncement, Announcement } from "~/services/AnnouncementService";
 
 export default function ViewCoursesPage() {
-    const { data: dbCourses, refetch } = api.setting.getCourses.useQuery()
-    const deleteCourseMutation = api.setting.deleteCourse.useMutation()
-    const updateCourseMutation = api.setting.updateCourse.useMutation()
+    const { data: dbCourses, refetch } = api.admin.getCourses.useQuery()
+    const deleteCourseMutation = api.admin.deleteCourse.useMutation()
+    const updateCourseMutation = api.admin.updateCourse.useMutation()
 
     const [courses, setCourses] = useState<Course[]>([])
 
