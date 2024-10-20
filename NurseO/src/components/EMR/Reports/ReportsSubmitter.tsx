@@ -56,7 +56,7 @@ export default function ReportsSubmitter(props: Props) {
         if (studentId !== signInState.anonymousSignIn.valueOf()) {
             await Promise.all([
                 studentReportsMutation.mutateAsync({ patientId: patient.dbId, studentReport: output }),
-                addNoteMutation.mutateAsync({ date, note, patientId: patient.dbId, reportName: reportSets![selectedTabIndex]!.name, reportType: props.reportType })
+                addNoteMutation.mutateAsync({ date, note, patientId: patient.dbId })
             ])
         }
 

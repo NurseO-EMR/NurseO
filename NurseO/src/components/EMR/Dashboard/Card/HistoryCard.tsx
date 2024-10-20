@@ -8,6 +8,8 @@ import { RichTextArea } from '~/components/common/RichTextArea';
 import VerticalInput from '../../Form/verticalInput';
 import { GlobalContext } from '~/services/State';
 import { RichTextViewer } from '~/components/common/RichTextViewer';
+import { signInState } from '~/types/flags';
+import { api } from '~/utils/api';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     history: MedicalHistory[],
@@ -18,7 +20,8 @@ export default function HistoryCard(props: Props) {
     const [newHistoryDate, setNewHistoryDate] = useState("")
     const [newHistoryTitle, setNewHistoryTitle] = useState("")
     const [newHistoryNote, setNewHistoryNote] = useState("")
-    const { patient, setPatient } = useContext(GlobalContext)
+    const { patient, setPatient, studentId } = useContext(GlobalContext)
+    const addMedicalHistoryMutation = api.patient.student_addMedicalHistory.useMutation()
 
     const getHistory = () => {
         const orderHistory = orderBy(props.history, "diagnosedDate", "desc");
@@ -26,13 +29,15 @@ export default function HistoryCard(props: Props) {
     }
 
 
-    const onEditClickHandler = (e: FormEvent<HTMLFormElement>) => {
+    const onEditClickHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const newHistory: MedicalHistory = {
             date: newHistoryDate,
             title: newHistoryTitle,
             notes: newHistoryNote
         }
+
+        if (studentId !== signInState.anonymousSignIn.valueOf()) await addMedicalHistoryMutation.mutateAsync({ patientId: patient.dbId, medicalHistory: newHistory });
 
         patient.medicalHistory.push(newHistory)
 
