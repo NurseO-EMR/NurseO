@@ -65,8 +65,10 @@ input[type=number].hideInputArrows::-webkit-outer-spin-button {
 }
 
 
-
-
+.ql-container.ql-disabled .ql-tooltip {
+  visibility: hidden;
+  display: none;
+}
 
 * {
   word-break: keep-all;

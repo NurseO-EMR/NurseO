@@ -8,10 +8,10 @@ import {
 import { getPatientById } from "~/server/database/getPatientDB";
 import { addPatientWMetaDataOnly, deletePatient, getPatientList } from "~/server/database/patientDB";
 import { updatePatient } from "~/server/database/updatePatientDB";
-import { patientChartSchema } from "~/types/zodSchemaPatientChart";
+import { medicalHistorySchema, patientChartSchema } from "~/types/zodSchemaPatientChart";
 
 import { getPatientByBarCode, isBarcodeUsedByPatient } from "~/server/database/student/patientDB/getPatientDB";
-import { addNote, updateOrderHoldInfo } from "~/server/database/student/patientDB/updatePatientDB";
+import { addMedicalHistory, addNote, updateChiefCompliant, updateOrderHoldInfo } from "~/server/database/student/patientDB/updatePatientDB";
 import { getListOfPatients, getPatientMedOrders } from "~/server/database/med/patientDB";
 
 export const patientRouter = createTRPCRouter({
@@ -25,8 +25,11 @@ export const patientRouter = createTRPCRouter({
   // Student Side
   student_getPatient: publicProcedure.input(z.object({ barcode: z.string(), locationId: z.number(), studentId: z.string() || z.null() })).mutation(async ({ input, ctx }) => await getPatientByBarCode(ctx.db, input.barcode, input.locationId, input.studentId)),
   student_updatePatientHoldInfo: publicProcedure.input(z.object({ orderId: z.number(), holdReason: z.string().nullable() })).mutation(async ({ input, ctx }) => await updateOrderHoldInfo(ctx.db, input.orderId, input.holdReason)),
-  student_addNote: publicProcedure.input(z.object({ patientId: z.number(), date: z.string(), reportName: z.string(), reportType: z.string(), note: z.string() })).mutation(async ({ input, ctx }) => await addNote(ctx.db, input.patientId, input.date, input.note)),
+  student_addNote: publicProcedure.input(z.object({ patientId: z.number(), date: z.string(), note: z.string() })).mutation(async ({ input, ctx }) => await addNote(ctx.db, input.patientId, input.date, input.note)),
   student_isBarcodeUsedByPatient: publicProcedure.input(z.object({ barcode: z.string() })).mutation(async ({ ctx, input }) => await isBarcodeUsedByPatient(ctx.db, input.barcode)),
+  student_updateChiefCompliant: publicProcedure.input(z.object({ patientId: z.number(), chiefCompliant: z.string() })).mutation(async ({ ctx, input }) => await updateChiefCompliant(ctx.db, input.patientId, input.chiefCompliant)),
+  student_addMedicalHistory: publicProcedure.input(z.object({ patientId: z.number(), medicalHistory: medicalHistorySchema })).mutation(async ({ input, ctx }) => await addMedicalHistory(ctx.db, input.patientId, input.medicalHistory)),
+
 
   //med
   student_getListOfPatients: publicProcedure.input(z.object({ locationId: z.number() })).query(async ({ input, ctx }) => await getListOfPatients(ctx.db, input.locationId)),
