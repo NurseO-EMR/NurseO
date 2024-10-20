@@ -1,4 +1,5 @@
 import { type PrismaClient } from "@prisma/client";
+import { type MedicalHistory } from "~/core";
 
 export async function updateOrderHoldInfo(db: PrismaClient, orderId: number, holdReason: string | null) {
     const isTemplatePatient = await isOrderIsForTemplatePatient(db, orderId)
@@ -23,6 +24,14 @@ export async function addNote(db: PrismaClient, patientId: number, date: string,
 
 export async function updateChiefCompliant(db: PrismaClient, patientId: number, chiefCompliant: string) {
     await db.$executeRaw`UPDATE Patient SET chief_complaint = ${chiefCompliant} WHERE id = ${patientId} AND template = false LIMIT 1; `
+}
+
+export async function addMedicalHistory(db: PrismaClient, patientId: number, medicalHistory: MedicalHistory) {
+    const isTemplatePatient = await checkIfPatientIdIsTemplatePatient(db, patientId)
+    if (isTemplatePatient) return;
+
+    const { date, notes, title } = medicalHistory
+    await db.$queryRaw`INSERT INTO Medical_History (date, title, notes, patient_id) VALUES (${date}, ${title}, ${notes}, ${patientId});`
 }
 
 async function isOrderIsForTemplatePatient(db: PrismaClient, orderId: number) {
