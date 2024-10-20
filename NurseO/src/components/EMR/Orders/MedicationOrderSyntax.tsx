@@ -9,7 +9,7 @@ type Props = {
 
 export default function MedicationOrderSyntax(props: Props) {
     const { locationId } = useContext(GlobalContext)
-    const medication = api.medication.student_getMedicationById.useQuery({ medId: props.order.id, locationId })
+    const medication = api.emr.student_getMedicationById.useQuery({ medId: props.order.id, locationId })
 
     console.log(medication.data)
     if (!medication.isLoading && medication.data) {

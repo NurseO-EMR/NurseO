@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 
 export default function AZListing() {
 
-    const getAllMedsMutation = api.medication.student_getAllMeds.useMutation()
+    const getAllMedsMutation = api.med.student_getAllMeds.useMutation()
     const [fullMeds, setFullMeds] = useState<Medication[]>([])
     const [meds, setMeds] = useState<Medication[]>([])
     const [alphabet, setAlphabet] = useState<string[]>([])

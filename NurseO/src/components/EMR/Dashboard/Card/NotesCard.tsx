@@ -18,7 +18,7 @@ export default function NotesCard(props: Props) {
     const [preViewModelNote, setPreviewModelNote] = useState("")
     const [newNote, setNewNote] = useState("")
     const { patient, setPatient, studentId } = useContext(GlobalContext)
-    const addNoteMutation = api.patient.student_addNote.useMutation()
+    const addNoteMutation = api.emr.student_addNote.useMutation()
 
 
     const onEditClickHandler = async () => {

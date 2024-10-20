@@ -15,9 +15,9 @@ export default function AdministerMeds() {
     const [orderIndex, setOrderIndex] = useState(-1)
     const [dose, setDose] = useState("")
     const [medicationNotFound, setMedicationNotFound] = useState(false)
-    const getMedicationByBarcode = api.medication.student_getMedicationByBarcode.useMutation()
-    const addMarEntry = api.medication.student_addMarEntry.useMutation()
-    const addMarWithNoOrder = api.medication.student_addMarWithNoOrder.useMutation()
+    const getMedicationByBarcode = api.emr.student_getMedicationByBarcode.useMutation()
+    const addMarEntry = api.emr.student_addMarEntry.useMutation()
+    const addMarWithNoOrder = api.emr.student_addMarWithNoOrder.useMutation()
     const { patient, setPatient, locationId, studentId } = useContext(GlobalContext)
     const router = useRouter()
 

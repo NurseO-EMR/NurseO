@@ -15,7 +15,7 @@ export function ChiefComplaintCard(props: Props) {
     const [openModel, setOpenModel] = useState(false)
     const [cc, setCC] = useState(props.chiefComplaint ?? "")
     const { patient, setPatient, studentId } = useContext(GlobalContext)
-    const updateChiefCompliantMutation = api.patient.student_updateChiefCompliant.useMutation()
+    const updateChiefCompliantMutation = api.emr.student_updateChiefCompliant.useMutation()
 
     const onEditClickHandler = async () => {
         if (studentId !== signInState.anonymousSignIn.valueOf()) await updateChiefCompliantMutation.mutateAsync({ patientId: patient.dbId, chiefCompliant: cc })

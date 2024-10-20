@@ -21,7 +21,7 @@ export default function HistoryCard(props: Props) {
     const [newHistoryTitle, setNewHistoryTitle] = useState("")
     const [newHistoryNote, setNewHistoryNote] = useState("")
     const { patient, setPatient, studentId } = useContext(GlobalContext)
-    const addMedicalHistoryMutation = api.patient.student_addMedicalHistory.useMutation()
+    const addMedicalHistoryMutation = api.emr.student_addMedicalHistory.useMutation()
 
     const getHistory = () => {
         const orderHistory = orderBy(props.history, "diagnosedDate", "desc");

@@ -18,10 +18,10 @@ import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementServ
 export default function EditMedPage() {
     const router = useRouter()
     const medId = parseInt(router.query.medId as string)
-    const { data, isLoading, refetch } = api.medication.getMedDetails.useQuery({ id: medId })
-    const deleteMedLocationMutation = api.medication.deleteMedLocation.useMutation()
-    const updateMedicationMutation = api.medication.updateMedication.useMutation()
-    const updateMedicationLocationsMutation = api.medication.updateMedicationLocations.useMutation()
+    const { data, isLoading, refetch } = api.admin.getMedDetails.useQuery({ id: medId })
+    const deleteMedLocationMutation = api.admin.deleteMedLocation.useMutation()
+    const updateMedicationMutation = api.admin.updateMedication.useMutation()
+    const updateMedicationLocationsMutation = api.admin.updateMedicationLocations.useMutation()
 
     const [brandName, setBrandName] = useState("")
     const [genericName, setGenericName] = useState("")
