@@ -1,5 +1,5 @@
 import Logo from '~/components/EMR/Nav/TopMenu/Logo';
-import { Background } from '~/components/EMR/Background';
+import { Background } from '~/components/common/Background';
 import SignInButton from '~/components/EMR/Form/SignInButton';
 import AnonymousSignInButton from '~/components/EMR/Form/AnonymousSignInButton';
 import { ColorThemeSelector } from '~/components/common/ColorThemeSelector';

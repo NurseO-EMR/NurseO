@@ -2,6 +2,7 @@ import { Prisma, type PrismaClient } from "@prisma/client";
 import { type ReportType, type Gender, type MedicationOrder, type PatientChart, type CustomOrder, type OrderKind, type OrderType, type MarRecord, type Frequency, type Routine } from '~/core/index';
 import { copyPatient } from "./addPatientDB";
 import { signInState } from "~/types/flags";
+import { type Session } from "next-auth";
 
 type patientMetaData = {
        id: number;
@@ -22,31 +23,35 @@ type patientMetaData = {
        chief_complaint: string
 }
 
+type Context = { db: PrismaClient, session: Session | null }
+
 export async function isBarcodeUsedByPatient(db: PrismaClient, templatePatientBarCode: string) {
        const patients = await db.$queryRaw<{ id: number }[]>`SELECT id FROM Patient WHERE Patient.template = true AND Patient.patient_bar_code = ${templatePatientBarCode} LIMIT 1;`
        return patients.length > 0
 }
 
-export async function getPatientByBarCode(db: PrismaClient, templatePatientBarCode: string, locationId: number, studentId: string): Promise<PatientChart | null> {
+export async function getPatientByBarCode(ctx: Context, templatePatientBarCode: string, locationId: number, studentId: string, studentUID: string | undefined): Promise<PatientChart | null> {
 
-       const metaData = await getPatientBasicInfoByBarCode(db, templatePatientBarCode, studentId, locationId)
+       const metaData = await getPatientBasicInfoByBarCode(ctx.db, templatePatientBarCode, studentId, locationId, studentUID)
        if (!metaData) return null
 
-       const patient = await getPatientChart(db, metaData, studentId)
+       const patient = await getPatientChart(ctx.db, metaData, studentId, studentUID)
 
        if (studentId !== signInState.anonymousSignIn.valueOf() && !metaData.student_id) {
+              patient.studentUID = ctx.session?.user.id
               patient.studentId = studentId
-              return await copyPatient(db, patient)
+
+              return await copyPatient(ctx.db, patient)
        }
 
        return patient
 }
 
-export async function getPatientById(db: PrismaClient, patientId: number, studentId: string | undefined | null): Promise<PatientChart | null> {
+export async function getPatientById(db: PrismaClient, patientId: number, studentId: string | undefined | null, studentUID: string | undefined): Promise<PatientChart | null> {
        try {
               const metaData = await getPatientBasicInfoById(db, patientId)
               if (!metaData) return null
-              const patient = await getPatientChart(db, metaData, studentId)
+              const patient = await getPatientChart(db, metaData, studentId, studentUID)
               return patient
        } catch {
               return null
@@ -57,7 +62,7 @@ export async function getPatientById(db: PrismaClient, patientId: number, studen
 
 
 
-async function getPatientChart(db: PrismaClient, metaData: patientMetaData, studentId: string | undefined | null) {
+async function getPatientChart(db: PrismaClient, metaData: patientMetaData, studentId: string | undefined | null, studentUID: string | undefined) {
 
        const [allergies, customOrders, socialHistory,
               medicalHistory, notes, studentReports,
@@ -103,6 +108,7 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData, stud
               immunizations,
               medicationOrders,
               studentId: studentId,
+              studentUID: studentUID,
        }
 
        return patient
@@ -117,7 +123,7 @@ async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
        return patient[0]
 }
 
-async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBarCode: string, studentId: string, locationId: number) {
+async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBarCode: string, studentId: string, locationId: number, studentUID: string | undefined) {
 
        let patient: patientMetaData[] = []
 
@@ -130,7 +136,9 @@ async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBar
               JOIN Course_Location_Information ON Course_Location_Information.course_id = Course.id
               WHERE Course_Location_Information.location_id = ${locationId}
               AND patient_bar_code = ${templatePatientBarCode} 
-              AND student_id = ${studentId}  
+              AND student_id = ${studentId}
+              AND studentUID = ${studentUID}  
+              AND template = false
               LIMIT 1;`
        }
 

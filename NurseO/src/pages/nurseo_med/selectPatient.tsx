@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Background } from '~/components/Med/Background';
+import { Background } from '~/components/common/Background';
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { api } from '~/utils/api';

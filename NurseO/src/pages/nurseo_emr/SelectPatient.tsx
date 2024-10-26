@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Background } from '~/components/EMR/Background';
+import { Background } from '~/components/common/Background';
 import SignInButton from '~/components/EMR/Form/SignInButton';
 import { GlobalContext } from '~/services/State';
 import { useRouter } from 'next/navigation'
