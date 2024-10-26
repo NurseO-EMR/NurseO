@@ -12,7 +12,7 @@ type Props = {
 export function CustomOrderPreviewer(props: Props) {
     return <ArrayPreviewer headerItems={["Type", "Time", "Order", "Edit","Delete", ""]}
         show={props.orders.length > 0} title="Added Custom Orders"
-        className="hover:w-[80vw] transition-all">
+        className="hover:w-[80vw] transition-all max-h-[70vh]">
         {props.orders.map((entry, i) =>
           <CustomOrderPreviewerEntity order={entry} index={i} key={i} 
           onDelete={()=>props.onDeleteClickHandler(i)}

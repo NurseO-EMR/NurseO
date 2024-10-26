@@ -61,7 +61,7 @@ export default function Login() {
                         <div>{error}</div>
 
                         <hr className="w-full my-4 border-primary" />
-                        <h1 className="font-bold">If you forgot your ID click bellow:</h1>
+                        <h1 className="font-bold">If you forgot your ID click below:</h1>
                         <AnonymousSignInButton className="block mx-auto" onClick={onAnonymousSignIn} />
                         <hr className="w-full my-4 border-primary" />
                         <h1 className="font-bold mb-3">Select colors that best fit you</h1>
