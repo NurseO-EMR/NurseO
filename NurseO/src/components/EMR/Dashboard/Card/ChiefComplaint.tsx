@@ -4,16 +4,21 @@ import PureModel from "react-pure-modal"
 import TextArea from "../../Form/TextArea";
 import { Button } from "../../Form/Button";
 import { GlobalContext } from "~/services/State";
+import { api } from "~/utils/api";
+import { signInState } from "~/types/flags";
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     chiefComplaint: string | undefined | null
 }
+
 export function ChiefComplaintCard(props: Props) {
     const [openModel, setOpenModel] = useState(false)
     const [cc, setCC] = useState(props.chiefComplaint ?? "")
-    const { patient, setPatient } = useContext(GlobalContext)
+    const { patient, setPatient, studentId } = useContext(GlobalContext)
+    const updateChiefCompliantMutation = api.emr.student_updateChiefCompliant.useMutation()
 
-    const onEditClickHandler = () => {
+    const onEditClickHandler = async () => {
+        if (studentId !== signInState.anonymousSignIn.valueOf()) await updateChiefCompliantMutation.mutateAsync({ patientId: patient.dbId, chiefCompliant: cc })
         patient.chiefComplaint = cc
         setPatient({ ...patient })
         setOpenModel(false)

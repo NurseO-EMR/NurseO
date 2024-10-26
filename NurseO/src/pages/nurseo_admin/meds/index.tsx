@@ -16,8 +16,8 @@ import { api } from "~/utils/api";
 export default function CreateMedicationPage() {
 
     const [currentStage, setCurrentStage] = useState(0)
-    const addMedicationMutation = api.medication.addMedication.useMutation()
-    const addMedLocationMutation = api.medication.addMedicationLocation.useMutation()
+    const addMedicationMutation = api.admin.addMedication.useMutation()
+    const addMedLocationMutation = api.admin.addMedicationLocation.useMutation()
 
     const emptyMed: Medication = {
         id: -1,

@@ -1,21 +1,56 @@
 import { orderBy } from 'lodash';
-import React from 'react';
+import { type FormEvent, useContext, useState } from 'react';
+import PureModel from "react-pure-modal"
 import type { MedicalHistory } from '~/core/index';
 import Card from './Card';
+import { Button } from '../../Form/Button';
+import { RichTextArea } from '~/components/common/RichTextArea';
+import VerticalInput from '../../Form/verticalInput';
+import { GlobalContext } from '~/services/State';
+import { RichTextViewer } from '~/components/common/RichTextViewer';
+import { signInState } from '~/types/flags';
+import { api } from '~/utils/api';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     history: MedicalHistory[],
 }
-export default class HistoryCard extends React.Component<Props> {
+export default function HistoryCard(props: Props) {
 
-    getHistory() {
-        const orderHistory = orderBy(this.props.history, "diagnosedDate", "desc");
+    const [openAddHistoryModel, setOpenAddHistoryModel] = useState(false)
+    const [newHistoryDate, setNewHistoryDate] = useState("")
+    const [newHistoryTitle, setNewHistoryTitle] = useState("")
+    const [newHistoryNote, setNewHistoryNote] = useState("")
+    const { patient, setPatient, studentId } = useContext(GlobalContext)
+    const addMedicalHistoryMutation = api.emr.student_addMedicalHistory.useMutation()
+
+    const getHistory = () => {
+        const orderHistory = orderBy(props.history, "diagnosedDate", "desc");
         return orderHistory;
     }
 
-    public render() {
-        return (
-            <Card className={this.props.className} title="Medical History">
+
+    const onEditClickHandler = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const newHistory: MedicalHistory = {
+            date: newHistoryDate,
+            title: newHistoryTitle,
+            notes: newHistoryNote
+        }
+
+        if (studentId !== signInState.anonymousSignIn.valueOf()) await addMedicalHistoryMutation.mutateAsync({ patientId: patient.dbId, medicalHistory: newHistory });
+
+        patient.medicalHistory.push(newHistory)
+
+        setPatient({ ...patient })
+        setOpenAddHistoryModel(false)
+        setNewHistoryDate("")
+        setNewHistoryTitle("")
+        setNewHistoryNote("")
+    }
+
+    return (
+        <>
+            <Card className={props.className} title="Medical History" editable onEditClick={() => setOpenAddHistoryModel(true)}>
                 <thead className="font-bold">
                     <tr>
                         <td className="border-2 p-2 border-trueGray-200">Date</td>
@@ -24,18 +59,28 @@ export default class HistoryCard extends React.Component<Props> {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.history?.length === 0 ?
+                    {props.history?.length === 0 ?
                         <tr><td colSpan={2} className='text-center p-2'><h1>No records found</h1></td></tr> :
-                        this.getHistory().map((history, i) =>
-                            <tr key={i}>
+                        getHistory().map((history, i) =>
+                            <tr key={i} className=' hover:bg-primary hover:text-white transition-all duration-200'>
                                 <td className="border-2 p-2 border-trueGray-200">{history.date}</td>
                                 <td className="border-2 p-2 border-trueGray-200">{history.title}</td>
-                                <td className="border-2 p-2 border-trueGray-200">{history.notes}</td>
+                                <td className="border-2 p-2 border-trueGray-200"><RichTextViewer value={history.notes} /></td>
                             </tr>)
                     }
                 </tbody>
             </Card>
-        )
 
-    }
+            <PureModel isOpen={openAddHistoryModel} onClose={() => setOpenAddHistoryModel(false)} header={"Nursing Note"} width="60vw">
+                <form onSubmit={onEditClickHandler} >
+                    <VerticalInput onChange={e => setNewHistoryDate(e.currentTarget.value)} type='date'>Date</VerticalInput>
+                    <VerticalInput onChange={e => setNewHistoryTitle(e.currentTarget.value)}>Diagnosis Title</VerticalInput>
+                    <label htmlFor="note" className={`font-bold`}>Enter New Note</label>
+                    <RichTextArea onChange={e => setNewHistoryNote(e)} className="h-80 bg-white border mt-2" value={newHistoryNote} id='note' />
+                    <Button className="bg-primary mt-4 w-10/12 mx-auto block h-14">Add Note</Button>
+                </form>
+            </PureModel>
+        </>
+    )
+
 }

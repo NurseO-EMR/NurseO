@@ -18,9 +18,9 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 export default function ReportsSubmitter(props: Props) {
 
     const { patient, studentId, setPatient } = useContext(GlobalContext)
-    const { data: reportSets } = api.report.student_getReportSets.useQuery({ reportType: props.reportType })
-    const studentReportsMutation = api.report.student_saveStudentsReports.useMutation()
-    const addNoteMutation = api.patient.student_addNote.useMutation()
+    const { data: reportSets } = api.emr.student_getReportSets.useQuery({ reportType: props.reportType })
+    const studentReportsMutation = api.emr.student_saveStudentsReports.useMutation()
+    const addNoteMutation = api.emr.student_addNote.useMutation()
     const [date, setDate] = useState(getTodaysDateAsString())
     const [selectedTabIndex, setSelectedTabIndex] = useState(0)
     const [note, setNote] = useState("")
@@ -56,7 +56,7 @@ export default function ReportsSubmitter(props: Props) {
         if (studentId !== signInState.anonymousSignIn.valueOf()) {
             await Promise.all([
                 studentReportsMutation.mutateAsync({ patientId: patient.dbId, studentReport: output }),
-                addNoteMutation.mutateAsync({ date, note, patientId: patient.dbId, reportName: reportSets![selectedTabIndex]!.name, reportType: props.reportType })
+                addNoteMutation.mutateAsync({ date, note, patientId: patient.dbId })
             ])
         }
 

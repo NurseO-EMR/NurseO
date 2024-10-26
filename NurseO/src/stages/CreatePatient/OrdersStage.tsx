@@ -19,7 +19,7 @@ export type Props = BaseStageProps & {
 }
 
 export function OrdersStage(props: Props) {
-    const { data: meds, isLoading } = api.medication.getAllMeds.useQuery()
+    const { data: meds, isLoading } = api.admin.getAllMeds.useQuery()
 
     const [id, setId] = useState(-1);
     const [concentration, setConcentration] = useState("");
