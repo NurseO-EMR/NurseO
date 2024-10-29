@@ -109,7 +109,7 @@ export default function ReportsSubmitter(props: Props) {
                 />
                 : null}
 
-            <TextArea label='Nurse Note' onChange={e => setNote(e.currentTarget.value)} />
+            {/* <TextArea label='Nurse Note' onChange={e => setNote(e.currentTarget.value)} /> */}
 
         </div>
     );
