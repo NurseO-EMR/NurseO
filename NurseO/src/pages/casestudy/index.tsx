@@ -6,6 +6,7 @@ import GoogleButton from "react-google-button"
 import { Background } from "~/components/common/Background"
 import { GlobalContext } from "~/services/State"
 import Logo from "~/components/EMR/Nav/TopMenu/Logo"
+import { signInState } from "~/types/flags";
 
 export default function Index() {
 
@@ -15,7 +16,7 @@ export default function Index() {
 
     useEffect(() => {
         if (session.data?.user.id && window) {
-            setStudentId("caseStudy")
+            setStudentId(signInState.caseStudy)
             setLocationId(14)
             router.push("/nurseo_emr/SelectPatient")
         }
