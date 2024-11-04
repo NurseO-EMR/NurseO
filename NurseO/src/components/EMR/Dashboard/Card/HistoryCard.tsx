@@ -71,13 +71,13 @@ export default function HistoryCard(props: Props) {
                 </tbody>
             </Card>
 
-            <PureModel isOpen={openAddHistoryModel} onClose={() => setOpenAddHistoryModel(false)} header={"Nursing Note"} width="60vw">
+            <PureModel isOpen={openAddHistoryModel} onClose={() => setOpenAddHistoryModel(false)} header={"Adding Medical History"} width="60vw">
                 <form onSubmit={onEditClickHandler} >
                     <VerticalInput onChange={e => setNewHistoryDate(e.currentTarget.value)} type='date'>Date</VerticalInput>
                     <VerticalInput onChange={e => setNewHistoryTitle(e.currentTarget.value)}>Diagnosis Title</VerticalInput>
                     <label htmlFor="note" className={`font-bold`}>Enter New Note</label>
                     <RichTextArea onChange={e => setNewHistoryNote(e)} className="h-80 bg-white border mt-2" value={newHistoryNote} id='note' />
-                    <Button className="bg-primary mt-4 w-10/12 mx-auto block h-14">Add Note</Button>
+                    <Button className="bg-primary mt-4 w-10/12 mx-auto block h-14">Add Medication History</Button>
                 </form>
             </PureModel>
         </>
