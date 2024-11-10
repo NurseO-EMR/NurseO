@@ -12,7 +12,7 @@ export type Props = BaseStageProps & {
 
 export function MedLocationStage(props: Props) {
 
-    const { data: locations } = api.setting.getLocations.useQuery()
+    const { data: locations } = api.admin.getLocations.useQuery()
     const [buildings, setBuildings] = useState([] as string[])
     const [stations, setStations] = useState([] as LocationDefinition[])
     const [locationId, setLocationID] = useState(-1);

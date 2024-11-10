@@ -14,7 +14,7 @@ type Props = {
 export function MedLocationModal(props: Props) {
 
     const { locationId } = useContext(GlobalContext)
-    const { data: locations } = api.medication.student_getMedicationLocations.useQuery({ medId: props.order.id, locationId })
+    const { data: locations } = api.med.student_getMedicationLocations.useQuery({ medId: props.order.id, locationId })
     const [showNarcoticCountModel, setShowNarcoticCountModel] = useState<boolean>(false)
 
 

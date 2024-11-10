@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Logo } from '~/components/Med/TopMenu/Logo';
 import { Button } from '~/components/Med/Form/Button';
-import { Background } from '~/components/Med/Background';
+import { Background } from '~/components/common/Background';
 import TapOutService from '~/services/TapOutService';
 import { ColorThemeSelector } from '~/components/common/ColorThemeSelector';
 import { useRouter } from 'next/navigation';

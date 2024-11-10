@@ -1,3 +1,4 @@
 export enum signInState {
-    anonymousSignIn = "anonymousSignIn"
+    anonymousSignIn = "anonymousSignIn",
+    caseStudy = "caseStudy"
 }

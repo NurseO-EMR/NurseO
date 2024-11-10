@@ -1,5 +1,5 @@
 import { Gender } from "./Gender"
-import type { ReportType, StudentReport } from "./Report";
+import type { StudentReport } from "./Report";
 
 
 export class Time {
@@ -31,6 +31,7 @@ export class PatientChart {
     courseId: number = -1;
     dbId: number = -1;
     chiefComplaint?: string | null = "";
+    studentUID?: string | undefined = "";
 };
 
 export type Order = {

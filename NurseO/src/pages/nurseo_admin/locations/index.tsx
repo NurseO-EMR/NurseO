@@ -13,9 +13,9 @@ import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementServ
 import { api } from "~/utils/api";
 
 export default function ViewLocationsPage() {
-    const { data: dbLocations, refetch } = api.setting.getLocations.useQuery()
-    const deleteLocationMutation = api.setting.deleteLocation.useMutation()
-    const updateLocationMutation = api.setting.updateLocation.useMutation()
+    const { data: dbLocations, refetch } = api.admin.getLocations.useQuery()
+    const deleteLocationMutation = api.admin.deleteLocation.useMutation()
+    const updateLocationMutation = api.admin.updateLocation.useMutation()
     const [locations, setLocations] = useState<LocationDefinition[]>([])
     const [locationIndexToBeEdited, setLocationIndexToBeEdited] = useState<number | null>(null)
 

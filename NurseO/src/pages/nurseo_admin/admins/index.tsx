@@ -6,7 +6,7 @@ import { api } from "~/utils/api";
 import { LoadingCard } from "~/components/Admin/loadingCard";
 
 export default function ViewAdminsPage() {
-    const admins = api.setting.getUsersList.useQuery()
+    const admins = api.admin.getUsersList.useQuery()
 
 
     if (admins.isLoading) return <LoadingCard />

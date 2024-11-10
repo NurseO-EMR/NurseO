@@ -4,14 +4,14 @@ import { getPatientById } from "./getPatientDB";
 
 export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTries?: number): Promise<PatientChart> {
 
-    const { name, dob, age, gender, height, weight, time, studentId, labDocURL, imagingURL, diagnosis, courseId, id } = p
+    const { name, dob, age, gender, height, weight, time, studentId, labDocURL, imagingURL, diagnosis, courseId, id, studentUID } = p
 
     const patient = await db.patient.create({
         data: {
             name, dob, age, gender, height, weight, diagnosis: diagnosis,
             course_id: courseId, imaging_url: imagingURL, lab_doc_url: labDocURL,
             time_hour: time.hour, time_minute: time.minute,
-            student_id: studentId, patient_bar_code: id, template: false
+            student_id: studentId, patient_bar_code: id, template: false, studentUID
         }
     })
 
@@ -47,7 +47,7 @@ export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTri
     }
 
 
-    const finalCopy = await getPatientById(db, patient.id, studentId)
+    const finalCopy = await getPatientById(db, patient.id, studentId, p.studentUID)
 
     if (finalCopy) return finalCopy
     else if (numberOfTries && numberOfTries < 3) {

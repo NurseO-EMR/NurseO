@@ -13,7 +13,7 @@ export default function ArmBand(props: Props) {
 
     return (
         <div className={`${props.className} grid justify-center mx-auto w-11/12`}>
-            <div className={`text-secondary text-xl grid grid-rows-2 grid-cols-5 gap-x-8 items-center py-4 min-h-28`}>
+            <div className={`text-secondary text-xl grid grid-rows-2 grid-cols-5 gap-x-8 items-center py-4 min-h-28 mt-4`}>
                 <SectionNamedInfo name="" boldedValue={true}
                     valueClassNames="text-2xl "
                     removeColon={true}

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Background } from '~/components/Med/Background';
+import { Background } from '~/components/common/Background';
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { api } from '~/utils/api';
@@ -11,8 +11,8 @@ export default function SelectPatient() {
 
 
     const { locationId, setPatientMedOrders, setTime } = useContext(GlobalContext)
-    const patients = api.patient.student_getListOfPatients.useQuery({ locationId })
-    const getPatientMedOrdersMutation = api.patient.student_getPatientMedOrders.useMutation()
+    const patients = api.med.student_getListOfPatients.useQuery({ locationId })
+    const getPatientMedOrdersMutation = api.med.student_getPatientMedOrders.useMutation()
     const router = useRouter()
 
     const onClickHandler = async (index: number) => {

@@ -11,7 +11,7 @@ type Props = {
 
 export default function MedicationEntry(props: Props) {
     const { locationId } = useContext(GlobalContext)
-    const medication = api.medication.student_getMedicationById.useQuery({ medId: props.order.id, locationId })
+    const medication = api.emr.student_getMedicationById.useQuery({ medId: props.order.id, locationId })
 
 
 

@@ -12,7 +12,7 @@ import { broadcastAnnouncement, Announcement } from "~/services/AnnouncementServ
 
 export default function CreateCoursePage() {
 
-    const addCourseMutation = api.setting.addCourse.useMutation()
+    const addCourseMutation = api.admin.addCourse.useMutation()
     const [currentStage, setCurrentStage] = useState(0)
     const [courseName, setCourseName] = useState("");
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PureModal from "react-pure-modal";
 import { type CustomOrder, type MedicationOrder, type Order, OrderKind } from "~/core/index";
 import MedicationOrderSyntax from './MedicationOrderSyntax';
-import parse from 'html-react-parser';
+import { RichTextViewer } from '~/components/common/RichTextViewer';
 
 
 export type Props = {
@@ -39,7 +39,8 @@ export default class OrderEntry extends React.Component<Props, State> {
                     <td className="border-2 p-2 border-trueGray-200">
                         {this.props.order.orderKind === OrderKind.med ?
                             <MedicationOrderSyntax order={this.props.order as MedicationOrder} /> :
-                            <pre className='font-sans whitespace-pre-wrap'>{parse((this.props.order as CustomOrder).order)}</pre>}
+                            <RichTextViewer value={(this.props.order as CustomOrder).order} />
+                        }
 
                     </td>
                 </tr>
@@ -47,7 +48,8 @@ export default class OrderEntry extends React.Component<Props, State> {
                 <PureModal header="Order" width="60vw" className="text-center font-bold" isOpen={this.state.isModalShown} onClose={this.onModalCloseHandler.bind(this)}>
                     <div>
                         {this.props.order.orderKind === OrderKind.med ? <MedicationOrderSyntax order={this.props.order as MedicationOrder} /> :
-                            <pre className='text-left'>{parse((this.props.order as CustomOrder).order)}</pre>}
+                            <RichTextViewer value={(this.props.order as CustomOrder).order} />
+                        }
                     </div>
                 </PureModal>
             </>
