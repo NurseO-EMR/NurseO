@@ -72,6 +72,7 @@ module.exports = {
   },
   plugins: [
     require('@savvywombat/tailwindcss-grid-areas'),
-    createThemes(colorThemes)
+	  createThemes(colorThemes),
+	  require("tailwindcss-animate")
   ],
 } satisfies Config;

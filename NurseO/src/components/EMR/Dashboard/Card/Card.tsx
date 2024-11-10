@@ -1,5 +1,6 @@
 import React from 'react';
 import EmptyCard from './EmptyCard';
+import { Table } from '~/components/common/ui/table';
 
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -11,9 +12,9 @@ export default function Card(props: Props) {
 
     return (
         <EmptyCard title={props.title} className={props.className} editable={props.editable} onEditClick={props.onEditClick}>
-            <table className="w-full ">
+            <Table className="w-full ">
                 {props.children}
-            </table>
+            </Table>
         </EmptyCard>
     );
 }	
