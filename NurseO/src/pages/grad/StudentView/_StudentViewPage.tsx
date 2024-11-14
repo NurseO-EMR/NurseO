@@ -17,18 +17,18 @@ export default function StudentViewPage(props: Props) {
     const { studentId, patient } = useContext(GlobalContext)
     const router = useRouter()
 
-    useEffect(() => {
-        TapOutService.initialize() // not working 
-        if (studentId.length === 0) void router.push("/grad/")
-        if (!patient) void router.push("/grad/SelectPatient/")
+    // useEffect(() => {
+    //     TapOutService.initialize() // not working 
+    //     if (studentId.length === 0) void router.push("/grad/")
+    //     if (!patient) void router.push("/grad/SelectPatient/")
 
-    }, [patient, router, studentId.length])
+    // }, [patient, router, studentId.length])
 
     return (
-        <main className="grid grid-areas-main min-h-screen grid-cols-twoSections grid-rows-threeSections relative">
-            <TopNav className="grid-in-topNav"></TopNav>
-            <ArmBand patient={patient} className="grid-in-armBand"></ArmBand>
-            <SideNav className="grid-in-sideBar">
+        <main>
+            <TopNav className=""></TopNav>
+            <ArmBand patient={patient} className=""></ArmBand>
+            {/* <SideNav className="grid-in-sideBar">
                 <SideNavHeader href="/grad/StudentView/Dashboard">Dashboard</SideNavHeader>
                 <SideNavItem href="/grad/StudentView/Dashboard/medications">Medications</SideNavItem>
                 <SideNavItem href="/grad/StudentView/Dashboard/allergies">Allergies</SideNavItem>
@@ -60,8 +60,8 @@ export default function StudentViewPage(props: Props) {
                 <SideNavItem href="/grad/StudentView/Labs/">View Lab Results</SideNavItem>
                 <SideNavItem href="/grad/StudentView/Imaging/">View Imaging Results</SideNavItem>
 
-            </SideNav>
-            <div className="grid-in-main mb-4">
+            </SideNav> */}
+            <div className="mb-4">
                 {props.children}
                 <div className='flex justify-end mr-10 mt-4'>
                     <div className='scale-75'>
