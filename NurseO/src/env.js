@@ -35,7 +35,7 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_basePath: z.string().optional(),
+    NEXT_PUBLIC_basePath: z.string(),
     NEXT_PUBLIC_domain: z.string()
   },
 
