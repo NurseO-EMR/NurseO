@@ -19,6 +19,27 @@ SET time_zone = "+00:00";
 -- Dumping data for table `Report_Field`
 --
 
+--
+-- Dumping data for table `Report_Set`
+--
+
+INSERT INTO `Report_Set` (`id`, `name`, `image_url`, `report_type`, `image_alt`) VALUES
+(1, 'Initial Vitals', NULL, 'studentVitalsReport', NULL),
+(2, 'Pain', '/nurseo/FACES_English_Black.jpg', 'studentVitalsReport', 'Wong Baker Faces Pain Rating Scale from 0 to 10 with increment of 2'),
+(3, 'I/O Record', NULL, 'studentIOReport', NULL),
+(4, 'Skin', NULL, 'studentAssessmentReport', NULL),
+(5, 'Respiratory', NULL, 'studentAssessmentReport', NULL),
+(6, 'IV Assessment', NULL, 'studentAssessmentReport', NULL),
+(7, 'Cardiovascular', NULL, 'studentAssessmentReport', NULL),
+(8, 'Gastrointestinal', NULL, 'studentAssessmentReport', NULL),
+(9, 'Genitourinary', NULL, 'studentAssessmentReport', NULL),
+(10, 'Neurological/Psychosocial', NULL, 'studentAssessmentReport', NULL),
+(11, 'Measurements', NULL, 'studentVitalsReport', NULL),
+(12, 'HEENT', NULL, 'studentAssessmentReport', NULL),
+(13, 'Musculoskeletal', NULL, 'studentAssessmentReport', NULL),
+(14, 'Wounds', NULL, 'studentAssessmentReport', NULL);
+COMMIT;
+
 INSERT INTO `Report_Field` (`id`, `name`, `field_type`, `add_second_field`, `report_set_id`) VALUES
 (1, 'Temp', 'number', 0, 1),
 (2, 'HR', 'number', 0, 1),
@@ -573,24 +594,3 @@ INSERT INTO `Report_Option` (`id`, `name`, `report_field_id`) VALUES
 (407, 'II', 110),
 (408, 'III', 110),
 (409, 'IV', 110);
-
---
--- Dumping data for table `Report_Set`
---
-
-INSERT INTO `Report_Set` (`id`, `name`, `image_url`, `report_type`, `image_alt`) VALUES
-(1, 'Initial Vitals', NULL, 'studentVitalsReport', NULL),
-(2, 'Pain', '/nurseo/FACES_English_Black.jpg', 'studentVitalsReport', 'Wong Baker Faces Pain Rating Scale from 0 to 10 with increment of 2'),
-(3, 'I/O Record', NULL, 'studentIOReport', NULL),
-(4, 'Skin', NULL, 'studentAssessmentReport', NULL),
-(5, 'Respiratory', NULL, 'studentAssessmentReport', NULL),
-(6, 'IV Assessment', NULL, 'studentAssessmentReport', NULL),
-(7, 'Cardiovascular', NULL, 'studentAssessmentReport', NULL),
-(8, 'Gastrointestinal', NULL, 'studentAssessmentReport', NULL),
-(9, 'Genitourinary', NULL, 'studentAssessmentReport', NULL),
-(10, 'Neurological/Psychosocial', NULL, 'studentAssessmentReport', NULL),
-(11, 'Measurements', NULL, 'studentVitalsReport', NULL),
-(12, 'HEENT', NULL, 'studentAssessmentReport', NULL),
-(13, 'Musculoskeletal', NULL, 'studentAssessmentReport', NULL),
-(14, 'Wounds', NULL, 'studentAssessmentReport', NULL);
-COMMIT;

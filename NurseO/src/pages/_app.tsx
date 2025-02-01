@@ -36,7 +36,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
     if (location && !Number.isNaN(location)) setLocationId(Number.parseInt(location))
 
-    navigator.wakeLock.request("screen")
+    navigator.wakeLock?.request("screen")
       .then(_ => broadcastAnnouncement("Screen lock is enabled, the screen will stay on while NurseO is open", Announcement.success))
       .catch(e => broadcastAnnouncement("Error: Screen is disabled, " + e, Announcement.error))
 
