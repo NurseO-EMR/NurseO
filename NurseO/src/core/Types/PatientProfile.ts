@@ -32,6 +32,7 @@ export class PatientChart {
     dbId: number = -1;
     chiefComplaint?: string | null = "";
     studentUID?: string | undefined = "";
+    code: string = ""
 };
 
 export type Order = {

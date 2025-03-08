@@ -34,6 +34,7 @@ model Patient {
     patient_bar_code String
     student_id String?
     chief_complaint String?
+    code String @default("Full Code")
 
     student         User?             @relation(fields: [studentUID], references: [id]) 
     course          Course            @relation(fields: [course_id], references: [id])

@@ -139,7 +139,8 @@ export const patientChartSchema = z.object({
   diagnosis: z.string().nullable().optional(),
   courseId: z.number(),
   dbId: z.number(),
-  chiefComplaint: z.string().nullable().optional()
+  chiefComplaint: z.string().nullable().optional(),
+  code: z.string()
 });
 
 export const reportSetSchema = z.object({

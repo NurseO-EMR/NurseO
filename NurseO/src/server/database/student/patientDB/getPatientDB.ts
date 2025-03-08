@@ -21,6 +21,7 @@ type patientMetaData = {
        patient_bar_code: string;
        student_id: string
        chief_complaint: string
+       code: string;
 }
 
 type Context = { db: PrismaClient, session: Session | null }
@@ -98,6 +99,7 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData, stud
               diagnosis: metaData.diagnosis,
               courseId: metaData.course_id,
               id: metaData.patient_bar_code,
+              code: metaData.code,
               allergies,
               customOrders,
               socialHistory,
@@ -109,6 +111,7 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData, stud
               medicationOrders,
               studentId: studentId,
               studentUID: studentUID,
+
        }
 
        return patient
@@ -117,7 +120,7 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData, stud
 async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
        const patient = await db.$queryRaw<patientMetaData[]>`
                         SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                               diagnosis, course_id, patient_bar_code, chief_complaint 
+                               diagnosis, course_id, patient_bar_code, chief_complaint, code
                         FROM Patient WHERE id = ${patientId} LIMIT 1;`
        if (!patient || patient.length == 0) return null
        return patient[0]
@@ -130,7 +133,7 @@ async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBar
        if (studentId.length > 0 && studentId !== signInState.anonymousSignIn.valueOf()) {
               patient = await db.$queryRaw<patientMetaData[]>`
               SELECT Patient.id , Patient.name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                     diagnosis, Patient.course_id, patient_bar_code, student_id, chief_complaint
+                     diagnosis, Patient.course_id, patient_bar_code, student_id, chief_complaint, code
               FROM Patient 
               JOIN Course ON Course.id = Patient.course_id
               JOIN Course_Location_Information ON Course_Location_Information.course_id = Course.id
@@ -145,7 +148,7 @@ async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBar
        if (studentId.length === 0 || studentId === signInState.anonymousSignIn.valueOf() || patient.length === 0) {
               patient = await db.$queryRaw<patientMetaData[]>`
               SELECT Patient.id ,Patient.name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                     diagnosis, Patient.course_id, patient_bar_code, student_id, chief_complaint
+                     diagnosis, Patient.course_id, patient_bar_code, student_id, chief_complaint, code
               FROM Patient 
               JOIN Course ON Course.id = Patient.course_id
               JOIN Course_Location_Information ON Course_Location_Information.course_id = Course.id

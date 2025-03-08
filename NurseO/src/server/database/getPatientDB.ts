@@ -17,11 +17,11 @@ type patientMetaData = {
        patient_bar_code: string;
        student_id: string
        chief_complaint: string
+       code: string
 }
 
 
 export async function getPatientById(db: PrismaClient, patientId: number): Promise<PatientChart | null> {
-       console.log(patientId)
        const metaData = await getPatientBasicInfoById(db, patientId)
        if (!metaData) return null
        const patient = await getPatientChart(db, metaData)
@@ -56,6 +56,7 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData) {
               gender: metaData.gender as Gender,
               height: metaData.height,
               weight: metaData.weight,
+              code: metaData.code,
               chiefComplaint: metaData.chief_complaint,
               time: {
                      hour: metaData.time_hour,
@@ -83,7 +84,7 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData) {
 async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
        const patient = await db.$queryRaw<patientMetaData[]>`
                         SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                               diagnosis, course_id, patient_bar_code, chief_complaint 
+                               diagnosis, course_id, patient_bar_code, chief_complaint , code
                         FROM Patient WHERE id = ${patientId} LIMIT 1;`
        if (!patient || patient.length == 0) return null
        return patient[0]

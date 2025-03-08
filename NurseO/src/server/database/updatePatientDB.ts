@@ -40,11 +40,12 @@ function isPatientMetaDataEqual(oldPatient: PatientChart, newPatient: PatientCha
     if (o.courseId !== n.courseId) return false;
     if (o.time.hour !== n.time.hour || o.time.minute !== n.time.minute) return false
     if (o.chiefComplaint !== n.chiefComplaint) return false;
+    if (o.code !== n.code) return false;
     return true
 }
 
 function updatePatientMetaData(db: PrismaClient, newPatient: PatientChart) {
-    const { name, dob, age, gender, height, weight, time, labDocURL, imagingURL, diagnosis, courseId, id, chiefComplaint } = newPatient
+    const { name, dob, age, gender, height, weight, time, labDocURL, imagingURL, diagnosis, courseId, id, chiefComplaint, code } = newPatient
     return db.patient.update({
         data: {
             name, dob, age, gender, height, weight,
@@ -55,7 +56,8 @@ function updatePatientMetaData(db: PrismaClient, newPatient: PatientChart) {
             diagnosis,
             course_id: courseId,
             patient_bar_code: id,
-            chief_complaint: chiefComplaint
+            chief_complaint: chiefComplaint,
+            code: code
         },
         where: {
             id: newPatient.dbId,
