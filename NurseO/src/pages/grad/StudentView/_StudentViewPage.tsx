@@ -39,10 +39,6 @@ export default function StudentViewPage(props: Props) {
                 <SideNavItem href="/nurseo_emr/StudentView/Orders/standing">Standing Orders</SideNavItem>
                 <SideNavItem href="/nurseo_emr/StudentView/Orders/provider">Provider Orders</SideNavItem>
 
-                <SideNavHeader href="/nurseo_emr/StudentView/Mar">Mar</SideNavHeader>
-                <SideNavItem href="/nurseo_emr/StudentView/Mar">View Mar</SideNavItem>
-                <SideNavItem href="/nurseo_emr/StudentView/Mar/administer">Administer Medications</SideNavItem>
-
                 <SideNavHeader href="/nurseo_emr/StudentView/Vitals/">Vitals</SideNavHeader>
                 <SideNavItem href="/nurseo_emr/StudentView/Vitals/view">View Vitals</SideNavItem>
                 <SideNavItem href="/nurseo_emr/StudentView/Vitals/">Submit Vitals</SideNavItem>
