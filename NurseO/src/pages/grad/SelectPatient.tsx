@@ -29,7 +29,7 @@ export default function SelectPatient() {
         const patient = await patientMutation.mutateAsync({ barcode: barcode, locationId, studentId })
         if (patient) {
             setPatient(patient)
-            router.push("/grad/dashboard")
+            router.push("/grad/StudentView/Dashboard")
         }
         else {
             keepGoing()
