@@ -7,6 +7,7 @@
     "build": "next build",
     "db:generate": "prisma migrate dev",
     "db:migrate": "prisma migrate deploy",
+    "db:make_sql": "npx prisma migrate diff --from-empty --to-schema-datasource prisma/schema.prisma --script > prisma/generated.sql",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
     "dev": "next dev",

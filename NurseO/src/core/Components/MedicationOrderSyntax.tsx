@@ -7,10 +7,10 @@ type Props = {
 export function MedicationOrderSyntax(props: Props) {
 
     const indexableFrequency: { [key: string]: string } = Frequency
-    const frequency = indexableFrequency[props.order.frequency] || props.order.frequency
+    const frequency = indexableFrequency[props.order.frequency] ?? props.order.frequency
 
     const indexableRoutine: { [key: string]: string } = Routine
-    const routine = indexableRoutine[props.order.routine] || props.order.routine
+    const routine = indexableRoutine[props.order.routine] ?? props.order.routine
     return (
         <>
             {props.order.genericName && props.order.genericName.length > 0 ? props.order.genericName + " " : ""}
