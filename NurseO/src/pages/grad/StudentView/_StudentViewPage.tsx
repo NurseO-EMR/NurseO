@@ -29,31 +29,32 @@ export default function StudentViewPage(props: Props) {
             <TopNav className="grid-in-topNav"></TopNav>
             <ArmBand patient={patient} className="grid-in-armBand"></ArmBand>
             <SideNav className="grid-in-sideBar">
-                <SideNavHeader href="/nurseo_emr/StudentView/Dashboard">Dashboard</SideNavHeader>
-                <SideNavItem href="/nurseo_emr/StudentView/Dashboard/medications">Medications</SideNavItem>
-                <SideNavItem href="/nurseo_emr/StudentView/Dashboard/allergies">Allergies</SideNavItem>
-                <SideNavItem href="/nurseo_emr/StudentView/Dashboard/flags">Flags</SideNavItem>
+                <SideNavHeader href="/grad/StudentView/Dashboard">Dashboard</SideNavHeader>
+                <SideNavItem href="/grad/StudentView/Dashboard/medications">Medications</SideNavItem>
+                <SideNavItem href="/grad/StudentView/Dashboard/allergies">Allergies</SideNavItem>
+                <SideNavItem href="/grad/StudentView/Dashboard/flags">Flags</SideNavItem>
 
-                <SideNavHeader href="/nurseo_emr/StudentView/Orders/allOrders">Orders</SideNavHeader>
-                <SideNavItem href="/nurseo_emr/StudentView/Orders/admission">Admission Orders</SideNavItem>
-                <SideNavItem href="/nurseo_emr/StudentView/Orders/standing">Standing Orders</SideNavItem>
-                <SideNavItem href="/nurseo_emr/StudentView/Orders/provider">Provider Orders</SideNavItem>
+                <SideNavHeader href="/grad/StudentView/Orders/allOrders">Orders</SideNavHeader>
+                <SideNavItem href="/grad/StudentView/Orders/new">Add Orders</SideNavItem>
+                <SideNavItem href="/grad/StudentView/Orders/admission">Admission Orders</SideNavItem>
+                <SideNavItem href="/grad/StudentView/Orders/standing">Standing Orders</SideNavItem>
+                <SideNavItem href="/grad/StudentView/Orders/provider">Provider Orders</SideNavItem>
 
-                <SideNavHeader href="/nurseo_emr/StudentView/Vitals/">Vitals</SideNavHeader>
-                <SideNavItem href="/nurseo_emr/StudentView/Vitals/view">View Vitals</SideNavItem>
-                <SideNavItem href="/nurseo_emr/StudentView/Vitals/">Submit Vitals</SideNavItem>
+                <SideNavHeader href="/grad/StudentView/Vitals/">Vitals</SideNavHeader>
+                <SideNavItem href="/grad/StudentView/Vitals/view">View Vitals</SideNavItem>
+                <SideNavItem href="/grad/StudentView/Vitals/">Submit Vitals</SideNavItem>
 
-                <SideNavHeader href="/nurseo_emr/StudentView/Assessments/">Assessments</SideNavHeader>
-                <SideNavItem href="/nurseo_emr/StudentView/Assessments/view">View Assessment</SideNavItem>
-                <SideNavItem href="/nurseo_emr/StudentView/Assessments/">Submit Assessment</SideNavItem>
+                <SideNavHeader href="/grad/StudentView/Assessments/">Assessments</SideNavHeader>
+                <SideNavItem href="/grad/StudentView/Assessments/view">View Assessment</SideNavItem>
+                <SideNavItem href="/grad/StudentView/Assessments/">Submit Assessment</SideNavItem>
 
-                <SideNavHeader href="/nurseo_emr/StudentView/IORecord/">I/O Record</SideNavHeader>
-                <SideNavItem href="/nurseo_emr/StudentView/IORecord/view">View I/O Record</SideNavItem>
-                <SideNavItem href="/nurseo_emr/StudentView/IORecord/">Submit I/O Record</SideNavItem>
+                <SideNavHeader href="/grad/StudentView/IORecord/">I/O Record</SideNavHeader>
+                <SideNavItem href="/grad/StudentView/IORecord/view">View I/O Record</SideNavItem>
+                <SideNavItem href="/grad/StudentView/IORecord/">Submit I/O Record</SideNavItem>
 
-                <SideNavHeader href="/nurseo_emr/StudentView/Labs/">Results</SideNavHeader>
-                <SideNavItem href="/nurseo_emr/StudentView/Labs/">View Lab Results</SideNavItem>
-                <SideNavItem href="/nurseo_emr/StudentView/Imaging/">View Imaging Results</SideNavItem>
+                <SideNavHeader href="/grad/StudentView/Labs/">Results</SideNavHeader>
+                <SideNavItem href="/grad/StudentView/Labs/">View Lab Results</SideNavItem>
+                <SideNavItem href="/grad/StudentView/Imaging/">View Imaging Results</SideNavItem>
 
             </SideNav>
             <div className="grid-in-main mb-4">
