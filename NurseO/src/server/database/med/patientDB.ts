@@ -1,8 +1,8 @@
 import type { Frequency, MarRecord, MedicationOrder, OrderKind, OrderType, Routine } from '~/core/index';
 import { Prisma, type PrismaClient } from '@prisma/client';
 export async function getListOfPatients(db: PrismaClient, locationId: number) {
-    const patients = await db.$queryRaw<{name: string, dob: string, id:number, timeHour: number, timeMinute: number}[]>`
-                        SELECT Patient.name, Patient.dob, Patient.id, time_hour as timeHour, time_minute as timeMinute FROM Patient
+       const patients = await db.$queryRaw<{ name: string, dob: string, id: number, timeHour: number, timeMinute: number, barcode: string }[]>`
+                        SELECT Patient.name, Patient.dob, Patient.id, time_hour as timeHour, time_minute as timeMinute, patient_bar_code as barcode FROM Patient
                         INNER JOIN Course ON Patient.course_id = Course.id
                         INNER JOIN Course_Location_Information ON Course.id = Course_Location_Information.course_id
                         WHERE Patient.template=true
