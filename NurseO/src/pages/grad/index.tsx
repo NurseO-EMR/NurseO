@@ -1,74 +1,42 @@
-import Logo from '~/components/EMR/Nav/TopMenu/Logo';
-import { Background } from '~/components/common/Background';
-import SignInButton from '~/components/EMR/Form/SignInButton';
-import AnonymousSignInButton from '~/components/EMR/Form/AnonymousSignInButton';
-import { ColorThemeSelector } from '~/components/common/ColorThemeSelector';
-import Head from 'next/head';
-import { useContext, useState } from 'react';
-import { GlobalContext } from '~/services/State';
-import { signInState } from '~/types/flags';
-import { useRouter } from 'next/router';
-import { api } from '~/utils/api';
+import Image from "next/image"
+import { signIn, useSession } from "next-auth/react"
+import { useRouter } from 'next/navigation';
+import { useContext, useEffect } from "react"
+import GoogleButton from "react-google-button"
+import { Background } from "~/components/common/Background"
+import { GlobalContext } from "~/services/State"
+import Logo from "~/components/EMR/Nav/TopMenu/Logo"
+import { signInState } from "~/types/flags";
 
+export default function Index() {
 
-export default function Login() {
+    const { setStudentId, setLocationId } = useContext(GlobalContext)
+    const session = useSession()
     const router = useRouter()
-    const { setStudentId } = useContext(GlobalContext)
-    const [error, setError] = useState("")
-    const [badgeNumber, setBadgeNumber] = useState("")
-    const isBarcodeUsedByPatient = api.emr.student_isBarcodeUsedByPatient.useMutation()
 
-    const onSignInHandler = async () => {
-        if (badgeNumber.length == 0) {
-            setError("Please enter your badge number or sign in anonymously")
-            return;
+    useEffect(() => {
+        if (session.data?.user.id && window) {
+            setStudentId(signInState.caseStudy)
+            setLocationId(14)
+            router.push("/grad/SelectPatient")
         }
 
-        const barcodeUsedByPatient = await isBarcodeUsedByPatient.mutateAsync({ barcode: badgeNumber })
-        if (barcodeUsedByPatient) {
-            setError("Please scan your name badge instead of the patient armband")
-            return;
-        }
+    }, [router, session.data?.user.id, setLocationId, setStudentId])
 
-        setStudentId(badgeNumber)
-        await router.push("/grad/SelectPatient")
-        return;
-    }
-
-
-    const onAnonymousSignIn = async () => {
-        setStudentId(signInState.anonymousSignIn)
-        await router.push("/grad/SelectPatient")
-    }
 
     return (
-        <>
-            <Head>
-                <title>NurseO EMR</title>
-            </Head>
-            <div>
-                <Background />
-                <div className="grid justify-center h-screen w-screen content-center text-center">
-                    <form onSubmit={e => e.preventDefault()} className="bg-white px-24 py-16 rounded-4xl border-primary border-8">
-                        <Logo className="text-6xl mb-10" />
-                        <h1 className="text-xl font-bold">Please Scan Your Badge</h1>
-                        <input type="password" autoFocus autoComplete='off'
-                            className="my-5 border-2 rounded-full text-center p-4 border-primary w-full"
-                            placeholder="Or type your badge number here"
-                            onChange={e => setBadgeNumber(e.currentTarget.value)}
-                        /><br />
-                        <SignInButton onClick={onSignInHandler} />
-                        <div>{error}</div>
-
-                        <hr className="w-full my-4 border-primary" />
-                        <h1 className="font-bold">If you forgot your ID click below:</h1>
-                        <AnonymousSignInButton className="block mx-auto" onClick={onAnonymousSignIn} />
-                        <hr className="w-full my-4 border-primary" />
-                        <h1 className="font-bold mb-3">Select colors that best fit you</h1>
-                        <ColorThemeSelector />
-                    </form>
-                </div>
+        <div>
+            <Background />
+            <div className="grid justify-center h-screen w-screen content-center text-center">
+                <form className="bg-white py-28 px-60 rounded-4xl border-primary/60 border-8 relative" onSubmit={e => e.preventDefault()}>
+                    <Image src={"/nurseo/logo.png"} alt="School Logo" width={90} height={90} className="mx-auto mb-10 w-auto h-auto" />
+                    <h1 className="text-3xl">Please sign in with your school account</h1>
+                    <div className="flex justify-center mt-4">
+                        <GoogleButton onClick={() => signIn('google')} />
+                    </div>
+                    <Logo className="absolute bottom-0 right-4 text-sm" />
+                </form>
             </div>
-        </>
+        </div>
     );
-}	
+}

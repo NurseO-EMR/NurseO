@@ -22,6 +22,8 @@ type patientMetaData = {
        student_id: string
        chief_complaint: string
        code: string;
+       studentUID: string
+       template: boolean
 }
 
 type Context = { db: PrismaClient, session: Session | null }
@@ -117,10 +119,10 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData, stud
        return patient
 }
 
-async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
+export async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
        const patient = await db.$queryRaw<patientMetaData[]>`
                         SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                               diagnosis, course_id, patient_bar_code, chief_complaint, code
+                               diagnosis, course_id, patient_bar_code, chief_complaint, code, studentUID, template
                         FROM Patient WHERE id = ${patientId} LIMIT 1;`
        if (!patient || patient.length == 0) return null
        return patient[0]

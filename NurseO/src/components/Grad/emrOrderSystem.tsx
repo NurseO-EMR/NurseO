@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/common/ui/tabs"
 import { CardContent, CardDescription, CardHeader, CardTitle } from "~/components/common/ui/card"
 import { ScrollArea } from "~/components/common/ui/scroll-area"
@@ -7,17 +7,23 @@ import { LabOrderForm } from "~/components/Grad/labOrderForm"
 import { ImagingOrderForm } from "~/components/Grad/imagingOrderForm"
 import { OrderQueue } from "~/components/Grad/orderQueue"
 import { SignaturePartition } from "~/components/Grad/signaturePartition"
-import type { CustomOrder, MedicationOrder, Order } from "~/core"
+import { OrderKind, type CustomOrder, type MedicationOrder, type Order } from "~/core"
 import { EmptyCard } from "../Med/EmptyCard"
+import { GlobalContext } from "~/services/State"
+import { api } from "~/utils/api"
+import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService"
 
 export type newLocalOrder = Order & MedicationOrder & CustomOrder & {
   localOrderId: number
 }
 
-
 export function EMROrderSystem() {
+  const { patient, setPatient } = useContext(GlobalContext)
   const [orders, setOrders] = useState<newLocalOrder[]>([])
   const [currentTab, setCurrentTab] = useState("medication")
+
+  const addMedOrderMutation = api.grad.student_addMedOrder.useMutation()
+  const addCustomOrderMutation = api.grad.student_addCustomOrder.useMutation()
 
   const addOrder = (order: newLocalOrder) => {
     order.localOrderId = orders.length
@@ -30,6 +36,33 @@ export function EMROrderSystem() {
 
   const clearOrders = () => {
     setOrders([])
+  }
+
+  const submitOrders = async () => {
+    let error = false;
+
+    for (const order of orders) {
+      if (order.orderKind === OrderKind.med) {
+        patient.medicationOrders.push(order)
+        const { err } = await addMedOrderMutation.mutateAsync({ order, patientId: patient.dbId })
+        if (err) { broadcastAnnouncement(err, Announcement.error); error = true; return; }
+        patient.medicationOrders.push(order)
+
+      } else {
+        order.orderKind = OrderKind.custom
+        const { err } = await addCustomOrderMutation.mutateAsync({ order, patientId: patient.dbId })
+        if (err) { broadcastAnnouncement(err, Announcement.error); error = true; return; }
+        patient.customOrders.push(order)
+      }
+    }
+
+
+    if (!error) {
+      broadcastAnnouncement(`${orders.length} order${orders.length !== 1 ? "s" : ""} have been signed and submitted.`, Announcement.success)
+      setPatient({ ...patient })
+      clearOrders()
+    }
+
   }
 
   return (
@@ -77,7 +110,7 @@ export function EMROrderSystem() {
 
           <EmptyCard>
             <CardContent className="pt-6">
-              <SignaturePartition orderCount={orders.length} clearOrders={clearOrders} />
+              <SignaturePartition orderCount={orders.length} submitOrders={submitOrders} />
             </CardContent>
           </EmptyCard>
         </div>

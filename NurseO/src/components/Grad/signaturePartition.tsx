@@ -14,29 +14,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/common/ui/dialog"
-import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService"
 
 interface SignaturePartitionProps {
   orderCount: number
-  clearOrders: () => void
+  submitOrders: () => Promise<void>
 }
 
-export function SignaturePartition({ orderCount, clearOrders }: SignaturePartitionProps) {
+export function SignaturePartition(props: SignaturePartitionProps) {
   const [name, setName] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleSignOrders = () => {
+  const handleSignOrders = async () => {
     setIsSubmitting(true)
-
-    // Simulate authentication and submission
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setIsOpen(false)
-      clearOrders()
-
-      broadcastAnnouncement(`${orderCount} order${orderCount !== 1 ? "s" : ""} have been signed and submitted.`, Announcement.success)
-    }, 1500)
+    await props.submitOrders()
+    setIsSubmitting(false)
+    setIsOpen(false)
   }
 
   return (
@@ -45,13 +38,13 @@ export function SignaturePartition({ orderCount, clearOrders }: SignaturePartiti
         <div>
           <h3 className="font-medium">Signature Required</h3>
           <p className="text-sm text-slate-500 ">
-            {orderCount} order{orderCount !== 1 ? "s" : ""} pending signature
+            {props.orderCount} order{props.orderCount !== 1 ? "s" : ""} pending signature
           </p>
         </div>
 
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
-            <Button disabled={orderCount === 0} className="gap-2">
+            <Button disabled={props.orderCount === 0} className="gap-2">
               <FileSignature className="h-4 w-4" />
               Sign & Submit Orders
             </Button>
@@ -60,7 +53,7 @@ export function SignaturePartition({ orderCount, clearOrders }: SignaturePartiti
             <DialogHeader>
               <DialogTitle>Sign Orders</DialogTitle>
               <DialogDescription>
-                Please enter your password to sign and submit {orderCount} order{orderCount !== 1 ? "s" : ""}.
+                Please enter your password to sign and submit {props.orderCount} order{props.orderCount !== 1 ? "s" : ""}.
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
