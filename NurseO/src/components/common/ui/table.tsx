@@ -102,7 +102,7 @@ const TableCaption = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <caption
     ref={ref}
-    className={cn("mt-4 text-slate-500 dark:text-slate-400", className)}
+    className={cn("mt-4 text-slate-500 ", className)}
     {...props}
   />
 ))

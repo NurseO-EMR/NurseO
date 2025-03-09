@@ -88,6 +88,8 @@ export class Flag {
 
 export enum OrderKind {
     med = "med",
+    lab = "lab",
+    imaging = "imaging",
     custom = "custom",
     NA = "",
 }

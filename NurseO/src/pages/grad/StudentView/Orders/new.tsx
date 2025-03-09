@@ -1,8 +1,8 @@
-import { PreAuth } from "~/components/Grad/PreAuth";
 import StudentViewPage from "../_StudentViewPage";
+import { EMROrderSystem } from "~/components/Grad/emrOrderSystem";
 
-export default function NewPage() {
+export default function AddNewOrderPage() {
     return <StudentViewPage>
-        <PreAuth />
+        <EMROrderSystem />
     </StudentViewPage>
 }

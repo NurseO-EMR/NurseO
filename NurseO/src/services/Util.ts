@@ -21,7 +21,8 @@ export function createEmptyPatient(): PatientChart {
         medicationOrders: [],
         immunizations: [],
         customOrders: [],
-        courseId: -1
+        courseId: -1,
+        code: "Full Code",
     }
 
     return patient;
