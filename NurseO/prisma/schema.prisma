@@ -115,8 +115,9 @@ model Flag {
 model Note {
     id        Int    @id @default(autoincrement())
     patient_id Int
-    date      String
-    note     String
+    type    String?
+    date    String
+    note    String
 
     patient Patient @relation(fields: [patient_id], references: [id])
 }

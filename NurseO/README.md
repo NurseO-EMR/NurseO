@@ -31,3 +31,4 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 
 ## ICD 10 Codes Links
 https://www.cms.gov/medicare/coordination-benefits-recovery/overview/icd-code-lists
+https://www.cdc.gov/nchs/icd/icd-10-cm/files.html

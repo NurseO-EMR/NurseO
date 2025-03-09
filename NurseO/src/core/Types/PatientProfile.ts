@@ -141,6 +141,7 @@ export class Allergy {
 }
 
 export type Note = {
+    type: string,
     date: string,
     note: string,
 }

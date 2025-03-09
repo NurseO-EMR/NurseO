@@ -1,8 +1,8 @@
 import { useState, useContext } from 'react';
 import { type Note } from '~/core/index';
-import Card from './Card';
+import Card from '~/components/EMR/Dashboard/Card/Card';
 import PureModel from "react-pure-modal"
-import { Button } from "../../Form/Button";
+import { Button } from "~/components/EMR/Form/Button";
 import { GlobalContext } from "~/services/State";
 import { RichTextArea } from '~/components/common/RichTextArea';
 import { RichTextViewer } from '~/components/common/RichTextViewer';
@@ -13,7 +13,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
     notes: Note[]
 }
 
-export default function NotesCard(props: Props) {
+export default function EncounterCard(props: Props) {
     const [openAddNoteModel, setOpenAddNoteModel] = useState(false)
     const [preViewModelNote, setPreviewModelNote] = useState("")
     const [newNote, setNewNote] = useState("")
@@ -23,7 +23,7 @@ export default function NotesCard(props: Props) {
 
     const onEditClickHandler = async () => {
         const note: Note = {
-            type: "Nursing Note",
+            type: "Provider Note",
             date: new Date().toLocaleString(),
             note: newNote
         }
@@ -37,20 +37,22 @@ export default function NotesCard(props: Props) {
 
     return (
         <>
-            <Card className={props.className} title="Notes" editable onEditClick={() => setOpenAddNoteModel(true)}>
+            <Card className={props.className} title="Encounters" editable onEditClick={() => setOpenAddNoteModel(true)}>
                 <thead className="font-bold">
                     <tr>
+                        <td className="border-2 p-2 border-trueGray-200">Type</td>
                         <td className="border-2 p-2 border-trueGray-200">Date</td>
-                        <td className="border-2 p-2 border-trueGray-200">Note</td>
+                        <td className="border-2 p-2 border-trueGray-200 w-8/12">Note</td>
                     </tr>
                 </thead>
                 <tbody>
                     {props.notes?.length === 0 ?
-                        <tr><td colSpan={2} className='text-center p-2 border-trueGray-200'><h1>No notes found</h1></td></tr> :
+                        <tr><td colSpan={3} className='text-center p-2 border-trueGray-200'><h1>No encounters found</h1></td></tr> :
                         props.notes.map((n, i) => (
                             <tr key={i} className='hover:bg-primary hover:text-white transition-all duration-200  even:bg-gray-300 cursor-pointer border-trueGray-200 max-w-full'
                                 onClick={() => setPreviewModelNote(n.note)}
                             >
+                                <td className="border-2 p-2 border-trueGray-200">{n.type}</td>
                                 <td className="border-2 p-2 border-trueGray-200">{n.date}</td>
                                 <td className="border-2 p-2 border-trueGray-200">
                                     <div><RichTextViewer value={n.note} /></div>
