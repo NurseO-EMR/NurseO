@@ -25,7 +25,7 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
   const onSubmit = (values: newLocalOrder) => {
     const med = meds?.find(m => m.id === id)
     const newOrder: newLocalOrder = {
-      concentration: values.concentration,
+      concentration: values.concentration || "",
       frequency: values.frequency,
       id: id,
       mar: [],

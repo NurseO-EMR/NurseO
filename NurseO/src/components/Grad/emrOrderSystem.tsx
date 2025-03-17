@@ -24,6 +24,7 @@ export function EMROrderSystem() {
 
   const addMedOrderMutation = api.grad.student_addMedOrder.useMutation()
   const addCustomOrderMutation = api.grad.student_addCustomOrder.useMutation()
+  const addNotesMutation = api.emr.student_addNote.useMutation()
 
   const addOrder = (order: newLocalOrder) => {
     order.localOrderId = orders.length
@@ -37,24 +38,30 @@ export function EMROrderSystem() {
   const clearOrders = () => {
     setOrders([])
   }
+  console.log(orders)
 
   const submitOrders = async () => {
     let error = false;
-
+    const orderNames = [];
     for (const order of orders) {
       if (order.orderKind === OrderKind.med) {
         patient.medicationOrders.push(order)
         const { err } = await addMedOrderMutation.mutateAsync({ order, patientId: patient.dbId })
         if (err) { broadcastAnnouncement(err, Announcement.error); error = true; return; }
         patient.medicationOrders.push(order)
-
+        orderNames.push(order.brandName)
       } else {
         order.orderKind = OrderKind.custom
         const { err } = await addCustomOrderMutation.mutateAsync({ order, patientId: patient.dbId })
         if (err) { broadcastAnnouncement(err, Announcement.error); error = true; return; }
         patient.customOrders.push(order)
+        orderNames.push(order.order)
       }
     }
+
+    const note = `PreAuth Requested for the following orders: ${orderNames.toString()}`
+    await addNotesMutation.mutateAsync({ type: "PreAuth", date: new Date().toDateString(), note, patientId: patient.dbId })
+    patient.notes.push({ type: "PreAuth", date: new Date().toDateString(), note })
 
 
     if (!error) {

@@ -40,7 +40,7 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
     const newOrder: newLocalOrder = {
       id: -1,
       orderType: OrderType.provider,
-      orderKind: OrderKind.lab,
+      orderKind: OrderKind.imaging,
       order: `${values.imagingType} - ${values.bodyPart}`,
       time: new Date().toLocaleTimeString(),
       concentration: "",
