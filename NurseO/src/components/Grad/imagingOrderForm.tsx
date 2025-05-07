@@ -9,6 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import type { newLocalOrder } from "~/components/Grad/emrOrderSystem"
 import { PlusCircle } from "lucide-react"
 import { Frequency, OrderKind, OrderType } from "~/core"
+import { Input } from "../common/ui/input"
 
 const formSchema = z.object({
   imagingType: z.string().min(1, { message: "Imaging type is required" }),
@@ -41,7 +42,7 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
       id: -1,
       orderType: OrderType.provider,
       orderKind: OrderKind.imaging,
-      order: `${values.imagingType} - ${values.bodyPart} ${values.contrast !== "None" ? values.contrast : null}`,
+      order: `${values.imagingType} for ${values.bodyPart} ${values.contrast !== "None" ? values.contrast : ""}`,
       time: new Date().toLocaleTimeString(),
       concentration: "",
       frequency: Frequency.NA,
@@ -113,17 +114,7 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
               <FormItem>
                 <FormLabel>Body Part</FormLabel>
                 <FormControl>
-                  <Select onChange={field.onChange} defaultValue={field.value} label="Body Part">
-                    <SelectItem value="Head">Head</SelectItem>
-                    <SelectItem value="Neck">Neck</SelectItem>
-                    <SelectItem value="Chest">Chest</SelectItem>
-                    <SelectItem value="Abdomen">Abdomen</SelectItem>
-                    <SelectItem value="Pelvis">Pelvis</SelectItem>
-                    <SelectItem value="Spine">Spine</SelectItem>
-                    <SelectItem value="Upper Extremity">Upper Extremity</SelectItem>
-                    <SelectItem value="Lower Extremity">Lower Extremity</SelectItem>
-                    <SelectItem value="Whole Body">Whole Body</SelectItem>
-                  </Select>
+                  <Input {...field}></Input>
                 </FormControl>
                 <FormMessage />
               </FormItem>
