@@ -216,12 +216,13 @@ async function getImmunizations(db: PrismaClient, patientId: number) {
 }
 
 async function getMedOrders(db: PrismaClient, patientId: number): Promise<MedicationOrder[]> {
-       const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string, orderIndex: number, brandName: string, genericName: string }[]>`
+       const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string, orderIndex: number, brandName: string, genericName: string, ICD10Code: string, ICD10Description: string, refills: number, dispenseQuantity: number }[]>`
                             SELECT Med_Order.id as orderId, med_id as id, concentration, route, frequency, routine, prn_note as PRNNote, 
                             notes, order_kind as orderKind, order_type as orderType, time, completed, hold_reason as holdReason, order_index as orderIndex, 
-                            brand_name as brandName, generic_name as genericName
+                            brand_name as brandName, generic_name as genericName, icd_10_code as ICD10Code, ICD_10.description as ICD10Description, refills, dispenseQuantity
                             FROM Med_Order 
                             INNER JOIN Medication on Med_Order.med_id = Medication.id
+                            LEFT JOIN ICD_10 ON ICD_10.code = icd_10_code
                             WHERE patient_id = ${patientId}  
                             ORDER BY order_index ASC;
                         `
@@ -238,6 +239,10 @@ async function getMedOrders(db: PrismaClient, patientId: number): Promise<Medica
        for (const order of orders) {
               const medOrder: MedicationOrder = {
                      ...order,
+                     icd10: {
+                            code: order.ICD10Code,
+                            description: order.ICD10Description
+                     },
                      mar: marRecords.filter(m => m.medOrderId == order.orderId).map(r => {
                             return {
                                    hour: r.hour,

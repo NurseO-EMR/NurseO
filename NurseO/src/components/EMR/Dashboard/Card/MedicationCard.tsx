@@ -8,7 +8,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 export default function MedicationCard(props: Props) {
-    const isThereICD10Code = useMemo(() => props.medications.filter(m => m.icd10?.code.length).length > 0, [props.medications])
+    const isThereICD10Code = useMemo(() => props.medications.filter(m => m.icd10?.code?.length).length > 0, [props.medications])
     return (
         <Card title="Medications" className={props.className} >
             <thead className="font-bold">
@@ -20,6 +20,8 @@ export default function MedicationCard(props: Props) {
                     <td className="border-2 p-2 border-trueGray-200">Frequency</td>
                     <td className="border-2 p-2 border-trueGray-200">Routine</td>
                     <td className="border-2 p-2 border-trueGray-200">Notes</td>
+                    {isThereICD10Code ? <td className="border-2 p-2 border-trueGray-200">Dispense Quantity</td> : null}
+                    {isThereICD10Code ? <td className="border-2 p-2 border-trueGray-200">Refills</td> : null}
                     {isThereICD10Code ? <td className="border-2 p-2 border-trueGray-200">ICD10</td> : null}
                 </tr>
             </thead>
