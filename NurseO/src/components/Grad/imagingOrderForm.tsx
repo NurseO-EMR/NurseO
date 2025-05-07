@@ -29,9 +29,9 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       imagingType: "",
+      contrast: "None",
       bodyPart: "",
       priority: "Routine",
-      contrast: "None",
       clinicalIndication: "",
     },
   })
@@ -41,7 +41,7 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
       id: -1,
       orderType: OrderType.provider,
       orderKind: OrderKind.imaging,
-      order: `${values.imagingType} - ${values.bodyPart}`,
+      order: `${values.imagingType} - ${values.bodyPart} ${values.contrast !== "None" ? values.contrast : null}`,
       time: new Date().toLocaleTimeString(),
       concentration: "",
       frequency: Frequency.NA,
@@ -62,7 +62,8 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
           <FormField
             control={form.control}
             name="imagingType"
@@ -79,6 +80,25 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
                     <SelectItem value="Mammogram">Mammogram</SelectItem>
                     <SelectItem value="Bone Density Scan">Bone Density Scan</SelectItem>
                     <SelectItem value="Echocardiogram">Echocardiogram</SelectItem>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="contrast"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Imaging Type</FormLabel>
+                <FormControl>
+                  <Select onChange={field.onChange} defaultValue={field.value} label="Imaging Type">
+                    <SelectItem value="None">None</SelectItem>
+                    <SelectItem value="With Contrast">With Contrast</SelectItem>
+                    <SelectItem value="Without Contrast">Without Contrast</SelectItem>
+                    <SelectItem value="With and Without Contrast">With and Without Contrast</SelectItem>
                   </Select>
                 </FormControl>
                 <FormMessage />
