@@ -40,6 +40,10 @@ export type Order = {
     orderType: OrderType,
     time?: string | null
     orderIndex: number,
+    icd10?: {
+        code: string,
+        description: string
+    }
 }
 
 export type CustomOrder = Order & {

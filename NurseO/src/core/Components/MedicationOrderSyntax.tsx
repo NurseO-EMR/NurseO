@@ -23,7 +23,8 @@ export function MedicationOrderSyntax(props: Props) {
             {frequency} {" "}
             {routine}  {" "}
             {props.order.PRNNote}{" "}
-            {props.order.notes ? `${props.order.notes}` : null}
+            {props.order.notes ? `${props.order.notes}` : null}{" "}
+            {props.order.icd10 ? `for ${props.order.icd10.description}` : null}
         </>
 
     );

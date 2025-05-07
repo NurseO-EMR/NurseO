@@ -10,6 +10,7 @@ import { type newLocalOrder } from "./emrOrderSystem"
 import { SearchableSelect } from "../Admin/Form/SearchableSelect"
 import { api } from "~/utils/api"
 import { useState } from "react"
+import { ICD10SearchBox } from "./ICD10SearchBox"
 
 
 type MedicationOrderFormProps = {
@@ -19,7 +20,7 @@ type MedicationOrderFormProps = {
 export function MedicationOrderForm(props: MedicationOrderFormProps) {
   const { data: meds } = api.grad.student_getAllMeds.useQuery()
   const [id, setId] = useState(-1);
-
+  const [icd10Code, setICD10Code] = useState<{ code: string, description: string }>()
   const form = useForm<newLocalOrder>()
 
   const onSubmit = (values: newLocalOrder) => {
@@ -41,8 +42,8 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
       localOrderId: -1,
       time: new Date().toLocaleTimeString(),
       brandName: med?.brandName,
-      genericName: med?.genericName
-
+      genericName: med?.genericName,
+      icd10: icd10Code
     }
 
     props.addOrder(newOrder)
@@ -143,6 +144,21 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
               <FormLabel>Additional Notes</FormLabel>
               <FormControl>
                 <Textarea placeholder="Enter any additional instructions or notes" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+
+        <FormField
+          control={form.control}
+          name="icd10"
+          render={() => (
+            <FormItem>
+              <FormLabel>ICD 10 Diagnosis</FormLabel>
+              <FormControl>
+                <ICD10SearchBox onChange={setICD10Code} />
               </FormControl>
               <FormMessage />
             </FormItem>

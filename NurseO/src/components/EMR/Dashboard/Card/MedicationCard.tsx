@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { type MedicationOrder } from '~/core/index';
 import Card from './Card';
 import MedicationEntry from './MedicationEntry';
@@ -8,7 +8,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 export default function MedicationCard(props: Props) {
-
+    const isThereICD10Code = useMemo(() => props.medications.filter(m => m.icd10?.code.length).length > 0, [props.medications])
     return (
         <Card title="Medications" className={props.className} >
             <thead className="font-bold">
@@ -20,11 +20,12 @@ export default function MedicationCard(props: Props) {
                     <td className="border-2 p-2 border-trueGray-200">Frequency</td>
                     <td className="border-2 p-2 border-trueGray-200">Routine</td>
                     <td className="border-2 p-2 border-trueGray-200">Notes</td>
+                    {isThereICD10Code ? <td className="border-2 p-2 border-trueGray-200">ICD10</td> : null}
                 </tr>
             </thead>
             <tbody>
                 {props.medications.length > 0 ?
-                    props.medications.map((medication, i) => <MedicationEntry key={i} order={medication}></MedicationEntry>) :
+                    props.medications.map((medication, i) => <MedicationEntry isThereICD10Code={isThereICD10Code} key={i} order={medication}></MedicationEntry>) :
                     <tr><td colSpan={6}><h1 className='text-center py-2'>No medications added</h1></td></tr>
                 }
             </tbody>

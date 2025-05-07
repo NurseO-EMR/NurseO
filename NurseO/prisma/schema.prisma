@@ -74,8 +74,10 @@ model Custom_Order {
     time       String?
     order_text      String @db.Text
     order_index Int @default(-1)
+    icd_10_code String?
 
     patient Patient @relation(fields: [patient_id], references: [id])
+    icd_10 ICD_10? @relation(fields: [icd_10_code], references: [code])
 }
 
 model Social_History {
@@ -139,10 +141,12 @@ model Med_Order {
     completed Boolean @default(false)
     hold_reason String?
     order_index Int @default(-1)
+    icd_10_code String?
 
     patient Patient @relation(fields: [patient_id], references: [id])
     medication Medication @relation(fields: [med_id], references: [id])
     mar_records Mar_Record[] @relation()
+    icd_10 ICD_10? @relation(fields: [icd_10_code], references: [code])
 }
 
 model Mar_Record {
@@ -248,6 +252,14 @@ model Report_Label {
     name String
 
     report_feilds Report_Field @relation(fields: [report_field_id], references: [id])
+}
+
+model ICD_10 {
+    code String @id @unique
+    description String @db.VarChar(80) 
+
+    med_orders Med_Order[] @relation()
+    custom_orders Custom_Order[] @relation()
 }
 
 // Necessary for Next auth

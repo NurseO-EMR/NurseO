@@ -5,7 +5,8 @@ import { GlobalContext } from '~/services/State';
 
 
 type Props = {
-    order: MedicationOrder
+    order: MedicationOrder,
+    isThereICD10Code: boolean
 }
 
 
@@ -25,6 +26,7 @@ export default function MedicationEntry(props: Props) {
             <td className="border-2 p-2 border-trueGray-200">{props.order.frequency}</td>
             <td className="border-2 p-2 border-trueGray-200">{props.order.routine} {props.order.PRNNote}</td>
             <td className="border-2 p-2 border-trueGray-200">{props.order.notes}</td>
+            {props.isThereICD10Code ? <td className="border-2 p-2 border-trueGray-200">{props.order.icd10?.description}</td> : null}
         </tr>
     );
 }
