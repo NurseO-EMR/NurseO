@@ -63,6 +63,8 @@ export type MedicationOrder = Order & {
     mar: MarRecord[];
     completed?: boolean
     holdReason?: string | null
+    dispenseQuantity: number
+    refills: number
 
     // these are for data fetching to make it cheaper to pull meds from db
     genericName?: string;

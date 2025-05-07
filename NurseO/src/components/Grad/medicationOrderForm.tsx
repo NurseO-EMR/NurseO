@@ -43,7 +43,9 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
       time: new Date().toLocaleTimeString(),
       brandName: med?.brandName,
       genericName: med?.genericName,
-      icd10: icd10Code
+      icd10: icd10Code,
+      dispenseQuantity: parseInt(values.dispenseQuantity as unknown as string),
+      refills: parseInt(values.refills as unknown as string)
     }
 
     props.addOrder(newOrder)
@@ -78,6 +80,40 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
                 <FormLabel>Dosage</FormLabel>
                 <FormControl>
                   <Input placeholder="e.g., 500mg" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="dispenseQuantity"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Dispense Quantity</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g. 30" type="number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="refills"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Refills</FormLabel>
+                <FormControl>
+                  <select {...field} className="flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-white data-[placeholder]:text-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-950 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
+                    <option value="0">No Refills</option>
+                    <option value="1">1 Refill</option>
+                    <option value="2">2 Refills</option>
+                    <option value="3">3 Refills</option>
+                    <option value="11">11 Refills</option>
+                  </select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -170,7 +206,7 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
           Add Medication Order
         </Button>
       </form>
-    </Form>
+    </Form >
   )
 }
 

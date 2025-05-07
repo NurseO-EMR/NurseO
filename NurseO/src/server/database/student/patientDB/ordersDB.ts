@@ -26,7 +26,11 @@ export async function addMedOrderToStudentPatient(db: PrismaClient, order: Medic
                 time: order.time,
                 completed: order.completed,
                 hold_reason: order.holdReason,
-                order_index: order.orderIndex
+                order_index: order.orderIndex,
+                icd_10_code: order.icd10?.code,
+                dispenseQuantity: order.dispenseQuantity,
+                refills: order.refills
+
             }
         })
 

@@ -141,7 +141,12 @@ model Med_Order {
     completed Boolean @default(false)
     hold_reason String?
     order_index Int @default(-1)
+    
+    // Grad Stuff
     icd_10_code String?
+    dispenseQuantity Int?
+    refills Int?
+
 
     patient Patient @relation(fields: [patient_id], references: [id])
     medication Medication @relation(fields: [med_id], references: [id])

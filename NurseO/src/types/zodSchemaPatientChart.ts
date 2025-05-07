@@ -93,6 +93,12 @@ export const medicationOrderSchema = orderSchema.and(
     genericName: z.string().optional(),
     brandName: z.string().optional(),
     narcoticCountNeeded: z.boolean().optional(),
+    dispenseQuantity: z.number(),
+    refills: z.number(),
+    icd10: z.object({
+      code: z.string(),
+      description: z.string()
+    }).optional(),
   }),
 );
 
