@@ -4,6 +4,7 @@ import { Button } from "~/components/common/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~/components/common/ui/tooltip"
 import PageView from "../_PageView"
 import { api } from "~/utils/api"
+import Link from "next/link"
 
 export default function StudentTrackingTable() {
     const studentPatients = api.admin.getListOfStudentPatients.useQuery()
@@ -49,7 +50,7 @@ export default function StudentTrackingTable() {
                                         </TooltipProvider>
                                     </TableCell>
                                     <TableCell className="text-right">
-                                        <Button onClick={() => console.log} size="sm">Open Chart</Button>
+                                        <Link href={"/nurseo_admin/preview/" + r.patientId} target="_blank"><Button size="sm">Open Chart</Button></Link>
                                     </TableCell>
                                 </TableRow>
                             ))}
