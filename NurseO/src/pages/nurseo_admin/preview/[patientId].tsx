@@ -11,7 +11,7 @@ import SocialHistoryCard from "~/components/EMR/Dashboard/Card/SocialHistory"
 import Orders from "~/components/EMR/Orders/Orders"
 import ImmunizationCard from "~/components/EMR/Dashboard/Card/ImmunizationCard"
 import ReportsViewer from "~/components/EMR/Reports/ReportsViewer"
-import { ReportType } from "~/core"
+import { type Order, ReportType } from "~/core"
 import NotesCard from "~/components/EMR/Dashboard/Card/NotesCard"
 import ArmBand from "~/components/EMR/ArmBand/ArmBand"
 import { DiagnosisCard } from "~/components/EMR/Dashboard/Card/DiagnosisCard"
@@ -23,7 +23,6 @@ export default function StudentPatientPreviewPage() {
     const patientId = parseInt(params?.patientId as string)
     const patientChart = api.admin.getPatientChartById.useQuery({ patientId })
     const patient = patientChart.data ?? createEmptyPatient()
-
     return (
         <div className="container mx-auto py-6 px-4 ">
             <div className="flex justify-between items-center mb-6">
@@ -50,7 +49,7 @@ export default function StudentPatientPreviewPage() {
                 <HistoryCard history={patient.medicalHistory} />
                 <SocialHistoryCard history={patient.socialHistory} />
                 <MedicationCard medications={patient.medicationOrders} />
-                <Orders orders={patient.customOrders} />
+                <Orders showEmpty orders={[...patient.customOrders, ...patient.medicationOrders] as Order[]} />
                 <ImmunizationCard immunizations={patient.immunizations} />
                 <ReportsViewer reportType={ReportType.studentAssessmentReport} title="Assessment" />
                 <NotesCard notes={patient.notes} />

@@ -36,7 +36,7 @@ export default function StudentTrackingTable() {
                                         {r.patientName}
                                         <div className="text-xs opacity-70">{r.patientBarCode}</div>
                                     </TableCell>
-                                    <TableCell>{ }</TableCell>
+                                    <TableCell>{r.startDateTime?.toLocaleString()}</TableCell>
                                     <TableCell>
                                         <TooltipProvider>
                                             <Tooltip>
