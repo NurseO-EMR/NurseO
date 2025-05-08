@@ -24,7 +24,7 @@ export default function ArmBand(props: Props) {
                 <SectionNamedInfo name="Gender">{props.patient.gender}</SectionNamedInfo>
 
                 <SectionNamedInfo name="Allergies" boldedValue={true}>
-                    {props.patient.allergies.length === 0 ? "NKDA" : props.patient.allergies.map(allergy => allergy.name + ", ")}
+                    {props.patient.allergies.length === 0 ? "NKDA" : props.patient.allergies.map(allergy => " " + allergy.name).toString()}
                 </SectionNamedInfo>
                 <SectionNamedInfo name="Flags" boldedValue={true}>
                     {props.patient.flags.length === 0 ? "None" : props.patient?.flags.map(flag => flag.name + " ")}
