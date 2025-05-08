@@ -35,12 +35,11 @@ export default function StudentPatientPreviewPage() {
 
                 <StudentInfoSection
                     studentId={patient.studentUID}
-                    studentName={"John Doe"}
-                    studentEmail={"john@miamioh.edu"}
+                    studentName={patient.studentName}
+                    studentEmail={patient.studentEmail}
                 />
 
-                <ArmBand patient={patient} />
-
+                <div className="w-78/100 mx-auto"><ArmBand patient={patient} /></div>
                 <DiagnosisCard diagnosis={patient.diagnosis} />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

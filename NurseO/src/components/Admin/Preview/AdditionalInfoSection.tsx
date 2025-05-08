@@ -9,7 +9,7 @@ interface AdditionalInfoSectionProps {
 
 export function AdditionalInfoSection({ patient }: AdditionalInfoSectionProps) {
   return (
-    <Card className="mb-6">
+    <Card className="my-6">
       <CardHeader className="pb-3">
         <CardTitle>Additional Information</CardTitle>
       </CardHeader>

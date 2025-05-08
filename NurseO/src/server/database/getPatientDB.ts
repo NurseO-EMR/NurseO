@@ -18,6 +18,8 @@ type patientMetaData = {
        student_id: string
        chief_complaint: string
        code: string
+       studentName: string
+       studentEmail: string
 }
 
 
@@ -76,6 +78,9 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData) {
               flags,
               immunizations,
               medicationOrders,
+
+              studentName: metaData.studentName,
+              studentEmail: metaData.studentEmail
        }
 
        return patient
@@ -83,9 +88,13 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData) {
 
 async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
        const patient = await db.$queryRaw<patientMetaData[]>`
-                        SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                               diagnosis, course_id, patient_bar_code, chief_complaint , code
-                        FROM Patient WHERE id = ${patientId} LIMIT 1;`
+                        SELECT Patient.id ,Patient.name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
+                               diagnosis, course_id, patient_bar_code, chief_complaint, code,
+                               User.name as studentName, User.email as studentEmail
+                        FROM Patient 
+                        LEFT JOIN User ON Patient.studentUID = User.id
+                        WHERE Patient.id = ${patientId} 
+                        LIMIT 1;`
        if (!patient || patient.length == 0) return null
        return patient[0]
 }

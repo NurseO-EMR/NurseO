@@ -33,6 +33,10 @@ export class PatientChart {
     chiefComplaint?: string | null = "";
     studentUID?: string | undefined = "";
     code: string = ""
+
+    // for preview page
+    studentName: string = ""
+    studentEmail: string = ""
 };
 
 export type Order = {

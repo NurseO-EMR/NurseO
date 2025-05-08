@@ -1,5 +1,5 @@
 import { useContext, useMemo, useState } from 'react';
-import type { ReportType } from "~/core/index";
+import type { PatientChart, ReportType } from "~/core/index";
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 import ReportTabs from './ReportTabs';
 import { GlobalContext } from '~/services/State';
@@ -8,12 +8,14 @@ type Props = {
     className?: string,
     title: string,
     reportType: ReportType
+    patient?: PatientChart
 }
 
 
 export default function ReportsViewer(props: Props) {
 
-    const { patient } = useContext(GlobalContext)
+    const { patient: patientContext } = useContext(GlobalContext)
+    const patient = props.patient ?? patientContext
     const studentReports = patient.studentReports
     const setNames = useMemo(() => [...new Set(studentReports?.filter(s => s.reportType === props.reportType).map(s => s.setName))], [props.reportType, studentReports])
     const [selectedTabIndex, setSelectedTabIndex] = useState(0)
@@ -73,7 +75,7 @@ export default function ReportsViewer(props: Props) {
                             {getRows()}
                         </tbody>
                     </table>
-                    : <h1 className='font-bold text-left pt-5 pb-4'>No Data Available</h1>}
+                    : <h1 className='font-bold text-left pt-5 pb-4 pl-2'>No Data Available</h1>}
             </EmptyCard>
         </div>
 
