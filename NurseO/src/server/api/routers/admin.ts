@@ -13,6 +13,7 @@ import { getAllMeds, getAllMedsWithLocationCount, deleteMed, getMedDetails, dele
 import { medicationSchema, medicationLocationSchema } from "~/types/zodSchemaMedication";
 import { addCourse, addCourseToLocation, addLocation, deleteCourse, deleteCourseFromLocation, deleteLocation, getCourses, getCoursesInSpecificLocation, getLocations, getUsersList, updateCourse, updateLocation } from "~/server/database/settingsDB";
 import { getReportSets } from "~/server/database/reportsDB";
+import { getListOfStudentPatients } from "~/server/database/studentTracker";
 
 export const AdminRouter = createTRPCRouter({
     getPatientList: protectedProcedure.query(async ({ ctx }) => await getPatientList(ctx.db)),
@@ -49,4 +50,8 @@ export const AdminRouter = createTRPCRouter({
     addLocation: protectedProcedure.input(z.object({ building: z.string(), station: z.string() })).mutation(async ({ ctx, input }) => await addLocation(ctx.db, input.building, input.station)),
     getUsersList: protectedProcedure.query(async ({ ctx }) => await getUsersList(ctx.db)),
     getReportSets: protectedProcedure.query(async ({ ctx }) => await getReportSets(ctx.db)),
+
+
+    // Student Tracker
+    getListOfStudentPatients: protectedProcedure.query(async ({ ctx }) => await getListOfStudentPatients(ctx.db)),
 });
