@@ -30,7 +30,7 @@ module.exports = {
       info: "#075985",
       success: "#059669",
       admin: "#334155",
-      edit: "#DC2626",
+      edit: "#DC2626"
     },
     extend: {
       fontFamily: {
