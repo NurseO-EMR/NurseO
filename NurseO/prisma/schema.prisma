@@ -274,6 +274,7 @@ model Log {
     patient_id Int
     userUID String
     activity String @db.Text
+    timestamp DateTime
 
     patient Patient @relation(fields: [patient_id], references: [id])
     user User @relation(fields: [userUID], references: [id])

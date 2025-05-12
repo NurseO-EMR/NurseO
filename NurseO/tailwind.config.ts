@@ -31,6 +31,7 @@ module.exports = {
       success: "#059669",
       admin: "#334155",
       edit: "#DC2626",
+      blue: "#3b81fa",
     },
     extend: {
       fontFamily: {
@@ -71,7 +72,7 @@ module.exports = {
   },
   plugins: [
     require('@savvywombat/tailwindcss-grid-areas'),
-	  createThemes(colorThemes),
-	  require("tailwindcss-animate")
+    createThemes(colorThemes),
+    require("tailwindcss-animate")
   ],
 } satisfies Config;

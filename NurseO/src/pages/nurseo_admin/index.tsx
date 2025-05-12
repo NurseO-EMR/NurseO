@@ -40,6 +40,7 @@ export default function DashboardPage() {
 
                     <DashboardNavCard icon={faGraduationCap} title="Students">
                         <Link href={"nurseo_admin/studentTracker/"}>Student Tracker</Link>
+                        <Link href={"nurseo_admin/liveMonitor/"}>Live Monitor</Link>
                     </DashboardNavCard>
                 </div>
 
