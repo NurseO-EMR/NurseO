@@ -35,8 +35,8 @@ export class PatientChart {
     code: string = ""
 
     // for preview page
-    studentName?: string = ""
-    studentEmail?: string = ""
+    studentName?: string | null = ""
+    studentEmail?: string | null = ""
 };
 
 export type Order = {
