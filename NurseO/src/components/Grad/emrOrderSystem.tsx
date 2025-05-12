@@ -38,7 +38,6 @@ export function EMROrderSystem() {
   const clearOrders = () => {
     setOrders([])
   }
-  console.log(orders)
 
   const submitOrders = async () => {
     let error = false;

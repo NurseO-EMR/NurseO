@@ -48,6 +48,7 @@ model Patient {
     immunizations Immunization[] @relation()
     flags Flag[] @relation()
     student_reports Student_Report[] @relation()
+    logs Log[] @relation()
 }
 
 model Course {
@@ -268,6 +269,16 @@ model ICD_10 {
     custom_orders Custom_Order[] @relation()
 }
 
+model Log {
+    id Int @id @default(autoincrement())
+    patient_id Int
+    userUID String
+    activity String @db.Text
+
+    patient Patient @relation(fields: [patient_id], references: [id])
+    user User @relation(fields: [userUID], references: [id])
+}
+
 // Necessary for Next auth
 model Account {
     id                       String  @id @default(cuid())
@@ -307,6 +318,7 @@ model User {
     role          String?
 
     patients Patient[] @relation()
+    log Log[] @relation()
 }
 
 model VerificationToken {

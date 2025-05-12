@@ -1,8 +1,9 @@
 import { type PrismaClient } from "@prisma/client";
 import { type Session } from "next-auth";
-import type { CustomOrder, MedicationOrder } from "~/core";
+import { makeMedOrderString, type CustomOrder, type MedicationOrder } from "~/core";
 import { getPatientBasicInfoById } from "./getPatientDB";
 import type { Response } from "~/types/protocolTypes";
+import { addLog } from "../../logDB";
 
 export async function addMedOrderToStudentPatient(db: PrismaClient, order: MedicationOrder, patientId: number, session: Session): Response<boolean> {
     try {
@@ -33,6 +34,9 @@ export async function addMedOrderToStudentPatient(db: PrismaClient, order: Medic
 
             }
         })
+        const orderString = makeMedOrderString(order)
+        const { err } = await addLog(db, patientId, `Added order ${orderString}`, session)
+        if (err) return { err: err, data: null }
 
         return { err: null, data: true }
     } catch (e) {
@@ -59,6 +63,9 @@ export async function addCustomOrderToStudentPatient(db: PrismaClient, order: Cu
                 order_text: order.order,
             }
         })
+
+        const { err } = await addLog(db, patientId, `Added order ${order.order}`, session)
+        if (err) return { err: err, data: null }
 
         return { err: null, data: true }
     } catch (e) {
