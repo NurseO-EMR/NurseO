@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import { RefreshCw, Clock } from "lucide-react"
 import { Button } from "~/components/common/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/common/ui/card"
@@ -7,166 +7,75 @@ import { ScrollArea } from "~/components/common/ui/scroll-area"
 import { Checkbox } from "~/components/common/ui/checkbox"
 import { Avatar, AvatarFallback } from "~/components/common/ui/avatar"
 import PageView from "../_PageView"
+import { api } from "~/utils/api"
+import Image from "next/image"
+import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService"
 
-// Log entry type definition
 type LogEntry = {
-    id: string
+    id: number
     timestamp: Date
     message: string
-    student: string
+    studentName: string
+    studentEmail: string
     reviewed: boolean
 }
 
-// Student type definition
-type Student = {
-    id: string
-    name: string
-}
-
-// Generate a list of 15 students
-const generateStudents = (): Student[] => {
-    const firstNames = [
-        "Emma",
-        "Liam",
-        "Olivia",
-        "Noah",
-        "Ava",
-        "Ethan",
-        "Sophia",
-        "Mason",
-        "Isabella",
-        "Lucas",
-        "Mia",
-        "James",
-        "Charlotte",
-        "Benjamin",
-        "Amelia",
-    ]
-
-    const lastNames = [
-        "Smith",
-        "Johnson",
-        "Williams",
-        "Brown",
-        "Jones",
-        "Garcia",
-        "Miller",
-        "Davis",
-        "Rodriguez",
-        "Martinez",
-        "Hernandez",
-        "Lopez",
-        "Gonzalez",
-        "Wilson",
-        "Anderson",
-    ]
-
-    return Array.from({ length: 15 }, (_, i) => ({
-        id: (i + 1).toString().padStart(2, "0"),
-        name: `${firstNames[i]} ${lastNames[i]}`,
-    }))
-}
-
-// Generate a random log message
-const generateRandomLog = (student: Student): LogEntry => {
-    return {
-        id: "A",
-        timestamp: new Date(),
-        message: "aa",
-        student: student.id,
-        reviewed: false,
-    }
-}
-
-// Get initials from name
-const getInitials = (name: string) => {
-    return name
-        .split("")
-        .map((part) => part[0])
-        .join("")
-        .toUpperCase()
-}
 
 export default function StudentMonitor() {
-    // Generate 15 students
-    const students = generateStudents()
-    const [logs, setLogs] = useState<LogEntry[]>([])
     const [selectedStudent, setSelectedStudent] = useState<string>("all")
     const [isMonitoring, setIsMonitoring] = useState(true)
-    const [activeView, setActiveView] = useState<"all" | "unreviewed" | "reviewed">("all")
     const [showHidden, setShowHidden] = useState(false)
-    const [recentlyReviewed, setRecentlyReviewed] = useState<Record<string, number>>({})
-    const timeoutsRef = useRef<Record<string, NodeJS.Timeout>>({})
+    const [recentlyReviewed, setRecentlyReviewed] = useState<Record<number, number>>({})
+    const [logs, setLogs] = useState<LogEntry[]>([])
 
-    // Toggle log review status
-    const toggleReviewStatus = (logId: string) => {
+    const students = api.admin.getStudentInfoFromUIDs.useQuery({ studentUIDs: ["cmal8873p0000tr0df2rqvxhj"] })
+    const studentPatientsLogs = api.admin.getLogsForSpecificStudents.useMutation()
+
+    const hiddenLogsCount = useMemo(() => logs.filter(l => l.reviewed).length, [logs])
+
+
+
+    useEffect(() => {
+        const lastDate = logs.length === 0 ? new Date("05/12/2025 10:00") : logs[logs.length - 1]!.timestamp
+        studentPatientsLogs.mutateAsync({ studentUIDs: ["cmal8873p0000tr0df2rqvxhj"], dateTimeMarker: lastDate }).then(r => {
+            if (!r.data) return
+            const newLogs = r.data.map(d => ({
+                id: d.logId,
+                message: d.activity,
+                studentName: d.name,
+                studentEmail: d.email,
+                timestamp: d.timestamp,
+                reviewed: false
+            } as LogEntry))
+
+            setLogs([...logs, ...newLogs])
+        }).catch(e => broadcastAnnouncement(String(e), Announcement.error))
+    }, [])
+
+
+    const toggleReviewStatus = async (logId: number) => {
+        if (recentlyReviewed[logId] === undefined || recentlyReviewed[logId] === -1) recentlyReviewed[logId] = 5
+
+        if (recentlyReviewed[logId] === 0) {
+            logs.find(l => l.id === logId)!.reviewed = true
+            setLogs([...logs])
+            recentlyReviewed[logId] = -1
+            return
+        }
+
+        recentlyReviewed[logId] -= 1
+        setRecentlyReviewed({ ...recentlyReviewed })
+        await sleep(1000)
+        await toggleReviewStatus(logId)
+    }
+
+
+    const handleClearLogs = () => {
         //
     }
 
-    // Clean up all timeouts when component unmounts
-    useEffect(() => {
-        return () => {
-            Object.values(timeoutsRef.current).forEach((timeout) => {
-                clearInterval(timeout)
-            })
-        }
-    }, [])
-
-    // Clear logs
-    const handleClearLogs = () => {
-        // Clear all timeouts
-        Object.values(timeoutsRef.current).forEach((timeout) => {
-            clearInterval(timeout)
-        })
-        timeoutsRef.current = {}
-
-        setLogs([])
-        setRecentlyReviewed({})
-    }
-
-    // Toggle monitoring
     const toggleMonitoring = () => {
         setIsMonitoring(!isMonitoring)
-    }
-
-    // Format timestamp
-    const formatTime = (date: Date) => {
-        return date.toLocaleTimeString("en-US", {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-            hour12: false,
-        })
-    }
-
-
-
-    // Get student name by ID
-    const getStudentName = (id: string) => {
-        const student = students.find((s) => s.id === id)
-        return student ? student.name : `Student ${id}`
-    }
-
-    // Get avatar color based on student ID
-    const getAvatarColor = (id: string) => {
-        const colors = [
-            "bg-red-500",
-            "bg-blue-500",
-            "bg-green-500",
-            "bg-yellow-500",
-            "bg-purple-500",
-            "bg-pink-500",
-            "bg-indigo-500",
-            "bg-teal-500",
-            "bg-orange-500",
-            "bg-cyan-500",
-            "bg-lime-500",
-            "bg-emerald-500",
-            "bg-violet-500",
-            "bg-fuchsia-500",
-            "bg-rose-500",
-        ]
-        return colors[0]
     }
 
     return (
@@ -179,7 +88,7 @@ export default function StudentMonitor() {
                             <CardTitle>Students</CardTitle>
                             <CardDescription>Select a student to view their logs</CardDescription>
                         </CardHeader>
-                        <CardContent className=" h-[60vh] overflow-scroll">
+                        <CardContent className=" h-[50vh] overflow-scroll">
 
                             <div className="space-y-2">
                                 <div
@@ -199,26 +108,23 @@ export default function StudentMonitor() {
                                     </div>
                                 </div>
 
-                                {students.map((student) => (
-                                    <div
-                                        key={student.id}
-                                        className={`flex items-center p-2 rounded-md cursor-pointer hover:bg-muted ${selectedStudent === student.id ? "bg-slate-100" : ""
-                                            }`}
-                                        onClick={() => setSelectedStudent(student.id)}
-                                    >
+                                {students.data?.data?.map((student) => (
+                                    <div key={student.id}
+                                        className={`flex items-center p-2 rounded-md cursor-pointer hover:bg-muted ${selectedStudent === student.id ? "bg-slate-100" : ""}`}
+                                        onClick={() => setSelectedStudent(student.id)}>
                                         <div className="flex items-center space-x-3 w-full">
                                             <Avatar>
-                                                <AvatarFallback className={getAvatarColor(student.id)}>
-                                                    {getInitials(student.name)}
+                                                <AvatarFallback>
+                                                    <Image src={student.image} alt={`Photo of ${student.name}`} width={50} height={50} />
                                                 </AvatarFallback>
                                             </Avatar>
                                             <div className="flex-1">
                                                 <p className="text-sm font-medium">{student.name}</p>
                                                 <p className="text-xs text-slate-500 ">
-                                                    ID: {student.id}
+                                                    Email: {student.email}
                                                 </p>
                                             </div>
-                                            <Badge>{logs.filter((log) => log.student === student.id).length}</Badge>
+                                            <Badge>{logs.filter((log) => log.studentEmail === student.email).length}</Badge>
                                         </div>
                                     </div>
                                 ))}
@@ -229,7 +135,7 @@ export default function StudentMonitor() {
                     <Card className="lg:col-span-3">
                         <CardHeader className="flex flex-row items-center">
                             <div className="flex flex-col space-y-1.5">
-                                <CardTitle> {selectedStudent === "all" ? "All Student Activities" : `Activities for ${getStudentName(selectedStudent)}`}</CardTitle>
+                                <CardTitle> {selectedStudent === "all" ? "All Student Activities" : `Activities for `}</CardTitle>
                                 <CardDescription>{isMonitoring ? "Monitoring in real-time" : "Monitoring paused"}</CardDescription>
                             </div>
                         </CardHeader>
@@ -257,11 +163,11 @@ export default function StudentMonitor() {
                                         </div>
                                     )}
 
-                                    <ScrollArea className="h-[60vh] border border-slate-200 rounded-md bg-black/5">
-                                        {filteredLogs.length > 0 ? (
+                                    <ScrollArea className="h-[50vh] border border-slate-200 rounded-md bg-black/5">
+                                        {logs.length > 0 ? (
                                             <div className="p-4 space-y-2">
-                                                {filteredLogs.map((log) => {
-                                                    const student = students.find((s) => s.id === log.student)
+                                                {logs.filter(l => !l.reviewed).map((log) => {
+                                                    const student = students.data?.data?.find((s) => s.email === log.studentEmail)
                                                     const isCountingDown = recentlyReviewed[log.id] !== undefined
 
                                                     return (
@@ -276,12 +182,12 @@ export default function StudentMonitor() {
                                                             <div className="flex items-center justify-between">
                                                                 <div className="flex items-center space-x-2">
                                                                     <Avatar className="h-8 w-8">
-                                                                        <AvatarFallback className={getAvatarColor(log.student)}>
-                                                                            {student ? getInitials(student.name) : log.student}
+                                                                        <AvatarFallback>
+                                                                            {student && <Image src={student.image} alt={`Photo of ${student.name}`} width={50} height={50} />}
                                                                         </AvatarFallback>
                                                                     </Avatar>
                                                                     <div>
-                                                                        <p className="text-sm font-medium">{student?.name ?? `Student ${log.student}`}</p>
+                                                                        <p className="text-sm font-medium">{student?.name ?? `Student ${log.studentName}`}</p>
                                                                         <div className="flex items-center text-xs text-slate-500 ">
                                                                             <Clock className="h-3 w-3 mr-1" />
                                                                             {formatTime(log.timestamp)}
@@ -311,17 +217,15 @@ export default function StudentMonitor() {
                                                 })}
                                             </div>
                                         ) : (
-                                            <div className="flex items-center justify-center h-full text-slate-500 ">
-                                                {searchTerm ? "No matching logs found" : "No logs to display"}
-                                            </div>
+                                            <div className="flex items-center justify-center h-full text-slate-500 ">No logs to display</div>
                                         )}
                                     </ScrollArea>
                                 </div>
                             </div>
                         </CardContent>
                         <CardFooter className="text-xs text-slate-500 ">
-                            Showing {filteredLogs.length} logs
-                            {selectedStudent !== "all" ? ` for ${getStudentName(selectedStudent)}` : "across all students"}
+                            Showing {logs.length} logs
+                            {selectedStudent !== "all" ? ` for ${selectedStudent}` : "across all students"}
                             {!showHidden && hiddenLogsCount > 0 && (
                                 <span className="ml-1">
                                     ({hiddenLogsCount} reviewed logs hidden -{""}
@@ -337,4 +241,22 @@ export default function StudentMonitor() {
             </div>
         </PageView>
     )
+}
+
+
+
+function formatTime(date: Date) {
+    return date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+    })
+}
+
+
+async function sleep(ms: number) {
+    return new Promise(res => {
+        setTimeout(res, ms)
+    })
 }
