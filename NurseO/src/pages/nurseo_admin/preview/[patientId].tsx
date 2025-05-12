@@ -27,7 +27,7 @@ export default function StudentPatientPreviewPage() {
         <div className="container mx-auto py-6 px-4 ">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold">Student Patient Report</h1>
-                <Button variant="outline" className="flex items-center gap-2">Download as PDF</Button>
+                <Button variant="outline" onClick={window.print} className="flex items-center gap-2">Print/Download as PDF</Button>
             </div>
 
             <div id="patient-report-container" className="bg-white">
