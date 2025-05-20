@@ -66,7 +66,7 @@ export type MedicationOrder = Order & {
     holdReason?: string | null
 
     // code
-    dispenseQuantity?: number
+    dispenseQuantity?: string
     refills?: number
     icd10?: {
         code: string,

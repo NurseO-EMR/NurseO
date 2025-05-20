@@ -80,12 +80,14 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
                   <SelectItem value="Urinalysis">Urinalysis</SelectItem>
                   <SelectItem value="Urine Culture">Urine Culture</SelectItem>
                   <SelectItem value="Blood Culture">Blood Culture</SelectItem>
-                  <SelectItem value="Blood Culture">PSA Level</SelectItem>
-                  <SelectItem value="Blood Culture">Vitamin D</SelectItem>
-                  <SelectItem value="Blood Culture">SARS-CoV-2 PCR</SelectItem>
-                  <SelectItem value="Blood Culture">Influenza A</SelectItem>
-                  <SelectItem value="Blood Culture">Influenza B</SelectItem>
-                  <SelectItem value="Blood Culture">Spirometry Testing Result Consistent with COPD</SelectItem>
+                  <SelectItem value="PSA Level">PSA Level</SelectItem>
+                  <SelectItem value="Vitamin D">Vitamin D</SelectItem>
+                  <SelectItem value="SARS-CoV-2 PCR">SARS-CoV-2 PCR</SelectItem>
+                  <SelectItem value="Influenza A">Influenza A</SelectItem>
+                  <SelectItem value="Influenza B">Influenza B</SelectItem>
+                  <SelectItem value="Spirometry Testing Result Consistent with COPD">Spirometry Testing Result Consistent with COPD</SelectItem>
+                  <SelectItem value="Bone Density (DEXA)">Bone Density (DEXA)</SelectItem>
+                  <SelectItem value="Mono Test">Mono Test</SelectItem>
                 </Select>
               </FormControl>
               <FormMessage />

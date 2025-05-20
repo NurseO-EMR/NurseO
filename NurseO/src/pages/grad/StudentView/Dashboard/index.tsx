@@ -7,10 +7,10 @@ import ImmunizationCard from '~/components/EMR/Dashboard/Card/ImmunizationCard';
 import SocialHistoryCard from '~/components/EMR/Dashboard/Card/SocialHistory';
 import { DiagnosisCard } from '~/components/EMR/Dashboard/Card/DiagnosisCard';
 import { ChiefComplaintCard } from '~/components/EMR/Dashboard/Card/ChiefComplaint';
-import Orders from '~/components/EMR/Orders/Orders';
 import { GlobalContext } from '~/services/State';
 import EncounterCard from '~/components/Grad/EncounterCard';
 import StudentViewPage from '../_StudentViewPage';
+import MedicationCard from '~/components/EMR/Dashboard/Card/MedicationCard';
 
 export default function Index() {
     const { patient } = useContext(GlobalContext)
@@ -25,10 +25,7 @@ export default function Index() {
                 <SocialHistoryCard className="col-span-1" history={patient.socialHistory} />
                 <HistoryCard className="col-span-3" history={patient.medicalHistory} />
                 <AllergyCard className='col-span-1' allergies={patient?.allergies}></AllergyCard>
-                {<Orders className='col-span-4' orderType={OrderType.admission} orders={[...patient.customOrders, ...patient.medicationOrders]} />}
-                {<Orders className='col-span-4' orderType={OrderType.protocol} orders={[...patient.customOrders, ...patient.medicationOrders]} />}
-                {<Orders className='col-span-4' orderType={OrderType.standing} orders={[...patient.customOrders, ...patient.medicationOrders]} />}
-                {<Orders className='col-span-4' orderType={OrderType.provider} orders={[...patient.customOrders, ...patient.medicationOrders]} />}
+                <MedicationCard className='col-span-4' medications={patient.medicationOrders} />
                 <EncounterCard className='col-span-4' notes={patient.notes} />
             </div>
         </StudentViewPage>

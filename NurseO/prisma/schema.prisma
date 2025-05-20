@@ -146,7 +146,7 @@ model Med_Order {
     
     // Grad Stuff
     icd_10_code String?
-    dispenseQuantity Int?
+    dispenseQuantity String?
     refills Int?
 
 

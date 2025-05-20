@@ -95,7 +95,7 @@ export const medicationOrderSchema = orderSchema.and(
     narcoticCountNeeded: z.boolean().optional(),
 
     //grad
-    dispenseQuantity: z.number().optional(),
+    dispenseQuantity: z.string().optional(),
     refills: z.number().optional(),
     icd10: z.object({
       code: z.string(),

@@ -44,7 +44,7 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
       brandName: med?.brandName,
       genericName: med?.genericName,
       icd10: icd10Code,
-      dispenseQuantity: parseInt(values.dispenseQuantity as unknown as string),
+      dispenseQuantity: values.dispenseQuantity,
       refills: parseInt(values.refills as unknown as string)
     }
 
@@ -93,12 +93,13 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
               <FormItem>
                 <FormLabel>Dispense Quantity</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g. 30" type="number" {...field} />
+                  <Input placeholder="e.g. 30" type="text" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
 
           <FormField
             control={form.control}
@@ -177,7 +178,7 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Additional Notes</FormLabel>
+              <FormLabel>Notes to Pharmacy</FormLabel>
               <FormControl>
                 <Textarea placeholder="Enter any additional instructions or notes" {...field} />
               </FormControl>
