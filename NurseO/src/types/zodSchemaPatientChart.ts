@@ -21,7 +21,12 @@ export const orderSchema = z.object({
   orderKind: orderKindSchema,
   orderType: orderTypeSchema,
   time: z.string().optional().nullable(),
-  orderIndex: z.number()
+  orderIndex: z.number(),
+
+  icd10: z.object({
+    code: z.string(),
+    description: z.string()
+  }).optional(),
 });
 
 export const frequencySchema = z.nativeEnum(Frequency);
@@ -97,10 +102,7 @@ export const medicationOrderSchema = orderSchema.and(
     //grad
     dispenseQuantity: z.string().optional(),
     refills: z.number().optional(),
-    icd10: z.object({
-      code: z.string(),
-      description: z.string()
-    }).optional(),
+
   }),
 );
 

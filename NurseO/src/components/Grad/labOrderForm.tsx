@@ -9,12 +9,16 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import type { newLocalOrder } from "~/components/Grad/emrOrderSystem"
 import { PlusCircle } from "lucide-react"
 import { Frequency, OrderKind, OrderType } from "~/core"
+import { useState } from "react"
+import { ICD10SearchBox } from "./ICD10SearchBox"
+
 
 const formSchema = z.object({
   testType: z.string().min(1, { message: "Test type is required" }),
   priority: z.string().min(1, { message: "Priority is required" }),
   fasting: z.boolean().default(false),
   notes: z.string().optional(),
+  icd10: z.object({ code: z.string(), description: z.string() }).optional()
 })
 
 interface LabOrderFormProps {
@@ -22,6 +26,8 @@ interface LabOrderFormProps {
 }
 
 export function LabOrderForm({ addOrder }: LabOrderFormProps) {
+  const [icd10Code, setICD10Code] = useState<{ code: string, description: string }>()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,6 +35,7 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
       priority: "Routine",
       fasting: false,
       notes: "",
+      icd10: icd10Code,
     },
   })
 
@@ -43,7 +50,7 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
       frequency: Frequency.NA,
       localOrderId: -1,
       mar: [],
-      notes: `Priority: ${values.priority}${values.fasting ? ", Fasting" : ""}${values.notes ? `, Notes: ${values.notes}` : ""}`,
+      notes: `Priority: ${values.priority}${values.fasting ? ", Fasting" : ""}${values.notes ? `, Notes: ${values.notes} for ${icd10Code?.description}` : ""}`,
       orderId: -1,
       orderIndex: -1,
       PRNNote: "",
@@ -138,6 +145,20 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
               <FormLabel>Additional Notes</FormLabel>
               <FormControl>
                 <Textarea placeholder="Enter any additional instructions or notes" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="icd10"
+          render={() => (
+            <FormItem>
+              <FormLabel>ICD 10 Diagnosis</FormLabel>
+              <FormControl>
+                <ICD10SearchBox onChange={setICD10Code} />
               </FormControl>
               <FormMessage />
             </FormItem>

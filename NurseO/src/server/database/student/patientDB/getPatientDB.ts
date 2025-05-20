@@ -174,7 +174,12 @@ async function getAllergies(db: PrismaClient, patientId: number) {
 
 async function getCustomOrders(db: PrismaClient, patientId: number): Promise<CustomOrder[]> {
        const data = await db.$queryRaw<{ orderKind: OrderKind, orderType: OrderType, time?: string, order: string, orderIndex: number }[]>`
-                        SELECT order_kind as orderKind, order_type as orderType, time, order_text as "order", order_index as orderIndex FROM Custom_Order WHERE patient_id = ${patientId} ORDER BY order_index ASC;`
+                        SELECT order_kind as orderKind, order_type as orderType, time, order_text as "order", order_index as orderIndex, icd_10_code as ICD10Code, ICD_10.description as ICD10Description
+                        FROM Custom_Order 
+                        LEFT JOIN ICD_10 ON ICD_10.code = icd_10_code
+                        WHERE patient_id = ${patientId} 
+                        ORDER BY order_index ASC;
+                        `
        return data
 }
 
@@ -216,7 +221,7 @@ async function getImmunizations(db: PrismaClient, patientId: number) {
 }
 
 async function getMedOrders(db: PrismaClient, patientId: number): Promise<MedicationOrder[]> {
-       const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string, orderIndex: number, brandName: string, genericName: string, ICD10Code: string, ICD10Description: string, refills: number, dispenseQuantity: number }[]>`
+       const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string, orderIndex: number, brandName: string, genericName: string, ICD10Code: string, ICD10Description: string, refills: number, dispenseQuantity: string }[]>`
                             SELECT Med_Order.id as orderId, med_id as id, concentration, route, frequency, routine, prn_note as PRNNote, 
                             notes, order_kind as orderKind, order_type as orderType, time, completed, hold_reason as holdReason, order_index as orderIndex, 
                             brand_name as brandName, generic_name as genericName, icd_10_code as ICD10Code, ICD_10.description as ICD10Description, refills, dispenseQuantity

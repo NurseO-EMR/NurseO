@@ -44,7 +44,10 @@ export type Order = {
     orderType: OrderType,
     time?: string | null
     orderIndex: number,
-
+    icd10?: {
+        code: string,
+        description: string
+    }
 }
 
 export type CustomOrder = Order & {
@@ -68,10 +71,6 @@ export type MedicationOrder = Order & {
     // code
     dispenseQuantity?: string
     refills?: number
-    icd10?: {
-        code: string,
-        description: string
-    }
 
     // these are for data fetching to make it cheaper to pull meds from db
     genericName?: string;
