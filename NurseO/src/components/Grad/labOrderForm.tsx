@@ -68,17 +68,24 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
               <FormControl>
                 <Select onChange={field.onChange} defaultValue={field.value} label="Test Type">
                   <SelectItem value="Complete Blood Count (CBC)">Complete Blood Count (CBC)</SelectItem>
+                  <SelectItem value="CBC with Differential">CBC with Differential</SelectItem>
                   <SelectItem value="Basic Metabolic Panel (BMP)">Basic Metabolic Panel (BMP)</SelectItem>
                   <SelectItem value="Comprehensive Metabolic Panel (CMP)">
                     Comprehensive Metabolic Panel (CMP)
                   </SelectItem>
-                  <SelectItem value="Lipid Panel">Lipid Panel</SelectItem>
+                  <SelectItem value="Lipid Panel">Lipid Profile</SelectItem>
                   <SelectItem value="Liver Function Tests">Liver Function Tests</SelectItem>
                   <SelectItem value="Thyroid Function Tests">Thyroid Function Tests</SelectItem>
                   <SelectItem value="Hemoglobin A1C">Hemoglobin A1C</SelectItem>
                   <SelectItem value="Urinalysis">Urinalysis</SelectItem>
                   <SelectItem value="Urine Culture">Urine Culture</SelectItem>
                   <SelectItem value="Blood Culture">Blood Culture</SelectItem>
+                  <SelectItem value="Blood Culture">PSA Level</SelectItem>
+                  <SelectItem value="Blood Culture">Vitamin D</SelectItem>
+                  <SelectItem value="Blood Culture">SARS-CoV-2 PCR</SelectItem>
+                  <SelectItem value="Blood Culture">Influenza A</SelectItem>
+                  <SelectItem value="Blood Culture">Influenza B</SelectItem>
+                  <SelectItem value="Blood Culture">Spirometry Testing Result Consistent with COPD</SelectItem>
                 </Select>
               </FormControl>
               <FormMessage />

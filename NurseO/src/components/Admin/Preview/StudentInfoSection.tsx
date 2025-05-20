@@ -3,8 +3,8 @@ import { User } from "lucide-react"
 
 interface StudentInfoSectionProps {
   studentId?: string | null
-  studentName?: string
-  studentEmail?: string
+  studentName?: string | null
+  studentEmail?: string | null
 }
 
 export function StudentInfoSection({ studentId, studentName, studentEmail }: StudentInfoSectionProps) {

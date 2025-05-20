@@ -12,10 +12,11 @@ import Orders from "~/components/EMR/Orders/Orders"
 import ImmunizationCard from "~/components/EMR/Dashboard/Card/ImmunizationCard"
 import ReportsViewer from "~/components/EMR/Reports/ReportsViewer"
 import { type Order, ReportType } from "~/core"
-import NotesCard from "~/components/EMR/Dashboard/Card/NotesCard"
 import ArmBand from "~/components/EMR/ArmBand/ArmBand"
 import { DiagnosisCard } from "~/components/EMR/Dashboard/Card/DiagnosisCard"
 import { Button } from "~/components/common/ui/button"
+import EncounterCard from "~/components/Grad/EncounterCard"
+import { ChiefComplaintCard } from "~/components/EMR/Dashboard/Card/ChiefComplaint"
 
 
 export default function StudentPatientPreviewPage() {
@@ -27,7 +28,7 @@ export default function StudentPatientPreviewPage() {
         <div className="container mx-auto py-6 px-4 ">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold">Student Patient Report</h1>
-                <Button variant="outline" onClick={window.print} className="flex items-center gap-2">Print/Download as PDF</Button>
+                <Button variant="outline" onClick={() => window.print()} className="flex items-center gap-2">Print/Download as PDF</Button>
             </div>
 
             <div id="patient-report-container" className="bg-white">
@@ -40,7 +41,7 @@ export default function StudentPatientPreviewPage() {
 
                 <div className="w-78/100 mx-auto"><ArmBand patient={patient} /></div>
                 <DiagnosisCard diagnosis={patient.diagnosis} />
-
+                <ChiefComplaintCard chiefComplaint={patient.chiefComplaint} />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <AllergyCard allergies={patient.allergies} />
                     <FlagsCard flags={patient.flags} />
@@ -51,8 +52,9 @@ export default function StudentPatientPreviewPage() {
                 <MedicationCard medications={patient.medicationOrders} />
                 <Orders showEmpty orders={[...patient.customOrders, ...patient.medicationOrders] as Order[]} />
                 <ImmunizationCard immunizations={patient.immunizations} />
-                <ReportsViewer reportType={ReportType.studentAssessmentReport} title="Assessment" />
-                <NotesCard notes={patient.notes} />
+                {/* <ReportsViewer reportType={ReportType.studentAssessmentReport} title="Assessment" />
+                <ReportsViewer reportType={ReportType.studentVitalsReport} title="Vitals" /> */}
+                <EncounterCard notes={patient.notes} />
                 <AdditionalInfoSection patient={patient} />
             </div>
         </div>

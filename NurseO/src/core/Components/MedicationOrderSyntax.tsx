@@ -16,8 +16,8 @@ export function makeMedOrderString(order: MedicationOrder): string {
     const routine = indexableRoutine[order.routine] ?? order.routine
 
     const stringOrder = `${order.genericName && order.genericName.length > 0 ? order.genericName + " " : ""}
-    ${order.genericName && order.genericName.length > 0 && order.brandName && order.brandName.length > 0 ? "(" : ""}
-    ${order.brandName && order.brandName.length > 0 ? order.brandName.trim() : ""}
+    ${order.genericName && order.genericName.trim().length > 0 && order.brandName && order.brandName.length > 0 ? "(" : ""}
+    ${order.brandName && order.brandName.trim().length > 0 ? order.brandName.trim() : ""}
     ${order.genericName && order.genericName.length > 0 && order.brandName && order.brandName.length > 0 ? ")" : ""}
     ${order.concentration} 
     ${order.route} 
