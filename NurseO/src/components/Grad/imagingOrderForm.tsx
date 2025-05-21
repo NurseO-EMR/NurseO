@@ -68,6 +68,7 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
 
     addOrder(newOrder)
     form.reset()
+    setICD10Code({ code: "", description: "" })
   }
 
   return (

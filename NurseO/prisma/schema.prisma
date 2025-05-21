@@ -319,7 +319,7 @@ model User {
     role          String?
 
     patients Patient[] @relation()
-    log Log[] @relation()
+    logs Log[] @relation()
 }
 
 model VerificationToken {

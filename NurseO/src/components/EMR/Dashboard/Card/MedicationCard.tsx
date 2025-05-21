@@ -28,7 +28,7 @@ export default function MedicationCard(props: Props) {
             <tbody>
                 {props.medications.length > 0 ?
                     props.medications.map((medication, i) => <MedicationEntry isThereICD10Code={isThereICD10Code} key={i} order={medication}></MedicationEntry>) :
-                    <tr><td colSpan={6}><h1 className='text-center py-2'>No medications added</h1></td></tr>
+                    <tr><td colSpan={isThereICD10Code ? 10 : 7}><h1 className='text-center py-2'>No medications added</h1></td></tr>
                 }
             </tbody>
         </Card>

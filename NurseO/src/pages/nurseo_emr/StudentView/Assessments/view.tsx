@@ -7,7 +7,7 @@ export default function AssessmentViewPage() {
 
     return (
         <StudentViewPage>
-            <ReportsViewer reportType={ReportType.studentAssessmentReport} title={"Vitals"} />
+            <ReportsViewer reportType={ReportType.studentAssessmentReport} title={"Assessment"} />
         </StudentViewPage>
     )
 }

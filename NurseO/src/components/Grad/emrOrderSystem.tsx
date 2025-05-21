@@ -47,7 +47,6 @@ export function EMROrderSystem() {
     const orderNames = [];
     for (const order of orders) {
       if (order.orderKind === OrderKind.med) {
-        patient.medicationOrders.push(order)
         const { err } = await addMedOrderMutation.mutateAsync({ order, patientId: patient.dbId })
         if (err) { broadcastAnnouncement(err, Announcement.error); error = true; return; }
         patient.medicationOrders.push(order)

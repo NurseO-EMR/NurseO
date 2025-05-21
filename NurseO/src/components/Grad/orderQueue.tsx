@@ -79,8 +79,8 @@ export function OrderQueue({ orders, removeOrder }: OrderQueueProps) {
                 <h4 className="font-medium">{order.genericName ?? order.brandName ?? order.order}</h4>
                 <p className="text-sm text-slate-500 ">
                   {order.orderKind === OrderKind.med ? <MedicationOrderSyntax order={order} /> : order.notes}
-                  <p>ICD10 Description: {order.icd10 ? `${order.icd10.description} (${order.icd10.code})` : null}</p>
                 </p>
+                <p>ICD10 Description: {order.icd10 ? `${order.icd10.description} (${order.icd10.code})` : null}</p>
 
               </div>
               <Button

@@ -64,6 +64,7 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
 
     addOrder(newOrder)
     form.reset()
+    setICD10Code({ code: "", description: "" })
   }
 
   return (

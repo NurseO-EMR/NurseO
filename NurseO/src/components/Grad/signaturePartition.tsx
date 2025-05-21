@@ -14,6 +14,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/common/ui/dialog"
+import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService"
+import { useSession } from "next-auth/react"
 
 interface SignaturePartitionProps {
   orderCount: number
@@ -22,12 +24,24 @@ interface SignaturePartitionProps {
 
 export function SignaturePartition(props: SignaturePartitionProps) {
   const [name, setName] = useState("")
+  const [error, setError] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const session = useSession()
 
   const handleSignOrders = async () => {
     setIsSubmitting(true)
-    await props.submitOrders()
+    if (name !== session.data?.user.name) {
+      setError("Name is incorrect")
+      setIsSubmitting(false)
+      return;
+    }
+    try {
+      await props.submitOrders()
+    } catch (e) {
+      broadcastAnnouncement(String(e), Announcement.error)
+    }
+
     setIsSubmitting(false)
     setIsOpen(false)
   }
@@ -53,15 +67,17 @@ export function SignaturePartition(props: SignaturePartitionProps) {
             <DialogHeader>
               <DialogTitle>Sign Orders</DialogTitle>
               <DialogDescription>
-                Please enter your password to sign and submit {props.orderCount} order{props.orderCount !== 1 ? "s" : ""}.
+                Please enter your full name to sign and submit {props.orderCount} order{props.orderCount !== 1 ? "s" : ""}.
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
+                {error ? <p className="text-sm text-red text-center">{error}</p> : null}
                 <Label htmlFor="name">Name</Label>
                 <Input
                   id="name"
                   placeholder="Enter your full name"
+                  required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />

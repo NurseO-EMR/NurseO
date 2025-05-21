@@ -48,7 +48,7 @@ export default function Orders(props: Props) {
             <tbody>
                 {filteredOrders && filteredOrders.length > 0 ?
                     filteredOrders.map((order, i) => <OrderEntry showICD10Column={!!showICD10Column} key={i} order={order}></OrderEntry>) :
-                    <tr><td colSpan={3} className='p-2'><h1>No orders added</h1></td></tr>
+                    <tr><td colSpan={showICD10Column ? 4 : 3} className='p-2'><h1>No orders added</h1></td></tr>
                 }
             </tbody>
         </Card>
