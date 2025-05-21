@@ -5,30 +5,27 @@ import { Checkbox } from "~/components/common/ui/checkbox"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/common/ui/table"
 import PageView from "../_PageView"
 import { api } from "~/utils/api"
+import { useRouter } from "next/router"
 
 
 export default function LiveMonitorPage() {
-    const [selectedPairings, setSelectedPairings] = useState<number[]>([])
-    const studentPatientCharts = api.admin.getListOfStudentPatients.useQuery()
-
-    const handleSelection = (pairingId: number) => {
-        setSelectedPairings((prev) =>
-            prev.includes(pairingId) ? prev.filter((id) => id !== pairingId) : [...prev, pairingId],
-        )
+    const [selectedStudents, setSelectedStudents] = useState<string[]>([])
+    const studentPatientCharts = api.admin.getListOfStudents.useQuery()
+    const router = useRouter()
+    const handleSelection = (id: string) => {
+        const studentIndex = selectedStudents.indexOf(id)
+        if (studentIndex > -1) {
+            selectedStudents.splice(studentIndex, 1)
+        } else {
+            selectedStudents.push(id)
+        }
+        setSelectedStudents([...selectedStudents])
     }
 
-    const handleSubmit = () => {
-        //
+    const handleSubmit = async () => {
+        await router.push("/nurseo_admin/liveMonitor/monitor?studentIds=" + selectedStudents.toString())
     }
 
-    const selectAll = () => {
-        if (!studentPatientCharts.data) return
-        setSelectedPairings(studentPatientCharts.data.map((s) => s.patientId))
-    }
-
-    const clearAll = () => {
-        setSelectedPairings([])
-    }
 
     return (
         <PageView>
@@ -37,14 +34,8 @@ export default function LiveMonitorPage() {
                     <div className="flex justify-between items-center">
                         <CardTitle className="text-xl">EMR Student-Patient Monitoring</CardTitle>
                         <div className="flex gap-2">
-                            <Button variant="outline" size="sm" onClick={selectAll}>
-                                Select All
-                            </Button>
-                            <Button variant="outline" size="sm" onClick={clearAll}>
-                                Clear All
-                            </Button>
-                            <Button size="sm" onClick={handleSubmit} disabled={selectedPairings.length === 0}>
-                                Submit ({selectedPairings.length})
+                            <Button size="sm" onClick={handleSubmit} disabled={selectedStudents.length === 0}>
+                                Submit ({selectedStudents.length})
                             </Button>
                         </div>
                     </div>
@@ -57,26 +48,24 @@ export default function LiveMonitorPage() {
                                     <span className="sr-only">Select</span>
                                 </TableHead>
                                 <TableHead>Student Name</TableHead>
-                                <TableHead>Patient Name</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {studentPatientCharts.data?.map((s) => (
                                 <TableRow
-                                    key={s.patientId}
+                                    key={s.id}
                                     className="cursor-pointer"
-                                    onClick={() => handleSelection(s.patientId)}
+                                    onClick={() => handleSelection(s.id)}
                                 >
                                     <TableCell>
                                         <Checkbox
-                                            id={`pair-${s.patientId}`}
-                                            checked={selectedPairings.includes(s.patientId)}
-                                            onCheckedChange={() => handleSelection(s.patientId)}
-                                            aria-label={`Select ${s.studentName} with patient ${s.patientName}`}
+                                            className="ring-1 ring-white"
+                                            id={`pair-${s.id}`}
+                                            checked={selectedStudents.includes(s.id)}
+                                            onCheckedChange={() => handleSelection(s.id)}
                                         />
                                     </TableCell>
-                                    <TableCell className="font-medium">{s.studentName}</TableCell>
-                                    <TableCell>{s.patientName}</TableCell>
+                                    <TableCell className="font-medium">{s.name}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

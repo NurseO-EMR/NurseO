@@ -13,7 +13,7 @@ import { getAllMeds, getAllMedsWithLocationCount, deleteMed, getMedDetails, dele
 import { medicationSchema, medicationLocationSchema } from "~/types/zodSchemaMedication";
 import { addCourse, addCourseToLocation, addLocation, deleteCourse, deleteCourseFromLocation, deleteLocation, getCourses, getCoursesInSpecificLocation, getLocations, getUsersList, updateCourse, updateLocation } from "~/server/database/settingsDB";
 import { getReportSets } from "~/server/database/reportsDB";
-import { getListOfStudentPatients } from "~/server/database/studentTracker";
+import { getListOfStudents } from "~/server/database/studentTracker";
 import { getLogsForSpecificStudents } from "~/server/database/logDB";
 import { getStudentInfoFromUIDs } from "~/server/database/userDB";
 
@@ -55,7 +55,7 @@ export const AdminRouter = createTRPCRouter({
 
 
     // Student Tracker
-    getListOfStudentPatients: protectedProcedure.query(async ({ ctx }) => await getListOfStudentPatients(ctx.db)),
+    getListOfStudents: protectedProcedure.query(async ({ ctx }) => await getListOfStudents(ctx.db)),
     getLogsForSpecificStudents: protectedProcedure.input(z.object({ studentUIDs: z.array(z.string()), dateTimeMarker: z.date() })).mutation(async ({ ctx, input }) => await getLogsForSpecificStudents(ctx.db, input.studentUIDs, input.dateTimeMarker)),
     getStudentInfoFromUIDs: protectedProcedure.input(z.object({ studentUIDs: z.array(z.string()) })).query(async ({ ctx, input }) => await getStudentInfoFromUIDs(ctx.db, input.studentUIDs))
 });
