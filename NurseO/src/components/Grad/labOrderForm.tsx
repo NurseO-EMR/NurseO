@@ -26,7 +26,7 @@ interface LabOrderFormProps {
 }
 
 export function LabOrderForm({ addOrder }: LabOrderFormProps) {
-  const [icd10Code, setICD10Code] = useState<{ code: string, description: string }>()
+  const [icd10Code, setICD10Code] = useState<{ code: string, description: string }>({ code: "", description: "" })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,12 +50,16 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
       frequency: Frequency.NA,
       localOrderId: -1,
       mar: [],
-      notes: `Priority: ${values.priority}${values.fasting ? ", Fasting" : ""}${values.notes ? `, Notes: ${values.notes} for ${icd10Code?.description}` : ""}`,
+      notes: `Priority: ${values.priority}${values.fasting ? ", Fasting" : ""}${values.notes ? `, Notes: ${values.notes}` : ""}`,
       orderId: -1,
       orderIndex: -1,
       PRNNote: "",
       route: "",
-      routine: ""
+      routine: "",
+      icd10: {
+        code: icd10Code.code,
+        description: icd10Code.description
+      }
     }
 
     addOrder(newOrder)

@@ -28,6 +28,9 @@ export function EMROrderSystem() {
 
   const addOrder = (order: newLocalOrder) => {
     order.localOrderId = orders.length
+    if (order.orderKind !== OrderKind.med) {
+      order.order = order.order + " " + order.notes
+    }
     setOrders([...orders, order])
   }
 
@@ -50,7 +53,6 @@ export function EMROrderSystem() {
         patient.medicationOrders.push(order)
         orderNames.push(order.brandName)
       } else {
-        order.orderKind = OrderKind.custom
         const { err } = await addCustomOrderMutation.mutateAsync({ order, patientId: patient.dbId })
         if (err) { broadcastAnnouncement(err, Announcement.error); error = true; return; }
         patient.customOrders.push(order)
@@ -66,6 +68,7 @@ export function EMROrderSystem() {
     if (!error) {
       broadcastAnnouncement(`${orders.length} order${orders.length !== 1 ? "s" : ""} have been signed and submitted.`, Announcement.success)
       setPatient({ ...patient })
+      console.log(patient)
       clearOrders()
     }
 

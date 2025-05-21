@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { OrderType } from '~/core/index';
+import { OrderKind } from '~/core/index';
 import AllergyCard from '~/components/EMR/Dashboard/Card/AllergyCard';
 import FlagsCard from '~/components/EMR/Dashboard/Card/FlagsCard';
 import HistoryCard from '~/components/EMR/Dashboard/Card/HistoryCard';
@@ -11,6 +11,7 @@ import { GlobalContext } from '~/services/State';
 import EncounterCard from '~/components/Grad/EncounterCard';
 import StudentViewPage from '../_StudentViewPage';
 import MedicationCard from '~/components/EMR/Dashboard/Card/MedicationCard';
+import Orders from '~/components/EMR/Orders/Orders';
 
 export default function Index() {
     const { patient } = useContext(GlobalContext)
@@ -26,6 +27,8 @@ export default function Index() {
                 <HistoryCard className="col-span-3" history={patient.medicalHistory} />
                 <AllergyCard className='col-span-1' allergies={patient?.allergies}></AllergyCard>
                 <MedicationCard className='col-span-4' medications={patient.medicationOrders} />
+                <Orders title='Lab Orders' className="col-span-2" orders={patient.customOrders.filter(c => c.orderKind === OrderKind.lab)} />
+                <Orders title='Imaging Orders' className="col-span-2" orders={patient.customOrders.filter(c => c.orderKind === OrderKind.imaging)} />
                 <EncounterCard className='col-span-4' notes={patient.notes} />
             </div>
         </StudentViewPage>
