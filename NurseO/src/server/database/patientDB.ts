@@ -28,6 +28,7 @@ export async function deletePatient(db: PrismaClient, patientId: number) {
         db.patient.deleteMany({ where: { id: patientId } }),
     ])
 
+
     return data.map(d => d.count).reduce((a, b) => a + b) > 0
 }
 

@@ -48,7 +48,7 @@ model Patient {
     immunizations Immunization[] @relation()
     flags Flag[] @relation()
     student_reports Student_Report[] @relation()
-    logs Log[] @relation()
+    // logs Log[] @relation()
 }
 
 model Course {
@@ -276,7 +276,7 @@ model Log {
     activity String @db.Text
     timestamp DateTime
 
-    patient Patient @relation(fields: [patient_id], references: [id])
+    // patient Patient @relation(fields: [patient_id], references: [id])
     user User @relation(fields: [userUID], references: [id])
 }
 
