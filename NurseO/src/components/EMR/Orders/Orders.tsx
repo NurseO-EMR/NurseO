@@ -32,7 +32,7 @@ export default function Orders(props: Props) {
 
 
 
-    if (props.showEmpty && filteredOrders?.length === 0) {
+    if (!props.showEmpty && filteredOrders?.length === 0) {
         return <></>;
     }
     return (
