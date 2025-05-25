@@ -20,7 +20,7 @@ const formSchema = z.object({
   contrast: z.enum(["None", "With Contrast", "Without Contrast", "With and Without Contrast"], {
     required_error: "Contrast option is required",
   }),
-  clinicalIndication: z.string().min(1, { message: "Clinical indication is required" }),
+  clinicalIndication: z.string().optional(),
   icd10: z.object({ code: z.string(), description: z.string() }).optional()
 })
 
