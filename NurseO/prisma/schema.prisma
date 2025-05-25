@@ -121,7 +121,7 @@ model Note {
     patient_id Int
     type    String?
     date    String
-    note    String
+    note    String @db.Text
 
     patient Patient @relation(fields: [patient_id], references: [id])
 }
@@ -263,7 +263,7 @@ model Report_Label {
 
 model ICD_10 {
     code String @id @unique
-    description String @db.VarChar(80) 
+    description String @db.Text 
 
     med_orders Med_Order[] @relation()
     custom_orders Custom_Order[] @relation()

@@ -13,10 +13,59 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
     notes: Note[]
 }
 
+const noteTemplate = `
+<b><u>History of Present Illness (HPI):</u></b><br>
+<br>
+<br>
+<b><u>Review of Systems:</u></b><br>
+Constitutional:<br>
+HENT:<br>
+Eyes:<br>
+Respiratory:<br>
+Cardiovascular:<br>
+Gastrointestinal:<br>
+Endocrine:<br>
+Genitourinary:<br>
+Musculoskeletal:<br>
+Allergic/Immunologic:<br>
+Neurologic:<br>
+Hematologic:<br>
+Skin:<br>
+Psychiatric/Behavioral:<br><br>
+
+<b><u>Physical Exam:</u></b><br>
+Vital Signs:<br>
+Constitutional:<br>
+HENT:<br>
+Eyes:<br>
+Cardiovascular:<br>
+<br>
+Pulmonary/Chest:<br>
+Abdominal/Gastrointestinal:<br>
+Musculoskeletal:<br>
+Neurological:<br>
+Skin:<br>
+Psychiatric:<br>
+<br>
+<b><u>Medical Decision Making:</u></b><br>
+<ol>
+    <li>Diagnosis:
+        <ul>
+            <li>ICD-10:</li>
+            <li>Medical Decision Making:</li>
+            <li>Associated orders:</li>
+        </ul>
+    </li>
+</ol><br>
+Wrap up/Patient Education/Follow Up Recommendations:<br>
+E/M Code:<br>
+Signed:<br>
+`
+
 export default function EncounterCard(props: Props) {
     const [openAddNoteModel, setOpenAddNoteModel] = useState(false)
     const [preViewModelNote, setPreviewModelNote] = useState("")
-    const [newNote, setNewNote] = useState("")
+    const [newNote, setNewNote] = useState(noteTemplate)
     const { patient, setPatient, studentId } = useContext(GlobalContext)
     const addNoteMutation = api.emr.student_addNote.useMutation()
 
@@ -32,7 +81,7 @@ export default function EncounterCard(props: Props) {
         patient.notes.push(note)
         setPatient({ ...patient })
         setOpenAddNoteModel(false)
-        setNewNote("")
+        setNewNote(noteTemplate)
     }
 
     return (
