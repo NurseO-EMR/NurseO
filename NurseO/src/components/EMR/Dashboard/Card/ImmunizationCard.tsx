@@ -11,7 +11,7 @@ export default function ImmunizationCard(props: Props) {
         <Card className={props.className} title="Immunizations">
             <thead className="font-bold">
                 <tr>
-                    <td className="border-2 p-2 border-trueGray-200">Taken Immunization</td>
+                    <td className="border-2 p-2 border-trueGray-200">Immunization Record</td>
                 </tr>
             </thead>
             <tbody>

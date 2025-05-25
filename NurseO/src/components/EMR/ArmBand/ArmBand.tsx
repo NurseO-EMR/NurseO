@@ -33,7 +33,7 @@ export default function ArmBand(props: Props) {
                 <SectionNamedInfo name="Weight">{props.patient.weight}</SectionNamedInfo>
                 <SectionNamedInfo name="Code">{props.patient.code}</SectionNamedInfo>
                 <SectionNamedInfo name="Sim Time">
-                    {props.patient.time.hour.toString().padStart(2, "0")}:{props.patient.time.minute.toString().padStart(2, "0")}
+                    {props.patient.time.hour.toString().padStart(2, "0")}{props.patient.time.minute.toString().padStart(2, "0")}
                 </SectionNamedInfo>
             </div>
             <Image src={`/${env.NEXT_PUBLIC_basePath}/logo.png`} height={38 * 1.5} width={38 * 2.1} className='' alt="logo" />
