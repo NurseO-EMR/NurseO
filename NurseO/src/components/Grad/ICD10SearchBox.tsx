@@ -27,7 +27,7 @@ export function ICD10SearchBox(props: Props) {
     const [filteredCodes, setFilteredCodes] = useState<ICD10Code[]>([])
 
     useEffect(() => {
-        setSearchTerm(props.value?.code ?? "")
+        setSearchTerm(props.value?.code ? `${props.value?.code} - ${props.value?.description}` : "")
     }, [props.value])
 
     const handleSearchClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -80,8 +80,8 @@ export function ICD10SearchBox(props: Props) {
                             {filteredCodes.map((code) => (
                                 <div key={code.code} onClick={() => handleCodeSelect(code)}
                                     className="p-4 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors ">
-                                    <div className="flex gap-3 items-center">
-                                        <Badge>{code.code}</Badge>
+                                    <div className="flex gap-4 items-center">
+                                        <Badge className="min-w-20">{code.code}</Badge>
                                         <div className="flex-1">
                                             <p className="text-sm leading-relaxed">{code.description}</p>
                                         </div>

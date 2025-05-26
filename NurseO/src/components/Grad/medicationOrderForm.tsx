@@ -27,7 +27,7 @@ const formSchema = z.object({
   routine: z.string().min(1, { message: "Routine is required" }),
   frequency: z.nativeEnum(Frequency),
   notes: z.string().min(1, { message: "Pharmacy notes are required" }),
-  icd10: z.object({ code: z.string().min(1, { message: "Pharmacy notes are required" }), description: z.string() }).optional()
+  icd10: z.object({ code: z.string().optional(), description: z.string().optional() }).optional()
 })
 
 const defaultValues = {
@@ -54,7 +54,7 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
       form.setError("id", { message: "Med is required" })
       return;
     }
-    if (!values.icd10?.code || values.icd10.code.trim().length === 0) {
+    if (!values.icd10?.code || !values.icd10?.description || values.icd10.description.trim().length === 0 || values.icd10.code.trim().length === 0) {
       form.setError("icd10", { message: "ICD10 Code is required" })
       return;
     }
@@ -76,7 +76,10 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
       time: new Date().toLocaleTimeString(),
       brandName: med?.brandName,
       genericName: med?.genericName,
-      icd10: values.icd10,
+      icd10: {
+        code: values.icd10.code,
+        description: values.icd10.description
+      },
       dispenseQuantity: values.dispenseQuantity,
       refills: parseInt(values.refills as unknown as string)
     }

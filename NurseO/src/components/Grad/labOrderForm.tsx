@@ -17,7 +17,7 @@ const formSchema = z.object({
   priority: z.string().min(1, { message: "Priority is required" }),
   fasting: z.boolean().default(false),
   notes: z.string().optional(),
-  icd10: z.object({ code: z.string(), description: z.string() }).optional()
+  icd10: z.object({ code: z.string().optional(), description: z.string().optional() }).optional()
 })
 
 interface LabOrderFormProps {
@@ -38,7 +38,8 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
   })
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    if (!values.icd10?.code || values.icd10.code.trim().length === 0) {
+    console.log("hewfjhwefihefwuiwefh")
+    if (!values.icd10?.code || !values.icd10?.description || values.icd10.description.trim().length === 0 || values.icd10.code.trim().length === 0) {
       form.setError("icd10", { message: "ICD10 Code is required" })
       return;
     }

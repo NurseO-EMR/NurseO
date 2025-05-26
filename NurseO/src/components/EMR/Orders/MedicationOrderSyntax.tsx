@@ -11,7 +11,6 @@ export default function MedicationOrderSyntax(props: Props) {
     const { locationId } = useContext(GlobalContext)
     const medication = api.emr.student_getMedicationById.useQuery({ medId: props.order.id, locationId })
 
-    console.log(medication.data)
     if (!medication.isLoading && medication.data) {
         const temp = { ...props.order }
         temp.brandName = medication.data.brandName

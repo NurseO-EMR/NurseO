@@ -42,7 +42,6 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
   })
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(!values.icd10?.code || values.icd10.code.trim().length === 0)
     if (!values.icd10?.code || !values.icd10?.description || values.icd10.description.trim().length === 0 || values.icd10.code.trim().length === 0) {
       form.setError("icd10", { message: "ICD10 Code is required" })
       return;
