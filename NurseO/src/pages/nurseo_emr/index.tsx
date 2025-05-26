@@ -50,7 +50,7 @@ export default function Login() {
                 <Background />
                 <div className="grid justify-center h-screen w-screen content-center text-center">
                     <form onSubmit={e => e.preventDefault()} className="bg-white px-24 py-16 rounded-4xl border-primary border-8">
-                        <Logo className="text-6xl mb-10" />
+                        <Logo className="text-6xl mb-10" homePageLink='/nurseo_emr/' />
                         <h1 className="text-xl font-bold">Please Scan Your Badge</h1>
                         <input type="password" autoFocus autoComplete='off'
                             className="my-5 border-2 rounded-full text-center p-4 border-primary w-full"

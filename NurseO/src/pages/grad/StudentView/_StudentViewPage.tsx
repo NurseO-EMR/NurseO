@@ -4,7 +4,6 @@ import SideNav from '~/components/EMR/Nav/SideBar/SideNav';
 import SideNavHeader from '~/components/EMR/Nav/SideBar/SideNavHeader';
 import SideNavItem from '~/components/EMR/Nav/SideBar/SideNavItem';
 import TopNav from '~/components/EMR/Nav/TopMenu/TopNav';
-import TapOutService from '~/services/TapOutService';
 import { ColorThemeSelector } from '~/components/common/ColorThemeSelector';
 import { GlobalContext } from '~/services/State';
 import { useRouter } from 'next/router';
@@ -26,7 +25,7 @@ export default function StudentViewPage(props: Props) {
 
     return (
         <main className="grid grid-areas-main min-h-screen grid-cols-twoSections grid-rows-threeSections relative">
-            <TopNav className="grid-in-topNav"></TopNav>
+            <TopNav homePageLink='/grad/' className="grid-in-topNav"></TopNav>
             <ArmBand patient={patient} className="grid-in-armBand"></ArmBand>
             <SideNav className="grid-in-sideBar">
                 <SideNavHeader href="/grad/StudentView/Dashboard">Dashboard</SideNavHeader>
