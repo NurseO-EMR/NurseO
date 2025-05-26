@@ -170,11 +170,11 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
         <FormField
           control={form.control}
           name="icd10"
-          render={() => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>ICD 10 Diagnosis</FormLabel>
               <FormControl>
-                <ICD10SearchBox onChange={setICD10Code} />
+                <ICD10SearchBox {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

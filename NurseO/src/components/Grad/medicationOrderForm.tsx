@@ -27,7 +27,7 @@ const formSchema = z.object({
   routine: z.string().min(1, { message: "Routine is required" }),
   frequency: z.nativeEnum(Frequency),
   notes: z.string().min(1, { message: "Pharmacy notes are required" }),
-  icd10: z.object({ code: z.string(), description: z.string() }).required()
+  icd10: z.object({ code: z.string().min(1, { message: "Pharmacy notes are required" }), description: z.string() }).optional()
 })
 
 const defaultValues = {
@@ -50,6 +50,14 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const med = meds?.find(m => m.id === values.id)
+    if (values.id === -1) {
+      form.setError("id", { message: "Med is required" })
+      return;
+    }
+    if (values.icd10?.code.length === 0) {
+      form.setError("icd10", { message: "ICD10 Code is required" })
+      return;
+    }
     const newOrder: newLocalOrder = {
       concentration: values.dosage,
       frequency: values.frequency,
@@ -74,7 +82,7 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
     }
 
     props.addOrder(newOrder)
-    form.reset(defaultValues)
+    form.reset()
   }
 
   return (
