@@ -11,7 +11,7 @@ import SocialHistoryCard from "~/components/EMR/Dashboard/Card/SocialHistory"
 import Orders from "~/components/EMR/Orders/Orders"
 import ImmunizationCard from "~/components/EMR/Dashboard/Card/ImmunizationCard"
 import ReportsViewer from "~/components/EMR/Reports/ReportsViewer"
-import { type Order, ReportType } from "~/core"
+import { type Order, OrderKind, ReportType } from "~/core"
 import ArmBand from "~/components/EMR/ArmBand/ArmBand"
 import { DiagnosisCard } from "~/components/EMR/Dashboard/Card/DiagnosisCard"
 import { Button } from "~/components/common/ui/button"
@@ -51,11 +51,14 @@ export default function StudentPatientPreviewPage() {
                 <SocialHistoryCard history={patient.socialHistory} />
                 <MedicationCard medications={patient.medicationOrders} />
                 <Orders showEmpty orders={[...patient.customOrders, ...patient.medicationOrders] as Order[]} />
+                <Orders showEmpty title='Lab Orders' className="col-span-2" orders={patient.customOrders.filter(c => c.orderKind === OrderKind.lab)} />
+                <Orders showEmpty title='Imaging Orders' className="col-span-2" orders={patient.customOrders.filter(c => c.orderKind === OrderKind.imaging)} />
                 <ImmunizationCard immunizations={patient.immunizations} />
                 {/* <ReportsViewer reportType={ReportType.studentAssessmentReport} title="Assessment" />
                 <ReportsViewer reportType={ReportType.studentVitalsReport} title="Vitals" /> */}
                 <EncounterCard notes={patient.notes} />
                 <AdditionalInfoSection patient={patient} />
+
             </div>
         </div>
     )
