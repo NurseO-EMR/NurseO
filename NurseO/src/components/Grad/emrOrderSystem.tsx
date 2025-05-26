@@ -34,8 +34,9 @@ export function EMROrderSystem() {
     setOrders([...orders, order])
   }
 
-  const removeOrder = (id: number) => {
-    setOrders(orders.filter((order) => order.localOrderId !== id))
+  const removeOrder = (index: number) => {
+    orders.splice(index, 1)
+    setOrders([...orders])
   }
 
   const clearOrders = () => {
