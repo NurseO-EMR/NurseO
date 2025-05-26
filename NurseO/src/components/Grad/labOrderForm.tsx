@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { Button } from "~/components/common/ui/button"
 import { Checkbox } from "~/components/common/ui/checkbox"
 import { Textarea } from "~/components/common/ui/textarea"
-import { Select, SelectItem } from "~/components/common/ui/select"
+import { Select } from "~/components/common/ui/select"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/common/ui/form"
 import type { newLocalOrder } from "~/components/Grad/emrOrderSystem"
 import { PlusCircle } from "lucide-react"
@@ -78,28 +78,29 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
               <FormLabel>Test Type</FormLabel>
 
               <FormControl>
-                <Select onChange={field.onChange} defaultValue={field.value} label="Test Type">
-                  <SelectItem value="Complete Blood Count (CBC)">Complete Blood Count (CBC)</SelectItem>
-                  <SelectItem value="CBC with Differential">CBC with Differential</SelectItem>
-                  <SelectItem value="Basic Metabolic Panel (BMP)">Basic Metabolic Panel (BMP)</SelectItem>
-                  <SelectItem value="Comprehensive Metabolic Panel (CMP)">
+                <Select {...field} label="Test Type">
+                  <option value=""></option>
+                  <option value="Complete Blood Count (CBC)">Complete Blood Count (CBC)</option>
+                  <option value="CBC with Differential">CBC with Differential</option>
+                  <option value="Basic Metabolic Panel (BMP)">Basic Metabolic Panel (BMP)</option>
+                  <option value="Comprehensive Metabolic Panel (CMP)">
                     Comprehensive Metabolic Panel (CMP)
-                  </SelectItem>
-                  <SelectItem value="Lipid Panel">Lipid Profile</SelectItem>
-                  <SelectItem value="Liver Function Tests">Liver Function Tests</SelectItem>
-                  <SelectItem value="Thyroid Function Tests">Thyroid Function Tests</SelectItem>
-                  <SelectItem value="Hemoglobin A1C">Hemoglobin A1C</SelectItem>
-                  <SelectItem value="Urinalysis">Urinalysis</SelectItem>
-                  <SelectItem value="Urine Culture">Urine Culture</SelectItem>
-                  <SelectItem value="Blood Culture">Blood Culture</SelectItem>
-                  <SelectItem value="PSA Level">PSA Level</SelectItem>
-                  <SelectItem value="Vitamin D">Vitamin D</SelectItem>
-                  <SelectItem value="SARS-CoV-2 PCR">SARS-CoV-2 PCR</SelectItem>
-                  <SelectItem value="Influenza A">Influenza A</SelectItem>
-                  <SelectItem value="Influenza B">Influenza B</SelectItem>
-                  <SelectItem value="Spirometry Testing Result Consistent with COPD">Spirometry Testing Result Consistent with COPD</SelectItem>
-                  <SelectItem value="Bone Density (DEXA)">Bone Density (DEXA)</SelectItem>
-                  <SelectItem value="Mono Test">Mono Test</SelectItem>
+                  </option>
+                  <option value="Lipid Panel">Lipid Profile</option>
+                  <option value="Liver Function Tests">Liver Function Tests</option>
+                  <option value="Thyroid Function Tests">Thyroid Function Tests</option>
+                  <option value="Hemoglobin A1C">Hemoglobin A1C</option>
+                  <option value="Urinalysis">Urinalysis</option>
+                  <option value="Urine Culture">Urine Culture</option>
+                  <option value="Blood Culture">Blood Culture</option>
+                  <option value="PSA Level">PSA Level</option>
+                  <option value="Vitamin D">Vitamin D</option>
+                  <option value="SARS-CoV-2 PCR">SARS-CoV-2 PCR</option>
+                  <option value="Influenza A">Influenza A</option>
+                  <option value="Influenza B">Influenza B</option>
+                  <option value="Spirometry Testing Result Consistent with COPD">Spirometry Testing Result Consistent with COPD</option>
+                  <option value="Bone Density (DEXA)">Bone Density (DEXA)</option>
+                  <option value="Mono Test">Mono Test</option>
                 </Select>
               </FormControl>
               <FormMessage />
@@ -115,10 +116,10 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
               <FormItem>
                 <FormLabel>Priority</FormLabel>
                 <FormControl>
-                  <Select onChange={field.onChange} defaultValue={field.value} label="Test Type">
-                    <SelectItem value="Routine">Routine</SelectItem>
-                    <SelectItem value="Urgent">Urgent</SelectItem>
-                    <SelectItem value="STAT">STAT</SelectItem>
+                  <Select {...field} label="Test Type">
+                    <option value="Routine">Routine</option>
+                    <option value="Urgent">Urgent</option>
+                    <option value="STAT">STAT</option>
                   </Select>
                 </FormControl>
                 <FormMessage />

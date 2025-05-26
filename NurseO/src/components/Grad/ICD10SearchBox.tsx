@@ -15,7 +15,7 @@ export function ICD10SearchBox(props: Props) {
     }
 
     return (
-        <AsyncSelect loadOptions={getOptions} onChange={v => v && props.onChange({ code: v.value, description: v.label })} />
+        <AsyncSelect isClearable loadOptions={getOptions} onChange={v => v && props.onChange({ code: v.value, description: v.label })} />
 
     )
 }

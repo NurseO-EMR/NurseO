@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "~/components/common/ui/button"
 import { Textarea } from "~/components/common/ui/textarea"
-import { Select, SelectItem } from "~/components/common/ui/select"
+import { Select } from "~/components/common/ui/select"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/common/ui/form"
 import type { newLocalOrder } from "~/components/Grad/emrOrderSystem"
 import { PlusCircle } from "lucide-react"
@@ -83,15 +83,16 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
               <FormItem>
                 <FormLabel>Imaging Type</FormLabel>
                 <FormControl>
-                  <Select onChange={field.onChange} defaultValue={field.value} label="Imaging Type">
-                    <SelectItem value="X-Ray">X-Ray</SelectItem>
-                    <SelectItem value="CT Scan">CT Scan</SelectItem>
-                    <SelectItem value="MRI">MRI</SelectItem>
-                    <SelectItem value="Ultrasound">Ultrasound</SelectItem>
-                    <SelectItem value="PET Scan">PET Scan</SelectItem>
-                    <SelectItem value="Mammogram">Mammogram</SelectItem>
-                    <SelectItem value="Bone Density Scan">Bone Density Scan</SelectItem>
-                    <SelectItem value="Echocardiogram">Echocardiogram</SelectItem>
+                  <Select {...field} label="Imaging Type">
+                    <option value=""></option>
+                    <option value="X-Ray">X-Ray</option>
+                    <option value="CT Scan">CT Scan</option>
+                    <option value="MRI">MRI</option>
+                    <option value="Ultrasound">Ultrasound</option>
+                    <option value="PET Scan">PET Scan</option>
+                    <option value="Mammogram">Mammogram</option>
+                    <option value="Bone Density Scan">Bone Density Scan</option>
+                    <option value="Echocardiogram">Echocardiogram</option>
                   </Select>
                 </FormControl>
                 <FormMessage />
@@ -106,11 +107,11 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
               <FormItem>
                 <FormLabel>Imaging Type</FormLabel>
                 <FormControl>
-                  <Select onChange={field.onChange} defaultValue={field.value} label="Imaging Type">
-                    <SelectItem value="None">None</SelectItem>
-                    <SelectItem value="With Contrast">With Contrast</SelectItem>
-                    <SelectItem value="Without Contrast">Without Contrast</SelectItem>
-                    <SelectItem value="With and Without Contrast">With and Without Contrast</SelectItem>
+                  <Select {...field} label="Imaging Type">
+                    <option value="None">None</option>
+                    <option value="With Contrast">With Contrast</option>
+                    <option value="Without Contrast">Without Contrast</option>
+                    <option value="With and Without Contrast">With and Without Contrast</option>
                   </Select>
                 </FormControl>
                 <FormMessage />
@@ -140,10 +141,10 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
             <FormItem>
               <FormLabel>Priority</FormLabel>
               <FormControl>
-                <Select onChange={field.onChange} defaultValue={field.value} label="Test Type">
-                  <SelectItem value="Routine">Routine</SelectItem>
-                  <SelectItem value="Urgent">Urgent</SelectItem>
-                  <SelectItem value="STAT">STAT</SelectItem>
+                <Select {...field} label="Test Type">
+                  <option value="Routine">Routine</option>
+                  <option value="Urgent">Urgent</option>
+                  <option value="STAT">STAT</option>
                 </Select>
               </FormControl>
               <FormMessage />

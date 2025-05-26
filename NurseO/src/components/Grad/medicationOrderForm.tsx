@@ -1,34 +1,59 @@
 import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "~/components/common/ui/button"
 import { Input } from "~/components/common/ui/input"
 import { Textarea } from "~/components/common/ui/textarea"
-import { Select, SelectItem } from "~/components/common/ui/select"
+import { Select } from "~/components/common/ui/select"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/common/ui/form"
 import { PlusCircle } from "lucide-react"
 import { Frequency, OrderKind, OrderType, Routine } from "~/core"
 import { type newLocalOrder } from "./emrOrderSystem"
 import { SearchableSelect } from "../Admin/Form/SearchableSelect"
 import { api } from "~/utils/api"
-import { useState } from "react"
 import { ICD10SearchBox } from "./ICD10SearchBox"
+import { z } from "zod"
 
 
 type MedicationOrderFormProps = {
   addOrder: (order: newLocalOrder) => void
 }
 
+const formSchema = z.object({
+  id: z.number().min(-1, { message: "Medication name is required" }),
+  dosage: z.string().min(1, { message: "Dosage is required" }),
+  dispenseQuantity: z.string().min(1, { message: "Dispense quantity is required" }),
+  refills: z.number().min(-1, { message: "Refills is required" }),
+  route: z.string().min(1, { message: "Route is required" }),
+  routine: z.string().min(1, { message: "Routine is required" }),
+  frequency: z.nativeEnum(Frequency),
+  notes: z.string().min(1, { message: "Pharmacy notes are required" }),
+  icd10: z.object({ code: z.string(), description: z.string() }).required()
+})
+
+const defaultValues = {
+  dispenseQuantity: "",
+  dosage: "",
+  frequency: Frequency.NA,
+  icd10: undefined,
+  id: -1,
+  notes: "",
+  refills: 0,
+  route: "",
+  routine: ""
+}
+
 export function MedicationOrderForm(props: MedicationOrderFormProps) {
   const { data: meds } = api.grad.student_getAllMeds.useQuery()
-  const [id, setId] = useState(-1);
-  const [icd10Code, setICD10Code] = useState<{ code: string, description: string }>()
-  const form = useForm<newLocalOrder>()
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema), defaultValues: defaultValues
+  })
 
-  const onSubmit = (values: newLocalOrder) => {
-    const med = meds?.find(m => m.id === id)
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const med = meds?.find(m => m.id === values.id)
     const newOrder: newLocalOrder = {
-      concentration: values.concentration || "",
+      concentration: values.dosage,
       frequency: values.frequency,
-      id: id,
+      id: values.id,
       mar: [],
       notes: values.notes,
       orderId: -1,
@@ -43,14 +68,13 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
       time: new Date().toLocaleTimeString(),
       brandName: med?.brandName,
       genericName: med?.genericName,
-      icd10: icd10Code,
+      icd10: values.icd10,
       dispenseQuantity: values.dispenseQuantity,
       refills: parseInt(values.refills as unknown as string)
     }
 
     props.addOrder(newOrder)
-    form.reset()
-    setId(-1)
+    form.reset(defaultValues)
   }
 
   return (
@@ -60,12 +84,12 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
           <FormField
             control={form.control}
             name="id"
-            render={() => (
+            render={({ field }) => (
               <FormItem>
                 <FormLabel>Medication Name</FormLabel>
                 <FormControl>
-                  <SearchableSelect label="Medication Name" hideLabel options={meds ?? []} labelKeys={["genericName", "brandName"]} valueKey="id" value={id}
-                    onChange={v => setId(parseInt(v))} borderColor="rgb(226 232 240)" />
+                  <SearchableSelect label="Medication Name" hideLabel options={meds ?? []} labelKeys={["genericName", "brandName"]} valueKey="id" {...field}
+                    onChange={v => field.onChange(parseInt(v))} borderColor="rgb(226 232 240)" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -74,7 +98,7 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
 
           <FormField
             control={form.control}
-            name="concentration"
+            name="dosage"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Dosage</FormLabel>
@@ -108,7 +132,9 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
               <FormItem>
                 <FormLabel>Refills</FormLabel>
                 <FormControl>
-                  <select {...field} className="flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-white data-[placeholder]:text-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-950 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
+                  <select {...field} className="flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-white data-[placeholder]:text-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-950 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
+                    onChange={v => field.onChange(parseInt(v.target.value))}
+                  >
                     <option value="0">No Refills</option>
                     <option value="1">1 Refill</option>
                     <option value="2">2 Refills</option>
@@ -129,12 +155,13 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Route</FormLabel>
-                <Select onChange={field.onChange} defaultValue={field.value} label="Select route">
-                  <SelectItem value="Oral">Oral</SelectItem>
-                  <SelectItem value="Intravenous">Intravenous</SelectItem>
-                  <SelectItem value="Intramuscular">Intramuscular</SelectItem>
-                  <SelectItem value="Subcutaneous">Subcutaneous</SelectItem>
-                  <SelectItem value="Topical">Topical</SelectItem>
+                <Select {...field} label="Select route">
+                  <option value=""></option>
+                  <option value="Oral">Oral</option>
+                  <option value="Intravenous">Intravenous</option>
+                  <option value="Intramuscular">Intramuscular</option>
+                  <option value="Subcutaneous">Subcutaneous</option>
+                  <option value="Topical">Topical</option>
                 </Select>
                 <FormMessage />
               </FormItem>
@@ -147,8 +174,8 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Routine</FormLabel>
-                <Select onChange={field.onChange} defaultValue={field.value} label="Select routine">
-                  {Object.values(Routine).filter(v => v.length > 0).map((f, i) => <SelectItem value={f} key={i}>{f}</SelectItem>)}
+                <Select {...field} label="Select routine">
+                  {Object.values(Routine).map((f, i) => <option value={f} key={i}>{f}</option>)}
                 </Select>
                 <FormMessage />
               </FormItem>
@@ -162,8 +189,8 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Frequency</FormLabel>
-                <Select onChange={field.onChange} defaultValue={field.value} label="Select frequency">
-                  {Object.values(Frequency).filter(v => v.length > 0).map((f, i) => <SelectItem value={f} key={i}>{f}</SelectItem>)}
+                <Select {...field} label="Select frequency">
+                  {Object.values(Frequency).map((f, i) => <option value={f} key={i}>{f}</option>)}
                 </Select>
                 <FormMessage />
               </FormItem>
@@ -191,11 +218,11 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
         <FormField
           control={form.control}
           name="icd10"
-          render={() => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>ICD 10 Diagnosis</FormLabel>
               <FormControl>
-                <ICD10SearchBox onChange={setICD10Code} />
+                <ICD10SearchBox {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
