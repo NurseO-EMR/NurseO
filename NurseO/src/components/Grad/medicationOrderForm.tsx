@@ -54,7 +54,7 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
       form.setError("id", { message: "Med is required" })
       return;
     }
-    if (values.icd10?.code.length === 0) {
+    if (!values.icd10?.code || values.icd10.code.trim().length === 0) {
       form.setError("icd10", { message: "ICD10 Code is required" })
       return;
     }

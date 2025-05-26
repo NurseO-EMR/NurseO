@@ -89,14 +89,14 @@ export default function EncounterCard(props: Props) {
             <Card className={props.className} title="Encounters" editable onEditClick={() => setOpenAddNoteModel(true)}>
                 <thead className="font-bold">
                     <tr>
-                        <td className="border-2 p-2 border-trueGray-200">Type</td>
-                        <td className="border-2 p-2 border-trueGray-200">Date</td>
-                        <td className="border-2 p-2 border-trueGray-200 w-8/12">Note</td>
+                        <th className="text-left border-2 p-2 border-trueGray-200">Type</th>
+                        <th className="text-left border-2 p-2 border-trueGray-200">Date</th>
+                        <th className="text-left border-2 p-2 border-trueGray-200 w-8/12">Note</th>
                     </tr>
                 </thead>
                 <tbody>
                     {props.notes?.length === 0 ?
-                        <tr><td colSpan={3} className='text-center p-2 border-trueGray-200'><h1>No encounters found</h1></td></tr> :
+                        <tr><td colSpan={3} className='text-center p-2 border-trueGray-200 font-bold'>No encounters found</td></tr> :
                         props.notes.map((n, i) => (
                             <tr key={i} className='hover:bg-primary hover:text-white transition-all duration-200  even:bg-gray-300 cursor-pointer border-trueGray-200 max-w-full'
                                 onClick={() => setPreviewModelNote(n.note)}
