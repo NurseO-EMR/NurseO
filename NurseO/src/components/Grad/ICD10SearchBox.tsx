@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Search } from "lucide-react"
 
 import { cn } from "~/lib/utils"
@@ -9,8 +9,8 @@ import { api } from "~/utils/api"
 import { Badge } from "~/components/common/ui/badge"
 
 type ICD10Code = {
-    code: string
-    description: string
+    code?: string
+    description?: string
 }
 
 type Props = {
@@ -25,6 +25,10 @@ export function ICD10SearchBox(props: Props) {
     const [searchTerm, setSearchTerm] = useState("")
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [filteredCodes, setFilteredCodes] = useState<ICD10Code[]>([])
+
+    useEffect(() => {
+        setSearchTerm(props.value?.code ?? "")
+    }, [props.value])
 
     const handleSearchClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
@@ -41,7 +45,9 @@ export function ICD10SearchBox(props: Props) {
         setSearchTerm(`${code.code} - ${code.description}`)
         setIsDialogOpen(false)
         props.onChange(code)
+
     }
+
     return (
         <div className={cn("w-full", props.className)}>
             <div className="flex gap-2">

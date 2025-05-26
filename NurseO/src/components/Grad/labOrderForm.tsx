@@ -9,7 +9,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import type { newLocalOrder } from "~/components/Grad/emrOrderSystem"
 import { PlusCircle } from "lucide-react"
 import { Frequency, OrderKind, OrderType } from "~/core"
-import { useState } from "react"
 import { ICD10SearchBox } from "./ICD10SearchBox"
 
 
@@ -26,7 +25,6 @@ interface LabOrderFormProps {
 }
 
 export function LabOrderForm({ addOrder }: LabOrderFormProps) {
-  const [icd10Code, setICD10Code] = useState<{ code: string, description: string }>({ code: "", description: "" })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,11 +33,15 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
       priority: "Routine",
       fasting: false,
       notes: "",
-      icd10: icd10Code,
+      icd10: {},
     },
   })
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    if (!values.icd10?.code || values.icd10.code.trim().length === 0) {
+      form.setError("icd10", { message: "ICD10 Code is required" })
+      return;
+    }
     const newOrder: newLocalOrder = {
       id: -1,
       orderType: OrderType.provider,
@@ -57,14 +59,13 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
       route: "",
       routine: "",
       icd10: {
-        code: icd10Code.code,
-        description: icd10Code.description
+        code: values.icd10.code,
+        description: values.icd10.description
       }
     }
 
     addOrder(newOrder)
     form.reset()
-    setICD10Code({ code: "", description: "" })
   }
 
   return (

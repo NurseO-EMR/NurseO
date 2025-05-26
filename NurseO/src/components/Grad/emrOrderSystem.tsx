@@ -68,7 +68,6 @@ export function EMROrderSystem() {
     if (!error) {
       broadcastAnnouncement(`${orders.length} order${orders.length !== 1 ? "s" : ""} have been signed and submitted.`, Announcement.success)
       setPatient({ ...patient })
-      console.log(patient)
       clearOrders()
     }
 

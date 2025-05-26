@@ -10,7 +10,6 @@ import type { newLocalOrder } from "~/components/Grad/emrOrderSystem"
 import { PlusCircle } from "lucide-react"
 import { Frequency, OrderKind, OrderType } from "~/core"
 import { Input } from "../common/ui/input"
-import { useState } from "react"
 import { ICD10SearchBox } from "./ICD10SearchBox"
 
 const formSchema = z.object({
@@ -21,7 +20,7 @@ const formSchema = z.object({
     required_error: "Contrast option is required",
   }),
   clinicalIndication: z.string().optional(),
-  icd10: z.object({ code: z.string(), description: z.string() }).optional()
+  icd10: z.object({ code: z.string().optional(), description: z.string().optional() }).optional()
 })
 
 interface ImagingOrderFormProps {
@@ -29,7 +28,6 @@ interface ImagingOrderFormProps {
 }
 
 export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
-  const [icd10Code, setICD10Code] = useState<{ code: string, description: string }>({ code: "", description: "" })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,11 +37,16 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
       bodyPart: "",
       priority: "Routine",
       clinicalIndication: "",
-      icd10: icd10Code,
+      icd10: { code: undefined, description: undefined },
     },
   })
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log(!values.icd10?.code || values.icd10.code.trim().length === 0)
+    if (!values.icd10?.code || !values.icd10?.description || values.icd10.description.trim().length === 0 || values.icd10.code.trim().length === 0) {
+      form.setError("icd10", { message: "ICD10 Code is required" })
+      return;
+    }
     const newOrder: newLocalOrder = {
       id: -1,
       orderType: OrderType.provider,
@@ -61,14 +64,13 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
       route: "",
       routine: "",
       icd10: {
-        code: icd10Code.code,
-        description: icd10Code.description
+        code: values.icd10.code,
+        description: values.icd10.description
       }
     }
 
     addOrder(newOrder)
     form.reset()
-    setICD10Code({ code: "", description: "" })
   }
 
   return (
