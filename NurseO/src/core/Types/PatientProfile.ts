@@ -21,7 +21,7 @@ export class PatientChart {
     medicationOrders: MedicationOrder[] = [];
     customOrders: CustomOrder[] = [];
     flags: Flag[] = [];
-    immunizations: string[] = [];
+    immunizations: Immunization[] = [];
     studentReports: StudentReport[] = [];
     notes: Note[] = [];
     studentId?: string | null = "";
@@ -38,6 +38,11 @@ export class PatientChart {
     studentName?: string | null = ""
     studentEmail?: string | null = ""
 };
+
+export type Immunization = {
+    immunization: string,
+    date: string | null
+}
 
 export type Order = {
     orderKind: OrderKind,

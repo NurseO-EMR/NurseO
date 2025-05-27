@@ -14,7 +14,7 @@ import { PatientFinalizeStage } from "./PatientFinalizeStage";
 import { ReviewStage } from "./ReviewStage";
 import { type SimSpecificInfo, SimSpecificInfoStage } from "./SimSpecificInfoStage";
 import { SocialHistoryStage } from "./SocialHistoryStage";
-import type { Allergy, Flag, MedicalHistory, MedicationOrder, CustomOrder, StudentReport, PatientChart } from "~/core/index";
+import type { Allergy, Flag, MedicalHistory, MedicationOrder, CustomOrder, StudentReport, PatientChart, Immunization } from "~/core/index";
 import { useState } from "react";
 
 type Props = {
@@ -93,7 +93,7 @@ export function PatientProcess(props: Props) {
         onNextClickHandler();
     }
 
-    const onImmunizationsHandler = (immunizations: string[]) => {
+    const onImmunizationsHandler = (immunizations: Immunization[]) => {
         patient.immunizations = immunizations;
         setPatient(patient);
         onNextClickHandler();

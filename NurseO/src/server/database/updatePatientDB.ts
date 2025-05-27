@@ -181,13 +181,13 @@ function updateFlag(db: PrismaClient, patient: PatientChart) {
 function updateImmunization(db: PrismaClient, patient: PatientChart) {
     const deleteQ = db.immunization.deleteMany({ where: { patient_id: patient.dbId } })
     const insertQ = db.immunization.createMany({
-        data: patient.immunizations.map(v => {
-            return {
-                immunization: v,
-                patient_id: patient.dbId,
-            }
-        })
+        data: patient.immunizations.map(record => ({
+            patient_id: patient.dbId,
+            immunization: record.immunization,
+            date_received: record.date,
+        }))
     })
+
 
     return [deleteQ, insertQ]
 }

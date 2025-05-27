@@ -23,7 +23,7 @@ export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTri
     const socialHistory = p.socialHistory.map(v => Prisma.sql`(${v}, ${patient.id})`)
     const medicalHistory = p.medicalHistory.map(v => Prisma.sql`(${v.date}, ${v.title}, ${v.notes}, ${patient.id})`)
     const notes = p.notes.map(v => Prisma.sql`(${v.date}, ${v.note}, ${patient.id})`)
-    const immunizations = p.immunizations.map(v => Prisma.sql`(${v}, ${patient.id})`)
+    const immunizations = p.immunizations.map(v => Prisma.sql`(${v.date},${v.immunization}, ${patient.id})`)
     const flags = p.flags.map(v => Prisma.sql`(${v.name}, ${v.reason}, ${patient.id})`)
     const studentReports = p.studentReports.map(v => Prisma.sql`(${v.setName}, ${v.fieldName}, ${v.time}, ${v.value}, ${v.date}, ${v.reportType}, ${patient.id})`)
 
@@ -35,7 +35,7 @@ export async function copyPatient(db: PrismaClient, p: PatientChart, numberOfTri
     if (socialHistory.length) transactions.push(db.$executeRaw`INSERT INTO Social_History (history, patient_id) VALUES ${Prisma.join(socialHistory)}`)
     if (medicalHistory.length) transactions.push(db.$executeRaw`INSERT INTO Medical_History (date, title, notes, patient_id) VALUES ${Prisma.join(medicalHistory)}`)
     if (notes.length) transactions.push(db.$executeRaw`INSERT INTO Note (date, note, patient_id) VALUES ${Prisma.join(notes)}`)
-    if (immunizations.length) transactions.push(db.$executeRaw`INSERT INTO Immunization (immunization, patient_id) VALUES ${Prisma.join(immunizations)}`)
+    if (immunizations.length) transactions.push(db.$executeRaw`INSERT INTO Immunization (date_received, immunization, patient_id) VALUES ${Prisma.join(immunizations)}`)
     if (flags.length) transactions.push(db.$executeRaw`INSERT INTO Flag (name, reason, patient_id) VALUES ${Prisma.join(flags)}`)
     if (studentReports.length) transactions.push(db.$executeRaw`INSERT INTO Student_Report (set_name, field_name, time, value, date, report_type, patient_id) VALUES ${Prisma.join(studentReports)}`)
 

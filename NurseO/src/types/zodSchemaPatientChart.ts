@@ -141,7 +141,7 @@ export const patientChartSchema = z.object({
   medicationOrders: z.array(medicationOrderSchema),
   customOrders: z.array(customOrderSchema),
   flags: z.array(flagSchema),
-  immunizations: z.array(z.string()),
+  immunizations: z.array(z.object({ immunization: z.string(), date: z.string().nullable() })),
   studentReports: z.array(studentReportSchema),
   notes: z.array(noteSchema),
   studentId: z.string().nullable().optional(),

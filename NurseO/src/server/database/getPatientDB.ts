@@ -143,9 +143,9 @@ async function getFlags(db: PrismaClient, patientId: number) {
 }
 
 async function getImmunizations(db: PrismaClient, patientId: number) {
-       const data = await db.$queryRaw<{ immunization: string }[]>`
-                        SELECT immunization FROM Immunization WHERE patient_id = ${patientId};`
-       return data.map(i => i.immunization)
+       const data = await db.$queryRaw<{ immunization: string, date: string }[]>`
+                        SELECT immunization, date_received as date FROM Immunization WHERE patient_id = ${patientId};`
+       return data
 }
 
 async function getMedOrders(db: PrismaClient, patientId: number): Promise<MedicationOrder[]> {
