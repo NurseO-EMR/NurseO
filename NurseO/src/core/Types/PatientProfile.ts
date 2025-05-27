@@ -144,7 +144,11 @@ export enum Frequency {
     tid = "three times daily",
     qid = "four times daily",
     once = "once",
-    continuous = "continuous"
+    continuous = "continuous",
+    q7day = "every 7 days",
+    q10day = "every 10 days",
+    q14day = "every 14 days",
+    q15day = "every 15 days",
 }
 
 export class Allergy {
