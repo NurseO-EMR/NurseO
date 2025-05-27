@@ -26,7 +26,7 @@ const formSchema = z.object({
   route: z.string().min(1, { message: "Route is required" }),
   routine: z.string().min(1, { message: "Routine is required" }),
   frequency: z.nativeEnum(Frequency),
-  notes: z.string().min(1, { message: "Pharmacy notes are required" }),
+  notes: z.string().optional(),
   icd10: z.object({ code: z.string().optional(), description: z.string().optional() }).optional()
 })
 
@@ -63,7 +63,7 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
       frequency: values.frequency,
       id: values.id,
       mar: [],
-      notes: values.notes,
+      notes: values.notes ?? "",
       orderId: -1,
       orderIndex: -1,
       orderKind: OrderKind.med,
