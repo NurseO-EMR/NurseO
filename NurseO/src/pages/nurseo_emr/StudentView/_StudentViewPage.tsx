@@ -26,7 +26,7 @@ export default function StudentViewPage(props: Props) {
 
     return (
         <main className="grid grid-areas-main min-h-screen grid-cols-twoSections grid-rows-threeSections relative">
-            <TopNav className="grid-in-topNav"></TopNav>
+            <TopNav className="grid-in-topNav" homePageLink='/nurseo_emr/'></TopNav>
             <ArmBand patient={patient} className="grid-in-armBand"></ArmBand>
             <SideNav className="grid-in-sideBar">
                 <SideNavHeader href="/nurseo_emr/StudentView/Dashboard">Dashboard</SideNavHeader>

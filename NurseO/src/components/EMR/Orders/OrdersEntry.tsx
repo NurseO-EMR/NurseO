@@ -7,6 +7,7 @@ import { RichTextViewer } from '~/components/common/RichTextViewer';
 
 export type Props = {
     order: Order
+    showICD10Column?: boolean
 }
 
 export type State = {
@@ -41,8 +42,10 @@ export default class OrderEntry extends React.Component<Props, State> {
                             <MedicationOrderSyntax order={this.props.order as MedicationOrder} /> :
                             <RichTextViewer value={(this.props.order as CustomOrder).order} />
                         }
-
                     </td>
+                    {this.props.showICD10Column ? <td className="border-2 p-2 border-trueGray-200">
+                        {this.props.order.icd10?.description} {this.props.order.icd10?.code ? "(" + this.props.order.icd10?.code + ")" : null}
+                    </td> : null}
                 </tr>
 
                 <PureModal header="Order" width="60vw" className="text-center font-bold" isOpen={this.state.isModalShown} onClose={this.onModalCloseHandler.bind(this)}>

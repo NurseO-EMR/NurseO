@@ -96,3 +96,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   top: 0;
   width: auto;
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}

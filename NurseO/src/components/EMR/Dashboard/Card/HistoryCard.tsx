@@ -10,6 +10,7 @@ import { GlobalContext } from '~/services/State';
 import { RichTextViewer } from '~/components/common/RichTextViewer';
 import { signInState } from '~/types/flags';
 import { api } from '~/utils/api';
+import { TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/common/ui/table';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     history: MedicalHistory[],
@@ -51,24 +52,24 @@ export default function HistoryCard(props: Props) {
     return (
         <>
             <Card className={props.className} title="Medical History" editable onEditClick={() => setOpenAddHistoryModel(true)}>
-                <thead className="font-bold">
-                    <tr>
-                        <td className="border-2 p-2 border-trueGray-200">Date</td>
-                        <td className="border-2 p-2 border-trueGray-200">Diagnosis</td>
-                        <td className="border-2 p-2 border-trueGray-200">Notes</td>
-                    </tr>
-                </thead>
-                <tbody>
+                <TableHeader className="font-bold">
+                    <TableRow>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Diagnosis</TableHead>
+                        <TableHead>Notes</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
                     {props.history?.length === 0 ?
-                        <tr><td colSpan={2} className='text-center p-2'><h1>No records found</h1></td></tr> :
+                        <TableRow><TableCell colSpan={3} className='text-center p-2'><h1>No records found</h1></TableCell></TableRow> :
                         getHistory().map((history, i) =>
-                            <tr key={i} className=' hover:bg-primary hover:text-white transition-all duration-200'>
-                                <td className="border-2 p-2 border-trueGray-200">{history.date}</td>
-                                <td className="border-2 p-2 border-trueGray-200">{history.title}</td>
-                                <td className="border-2 p-2 border-trueGray-200"><RichTextViewer value={history.notes} /></td>
-                            </tr>)
+                            <TableRow key={i} className=' '>
+                                <TableCell>{history.date}</TableCell>
+                                <TableCell>{history.title}</TableCell>
+                                <TableCell><RichTextViewer value={history.notes} /></TableCell>
+                            </TableRow>)
                     }
-                </tbody>
+                </TableBody>
             </Card>
 
             <PureModel isOpen={openAddHistoryModel} onClose={() => setOpenAddHistoryModel(false)} header={"Adding Medical History"} width="60vw">

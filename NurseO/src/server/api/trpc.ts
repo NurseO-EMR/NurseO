@@ -125,7 +125,7 @@ export const publicProcedure = t.procedure;
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  if(env.TEST_ENV) {
+  if (env.TEST_ENV) {
     return next({
       ctx: {
         session: { ...ctx.session },
@@ -140,6 +140,32 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user || ctx.session.user.role !== userRoles.sim.valueOf()) {
     throw new TRPCError({ code: "FORBIDDEN" });
   }
+
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user } as Session,
+    },
+  });
+});
+
+
+export const studentProcedure = t.procedure.use(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  if (env.TEST_ENV) {
+    return next({
+      ctx: {
+        session: { ...ctx.session },
+      },
+    });
+  }
+
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
 
   return next({
     ctx: {

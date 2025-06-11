@@ -21,7 +21,12 @@ export const orderSchema = z.object({
   orderKind: orderKindSchema,
   orderType: orderTypeSchema,
   time: z.string().optional().nullable(),
-  orderIndex: z.number()
+  orderIndex: z.number(),
+
+  icd10: z.object({
+    code: z.string(),
+    description: z.string()
+  }).optional(),
 });
 
 export const frequencySchema = z.nativeEnum(Frequency);
@@ -93,6 +98,11 @@ export const medicationOrderSchema = orderSchema.and(
     genericName: z.string().optional(),
     brandName: z.string().optional(),
     narcoticCountNeeded: z.boolean().optional(),
+
+    //grad
+    dispenseQuantity: z.string().optional(),
+    refills: z.number().optional(),
+
   }),
 );
 
@@ -105,6 +115,7 @@ export const customOrderSchema = orderSchema.and(
 export const noteSchema = z.object({
   date: z.string(),
   note: z.string(),
+  type: z.string()
 });
 
 export const reportFieldSchema = z.object({
@@ -130,7 +141,7 @@ export const patientChartSchema = z.object({
   medicationOrders: z.array(medicationOrderSchema),
   customOrders: z.array(customOrderSchema),
   flags: z.array(flagSchema),
-  immunizations: z.array(z.string()),
+  immunizations: z.array(z.object({ immunization: z.string(), date: z.string().nullable() })),
   studentReports: z.array(studentReportSchema),
   notes: z.array(noteSchema),
   studentId: z.string().nullable().optional(),
@@ -139,7 +150,11 @@ export const patientChartSchema = z.object({
   diagnosis: z.string().nullable().optional(),
   courseId: z.number(),
   dbId: z.number(),
-  chiefComplaint: z.string().nullable().optional()
+  chiefComplaint: z.string().nullable().optional(),
+  code: z.string(),
+  studentName: z.string().optional().nullable(),
+  studentEmail: z.string().optional().nullable()
+
 });
 
 export const reportSetSchema = z.object({

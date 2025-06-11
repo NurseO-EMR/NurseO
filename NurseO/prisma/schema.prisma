@@ -3,6 +3,7 @@
 
 generator client {
     provider = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
@@ -33,6 +34,8 @@ model Patient {
     patient_bar_code String
     student_id String?
     chief_complaint String?
+    code String @default("Full Code")
+    startDateTime DateTime?
 
     student         User?             @relation(fields: [studentUID], references: [id]) 
     course          Course            @relation(fields: [course_id], references: [id])
@@ -45,6 +48,7 @@ model Patient {
     immunizations Immunization[] @relation()
     flags Flag[] @relation()
     student_reports Student_Report[] @relation()
+    // logs Log[] @relation()
 }
 
 model Course {
@@ -72,8 +76,10 @@ model Custom_Order {
     time       String?
     order_text      String @db.Text
     order_index Int @default(-1)
+    icd_10_code String?
 
     patient Patient @relation(fields: [patient_id], references: [id])
+    icd_10 ICD_10? @relation(fields: [icd_10_code], references: [code])
 }
 
 model Social_History {
@@ -98,6 +104,7 @@ model Immunization {
     id        Int    @id @default(autoincrement())
     patient_id Int
     immunization String
+    date_received String?
 
     patient Patient @relation(fields: [patient_id], references: [id])
 }
@@ -113,8 +120,9 @@ model Flag {
 model Note {
     id        Int    @id @default(autoincrement())
     patient_id Int
-    date      String
-    note     String
+    type    String?
+    date    String
+    note    String @db.Text
 
     patient Patient @relation(fields: [patient_id], references: [id])
 }
@@ -136,10 +144,17 @@ model Med_Order {
     completed Boolean @default(false)
     hold_reason String?
     order_index Int @default(-1)
+    
+    // Grad Stuff
+    icd_10_code String?
+    dispenseQuantity String?
+    refills Int?
+
 
     patient Patient @relation(fields: [patient_id], references: [id])
     medication Medication @relation(fields: [med_id], references: [id])
     mar_records Mar_Record[] @relation()
+    icd_10 ICD_10? @relation(fields: [icd_10_code], references: [code])
 }
 
 model Mar_Record {
@@ -155,7 +170,7 @@ model Mar_Record {
 model Medication {
     id Int @id @default(autoincrement())
     brand_name String
-    generic_name String @unique
+    generic_name String
     narcoti_count_needed Boolean
 
     med_order Med_Order[] @relation()
@@ -247,6 +262,25 @@ model Report_Label {
     report_feilds Report_Field @relation(fields: [report_field_id], references: [id])
 }
 
+model ICD_10 {
+    code String @id @unique
+    description String @db.Text 
+
+    med_orders Med_Order[] @relation()
+    custom_orders Custom_Order[] @relation()
+}
+
+model Log {
+    id Int @id @default(autoincrement())
+    patient_id Int
+    userUID String
+    activity String @db.Text
+    timestamp DateTime
+
+    // patient Patient @relation(fields: [patient_id], references: [id])
+    user User @relation(fields: [userUID], references: [id])
+}
+
 // Necessary for Next auth
 model Account {
     id                       String  @id @default(cuid())
@@ -286,6 +320,7 @@ model User {
     role          String?
 
     patients Patient[] @relation()
+    logs Log[] @relation()
 }
 
 model VerificationToken {

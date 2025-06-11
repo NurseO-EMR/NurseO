@@ -23,11 +23,12 @@ export default function NotesCard(props: Props) {
 
     const onEditClickHandler = async () => {
         const note: Note = {
+            type: "Nursing Note",
             date: new Date().toLocaleString(),
             note: newNote
         }
 
-        if (studentId !== signInState.anonymousSignIn.valueOf()) await addNoteMutation.mutateAsync({ note: note.note, date: note.date, patientId: patient.dbId })
+        if (studentId !== signInState.anonymousSignIn.valueOf()) await addNoteMutation.mutateAsync({ note: note.note, date: note.date, type: note.type, patientId: patient.dbId })
         patient.notes.push(note)
         setPatient({ ...patient })
         setOpenAddNoteModel(false)

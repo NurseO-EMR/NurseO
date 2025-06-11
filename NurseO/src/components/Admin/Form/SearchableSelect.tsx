@@ -15,6 +15,7 @@ export type Props = {
     value?: string | number,
     creatable?: boolean,
     onCreateOption?: (value: string) => void
+    borderColor?: string
 }
 
 type Option = {
@@ -33,6 +34,7 @@ export function SearchableSelect(props: Props) {
             background: "#ffffff",
             flexWrap: "wrap",
             justifyContent: "space-between",
+            borderColor: props.borderColor
         }),
     }
 

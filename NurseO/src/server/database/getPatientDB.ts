@@ -17,11 +17,13 @@ type patientMetaData = {
        patient_bar_code: string;
        student_id: string
        chief_complaint: string
+       code: string
+       studentName: string
+       studentEmail: string
 }
 
 
 export async function getPatientById(db: PrismaClient, patientId: number): Promise<PatientChart | null> {
-       console.log(patientId)
        const metaData = await getPatientBasicInfoById(db, patientId)
        if (!metaData) return null
        const patient = await getPatientChart(db, metaData)
@@ -56,6 +58,7 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData) {
               gender: metaData.gender as Gender,
               height: metaData.height,
               weight: metaData.weight,
+              code: metaData.code,
               chiefComplaint: metaData.chief_complaint,
               time: {
                      hour: metaData.time_hour,
@@ -75,6 +78,9 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData) {
               flags,
               immunizations,
               medicationOrders,
+
+              studentName: metaData.studentName,
+              studentEmail: metaData.studentEmail
        }
 
        return patient
@@ -82,9 +88,13 @@ async function getPatientChart(db: PrismaClient, metaData: patientMetaData) {
 
 async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
        const patient = await db.$queryRaw<patientMetaData[]>`
-                        SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
-                               diagnosis, course_id, patient_bar_code, chief_complaint 
-                        FROM Patient WHERE id = ${patientId} LIMIT 1;`
+                        SELECT Patient.id ,Patient.name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
+                               diagnosis, course_id, patient_bar_code, chief_complaint, code,
+                               User.name as studentName, User.email as studentEmail
+                        FROM Patient 
+                        LEFT JOIN User ON Patient.studentUID = User.id
+                        WHERE Patient.id = ${patientId} 
+                        LIMIT 1;`
        if (!patient || patient.length == 0) return null
        return patient[0]
 }
@@ -115,8 +125,8 @@ async function getMedicalHistory(db: PrismaClient, patientId: number) {
 }
 
 async function getNotes(db: PrismaClient, patientId: number) {
-       const data = await db.$queryRaw<{ date: string, note: string }[]>`
-                        SELECT date, note FROM Note WHERE patient_id = ${patientId};`
+       const data = await db.$queryRaw<{ date: string, note: string, type: string }[]>`
+                        SELECT date, note, type FROM Note WHERE patient_id = ${patientId};`
        return data
 }
 
@@ -133,17 +143,27 @@ async function getFlags(db: PrismaClient, patientId: number) {
 }
 
 async function getImmunizations(db: PrismaClient, patientId: number) {
-       const data = await db.$queryRaw<{ immunization: string }[]>`
-                        SELECT immunization FROM Immunization WHERE patient_id = ${patientId};`
-       return data.map(i => i.immunization)
+       const data = await db.$queryRaw<{ immunization: string, date: string }[]>`
+                        SELECT immunization, date_received as date FROM Immunization WHERE patient_id = ${patientId};`
+       return data
 }
 
 async function getMedOrders(db: PrismaClient, patientId: number): Promise<MedicationOrder[]> {
-       const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string, orderIndex: number }[]>`
-                        SELECT id as orderId, med_id as id, concentration, route, frequency, routine, prn_note as PRNNote, notes, order_kind as orderKind, order_type as orderType, time, completed, hold_reason as holdReason, order_index as orderIndex FROM Med_Order WHERE patient_id = ${patientId};`
+       const orders = await db.$queryRaw<{ orderId: number, id: number, concentration: string, route: string, frequency: Frequency, routine: Routine, PRNNote: string, notes: string, orderKind: OrderKind, orderType: OrderType, time: string, completed: boolean, holdReason: string, orderIndex: number, brandName: string, genericName: string, ICD10Code: string, ICD10Description: string, refills: number, dispenseQuantity: string }[]>`
+                        SELECT Med_Order.id as orderId, med_id as id, concentration, route, frequency, routine, prn_note as PRNNote, notes, order_kind as orderKind,
+                             order_type as orderType, time, completed, hold_reason as holdReason, order_index as orderIndex,
+                             brand_name as brandName, generic_name as genericName, icd_10_code as ICD10Code, ICD_10.description as ICD10Description, refills, dispenseQuantity
+                             FROM Med_Order 
+                             INNER JOIN Medication on Med_Order.med_id = Medication.id
+                             LEFT JOIN ICD_10 ON ICD_10.code = icd_10_code
+                             WHERE patient_id = ${patientId};`
        if (orders.length === 0) return []
 
-       const orderIds = orders.map(o => o.orderId)
+       const orderIds = orders.map(o => {
+              o.orderId
+              o.dispenseQuantity = o.dispenseQuantity ?? undefined
+              o.refills = o.refills ?? undefined
+       })
 
        const marRecords = await db.$queryRaw<{ medOrderId: number, dose: string, hour: number, minute: number }[]>`
                         SELECT med_order_id as medOrderId, dose, hour, minute FROM Mar_Record WHERE med_order_id in (${Prisma.join(orderIds)});
@@ -154,6 +174,10 @@ async function getMedOrders(db: PrismaClient, patientId: number): Promise<Medica
               order.completed = !!order.completed
               const medOrder: MedicationOrder = {
                      ...order,
+                     icd10: (order.ICD10Code ? {
+                            code: order.ICD10Code,
+                            description: order.ICD10Description
+                     } : undefined),
                      mar: marRecords.filter(m => m.medOrderId == order.orderId).map(r => {
                             return {
                                    hour: r.hour,
@@ -164,7 +188,7 @@ async function getMedOrders(db: PrismaClient, patientId: number): Promise<Medica
               }
               medOrders.push(medOrder)
        }
-
+       console.log(medOrders[0]?.icd10)
        return medOrders
 }
 

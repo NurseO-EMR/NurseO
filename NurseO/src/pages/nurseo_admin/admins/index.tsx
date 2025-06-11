@@ -12,7 +12,7 @@ export default function ViewAdminsPage() {
     if (admins.isLoading) return <LoadingCard />
 
     return <PageView>
-        <Card>
+        <Card className="overflow-scroll">
             <h1 className="text-blue text-left font-bold text-lg pb-2">Admins:</h1>
             <table className="w-full">
                 <thead>

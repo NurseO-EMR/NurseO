@@ -21,7 +21,7 @@ export class PatientChart {
     medicationOrders: MedicationOrder[] = [];
     customOrders: CustomOrder[] = [];
     flags: Flag[] = [];
-    immunizations: string[] = [];
+    immunizations: Immunization[] = [];
     studentReports: StudentReport[] = [];
     notes: Note[] = [];
     studentId?: string | null = "";
@@ -32,13 +32,27 @@ export class PatientChart {
     dbId: number = -1;
     chiefComplaint?: string | null = "";
     studentUID?: string | undefined = "";
+    code: string = ""
+
+    // for preview page
+    studentName?: string | null = ""
+    studentEmail?: string | null = ""
 };
+
+export type Immunization = {
+    immunization: string,
+    date: string | null
+}
 
 export type Order = {
     orderKind: OrderKind,
     orderType: OrderType,
     time?: string | null
     orderIndex: number,
+    icd10?: {
+        code: string,
+        description: string
+    }
 }
 
 export type CustomOrder = Order & {
@@ -58,6 +72,10 @@ export type MedicationOrder = Order & {
     mar: MarRecord[];
     completed?: boolean
     holdReason?: string | null
+
+    // code
+    dispenseQuantity?: string
+    refills?: number
 
     // these are for data fetching to make it cheaper to pull meds from db
     genericName?: string;
@@ -87,6 +105,8 @@ export class Flag {
 
 export enum OrderKind {
     med = "med",
+    lab = "lab",
+    imaging = "imaging",
     custom = "custom",
     NA = "",
 }
@@ -129,7 +149,11 @@ export enum Frequency {
     tid = "three times daily",
     qid = "four times daily",
     once = "once",
-    continuous = "continuous"
+    continuous = "continuous",
+    q7day = "every 7 days",
+    q10day = "every 10 days",
+    q14day = "every 14 days",
+    q15day = "every 15 days",
 }
 
 export class Allergy {
@@ -138,6 +162,7 @@ export class Allergy {
 }
 
 export type Note = {
+    type: string,
     date: string,
     note: string,
 }

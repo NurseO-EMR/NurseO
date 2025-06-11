@@ -11,7 +11,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 export default function SectionNamedInfo(props: Props) {
 
     return (
-        <div className="text-base text-black h-3 min-w-48">
+        <div className="text-base text-black h-3 min-w-48 my-5">
             <span className={`
                 ${props.boldedKey ? "font-bold text-primary" : ""} 
                 ${props.keyClassNames} 

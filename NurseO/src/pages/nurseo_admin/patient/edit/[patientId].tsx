@@ -30,7 +30,6 @@ export default function EditPatientPage() {
     const onNextClickHandler = async (newPatient: PatientChart) => {
         const stage = currentStage + 1;
         setCurrentStage(stage);
-        console.log(oldPatient)
         if (oldPatient && newPatient && !isEqual(oldPatient, newPatient)) {
             console.log("updating...")
             await updatePatientMutation.mutateAsync({ oldPatient, newPatient }).catch((e) => broadcastAnnouncement("Error while updating: " + e, Announcement.error))
