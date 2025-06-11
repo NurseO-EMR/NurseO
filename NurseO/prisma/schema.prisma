@@ -170,7 +170,7 @@ model Mar_Record {
 model Medication {
     id Int @id @default(autoincrement())
     brand_name String
-    generic_name String @unique
+    generic_name String
     narcoti_count_needed Boolean
 
     med_order Med_Order[] @relation()
