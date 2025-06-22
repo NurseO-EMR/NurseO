@@ -27,7 +27,6 @@ export default class OrderEntry extends React.Component<Props, State> {
     }
 
     onModalCloseHandler() {
-        console.log("hello")
         this.setState({ isModalShown: false })
     }
 

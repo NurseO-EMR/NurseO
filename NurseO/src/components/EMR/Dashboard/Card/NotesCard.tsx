@@ -57,7 +57,7 @@ export default function NotesCard(props: Props) {
                         ))
                     }
                 </tbody>
-                <DialogContent className='w-60vw'>
+                <DialogContent className="w-[60vw]">
                     <DialogTitle>Nursing Note</DialogTitle>
                     <div>
                         <label htmlFor="note" className={`text-primary text-xl font-bold`}>Enter New Note</label>
