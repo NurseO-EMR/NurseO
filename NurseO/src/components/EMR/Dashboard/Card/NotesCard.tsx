@@ -1,20 +1,19 @@
 import { useState, useContext } from 'react';
 import { type Note } from '~/core/index';
 import Card from './Card';
-import PureModel from "react-pure-modal"
 import { Button } from "../../Form/Button";
 import { GlobalContext } from "~/services/State";
 import { RichTextArea } from '~/components/common/RichTextArea';
 import { RichTextViewer } from '~/components/common/RichTextViewer';
 import { api } from '~/utils/api';
 import { signInState } from '~/types/flags';
+import { DialogContent, DialogClose, DialogTitle, Dialog } from '~/components/common/ui/dialog';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     notes: Note[]
 }
 
 export default function NotesCard(props: Props) {
-    const [openAddNoteModel, setOpenAddNoteModel] = useState(false)
     const [preViewModelNote, setPreviewModelNote] = useState("")
     const [newNote, setNewNote] = useState("")
     const { patient, setPatient, studentId } = useContext(GlobalContext)
@@ -31,13 +30,12 @@ export default function NotesCard(props: Props) {
         if (studentId !== signInState.anonymousSignIn.valueOf()) await addNoteMutation.mutateAsync({ note: note.note, date: note.date, type: note.type, patientId: patient.dbId })
         patient.notes.push(note)
         setPatient({ ...patient })
-        setOpenAddNoteModel(false)
         setNewNote("")
     }
 
     return (
         <>
-            <Card className={props.className} title="Notes" editable onEditClick={() => setOpenAddNoteModel(true)}>
+            <Card className={props.className} title="Notes" editable previewEle={<RichTextViewer value={preViewModelNote} />}>
                 <thead className="font-bold">
                     <tr>
                         <td className="border-2 p-2 border-trueGray-200">Date</td>
@@ -59,20 +57,27 @@ export default function NotesCard(props: Props) {
                         ))
                     }
                 </tbody>
+                <DialogContent className='w-60vw'>
+                    <DialogTitle>Nursing Note</DialogTitle>
+                    <div>
+                        <label htmlFor="note" className={`text-primary text-xl font-bold`}>Enter New Note</label>
+                        <RichTextArea onChange={e => setNewNote(e)} className="h-80 bg-white border mt-4" value={newNote} id='note' />
+                        <DialogClose className='w-full'>
+                            <Button onClick={onEditClickHandler} className="bg-primary mt-4 w-10/12 mx-auto block h-14">Add Note</Button>
+                        </DialogClose>
+                    </div>
+                </DialogContent>
             </Card>
 
 
-            <PureModel isOpen={openAddNoteModel} onClose={() => setOpenAddNoteModel(false)} header={"Nursing Note"} width="60vw">
-                <div>
-                    <label htmlFor="note" className={`text-primary text-xl font-bold`}>Enter New Note</label>
-                    <RichTextArea onChange={e => setNewNote(e)} className="h-80 bg-white border mt-4" value={newNote} id='note' />
-                    <Button onClick={onEditClickHandler} className="bg-primary mt-4 w-10/12 mx-auto block h-14">Add Note</Button>
-                </div>
-            </PureModel>
-
-            <PureModel header="Note" width="80vw" isOpen={preViewModelNote.length > 0} onClose={() => setPreviewModelNote("")}>
-                <div><RichTextViewer value={preViewModelNote} /></div>
-            </PureModel>
+            <Dialog open={preViewModelNote.length > 0} onOpenChange={(s) => s === false ? setPreviewModelNote("") : null}>
+                <DialogContent className='w-[80vw]'>
+                    <DialogTitle>Note</DialogTitle>
+                    <div><RichTextViewer value={preViewModelNote} /></div>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
+
+
