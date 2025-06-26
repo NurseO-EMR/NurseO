@@ -35,7 +35,7 @@ export default function NotesCard(props: Props) {
 
     return (
         <>
-            <Card className={props.className} title="Notes" editable previewEle={<RichTextViewer value={preViewModelNote} />}>
+            <Card className={props.className} title="Notes" editable >
                 <thead className="font-bold">
                     <tr>
                         <td className="border-2 p-2 border-trueGray-200">Date</td>
