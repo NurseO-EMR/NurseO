@@ -66,7 +66,7 @@ module.exports = {
         admin: "#334155",
         edit: "#DC2626",
         blue: "#3b81fa",
-        primary: "hsl(0 73.9% 39%)"
+
       }
     },
   },
