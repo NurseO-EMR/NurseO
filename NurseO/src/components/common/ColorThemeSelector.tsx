@@ -36,13 +36,13 @@ type Props = {
 function ColorThemeButton(props: Props) {
     return (
         <div className="grid justify-items-center" style={{ width: props.hideLabels ? "auto" : "9rem" }}>
-            <div className="w-10 h-10 rounded-full overflow-hidden -rotate-12 cursor-pointer" title={props.label} onClick={props.onClick}>
+            <button className="w-10 h-10 rounded-full overflow-hidden -rotate-12 cursor-pointer" title={props.label} onClick={props.onClick}>
                 <div className="flex h-full">
                     <div className="w-1/3" style={{ backgroundColor: props.primaryColor }}></div>
                     <div className="w-1/3" style={{ backgroundColor: props.secondaryColor }}></div>
                     <div className="w-1/3" style={{ backgroundColor: props.backgroundGrayColor }}></div>
                 </div>
-            </div>
+            </button>
             {!props.hideLabels && <span>{props.label}</span>}
         </div>
     )

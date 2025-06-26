@@ -3,7 +3,6 @@ import { Background } from '~/components/common/Background';
 import SignInButton from '~/components/EMR/Form/SignInButton';
 import AnonymousSignInButton from '~/components/EMR/Form/AnonymousSignInButton';
 import { ColorThemeSelector } from '~/components/common/ColorThemeSelector';
-import Head from 'next/head';
 import { useContext, useState } from 'react';
 import { GlobalContext } from '~/services/State';
 import { signInState } from '~/types/flags';
@@ -43,9 +42,6 @@ export default function Login() {
 
     return (
         <>
-            <Head>
-                <title>NurseO EMR</title>
-            </Head>
             <div>
                 <Background />
                 <div className="grid justify-center h-screen w-screen content-center text-center">

@@ -1,6 +1,5 @@
 import { orderBy } from 'lodash';
 import { type FormEvent, useContext, useState } from 'react';
-import PureModel from "react-pure-modal"
 import type { MedicalHistory } from '~/core/index';
 import Card from './Card';
 import { Button } from '../../Form/Button';
@@ -11,13 +10,13 @@ import { RichTextViewer } from '~/components/common/RichTextViewer';
 import { signInState } from '~/types/flags';
 import { api } from '~/utils/api';
 import { TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/common/ui/table';
+import { DialogClose, DialogContent, DialogTitle } from '~/components/common/ui/dialog';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     history: MedicalHistory[],
 }
 export default function HistoryCard(props: Props) {
 
-    const [openAddHistoryModel, setOpenAddHistoryModel] = useState(false)
     const [newHistoryDate, setNewHistoryDate] = useState("")
     const [newHistoryTitle, setNewHistoryTitle] = useState("")
     const [newHistoryNote, setNewHistoryNote] = useState("")
@@ -43,7 +42,6 @@ export default function HistoryCard(props: Props) {
         patient.medicalHistory.push(newHistory)
 
         setPatient({ ...patient })
-        setOpenAddHistoryModel(false)
         setNewHistoryDate("")
         setNewHistoryTitle("")
         setNewHistoryNote("")
@@ -51,7 +49,7 @@ export default function HistoryCard(props: Props) {
 
     return (
         <>
-            <Card className={props.className} title="Medical History" editable onEditClick={() => setOpenAddHistoryModel(true)}>
+            <Card className={props.className} title="Medical History" editable>
                 <TableHeader className="font-bold">
                     <TableRow>
                         <TableHead>Date</TableHead>
@@ -70,17 +68,21 @@ export default function HistoryCard(props: Props) {
                             </TableRow>)
                     }
                 </TableBody>
+
+                <DialogContent className='w-[40vw]'>
+                    <DialogTitle>Adding Medical History</DialogTitle>
+                    <form onSubmit={onEditClickHandler} >
+                        <VerticalInput onChange={e => setNewHistoryDate(e.currentTarget.value)} type='date'>Date</VerticalInput>
+                        <VerticalInput onChange={e => setNewHistoryTitle(e.currentTarget.value)}>Diagnosis Title</VerticalInput>
+                        <label htmlFor="note" className={`font-bold`}>Enter New Note</label>
+                        <RichTextArea onChange={e => setNewHistoryNote(e)} className="h-80 bg-white border mt-2" value={newHistoryNote} id='note' />
+                        <DialogClose className='w-full'>
+                            <Button className="bg-primary mt-4 w-10/12 mx-auto block h-14">Add Medication History</Button>
+                        </DialogClose>
+                    </form>
+                </DialogContent>
             </Card>
 
-            <PureModel isOpen={openAddHistoryModel} onClose={() => setOpenAddHistoryModel(false)} header={"Adding Medical History"} width="60vw">
-                <form onSubmit={onEditClickHandler} >
-                    <VerticalInput onChange={e => setNewHistoryDate(e.currentTarget.value)} type='date'>Date</VerticalInput>
-                    <VerticalInput onChange={e => setNewHistoryTitle(e.currentTarget.value)}>Diagnosis Title</VerticalInput>
-                    <label htmlFor="note" className={`font-bold`}>Enter New Note</label>
-                    <RichTextArea onChange={e => setNewHistoryNote(e)} className="h-80 bg-white border mt-2" value={newHistoryNote} id='note' />
-                    <Button className="bg-primary mt-4 w-10/12 mx-auto block h-14">Add Medication History</Button>
-                </form>
-            </PureModel>
         </>
     )
 

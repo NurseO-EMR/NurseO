@@ -39,9 +39,9 @@ export default function TopNav(props: Props) {
                     <span className="font-medium rounded ">
                         {session.data?.user.name ? <span>Hi {session.data?.user.name}</span> : null}
                         <span className='font-bold'> | </span>
-                        <span className="cursor-pointer" onClick={onLogoutClickHandler}>
+                        <button className="cursor-pointer" onClick={onLogoutClickHandler}>
                             <FontAwesomeIcon icon={faSignOutAlt}></FontAwesomeIcon>
-                        </span>
+                        </button>
                     </span>
                 </div>
             </div>
