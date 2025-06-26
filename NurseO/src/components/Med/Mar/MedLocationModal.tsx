@@ -21,9 +21,6 @@ export function MedLocationModal(props: Props) {
             <DialogContent className="min-h-[33vh] min-w-[60vw]">
                 <DialogTitle>Order</DialogTitle>
                 <div>
-                    {props.order.narcoticCountNeeded ?
-                        <h1 className='text-center text-primary font-bold text-xl my-2'>Narcotic Count Required</h1>
-                        : null}
                     {locations?.length && locations.length > 0 ?
                         <table className='w-full m-auto'>
                             <thead>
@@ -34,7 +31,6 @@ export function MedLocationModal(props: Props) {
                                     <th className='pl-5'>Dose</th>
                                     <th>Drawer</th>
                                     <th>Slot</th>
-                                    {props.order.narcoticCountNeeded ? <th>Narcotic Count</th> : null}
                                 </tr>
                             </thead>
                             <tbody>
