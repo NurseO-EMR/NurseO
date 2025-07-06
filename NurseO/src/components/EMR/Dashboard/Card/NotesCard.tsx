@@ -60,7 +60,7 @@ export default function NotesCard(props: Props) {
                 <DialogContent className="w-[60vw]">
                     <DialogTitle>Nursing Note</DialogTitle>
                     <div>
-                        <label htmlFor="note" className={`text-primary text-xl font-bold`}>Enter New Note</label>
+                        <label htmlFor="note" className={`font-bold`}>Enter New Note</label>
                         <RichTextArea onChange={e => setNewNote(e)} className="h-80 bg-white border mt-4" value={newNote} id='note' />
                         <DialogClose className='w-full'>
                             <Button onClick={onEditClickHandler} className="bg-primary mt-4 w-10/12 mx-auto block h-14">Add Note</Button>

@@ -1,16 +1,18 @@
+import { useContext } from "react"
 import colorThemes from "~/colorThemes.json"
+import { GlobalContext } from "~/services/State"
 
 type SelectorProps = {
     hideLabels?: boolean
 }
 
 export function ColorThemeSelector(props: SelectorProps) {
+    const { setThemeName } = useContext(GlobalContext)
 
     const colors = Object.entries(colorThemes)
 
     const onColorThemeChange = (colorTheme: string) => {
-        if (document.getElementById("topLevelDiv")) document.getElementById("topLevelDiv")!.className = colorTheme
-        console.log(colorTheme)
+        setThemeName(colorTheme)
     }
     return (
         <div className="flex gap-4 justify-center">

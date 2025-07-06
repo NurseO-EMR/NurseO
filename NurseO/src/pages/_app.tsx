@@ -26,6 +26,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   const [locationId, setLocationId] = useState(-1)
   const [patientMedOrders, setPatientMedOrders] = useState<MedicationOrder[]>([])
   const [time, setTime] = useState<Time>({ hour: 0, minute: 0 })
+  const [themeName, setThemeName] = useState("standard")
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -44,8 +45,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session} basePath={env.NEXT_PUBLIC_basePath ? `/${env.NEXT_PUBLIC_basePath}/api/auth` : `/api/auth`}>
-      <GlobalContext.Provider value={{ studentId, setStudentId, patient, setPatient, locationId, setLocationId, patientMedOrders, setPatientMedOrders, time, setTime }}>
-        <div id="topLevelDiv" className={"relative standard " + GeistSans.className}>
+      <GlobalContext.Provider value={{ studentId, setStudentId, patient, setPatient, locationId, setLocationId, patientMedOrders, setPatientMedOrders, time, setTime, themeName, setThemeName }}>
+        <div className={`relative ${themeName} ` + GeistSans.className}>
           <title>NurseO EMR</title>
           <Component {...pageProps} />
           <AnnouncementViewer />
