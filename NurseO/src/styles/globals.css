@@ -102,3 +102,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     --radius: 0.5rem;
   }
 }
+
+.ql-editor {
+  max-height: 80vh;
+  overflow-y: scroll;
+}

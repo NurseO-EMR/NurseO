@@ -1,91 +1,73 @@
-import { type ChangeEvent, useEffect, useRef, useState } from 'react';
-import type { ReportInputType } from "~/core/index";
+import { Label } from "~/components/common/ui/label";
+import { type ReportSet, type ReportField } from "~/core"
+import { Input } from "~/components/common/ui/input"
+import { Select } from "~/components/common/ui/select";
+import { Checkbox } from "~/components/common/ui/checkbox";
 
 type Props = {
-    fieldType: ReportInputType,
-    index: number,
-    onChange: (value: string, key: number) => void,
-    disabled?: boolean,
-    options?: string[]
+    set: ReportSet
+    field: ReportField
 }
+export function ReportDynamicInput(props: Props) {
+    const { set, field } = props;
+    const id = `${set.name}-${field.name}`
+    const className = "grid grid-cols-4 py-3 items-center even:bg-gray-200 w-full pl-10"
+    if (props.field.fieldType === "text") {
+        return (
+            <div key={id} className={className}>
+                <Label htmlFor={id} className="text-sm font-medium">{field.name}</Label>
+                <Input id={id} />
+            </div>
+        )
+    } else if (field.fieldType === "options" && field.options) {
+        return (
+            <div className={className}>
+                <Label htmlFor={id} className="text-sm font-medium">{field.name}</Label>
+                <Select id={id} onChange={console.log} value="s" >
+                    <>
+                        <option></option>
+                        {field.options.map(o => <option value={o} key={o}>{o}</option>)}
+                    </>
+                </Select>
+            </div>
 
-export default function ReportDynamicInput(props: Props) {
-    const inputStyle = "w-9/12 max-w-xs border border-black disabled:bg-gray-300 disabled:cursor-not-allowed pl-2";
-    const [checkBoxChecked, setCheckBoxChecked] = useState(new Set<string>())
-    const inputRef = useRef<HTMLInputElement>(null)
-    const selectRef = useRef<HTMLSelectElement>(null)
-
-    useEffect(()=>{
-        if(inputRef.current) inputRef.current.value = ""
-        if(selectRef.current) selectRef.current.value = ""
-    },[props])
-
-    const onInputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const key: number = Number.parseInt(event.target.name);
-        const value = event.target.value;
-        props.onChange(value, key);
-    }
-
-    const onSelectChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
-        const key: number = Number.parseInt(event.target.name);
-        const value = event.target.value;
-        props.onChange(value, key);
-    }
-
-    const onCheckBoxChecked = (value: string, checked: boolean, key: number) => {
-        if (checked) {
-            checkBoxChecked.add(value);
-        } else {
-            checkBoxChecked.delete(value);
-        }
-        setCheckBoxChecked(checkBoxChecked)
-        const output = [...checkBoxChecked].toString().replaceAll(",", ", ")
-        props.onChange(output, key);
-    }
-
-
-    return (
-        <>
-            {props.fieldType === "text" ?
-                <input name={props.index.toString()} onChange={onInputChangeHandler} className={inputStyle + " "}
-                    type="text" disabled={props.disabled} ref={inputRef} /> : null}
-
-
-            {props.fieldType === "number" ?
-                <input name={props.index.toString()} onChange={onInputChangeHandler} className={inputStyle}
-                    type="number" disabled={props.disabled} ref={inputRef}/> : null}
-
-
-            {props.fieldType === "T/F" ?
-                <select name={props.index.toString()} onChange={onSelectChangeHandler} className={inputStyle}
-                    disabled={props.disabled} ref={selectRef}>
-                    <option></option>
-                    <option>Y</option>
-                    <option>N</option>
-                </select> : null}
-
-
-            {props.fieldType === "checkbox" ?
-                <div className="flex flex-wrap gap-5 w-1/2">
-                    {props.options?.map((val, j) =>
-                        <div key={props.index + j} className="flex items-center gap-2" >
-                            <input type="checkbox" ref={inputRef} disabled={props.disabled} onChange={e => onCheckBoxChecked(val, e.target.checked, props.index)} />
-                            <label>{val}</label>
+        )
+    } else if (field.fieldType === "checkbox") {
+        return (
+            <div className={className}>
+                <Label className="text-sm font-medium">{field.name}</Label>
+                <div className="flex items-start w-full flex-wrap gap-x-10 gap-y-10 col-span-3 pr-48">
+                    {field.options?.map(o => (
+                        <div key={o} className="flex items-center space-x-2">
+                            <Checkbox id={`${id}-${o}`} />
+                            <Label htmlFor={`${id}-${o}`} className="text-sm">{o}</Label>
                         </div>
-                    )}
+                    ))}
+
                 </div>
-                : null}
-
-
-
-            {props.fieldType === "options" ?
-                <select name={props.index.toString()} onChange={onSelectChangeHandler} 
-                className={inputStyle} disabled={props.disabled} ref={selectRef}>
-                    <option></option>
-                    {props.options?.map((val, i) => <option key={i} title={val}>{val}</option>)}
-                </select>
-                : null}
-        </>
-
-    );
+            </div>
+        )
+    } else if (props.field.fieldType === "number") {
+        return (
+            <div key={id} className={className}>
+                <Label htmlFor={id} className="text-sm font-medium">{field.name}</Label>
+                <Input id={id} type="number" />
+            </div>
+        )
+    } else if (props.field.fieldType === "T/F") {
+        return (
+            <div className={className}>
+                <Label htmlFor={id} className="text-sm font-medium">{field.name}</Label>
+                <Select id={id} onChange={console.log} value="s" >
+                    <>
+                        <option></option>
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </>
+                </Select>
+            </div>
+        )
+    } else {
+        return <div>ERROR - {field.fieldType}</div>
+    }
 }

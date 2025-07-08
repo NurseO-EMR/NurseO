@@ -3,5 +3,6 @@
         "casestudy",
         "Meds",
         "nurseo"
-    ]
+    ],
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }

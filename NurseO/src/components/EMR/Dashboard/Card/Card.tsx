@@ -6,7 +6,7 @@ import { Table } from '~/components/common/ui/table';
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     title: string,
     editable?: boolean,
-    onEditClick?: () => void
+    onEditClick?: () => void,
 }
 export default function Card(props: Props) {
 
@@ -16,5 +16,6 @@ export default function Card(props: Props) {
                 {props.children}
             </Table>
         </EmptyCard>
+
     );
 }	

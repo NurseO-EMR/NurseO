@@ -1,8 +1,8 @@
 import React from 'react';
-import PureModal from "react-pure-modal";
 import { type CustomOrder, type MedicationOrder, type Order, OrderKind } from "~/core/index";
 import MedicationOrderSyntax from './MedicationOrderSyntax';
 import { RichTextViewer } from '~/components/common/RichTextViewer';
+import { Dialog, DialogContent, DialogTitle } from '~/components/common/ui/dialog';
 
 
 export type Props = {
@@ -47,14 +47,16 @@ export default class OrderEntry extends React.Component<Props, State> {
                         {this.props.order.icd10?.description} {this.props.order.icd10?.code ? "(" + this.props.order.icd10?.code + ")" : null}
                     </td> : null}
                 </tr>
-
-                <PureModal header="Order" width="60vw" className="text-center font-bold" isOpen={this.state.isModalShown} onClose={this.onModalCloseHandler.bind(this)}>
-                    <div>
-                        {this.props.order.orderKind === OrderKind.med ? <MedicationOrderSyntax order={this.props.order as MedicationOrder} /> :
-                            <RichTextViewer value={(this.props.order as CustomOrder).order} />
-                        }
-                    </div>
-                </PureModal>
+                <Dialog open={this.state.isModalShown} onOpenChange={(s) => s === false ? this.onModalCloseHandler() : null}>
+                    <DialogContent className="text-center font-bold w-[60vw]" >
+                        <DialogTitle>Order</DialogTitle>
+                        <div>
+                            {this.props.order.orderKind === OrderKind.med ? <MedicationOrderSyntax order={this.props.order as MedicationOrder} /> :
+                                <RichTextViewer value={(this.props.order as CustomOrder).order} />
+                            }
+                        </div>
+                    </DialogContent>
+                </Dialog>
             </>
         );
     }

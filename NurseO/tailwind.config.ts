@@ -16,23 +16,6 @@ module.exports = {
 
       ]
     },
-    colors: {
-      ...colors,
-      gray: "#f5f9fc",
-      "gray-100": "#f3f4f6",
-      "gray-200": "#e5e7eb",
-      "gray-300": "#d1d5db",
-      "gray-400": "#9ca3af",
-      white: "#ffffff",
-      red: "#f53c3a",
-      darkGray: "#7a7a7a",
-      disabled: "#f3f6f8",
-      info: "#075985",
-      success: "#059669",
-      admin: "#334155",
-      edit: "#DC2626",
-      blue: "#3b81fa",
-    },
     extend: {
       fontFamily: {
         sans: ['Graphik', 'sans-serif'],
@@ -67,7 +50,24 @@ module.exports = {
         'hue': "-4"
       },
 
+      colors: {
+        ...colors,
+        gray: "#f5f9fc",
+        "gray-100": "#f3f4f6",
+        "gray-200": "#e5e7eb",
+        "gray-300": "#d1d5db",
+        "gray-400": "#9ca3af",
+        white: "#ffffff",
+        red: "#f53c3a",
+        darkGray: "#7a7a7a",
+        disabled: "#f3f6f8",
+        info: "#075985",
+        success: "#059669",
+        admin: "#334155",
+        edit: "#DC2626",
+        blue: "#3b81fa",
 
+      }
     },
   },
   plugins: [
