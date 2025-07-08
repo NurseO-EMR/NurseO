@@ -1,18 +1,12 @@
-import React from 'react';
-import EmptyCard from '~/components/EMR/Dashboard/Card/EmptyCard';
+import StudentViewPage from "../_StudentViewPage"
+import { ReportType } from "~/core"
 import ReportSubmitter from '~/components/EMR/Reports/ReportsSubmitter';
-import StudentViewPage from '../_StudentViewPage';
-import { ReportType } from '~/core/index';
 
-
-export default function AssessmentSubmitPage() {
-
+export default function Report() {
 
     return (
         <StudentViewPage>
-            <EmptyCard title="Assessments">
-                <ReportSubmitter reportType={ReportType.studentAssessmentReport} className="grid-in-main" title="Assessment" viewPageURL="/nurseo_emr/StudentView/Assessments/view" />
-            </EmptyCard>
+            <ReportSubmitter reportType={ReportType.studentAssessmentReport} className="grid-in-main" title="Assessment" viewPageURL="/nurseo_emr/StudentView/Assessments/view" />
         </StudentViewPage>
-    );
+    )
 }

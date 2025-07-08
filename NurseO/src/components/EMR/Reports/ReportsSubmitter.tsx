@@ -1,117 +1,55 @@
-import { useContext, useState } from 'react';
-import { GlobalContext } from '~/services/State';
-import type { Note, ReportType, StudentReport } from "~/core/index";
-import { getTodaysDateAsString } from '~/services/Util';
-import ReportsSubmitterTabContent from './ReportsSubmitterTabContent';
-import ReportTabs from './ReportTabs';
-import SaveButton from '../Form/SaveButton';
-import { api } from '~/utils/api';
-import { useRouter } from 'next/navigation';
-import { signInState } from '~/types/flags';
-import TextArea from '../Form/TextArea';
+
+
+import { Input } from "~/components/common/ui/input"
+import { Label } from "~/components/common/ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/common/ui/tabs"
+import { Button } from "~/components/common/ui/button"
+import { EmptyCard } from "~/components/Med/EmptyCard"
+import { api } from "~/utils/api"
+import { type ReportType } from "~/core"
+import { ReportDynamicInput } from "./ReportDynamicInput"
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     reportType: ReportType,
     title: string,
     viewPageURL: string
 }
+
 export default function ReportsSubmitter(props: Props) {
 
-    const { patient, studentId, setPatient } = useContext(GlobalContext)
     const { data: reportSets } = api.emr.student_getReportSets.useQuery({ reportType: props.reportType })
-    const studentReportsMutation = api.emr.student_saveStudentsReports.useMutation()
-    const addNoteMutation = api.emr.student_addNote.useMutation()
-    const [date, setDate] = useState(getTodaysDateAsString())
-    const [selectedTabIndex, setSelectedTabIndex] = useState(0)
-    const [note, setNote] = useState("")
-    const [time, setTime] = useState("")
-    const [studentReports, setStudentReports] = useState<{ felidName: string, time: string, value: string, date: string }[]>([])
-    const router = useRouter()
-
-    const onInputChangeHandler = (felidName: string, timeSlotIndex: number, value: string) => {
-        const index = studentReports.findIndex(r => r.felidName === felidName && r.date === date && r.time === time)
-        if (index > -1) {
-            studentReports[index] = { date, felidName, time, value }
-        } else {
-            studentReports.push({ date, felidName, time, value })
-        }
-
-        setStudentReports(studentReports)
-    }
-
-    const onSaveClickHandler = async (wait: () => void, keepGoing: () => void) => {
-        wait()
-        const output: StudentReport[] = studentReports.map(r => {
-            const report: StudentReport = {
-                date: r.date,
-                fieldName: r.felidName,
-                reportType: props.reportType,
-                setName: reportSets![selectedTabIndex]!.name, // it would not get to this stage if not all of these exist 
-                time: r.time,
-                value: r.value
-            }
-            return report
-        })
-
-        if (studentId !== signInState.anonymousSignIn.valueOf()) {
-            await Promise.all([
-                studentReportsMutation.mutateAsync({ patientId: patient.dbId, studentReport: output }),
-                addNoteMutation.mutateAsync({ date, note, patientId: patient.dbId, type: props.title })
-            ])
-        }
-
-        const tempPatient = { ...patient }
-        tempPatient.studentReports.push(...output)
-        const formattedNote = getNote()
-        console.log(formattedNote)
-        if (formattedNote) tempPatient.notes.push(formattedNote)
-
-        setPatient({ ...patient })
-
-        keepGoing()
-        router.push(props.viewPageURL)
-    }
-
-    const getNote = () => {
-        if (!reportSets?.[selectedTabIndex]) return;
-
-        const temp: Note = {
-            date,
-            note,
-            type: props.title
-        }
-
-        return temp;
-    }
-
     return (
-        <div className="px-3.5">
-            <div className="flex justify-between px-8 pt-4">
-                <div>
-                    <label className="font-bold">Date: </label>
-                    <input value={date} onChange={e => setDate(e.currentTarget.value)} className="border-2 text-center" type="Date" />
+        <EmptyCard title={props.title}>
+
+            <div className="flex justify-between px-10 py-10 items-center">
+                <div className="flex gap-10 items-center">
+                    <Label htmlFor="formDate" className="text-sm font-medium">Date</Label>
+                    <Input id="formDate" type="date" defaultValue={new Date().toISOString().split("T")[0]} className="w-full" />
                 </div>
-                <SaveButton onClick={onSaveClickHandler}
-                    className={`bg-primary text-white rounded-full px-8 py-1`}
-                />
+                <Button onClick={console.log} className="bg-primary hover:*:first-letter:bg-primary/90 text-white px-6 py-2">Save</Button>
             </div>
 
+            <div>
+                <Tabs defaultValue={reportSets?.[0]?.name} className="w-full">
+                    <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10 h-auto" role="tablist">
+                        {reportSets?.map((set) => (
+                            <TabsTrigger key={set.name} value={set.name} role="tab" aria-controls={`${set.name}-panel`} className="text-xs p-2">{set.name}</TabsTrigger>
+                        ))}
+                    </TabsList>
 
-            <ReportTabs onTabSelectionHandler={setSelectedTabIndex} reportSets={reportSets?.map(report => report.name)}
-                selectedTab={selectedTabIndex} />
+                    {reportSets?.map((set) => (
+                        <TabsContent value={set.name} id={`${set.name}-panel`} role="tabpanel" className="mt-6" key={set.name}>
+                            <div className="space-y-4">
+                                <div className="space-y-4">
+                                    {set.reportFields.map((field) => <ReportDynamicInput field={field} set={set} key={set.name} />)}
+                                </div>
+                            </div>
+                        </TabsContent>
+                    ))}
 
 
-            {reportSets?.[selectedTabIndex] ?
-                <ReportsSubmitterTabContent
-                    numberOfTimeSlots={1}
-                    onInputChangeHandler={onInputChangeHandler}
-                    reportSet={reportSets[selectedTabIndex]} // checked in the above if statement 
-                    onTimeSlotChanges={setTime}
-                />
-                : null}
-
-            {/* <TextArea label='Nurse Note' onChange={e => setNote(e.currentTarget.value)} /> */}
-
-        </div>
-    );
+                </Tabs>
+            </div>
+        </EmptyCard>
+    )
 }
