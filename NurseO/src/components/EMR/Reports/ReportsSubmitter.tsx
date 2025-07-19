@@ -12,6 +12,8 @@ import { useContext, useState } from "react"
 import { GlobalContext } from "~/services/State"
 import { Announcement, broadcastAnnouncement } from "~/services/AnnouncementService"
 import Image from "next/image"
+import { signInState } from "~/types/flags"
+import { useRouter } from "next/navigation"
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     reportType: ReportType,
@@ -23,7 +25,8 @@ export default function ReportsSubmitter(props: Props) {
 
     const { data: reportSets, isLoading } = api.emr.student_getReportSets.useQuery({ reportType: props.reportType })
     const reportSubmitMutation = api.emr.student_saveStudentsReports.useMutation()
-    const { patient, setPatient } = useContext(GlobalContext)
+    const { patient, setPatient, studentId } = useContext(GlobalContext)
+    const router = useRouter()
 
     const [studentReportsMap, setStudentReportsMap] = useState<Map<string, StudentReport>>(new Map())
     const [date, setDate] = useState(new Date().toISOString().split("T")[0]!)
@@ -31,12 +34,16 @@ export default function ReportsSubmitter(props: Props) {
 
     const onSubmitHandler = async () => {
         const studentsReportsArray = [...studentReportsMap.values()]
-        const { err } = await reportSubmitMutation.mutateAsync({ patientId: patient.dbId, studentReports: studentsReportsArray })
-        if (err) broadcastAnnouncement(err, Announcement.error)
-        else broadcastAnnouncement("Submitted", Announcement.success)
+        if (studentId !== signInState.anonymousSignIn.valueOf()) {
+            const { err } = await reportSubmitMutation.mutateAsync({ patientId: patient.dbId, studentReports: studentsReportsArray })
+            if (err) return broadcastAnnouncement(err, Announcement.error)
+            else broadcastAnnouncement("Submitted", Announcement.success)
+        }
+
 
         patient.studentReports = studentsReportsArray
         setPatient({ ...patient })
+        router.push(props.viewPageURL)
     }
 
     const onChangeHandler = (setName: string, fieldName: string, value: string) => {
