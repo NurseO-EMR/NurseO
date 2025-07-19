@@ -38,7 +38,7 @@ export function MedLocationModal(props: Props) {
                                     <tr key={i} className='h-16 odd:bg-gray-100 even:bg-gray-300 hover:bg-primary hover:text-white'>
                                         <td className='pl-5'>{props.order.genericName}</td>
                                         <td className='pl-5'>{props.order.brandName}</td>
-                                        <td className='pl-5'>{location.type.toLocaleUpperCase()}</td>
+                                        <td className='pl-5'>{location.type.toUpperCase()}</td>
                                         <td>{location.dose}</td>
                                         <td>{location.drawer}</td>
                                         <td>{location.slot}</td>

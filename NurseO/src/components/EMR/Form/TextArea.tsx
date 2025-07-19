@@ -13,7 +13,7 @@ export default function TextArea(props: Props) {
 
         <div>
             <label htmlFor={id} className={`font-bold`}>{props.label}</label>
-            <textarea className={`w-full border-2 y p-4 mt-4 rounded-xl`} rows={5} value={props.value}
+            <textarea className={`w-full border-2 p-4 mt-4 rounded-xl`} rows={5} value={props.value}
                 spellCheck="true" id={id}
                 onChange={props.onChange}></textarea>
         </div>
