@@ -3,9 +3,10 @@ import { type ReactElement } from "react"
 type Props = {
   children: ReactElement<HTMLOptionElement>[] | ReactElement
   onChange: (v: string) => void,
-  value: string
+  value?: string | undefined
   id?: string
   label?: string
+  disabled?: boolean
 }
 
 export function Select(props: Props) {
@@ -14,6 +15,7 @@ export function Select(props: Props) {
       value={props.value}
       onChange={e => props.onChange(e.currentTarget.value)}
       id={props.id}
+      disabled={props.disabled}
     >
       {props.children}
     </select>

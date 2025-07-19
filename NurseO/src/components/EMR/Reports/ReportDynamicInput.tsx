@@ -7,23 +7,27 @@ import { Checkbox } from "~/components/common/ui/checkbox";
 type Props = {
     set: ReportSet
     field: ReportField
+    disabled: boolean,
+    onChange: (value: string) => void,
+    value?: string | undefined
 }
 export function ReportDynamicInput(props: Props) {
     const { set, field } = props;
     const id = `${set.name}-${field.name}`
     const className = "grid grid-cols-4 py-3 items-center even:bg-gray-200 w-full pl-10"
+
     if (props.field.fieldType === "text") {
         return (
             <div key={id} className={className}>
                 <Label htmlFor={id} className="text-sm font-medium">{field.name}</Label>
-                <Input id={id} />
+                <Input id={id} disabled={props.disabled} onChange={e => props.onChange(e.currentTarget.value)} />
             </div>
         )
     } else if (field.fieldType === "options" && field.options) {
         return (
             <div className={className}>
                 <Label htmlFor={id} className="text-sm font-medium">{field.name}</Label>
-                <Select id={id} onChange={console.log} value="s" >
+                <Select id={id} disabled={props.disabled} onChange={props.onChange} >
                     <>
                         <option></option>
                         {field.options.map(o => <option value={o} key={o}>{o}</option>)}
@@ -39,7 +43,7 @@ export function ReportDynamicInput(props: Props) {
                 <div className="flex items-start w-full flex-wrap gap-x-10 gap-y-10 col-span-3 pr-48">
                     {field.options?.map(o => (
                         <div key={o} className="flex items-center space-x-2">
-                            <Checkbox id={`${id}-${o}`} />
+                            <Checkbox id={`${id}-${o}`} disabled={props.disabled} />
                             <Label htmlFor={`${id}-${o}`} className="text-sm">{o}</Label>
                         </div>
                     ))}
@@ -51,14 +55,14 @@ export function ReportDynamicInput(props: Props) {
         return (
             <div key={id} className={className}>
                 <Label htmlFor={id} className="text-sm font-medium">{field.name}</Label>
-                <Input id={id} type="number" />
+                <Input id={id} type="number" disabled={props.disabled} onChange={e => props.onChange(e.currentTarget.value)} />
             </div>
         )
     } else if (props.field.fieldType === "T/F") {
         return (
             <div className={className}>
                 <Label htmlFor={id} className="text-sm font-medium">{field.name}</Label>
-                <Select id={id} onChange={console.log} value="s" >
+                <Select id={id} disabled={props.disabled} onChange={props.onChange} >
                     <>
                         <option></option>
                         <option value="True">True</option>
