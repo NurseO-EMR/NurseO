@@ -41,15 +41,6 @@ export function ReportDynamicInput(props: Props) {
         )
     } else if (field.fieldType === "options" && field.options) {
         return (
-            // <div className={className}>
-            //     <Label htmlFor={id} className="text-sm font-medium">{field.name}</Label>
-            //     <Select id={id} disabled={props.disabled} onChange={props.onChange} >
-            //         <>
-            //             <option></option>
-            //             {field.options.map(o => <option value={o} key={o}>{o}</option>)}
-            //         </>
-            //     </Select>
-            // </div>
             <ReportSelectInput field={field} id={id} className={className} disabled={props.disabled} onChange={props.onChange} />
 
         )
@@ -58,8 +49,8 @@ export function ReportDynamicInput(props: Props) {
             <div className={className}>
                 <Label className="text-sm font-medium">{field.name}</Label>
                 <div className="flex items-start w-full flex-wrap gap-x-10 gap-y-10 col-span-3 pr-48">
-                    {field.options?.map(o => (
-                        <div key={o} className="flex items-center space-x-2">
+                    {field.options?.map((o, i) => (
+                        <div key={o + i} className="flex items-center space-x-2">
                             <Checkbox id={`${id}-${o}`} disabled={props.disabled} onCheckedChange={e => onCheckboxCheck(o, e === true)} />
                             <Label htmlFor={`${id}-${o}`} className="text-sm">{o}</Label>
                         </div>

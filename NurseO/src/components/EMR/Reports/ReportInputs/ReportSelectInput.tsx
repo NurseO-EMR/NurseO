@@ -42,7 +42,7 @@ export function ReportSelectInput(props: Props) {
                         <Select id={`${props.id}-${l}`} disabled={props.disabled} onChange={onChangeHandler} >
                             <>
                                 <option></option>
-                                {props.field.options?.map(o => <option value={o} key={o}>{o}</option>)}
+                                {props.field.options?.map((o, i) => <option value={o} key={o + i}>{o}</option>)}
                             </>
                         </Select>
                     </div>
@@ -55,7 +55,7 @@ export function ReportSelectInput(props: Props) {
             <Select id={props.id} disabled={props.disabled} onChange={onChangeHandler} className="mt-6">
                 <>
                     <option></option>
-                    {props.field.options?.map(o => <option value={o} key={o}>{o}</option>)}
+                    {props.field.options?.map((o, i) => <option value={o} key={o + i}>{o}</option>)}
                 </>
             </Select>
             {showEmptyTextBox &&

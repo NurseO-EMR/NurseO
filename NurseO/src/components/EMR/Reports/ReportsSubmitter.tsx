@@ -107,7 +107,7 @@ export default function ReportsSubmitter(props: Props) {
                                         <Input id={`${set.name}-time`} type="time" className="text-center" value={time} onChange={e => setTime(e.currentTarget.value)} />
                                     </div>
                                     {set.reportFields.map((field) => (
-                                        <ReportDynamicInput field={field} set={set} key={set.name} disabled={!time}
+                                        <ReportDynamicInput field={field} set={set} key={`${set.name}-DynamicInput-${field.name}`} disabled={!time}
                                             onChange={v => onChangeHandler(set.name, field.name, v)}
                                         />
                                     ))}
