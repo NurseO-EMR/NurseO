@@ -47,20 +47,21 @@ export default function Login() {
                 <div className="grid justify-center h-screen w-screen content-center text-center">
                     <form onSubmit={e => e.preventDefault()} className="bg-white px-24 py-16 rounded-4xl border-primary border-8">
                         <Logo className="text-6xl mb-10" homePageLink='/nurseo_emr/' />
-                        <h1 className="text-xl font-bold">Please Scan Your Badge</h1>
+                        <h2 className="text-xl font-bold">Please Scan Your Badge</h2>
+                        <p className='text-xs'>( Or type your badge number here )</p>
                         <input type="password" autoFocus autoComplete='off'
                             className="my-5 border-2 rounded-full text-center p-4 border-primary w-full"
-                            placeholder="Or type your badge number here"
                             onChange={e => setBadgeNumber(e.currentTarget.value)}
+                            placeholder='########'
                         /><br />
                         <SignInButton onClick={onSignInHandler} />
                         <div>{error}</div>
 
                         <hr className="w-full my-4 border-primary" />
-                        <h1 className="font-bold">If you forgot your ID click below:</h1>
+                        <h2 className="font-bold">If you forgot your ID click below:</h2>
                         <AnonymousSignInButton className="block mx-auto" onClick={onAnonymousSignIn} />
                         <hr className="w-full my-4 border-primary" />
-                        <h1 className="font-bold mb-3">Select colors that best fit you</h1>
+                        <h2 className="font-bold mb-3">Select colors that best fit you</h2>
                         <ColorThemeSelector />
                     </form>
                 </div>

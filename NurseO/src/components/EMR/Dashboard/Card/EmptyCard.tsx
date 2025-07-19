@@ -18,7 +18,7 @@ export default function EmptyCard(props: Props) {
         <div className={props.className}>
             <div className={`border-4 border-primary mt-4 rounded-lg mx-3 pb-2 relative`}>
                     {props.editable && <DialogTrigger className="absolute text-white right-4 top-2 cursor-pointer text-lg"><FontAwesomeIcon icon={faPenToSquare} /></DialogTrigger>}
-                <h1 className={`w-full bg-primary text-white p-4 font-bold`}>{props.title}</h1>
+                    <h2 className={`w-full bg-primary text-white p-4 font-bold`}>{props.title}</h2>
                 {props.children}
             </div>
         </div>

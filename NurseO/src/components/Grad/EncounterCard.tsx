@@ -8,6 +8,7 @@ import { RichTextViewer } from '~/components/common/RichTextViewer';
 import { api } from '~/utils/api';
 import { signInState } from '~/types/flags';
 import { Dialog, DialogClose, DialogContent, DialogTitle } from '../common/ui/dialog';
+import { TableCell, TableHead, TableHeader, TableRow } from '../common/ui/table';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     notes: Note[]
@@ -85,26 +86,26 @@ export default function EncounterCard(props: Props) {
     return (
         <>
             <Card className={props.className} title="Encounters" editable >
-                <thead className="font-bold">
-                    <tr>
-                        <th className="text-left border-2 p-2 border-trueGray-200">Type</th>
-                        <th className="text-left border-2 p-2 border-trueGray-200">Date</th>
-                        <th className="text-left border-2 p-2 border-trueGray-200 w-8/12">Note</th>
-                    </tr>
-                </thead>
+                <TableHeader className="font-bold">
+                    <TableRow>
+                        <TableHead className="text-left border-2 p-2 border-trueGray-200">Type</TableHead>
+                        <TableHead className="text-left border-2 p-2 border-trueGray-200">Date</TableHead>
+                        <TableHead className="text-left border-2 p-2 border-trueGray-200 w-8/12">Note</TableHead>
+                    </TableRow>
+                </TableHeader>
                 <tbody>
                     {props.notes?.length === 0 ?
-                        <tr><td colSpan={3} className='text-center p-2 border-trueGray-200 font-bold'>No encounters found</td></tr> :
+                        <TableRow><TableCell colSpan={3} className='text-center p-2 border-trueGray-200 font-bold'>No encounters found</TableCell></TableRow> :
                         props.notes.map((n, i) => (
-                            <tr key={i} className='hover:bg-primary hover:text-white transition-all duration-200  even:bg-gray-300 cursor-pointer border-trueGray-200 max-w-full'
+                            <TableRow key={i} className='hover:bg-primary hover:text-white transition-all duration-200  even:bg-gray-300 cursor-pointer border-trueGray-200 max-w-full'
                                 onClick={() => setPreviewModelNote(n.note)}
                             >
-                                <td className="border-2 p-2 border-trueGray-200">{n.type}</td>
-                                <td className="border-2 p-2 border-trueGray-200">{n.date}</td>
-                                <td className="border-2 p-2 border-trueGray-200">
+                                <TableCell className="border-2 p-2 border-trueGray-200">{n.type}</TableCell>
+                                <TableCell className="border-2 p-2 border-trueGray-200">{n.date}</TableCell>
+                                <TableCell className="border-2 p-2 border-trueGray-200">
                                     <div><RichTextViewer value={n.note} /></div>
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         ))
                     }
                 </tbody>
