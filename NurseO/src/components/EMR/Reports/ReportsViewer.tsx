@@ -17,7 +17,11 @@ export default function ReportsViewer(props: Props) {
     const { patient: patientContext } = useContext(GlobalContext)
     const studentReports = patientContext.studentReports
     const sets = useMemo(() => [...new Set(studentReports?.filter(s => s.reportType === props.reportType))], [props.reportType, studentReports])
-    const setNames = [...new Set(sets.map(s => s.setName))]
+    const setNames = useMemo(() => [...new Set(sets.map(s => s.setName))], [sets])
+
+    if (sets.length === 0) {
+        return <EmptyCard title={props.title}><p className='p-10 text-center'>No Data Available</p></EmptyCard>
+    }
 
     return (
         <div className={props.className}>
@@ -102,9 +106,6 @@ function getReportsGrid(studentReports: StudentReport[]) {
 
         const timeIndex = timeArray.indexOf(`${date} ${time}`) // trying to figure out which column belongs to that specific time
         grid[rowArrayIndex]![timeIndex] = value
-
-        console.table(grid)
-
 
     }
 
