@@ -102,7 +102,7 @@ export default function ReportsSubmitter(props: Props) {
                                     : null}
 
                                 <div className="space-y-4">
-                                    <div key={`${set.name}-time`} className="grid grid-cols-4 py-3 items-center even:bg-gray-200 w-full pl-10">
+                                    <div key={`${set.name}-time`} className="grid grid-cols-5 py-3 items-center even:bg-gray-200 w-full px-10">
                                         <Label htmlFor={`${set.name}-time`} className="text-sm font-medium">Time</Label>
                                         <Input id={`${set.name}-time`} type="time" className="text-center" value={time} onChange={e => setTime(e.currentTarget.value)} />
                                     </div>

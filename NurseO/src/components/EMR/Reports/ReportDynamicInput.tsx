@@ -4,18 +4,20 @@ import { Input } from "~/components/common/ui/input"
 import { Select } from "~/components/common/ui/select";
 import { Checkbox } from "~/components/common/ui/checkbox";
 import { useState } from "react";
+import { ReportSelectInput } from "./ReportInputs/ReportSelectInput";
 
 type Props = {
     set: ReportSet
     field: ReportField
     disabled: boolean,
     onChange: (value: string) => void,
+    className?: string
 }
 
 export function ReportDynamicInput(props: Props) {
     const { set, field } = props;
     const id = `${set.name}-${field.name}`
-    const className = "grid grid-cols-4 py-3 items-center even:bg-gray-200 w-full pl-10"
+    const className = "grid grid-cols-5 py-3 items-center even:bg-gray-200 w-full gap-4 px-10"
     const [checkedBoxes, setCheckedBoxes] = useState<string[]>([])
 
     const onCheckboxCheck = (label: string, checked: boolean) => {
@@ -39,15 +41,16 @@ export function ReportDynamicInput(props: Props) {
         )
     } else if (field.fieldType === "options" && field.options) {
         return (
-            <div className={className}>
-                <Label htmlFor={id} className="text-sm font-medium">{field.name}</Label>
-                <Select id={id} disabled={props.disabled} onChange={props.onChange} >
-                    <>
-                        <option></option>
-                        {field.options.map(o => <option value={o} key={o}>{o}</option>)}
-                    </>
-                </Select>
-            </div>
+            // <div className={className}>
+            //     <Label htmlFor={id} className="text-sm font-medium">{field.name}</Label>
+            //     <Select id={id} disabled={props.disabled} onChange={props.onChange} >
+            //         <>
+            //             <option></option>
+            //             {field.options.map(o => <option value={o} key={o}>{o}</option>)}
+            //         </>
+            //     </Select>
+            // </div>
+            <ReportSelectInput field={field} id={id} className={className} disabled={props.disabled} onChange={props.onChange} />
 
         )
     } else if (field.fieldType === "checkbox") {
