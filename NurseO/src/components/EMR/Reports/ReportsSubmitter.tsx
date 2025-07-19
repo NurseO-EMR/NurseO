@@ -41,7 +41,7 @@ export default function ReportsSubmitter(props: Props) {
         }
 
 
-        patient.studentReports = studentsReportsArray
+        patient.studentReports.push(...studentsReportsArray)
         setPatient({ ...patient })
         router.push(props.viewPageURL)
     }

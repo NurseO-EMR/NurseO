@@ -1,8 +1,9 @@
-import { useContext, useMemo, useState } from 'react';
-import type { PatientChart, ReportType } from "~/core/index";
+import { useContext, useMemo } from 'react';
+import type { PatientChart, ReportType, StudentReport } from "~/core/index";
 import EmptyCard from '../Dashboard/Card/EmptyCard';
-import ReportTabs from './ReportTabs';
 import { GlobalContext } from '~/services/State';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/common/ui/tabs';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/common/ui/table';
 
 type Props = {
     className?: string,
@@ -13,71 +14,99 @@ type Props = {
 
 
 export default function ReportsViewer(props: Props) {
-
     const { patient: patientContext } = useContext(GlobalContext)
-    const patient = props.patient ?? patientContext
-    const studentReports = patient.studentReports
-    const setNames = useMemo(() => [...new Set(studentReports?.filter(s => s.reportType === props.reportType).map(s => s.setName))], [props.reportType, studentReports])
-    const [selectedTabIndex, setSelectedTabIndex] = useState(0)
-    const filteredReports = useMemo(() => studentReports?.filter(s => s.setName === setNames[selectedTabIndex] && s.reportType === props.reportType), [props.reportType, selectedTabIndex, setNames, studentReports])
-    const times = useMemo(() => [...new Set(filteredReports?.map(s => s.time))], [filteredReports]) // TODO: figure out how to arrange these
-
-    const getMap = () => {
-        const map = new Map<string, string[]>()
-        if (!filteredReports) return map
-
-        for (const report of filteredReports) {
-            const timeIndex = times.findIndex(t => t === report.time)
-            if (map.has(report.fieldName)) {
-                map.get(report.fieldName)![timeIndex] = report.value // checked above; no need to reset since this is a memory pointer
-            } else {
-                const array = new Array(times.length).fill("-") as string[]
-                array[timeIndex] = report.value
-                map.set(report.fieldName, array)
-            }
-        }
-
-        return map
-    }
-
-    const getRows = () => {
-        const map = getMap()
-        const jsx: JSX.Element[] = []
-        for (const [k, v] of map.entries()) {
-            const row = (
-                <tr className="odd:bg-gray-100 even:bg-gray-300 h-14">
-                    <td>{k}</td>
-                    {v.map((d, i) => <td key={k + i}>{d}</td>)}
-                </tr>
-            )
-            jsx.push(row)
-        }
-
-        return jsx
-    }
+    const studentReports = patientContext.studentReports
+    const sets = useMemo(() => [...new Set(studentReports?.filter(s => s.reportType === props.reportType))], [props.reportType, studentReports])
+    const setNames = [...new Set(sets.map(s => s.setName))]
 
     return (
         <div className={props.className}>
             <EmptyCard title={props.title}>
-                <ReportTabs selectedTab={selectedTabIndex} onTabSelectionHandler={setSelectedTabIndex} reportSets={setNames} />
+                <Tabs defaultValue={sets[0]?.setName} className="w-full">
+                    <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10 h-auto" role="tablist">
+                        {setNames.map((name) => (
+                            <TabsTrigger key={name} value={name} role="tab" aria-controls={`${name}-panel`} className="text-xs p-2">{name}</TabsTrigger>
+                        ))}
+                    </TabsList>
+                    {setNames.map(s => {
+                        const filteredReports = studentReports.filter(r => r.setName === s)
+                        return (
+                            <TabsContent value={s} key={s}>
+                                <ReportViewerTable studentReports={filteredReports} key={s} />
+                            </TabsContent>
+                        )
+                    })}
 
-                {filteredReports && filteredReports.length > 0 ?
-                    <table className="w-full table-auto text-center">
-                        <thead>
-                            <tr>
-                                <th key={-1}>{props.title}</th>
-                                {times.map((time, i) =>
-                                    <th key={i}>{time}</th>
-                                )}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {getRows()}
-                        </tbody>
-                    </table>
-                    : <h1 className='font-bold text-left pt-5 pb-4 pl-2'>No Data Available</h1>}
+                </Tabs>
             </EmptyCard>
         </div>
 
     );
+}
+
+
+function ReportViewerTable(props: { studentReports: StudentReport[] }) {
+
+    const reportsGrid = getReportsGrid(props.studentReports)
+    return (
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    {reportsGrid[0]!.map(cell => <TableHead className='cursor-default' key={cell}>{cell}</TableHead>)}
+                </TableRow>
+            </TableHeader>
+
+            <TableBody>
+                {reportsGrid.slice(1).map((row, i) => {
+                    return (
+                        <TableRow key={i}>
+                            {row.map(cell => <TableCell className='cursor-default' key={cell}>{cell}</TableCell>)}
+                        </TableRow>
+                    )
+                })}
+            </TableBody>
+        </Table>
+    )
+}
+
+
+function getReportsGrid(studentReports: StudentReport[]) {
+    const grid: string[][] = []
+
+    // building the top row for the time
+    const timeSet = new Set(["Value/Time"])
+    for (const report of studentReports) {
+        const { date, time } = report
+        timeSet.add(`${date} ${time}`)
+    }
+
+    grid.push([...timeSet])
+
+    // building every row below it
+    for (let i = 0; i < studentReports.length; i++) {
+        const { fieldName, date, time, value } = studentReports[i]!
+        if (value.length === 0) continue
+
+        const timeArray = grid[0]!
+        let rowArrayIndex = grid.findIndex(row => row[0] === fieldName)
+
+        if (rowArrayIndex === -1) { // if row array doesn't exist 
+            const rowArray = new Array<string>(timeArray.length)
+            rowArray.fill("")
+
+            rowArray[0] = fieldName
+
+            grid.push(rowArray)
+            rowArrayIndex = grid.length - 1
+        }
+
+        const timeIndex = timeArray.indexOf(`${date} ${time}`) // trying to figure out which column belongs to that specific time
+        grid[rowArrayIndex]![timeIndex] = value
+
+        console.table(grid)
+
+
+    }
+
+    return grid
 }
