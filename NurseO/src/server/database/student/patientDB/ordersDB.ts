@@ -4,6 +4,7 @@ import { makeMedOrderString, type CustomOrder, type MedicationOrder } from "~/co
 import { getPatientBasicInfoById } from "./getPatientDB";
 import type { Response } from "~/types/protocolTypes";
 import { addLog } from "../../logDB";
+import { LogTypes } from "~/types/logTypes";
 
 export async function addMedOrderToStudentPatient(db: PrismaClient, order: MedicationOrder, patientId: number, session: Session): Response<boolean> {
     try {
@@ -35,7 +36,7 @@ export async function addMedOrderToStudentPatient(db: PrismaClient, order: Medic
             }
         })
         const orderString = makeMedOrderString(order)
-        const { err } = await addLog(db, patientId, `Added order ${orderString}`, session)
+        const { err } = await addLog(db, patientId, `Added order ${orderString}`, session, LogTypes.SimActivity, null)
         if (err) return { err: err, data: null }
 
         return { err: null, data: true }
@@ -64,7 +65,7 @@ export async function addCustomOrderToStudentPatient(db: PrismaClient, order: Cu
             }
         })
 
-        const { err } = await addLog(db, patientId, `Added order ${order.order}`, session)
+        const { err } = await addLog(db, patientId, `Added order ${order.order}`, session, LogTypes.SimActivity, null)
         if (err) return { err: err, data: null }
 
         return { err: null, data: true }

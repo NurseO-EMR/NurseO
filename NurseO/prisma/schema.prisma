@@ -272,10 +272,12 @@ model ICD_10 {
 
 model Log {
     id Int @id @default(autoincrement())
-    patient_id Int
+    patient_id Int?
     userUID String
     activity String @db.Text
     timestamp DateTime
+    log_type String @default("Info")
+    ip_address String?
 
     // patient Patient @relation(fields: [patient_id], references: [id])
     user User @relation(fields: [userUID], references: [id])
