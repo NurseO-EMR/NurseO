@@ -24,7 +24,7 @@ export async function deletePatient(db: PrismaClient, patientId: number): Respon
         })
         return { err: null, data: true }
     } catch (e) {
-        return { err: String(e), data: false }
+        return { err: String(e), data: null }
     }
 }
 
