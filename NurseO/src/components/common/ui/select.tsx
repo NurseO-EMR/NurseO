@@ -6,7 +6,6 @@ type Props = {
   onChange: (v: string) => void,
   value?: string | undefined
   id?: string
-  label?: string
   disabled?: boolean
   className?: string
 }

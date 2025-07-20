@@ -1,4 +1,3 @@
-"use client"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -84,7 +83,7 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
               <FormItem>
                 <FormLabel>Imaging Type</FormLabel>
                 <FormControl>
-                  <Select {...field} label="Imaging Type">
+                  <Select {...field}>
                     <option value=""></option>
                     <option value="X-Ray">X-Ray</option>
                     <option value="CT Scan">CT Scan</option>
@@ -108,7 +107,7 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
               <FormItem>
                 <FormLabel>Imaging Type</FormLabel>
                 <FormControl>
-                  <Select {...field} label="Imaging Type">
+                  <Select {...field}>
                     <option value="None">None</option>
                     <option value="With Contrast">With Contrast</option>
                     <option value="Without Contrast">Without Contrast</option>
@@ -142,7 +141,7 @@ export function ImagingOrderForm({ addOrder }: ImagingOrderFormProps) {
             <FormItem>
               <FormLabel>Priority</FormLabel>
               <FormControl>
-                <Select {...field} label="Test Type">
+                <Select {...field}>
                   <option value="Routine">Routine</option>
                   <option value="Urgent">Urgent</option>
                   <option value="STAT">STAT</option>

@@ -80,7 +80,7 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
               <FormLabel>Test Type</FormLabel>
 
               <FormControl>
-                <Select {...field} label="Test Type">
+                <Select {...field}>
                   <option value=""></option>
                   <option value="Complete Blood Count (CBC)">Complete Blood Count (CBC)</option>
                   <option value="CBC with Differential">CBC with Differential</option>
@@ -118,7 +118,7 @@ export function LabOrderForm({ addOrder }: LabOrderFormProps) {
               <FormItem>
                 <FormLabel>Priority</FormLabel>
                 <FormControl>
-                  <Select {...field} label="Test Type">
+                  <Select {...field}>
                     <option value="Routine">Routine</option>
                     <option value="Urgent">Urgent</option>
                     <option value="STAT">STAT</option>
