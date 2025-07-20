@@ -36,6 +36,7 @@ model Patient {
     chief_complaint String?
     code String @default("Full Code")
     startDateTime DateTime?
+    deleted Boolean @default(false)
 
     student         User?             @relation(fields: [studentUID], references: [id]) 
     course          Course            @relation(fields: [course_id], references: [id])
@@ -48,7 +49,7 @@ model Patient {
     immunizations Immunization[] @relation()
     flags Flag[] @relation()
     student_reports Student_Report[] @relation()
-    // logs Log[] @relation()
+    logs Log[] @relation()
 }
 
 model Course {
@@ -279,7 +280,7 @@ model Log {
     log_type String @default("Info")
     ip_address String?
 
-    // patient Patient @relation(fields: [patient_id], references: [id])
+    patient Patient? @relation(fields: [patient_id], references: [id])
     user User @relation(fields: [userUID], references: [id])
 }
 

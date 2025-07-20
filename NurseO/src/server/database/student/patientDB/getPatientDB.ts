@@ -29,7 +29,7 @@ type patientMetaData = {
 type Context = { db: PrismaClient, session: Session | null }
 
 export async function isBarcodeUsedByPatient(db: PrismaClient, templatePatientBarCode: string) {
-       const patients = await db.$queryRaw<{ id: number }[]>`SELECT id FROM Patient WHERE Patient.template = true AND Patient.patient_bar_code = ${templatePatientBarCode} LIMIT 1;`
+       const patients = await db.$queryRaw<{ id: number }[]>`SELECT id FROM Patient WHERE Patient.template = true AND deleted = false AND Patient.patient_bar_code = ${templatePatientBarCode} LIMIT 1;`
        return patients.length > 0
 }
 
@@ -123,7 +123,7 @@ export async function getPatientBasicInfoById(db: PrismaClient, patientId: numbe
        const patient = await db.$queryRaw<patientMetaData[]>`
                         SELECT id ,name, dob, age, gender, height, weight, time_hour, time_minute, lab_doc_url, imaging_url,
                                diagnosis, course_id, patient_bar_code, chief_complaint, code, studentUID, template
-                        FROM Patient WHERE id = ${patientId} LIMIT 1;`
+                        FROM Patient WHERE id = ${patientId} AND deleted = false LIMIT 1;`
        if (!patient || patient.length == 0) return null
        return patient[0]
 }
@@ -144,6 +144,7 @@ async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBar
               AND student_id = ${studentId}
               AND studentUID = ${studentUID}  
               AND template = false
+              AND deleted = false
               LIMIT 1;`
        }
 
@@ -157,6 +158,7 @@ async function getPatientBasicInfoByBarCode(db: PrismaClient, templatePatientBar
               WHERE Course_Location_Information.location_id = ${locationId}
               AND patient_bar_code = ${templatePatientBarCode} 
               AND template = true
+              AND deleted = false
               LIMIT 1;`
        }
 

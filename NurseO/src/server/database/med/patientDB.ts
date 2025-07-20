@@ -7,6 +7,7 @@ export async function getListOfPatients(db: PrismaClient, locationId: number) {
                         INNER JOIN Course_Location_Information ON Course.id = Course_Location_Information.course_id
                         WHERE Patient.template=true
                         AND Course_Location_Information.location_id = ${locationId}
+                        AND deleted = false
                         ORDER BY name;
     `
 
@@ -22,6 +23,7 @@ export async function getPatientMedOrders(db: PrismaClient, patientId: number): 
                      FROM Med_Order 
                      INNER JOIN Medication ON Med_Order.med_id = Medication.id
                      WHERE patient_id = ${patientId}
+                     AND deleted = false
                      ORDER BY order_index ASC;
                      `
 

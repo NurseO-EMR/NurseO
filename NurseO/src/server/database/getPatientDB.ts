@@ -94,6 +94,7 @@ async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
                         FROM Patient 
                         LEFT JOIN User ON Patient.studentUID = User.id
                         WHERE Patient.id = ${patientId} 
+                        AND deleted = false
                         LIMIT 1;`
        if (!patient || patient.length == 0) return null
        return patient[0]
