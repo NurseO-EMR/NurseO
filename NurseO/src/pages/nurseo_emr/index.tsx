@@ -53,9 +53,10 @@ export default function Login() {
                             className="my-5 border-2 rounded-full text-center p-4 border-primary w-full"
                             onChange={e => setBadgeNumber(e.currentTarget.value)}
                             placeholder='########'
+                            aria-describedby='error'
                         /><br />
                         <SignInButton onClick={onSignInHandler} />
-                        <div>{error}</div>
+                        <div id="error" className='text-red font-bold pt-4'>{error}</div>
 
                         <hr className="w-full my-4 border-primary" />
                         <h2 className="font-bold">If you forgot your ID click below:</h2>

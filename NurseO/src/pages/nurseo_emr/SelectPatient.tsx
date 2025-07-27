@@ -53,9 +53,10 @@ export default function SelectPatient() {
                         onChange={e => setProvidedBarcode(e.currentTarget.value)}
                         ref={inputRef}
                         value={barcode}
+                        aria-describedby='error'
                     /><br />
                     <SignInButton onClick={onClickHandler} />
-                    <div>{error}</div>
+                    <div id="error">{error}</div>
                 </form>
             </div>
         </div>
