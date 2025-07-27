@@ -9,7 +9,7 @@ export default function SideNavItem(props: Props) {
 
     return (
         <Link href={props.href}>
-            <h3 className="p-2 bg-grayBackground text-white cursor-pointer hover:brightness-110 transition-all">{props.children}</h3>
+            <span className="p-2 bg-grayBackground text-white cursor-pointer hover:brightness-110 transition-all block">{props.children}</span>
         </Link>
     );
 }

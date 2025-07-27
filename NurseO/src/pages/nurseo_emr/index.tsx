@@ -48,11 +48,10 @@ export default function Login() {
                     <form onSubmit={e => e.preventDefault()} className="bg-white px-24 py-16 rounded-4xl border-primary border-8">
                         <Logo className="text-6xl mb-10" homePageLink='/nurseo_emr/' />
                         <h2 className="text-xl font-bold">Please Scan Your Badge</h2>
-                        <p className='text-xs'>( Or type your badge number here )</p>
-                        <input type="password" autoFocus autoComplete='off'
+                        <label htmlFor='id' className='text-xs'>( Or type your badge number here )</label>
+                        <input type="password" autoFocus autoComplete='off' id="id"
                             className="my-5 border-2 rounded-full text-center p-4 border-primary w-full"
                             onChange={e => setBadgeNumber(e.currentTarget.value)}
-                            placeholder='########'
                             aria-describedby='error'
                         /><br />
                         <SignInButton onClick={onSignInHandler} />

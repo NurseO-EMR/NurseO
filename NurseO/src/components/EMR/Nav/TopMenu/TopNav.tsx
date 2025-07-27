@@ -38,8 +38,9 @@ export default function TopNav(props: Props) {
                 <div className="flex items-center space-x-3">
                     <span className="font-medium rounded ">
                         {session.data?.user.name ? <span>Hi {session.data?.user.name}</span> : null}
-                        <span className='font-bold'> | </span>
-                        <button className="cursor-pointer" onClick={onLogoutClickHandler}>
+                        <span className='font-bold mx-2'>|</span>
+                        <button className="cursor-pointer inline-flex gap-x-2 items-center" onClick={onLogoutClickHandler}>
+                            Logout
                             <FontAwesomeIcon icon={faSignOutAlt}></FontAwesomeIcon>
                         </button>
                     </span>

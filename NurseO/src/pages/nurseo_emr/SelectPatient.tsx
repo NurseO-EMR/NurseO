@@ -46,10 +46,12 @@ export default function SelectPatient() {
                     <h1 className="text-4xl font-bold">Please
                         <span className="text-primary/80"> scan </span>
                         the patient armband</h1>
+
+                    <label htmlFor="id" className='black'>( Or type the patient number here )</label>
                     <input type="text"
                         autoFocus
                         className="my-5 border-2 rounded-full text-center p-4 border-primary w-full"
-                        placeholder="Or type the patient number here"
+                        id="id"
                         onChange={e => setProvidedBarcode(e.currentTarget.value)}
                         ref={inputRef}
                         value={barcode}
