@@ -5,12 +5,12 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "~/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 ",
+  "",
   {
     variants: {
       variant: {
         default:
-          "bg-slate-900 text-slate-50 shadow hover:bg-slate-900/90",
+          "bg-slate-900 text-slate-50 shadow",
         destructive:
           "bg-red-700 text-slate-50 shadow-sm hover:bg-red-500/90",
         outline:
@@ -45,7 +45,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
-        className={cn("hover:scale-105 focus:border-white focus:border-2", buttonVariants({ variant, size, className }))}
+        className={cn(`hover:scale-105 focus:border-white focus:border-2 focus:ring-4 focus:ring-primary transition-all 
+          inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium 
+          *focus-visible:outline-none disabled:pointer-events-none 
+          disabled:opacity-50 [&_svg]:pointer-events-none 
+          `, buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       />

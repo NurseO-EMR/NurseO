@@ -118,6 +118,7 @@ export default function ReportsSubmitter(props: Props) {
 
 
                 </Tabs>
+                <Button onClick={onSubmitHandler} className="bg-primary hover:scale-105 text-white px-6 py-2 block mx-auto w-11/12 my-4">Save</Button>
             </div>
         </EmptyCard>
     )
