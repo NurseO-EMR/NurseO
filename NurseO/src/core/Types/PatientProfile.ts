@@ -74,8 +74,8 @@ export type MedicationOrder = Order & {
     holdReason?: string | null
 
     // code
-    dispenseQuantity?: string
-    refills?: number
+    dispenseQuantity?: string | null
+    refills?: number | null
 
     // these are for data fetching to make it cheaper to pull meds from db
     genericName?: string;

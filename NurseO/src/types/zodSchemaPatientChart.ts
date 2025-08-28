@@ -100,8 +100,8 @@ export const medicationOrderSchema = orderSchema.and(
     narcoticCountNeeded: z.boolean().optional(),
 
     //grad
-    dispenseQuantity: z.string().optional(),
-    refills: z.number().optional(),
+    dispenseQuantity: z.string().optional().nullable(),
+    refills: z.number().optional().nullable(),
 
   }),
 );
