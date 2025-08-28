@@ -23,7 +23,6 @@ export async function getPatientMedOrders(db: PrismaClient, patientId: number): 
                      FROM Med_Order 
                      INNER JOIN Medication ON Med_Order.med_id = Medication.id
                      WHERE patient_id = ${patientId}
-                     AND deleted = false
                      ORDER BY order_index ASC;
                      `
 
