@@ -8,7 +8,7 @@ import SocialHistoryCard from './Card/SocialHistory';
 import { DiagnosisCard } from './Card/DiagnosisCard';
 import { ChiefComplaintCard } from './Card/ChiefComplaint';
 import Orders from '../Orders/Orders';
-import NotesCard from './Card/NotesCard';
+import EncounterCard from '~/components/Grad/EncounterCard';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     patient: PatientChart
@@ -30,7 +30,7 @@ export default function Dashboard(props: Props) {
             {<Orders className='col-span-4' orderType={OrderType.protocol} orders={[...props.patient.customOrders, ...props.patient.medicationOrders]} />}
             {<Orders className='col-span-4' orderType={OrderType.standing} orders={[...props.patient.customOrders, ...props.patient.medicationOrders]} />}
             {<Orders className='col-span-4' orderType={OrderType.provider} orders={[...props.patient.customOrders, ...props.patient.medicationOrders]} />}
-            <NotesCard className='col-span-4' notes={props.patient.notes} />
+            <EncounterCard className='col-span-4' notes={props.patient.notes} />
         </div>
 
     );

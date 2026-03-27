@@ -43,7 +43,7 @@ async function isOrderIsForTemplatePatient(db: PrismaClient, orderId: number) {
     else return false
 }
 
-async function checkIfPatientIdIsTemplatePatient(db: PrismaClient, patientId: number): Promise<boolean> {
+export async function checkIfPatientIdIsTemplatePatient(db: PrismaClient, patientId: number): Promise<boolean> {
     const data = await db.$queryRaw<{ template: boolean }[]>`SELECT Patient.template FROM Patient WHERE Patient.id = ${patientId} LIMIT 1;`
     if (data.length === 0) return false;
     if (!data[0]) return false;

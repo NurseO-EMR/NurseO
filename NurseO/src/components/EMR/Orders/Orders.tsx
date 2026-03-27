@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import type { Order, OrderType } from "~/core/index";
 import Card from '../Dashboard/Card/Card';
 import OrderEntry from './OrdersEntry';
+import { TableCell, TableHead, TableHeader, TableRow } from '~/components/common/ui/table';
 
 
 type Props = {
@@ -37,18 +38,18 @@ export default function Orders(props: Props) {
     }
     return (
         <Card className={props.className} title={props.orderType ? props.orderType + " Orders" : (props.title ? props.title : "Orders")}>
-            <thead className="font-bold">
-                <tr>
-                    <td className="border-2 p-2 border-trueGray-200">Time</td>
-                    <td className="border-2 p-2 border-trueGray-200">Type</td>
-                    <td className="border-2 p-2 border-trueGray-200">Order</td>
-                    {showICD10Column ? <td className="border-2 p-2 border-trueGray-200">ICD10 Description</td> : null}
-                </tr>
-            </thead>
+            <TableHeader className="font-bold">
+                <TableRow>
+                    <TableHead className="border-2 p-2 border-trueGray-200">Time</TableHead>
+                    <TableHead className="border-2 p-2 border-trueGray-200">Type</TableHead>
+                    <TableHead className="border-2 p-2 border-trueGray-200">Order</TableHead>
+                    {showICD10Column ? <TableHead className="border-2 p-2 border-trueGray-200">ICD10 Description</TableHead> : null}
+                </TableRow>
+            </TableHeader>
             <tbody>
                 {filteredOrders && filteredOrders.length > 0 ?
                     filteredOrders.map((order, i) => <OrderEntry showICD10Column={!!showICD10Column} key={i} order={order}></OrderEntry>) :
-                    <tr><td colSpan={showICD10Column ? 4 : 3} className='p-2'><h1>No orders added</h1></td></tr>
+                    <TableRow><TableCell colSpan={showICD10Column ? 4 : 3} className='p-2'><h1>No orders added</h1></TableCell></TableRow>
                 }
             </tbody>
         </Card>

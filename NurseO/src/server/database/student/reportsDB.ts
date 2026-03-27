@@ -1,5 +1,7 @@
 import { Prisma, type PrismaClient } from '@prisma/client';
 import type { ReportInputType, ReportSet, ReportField, ReportType, StudentReport } from "~/core/index";
+import { type Response } from '~/types/protocolTypes';
+import { checkIfPatientIdIsTemplatePatient } from './patientDB/updatePatientDB';
 
 export async function getReportSets(db: PrismaClient, reportType: string): Promise<ReportSet[]> {
     const sets = await db.$queryRaw<{ id: number, name: string, image_url: string, image_alt: string }[]>`SELECT id, name, image_url, image_alt FROM Report_Set WHERE report_type = ${reportType}`
@@ -41,8 +43,11 @@ export async function getReportSets(db: PrismaClient, reportType: string): Promi
     return reportSets
 }
 
-export async function saveStudentsReports(db:PrismaClient, studentReport: StudentReport[], patientId: number) {
-    await db.student_Report.createMany({
+export async function saveStudentsReports(db: PrismaClient, studentReport: StudentReport[], patientId: number): Response<boolean> {
+    try {
+        const isTemplate = await checkIfPatientIdIsTemplatePatient(db, patientId)
+        if (isTemplate) return { err: "Can't edit Template Patient", data: null }
+        await db.student_Report.createMany({
         data: studentReport.map(s=>{
             return {
                 patient_id: patientId,
@@ -54,7 +59,12 @@ export async function saveStudentsReports(db:PrismaClient, studentReport: Studen
                 report_type: s.reportType
             }
         })
-    })
+        })
+        return { err: null, data: true };
+    } catch (e) {
+        return { err: String(e), data: null }
+    }
+
 }
 
 export async function getStudentsReport(db:PrismaClient, reportType: ReportType, patientId: number):Promise<StudentReport[]> {

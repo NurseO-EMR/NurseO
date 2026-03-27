@@ -283,7 +283,6 @@ INSERT INTO `Report_Option` (`id`, `name`, `report_field_id`) VALUES
 (96, '19-23 = Minimal Risk', 23),
 (97, 'Normal Color', 24),
 (98, 'Flushed', 24),
-(99, 'Flushed', 24),
 (100, 'Jaundiced', 24),
 (101, 'Pale', 24),
 (102, 'Cyanotic', 24),

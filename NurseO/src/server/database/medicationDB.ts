@@ -52,7 +52,7 @@ export async function getMedDetails(db:PrismaClient, medId: number) {
     const med = await db.$queryRaw<{id:number, brandName: string, genericName: string, narcoticCountNeeded: boolean}[]>`
     SELECT id, brand_name as brandName, generic_name as genericName, narcoti_count_needed as narcoticCountNeeded FROM Medication WHERE id = ${medId} LIMIT 1;`
 
-    if(!med ?? med.length === 0) return;
+    if (!med || med.length === 0) return;
     
     const locations = await db.$queryRaw<{id: number, drawer: string, barcode: string, dose: string, type: string, building: string, station: string, slot: string}[]>`
     SELECT Medication_Location_Information.id, drawer, barcode, dose, type, building, station, slot
