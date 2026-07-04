@@ -25,7 +25,7 @@ const StudentReportSchema = z.object({
 export const EMRRouter = createTRPCRouter({
     student_getPatient: publicProcedure.input(z.object({ barcode: z.string(), locationId: z.number(), studentId: z.string() || z.null() })).mutation(async ({ input, ctx }) => await getPatientByBarCode(ctx, input.barcode, input.locationId, input.studentId, ctx.session?.user.id)),
     student_updatePatientHoldInfo: publicProcedure.input(z.object({ orderId: z.number(), holdReason: z.string().nullable() })).mutation(async ({ input, ctx }) => await updateOrderHoldInfo(ctx.db, input.orderId, input.holdReason)),
-    student_addNote: publicProcedure.input(z.object({ patientId: z.number(), date: z.string(), note: z.string() })).mutation(async ({ input, ctx }) => await addNote(ctx.db, input.patientId, input.date, input.note)),
+    student_addNote: publicProcedure.input(z.object({ patientId: z.number(), date: z.string(), note: z.string(), type: z.string() })).mutation(async ({ input, ctx }) => await addNote(ctx.db, input.patientId, input.date, input.note, input.type)),
     student_isBarcodeUsedByPatient: publicProcedure.input(z.object({ barcode: z.string() })).mutation(async ({ ctx, input }) => await isBarcodeUsedByPatient(ctx.db, input.barcode)),
     student_updateChiefCompliant: publicProcedure.input(z.object({ patientId: z.number(), chiefCompliant: z.string() })).mutation(async ({ ctx, input }) => await updateChiefCompliant(ctx.db, input.patientId, input.chiefCompliant)),
     student_addMedicalHistory: publicProcedure.input(z.object({ patientId: z.number(), medicalHistory: medicalHistorySchema })).mutation(async ({ input, ctx }) => await addMedicalHistory(ctx.db, input.patientId, input.medicalHistory)),
@@ -38,6 +38,6 @@ export const EMRRouter = createTRPCRouter({
 
     //reports
     student_getReportSets: publicProcedure.input(z.object({ reportType: z.string() })).query(async ({ input, ctx }) => await getStudentReportSets(ctx.db, input.reportType)),
-    student_saveStudentsReports: publicProcedure.input(z.object({ studentReport: z.array(StudentReportSchema), patientId: z.number() })).mutation(async ({ input, ctx }) => await saveStudentsReports(ctx.db, input.studentReport, input.patientId)),
+    student_saveStudentsReports: publicProcedure.input(z.object({ studentReports: z.array(StudentReportSchema), patientId: z.number() })).mutation(async ({ input, ctx }) => await saveStudentsReports(ctx.db, input.studentReports, input.patientId)),
     student_getStudentsReports: publicProcedure.input(z.object({ reportType: z.nativeEnum(ReportType), patientId: z.number() })).query(async ({ input, ctx }) => await getStudentsReport(ctx.db, input.reportType, input.patientId)),
 });

@@ -8,7 +8,9 @@ import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import { signInState } from '~/types/flags';
 
-type Props = React.HTMLAttributes<HTMLDivElement>
+type Props = React.HTMLAttributes<HTMLDivElement> & {
+    homePageLink: string
+}
 export default function TopNav(props: Props) {
     const { setPatient, setStudentId, studentId } = useContext(GlobalContext)
     const router = useRouter()
@@ -16,19 +18,19 @@ export default function TopNav(props: Props) {
 
     const onLogoutClickHandler = async () => {
         if (studentId === signInState.caseStudy.valueOf()) {
-            await router.push("/casestudy/")
+            await router.push(props.homePageLink)
             await signOut()
         } else {
             setPatient(new PatientChart())
             setStudentId("")
-            await router.push("/nurseo_emr/")
+            await router.push(props.homePageLink)
         }
     }
 
     return (
         <nav className={"bg-white shadow-lg " + props.className}>
             <div className="flex justify-around">
-                <Logo />
+                <Logo homePageLink={props.homePageLink} />
                 <div className="flex items-center space-x-8">
                     {props.children}
                 </div>
@@ -36,10 +38,11 @@ export default function TopNav(props: Props) {
                 <div className="flex items-center space-x-3">
                     <span className="font-medium rounded ">
                         {session.data?.user.name ? <span>Hi {session.data?.user.name}</span> : null}
-                        <span className='font-bold'> | </span>
-                        <span className="cursor-pointer" onClick={onLogoutClickHandler}>
+                        <span className='font-bold mx-2'>|</span>
+                        <button className="cursor-pointer inline-flex gap-x-2 items-center" onClick={onLogoutClickHandler}>
+                            Logout
                             <FontAwesomeIcon icon={faSignOutAlt}></FontAwesomeIcon>
-                        </span>
+                        </button>
                     </span>
                 </div>
             </div>

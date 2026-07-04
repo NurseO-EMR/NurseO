@@ -8,7 +8,7 @@ export async function updateOrderHoldInfo(db: PrismaClient, orderId: number, hol
     return rowEffected > 0
 }
 
-export async function addNote(db: PrismaClient, patientId: number, date: string, note: string) {
+export async function addNote(db: PrismaClient, patientId: number, date: string, note: string, type: string) {
     if (!note) return;
     const isTemplate = await checkIfPatientIdIsTemplatePatient(db, patientId)
     if (isTemplate) return;
@@ -16,6 +16,7 @@ export async function addNote(db: PrismaClient, patientId: number, date: string,
     await db.note.create({
         data: {
             patient_id: patientId,
+            type,
             date,
             note,
         },
@@ -42,7 +43,7 @@ async function isOrderIsForTemplatePatient(db: PrismaClient, orderId: number) {
     else return false
 }
 
-async function checkIfPatientIdIsTemplatePatient(db: PrismaClient, patientId: number): Promise<boolean> {
+export async function checkIfPatientIdIsTemplatePatient(db: PrismaClient, patientId: number): Promise<boolean> {
     const data = await db.$queryRaw<{ template: boolean }[]>`SELECT Patient.template FROM Patient WHERE Patient.id = ${patientId} LIMIT 1;`
     if (data.length === 0) return false;
     if (!data[0]) return false;

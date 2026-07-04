@@ -1,8 +1,9 @@
 import { filter } from 'lodash';
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type { Order, OrderType } from "~/core/index";
 import Card from '../Dashboard/Card/Card';
 import OrderEntry from './OrdersEntry';
+import { TableCell, TableHead, TableHeader, TableRow } from '~/components/common/ui/table';
 
 
 type Props = {
@@ -10,47 +11,48 @@ type Props = {
     orderType?: OrderType,
     orders: Order[] | undefined,
     showEmpty?: boolean
+    title?: string
 }
 
-type State = {
-    filteredOrders: Order[] | undefined,
-}
-export default class Orders extends React.Component<Props, State> {
+export default function Orders(props: Props) {
 
-    constructor(props: Props) {
-        super(props)
-        let filteredOrders: Order[] = [];
+    const [filteredOrders, setFilteredOrders] = useState<Order[]>()
+    const showICD10Column = useMemo(() => props.orders?.filter(o => o.icd10).length, [props.orders])
 
-        // if the order type prop provided then show only that order type
-        if (this.props.orderType) {
-            filteredOrders = filter(this.props.orders, order => order.orderType === this.props.orderType)
+    useEffect(() => {
+        let temp;
+        if (props.orderType) {
+            temp = filter(props.orders, order => order.orderType === props.orderType)
         } else {
-            filteredOrders = props.orders ?? []
+            temp = props.orders ?? []
         }
 
-        this.state = { filteredOrders }
-    }
+        setFilteredOrders([...temp])
+    }, [props.orderType, props.orders])
 
-    public render() {
-        if (!this.props.showEmpty && this.state.filteredOrders?.length === 0) {
-            return <></>;
-        }
-        return (
-            <Card className={this.props.className} title={this.props.orderType ? this.props.orderType + " Orders" : "Orders"}>
-                <thead className="font-bold">
-                    <tr>
-                        <td className="border-2 p-2 border-trueGray-200">Type</td>
-                        <td className="border-2 p-2 border-trueGray-200">Order</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.filteredOrders && this.state.filteredOrders.length > 0 ?
-                        this.state.filteredOrders.map((order, i) => <OrderEntry key={i} order={order}></OrderEntry>) :
-                        <tr><td className='p-2'><h1>No orders added</h1></td></tr>
-                    }
-                </tbody>
-            </Card>
 
-        );
+
+
+    if (!props.showEmpty && filteredOrders?.length === 0) {
+        return <></>;
     }
+    return (
+        <Card className={props.className} title={props.orderType ? props.orderType + " Orders" : (props.title ? props.title : "Orders")}>
+            <TableHeader className="font-bold">
+                <TableRow>
+                    <TableHead className="border-2 p-2 border-trueGray-200">Time</TableHead>
+                    <TableHead className="border-2 p-2 border-trueGray-200">Type</TableHead>
+                    <TableHead className="border-2 p-2 border-trueGray-200">Order</TableHead>
+                    {showICD10Column ? <TableHead className="border-2 p-2 border-trueGray-200">ICD10 Description</TableHead> : null}
+                </TableRow>
+            </TableHeader>
+            <tbody>
+                {filteredOrders && filteredOrders.length > 0 ?
+                    filteredOrders.map((order, i) => <OrderEntry showICD10Column={!!showICD10Column} key={i} order={order}></OrderEntry>) :
+                    <TableRow><TableCell colSpan={showICD10Column ? 4 : 3} className='p-2'><h1>No orders added</h1></TableCell></TableRow>
+                }
+            </tbody>
+        </Card>
+
+    );
 }
