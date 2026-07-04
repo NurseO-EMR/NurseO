@@ -1,11 +1,11 @@
 import { useContext, useRef, useState } from 'react';
-import PureModal from 'react-pure-modal';
 import { Frequency, type Medication, type MedicationOrder, OrderKind, OrderType, Routine } from "~/core/index";
 import EmptyCard from '../Dashboard/Card/EmptyCard';
 import { api } from '~/utils/api';
 import { GlobalContext } from '~/services/State';
 import { useRouter } from 'next/navigation';
 import { signInState } from '~/types/flags';
+import { Dialog, DialogTitle, DialogContent } from '~/components/common/ui/dialog';
 
 
 export default function AdministerMeds() {
@@ -99,8 +99,9 @@ export default function AdministerMeds() {
                 </form>
             </EmptyCard>
 
-            <PureModal isOpen={!!(medication?.genericName ?? medication?.brandName)} header={`Administer ${medication?.genericName ?? medication?.brandName}`}
-                draggable={true} onClose={resetState} className="text-center" width="60vw">
+            <Dialog open={!!(medication?.genericName ?? medication?.brandName)} onOpenChange={(s) => s === false ? resetState() : null}>
+                <DialogContent className="text-center w-[60vw]">
+                    <DialogTitle>{`Administer ${medication?.genericName ?? medication?.brandName}`}</DialogTitle>
                 <form onSubmit={e => e.preventDefault()}>
                     <h1 className="font-bold text-xl py-6">
                         {medication?.genericName ?? medication?.brandName}{" "}
@@ -121,12 +122,16 @@ export default function AdministerMeds() {
                     </div>
                     <button className="bg-primary text-white py-4 px-16 rounded-full font-bold" onClick={onSubmit}>Submit</button>
                 </form>
-            </PureModal>
+                </DialogContent>
 
-            <PureModal isOpen={medicationNotFound} header="Medication Not Founded"
-                onClose={resetState} className="text-center" width="60vw">
-                <h1>The medication was not found please try again or verify that you have the right medication</h1>
-            </PureModal>
+            </Dialog>
+
+            <Dialog open={medicationNotFound} onOpenChange={(s) => s === false ? resetState() : null}>
+                <DialogContent className="text-center w-[60vw]">
+                    <DialogTitle>Medication Not Founded</DialogTitle>
+                    <h1>The medication was not found please try again or verify that you have the right medication</h1>
+                </DialogContent>
+            </Dialog>
 
         </>
     );

@@ -94,6 +94,7 @@ async function getPatientBasicInfoById(db: PrismaClient, patientId: number) {
                         FROM Patient 
                         LEFT JOIN User ON Patient.studentUID = User.id
                         WHERE Patient.id = ${patientId} 
+                        AND deleted = false
                         LIMIT 1;`
        if (!patient || patient.length == 0) return null
        return patient[0]
@@ -159,11 +160,7 @@ async function getMedOrders(db: PrismaClient, patientId: number): Promise<Medica
                              WHERE patient_id = ${patientId};`
        if (orders.length === 0) return []
 
-       const orderIds = orders.map(o => {
-              o.orderId
-              o.dispenseQuantity = o.dispenseQuantity ?? undefined
-              o.refills = o.refills ?? undefined
-       })
+       const orderIds = orders.map(o => o.orderId)
 
        const marRecords = await db.$queryRaw<{ medOrderId: number, dose: string, hour: number, minute: number }[]>`
                         SELECT med_order_id as medOrderId, dose, hour, minute FROM Mar_Record WHERE med_order_id in (${Prisma.join(orderIds)});

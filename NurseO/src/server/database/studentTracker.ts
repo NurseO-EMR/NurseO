@@ -4,7 +4,7 @@ export async function getListOfStudentPatients(db: PrismaClient) {
     const studentsPatients = await db.$queryRaw<{ patientId: number, patientName: string, patientBarCode: string, studentUID: string, studentName: string, startDateTime: Date }[]>`
         SELECT Patient.id as patientId, Patient.name as patientName, patient_bar_code as patientBarCode, studentUID, User.name as studentName, startDateTime FROM Patient 
         INNER JOIN User ON User.id = Patient.studentUID
-        WHERE Patient.student_id = "casestudy"
+        WHERE Patient.student_id = "casestudy" AND Patient.deleted = false
     `
     return studentsPatients;
 }

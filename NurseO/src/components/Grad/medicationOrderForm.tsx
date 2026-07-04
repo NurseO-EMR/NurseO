@@ -166,7 +166,7 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Route</FormLabel>
-                <Select {...field} label="Select route">
+                <Select {...field}>
                   <option value=""></option>
                   <option value="Oral">Oral</option>
                   <option value="Intravenous">Intravenous</option>
@@ -185,7 +185,7 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Routine</FormLabel>
-                <Select {...field} label="Select routine">
+                <Select {...field}>
                   {Object.values(Routine).map((f, i) => <option value={f} key={i}>{f}</option>)}
                 </Select>
                 <FormMessage />
@@ -200,7 +200,7 @@ export function MedicationOrderForm(props: MedicationOrderFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Frequency</FormLabel>
-                <Select {...field} label="Select frequency">
+                <Select {...field}>
                   {Object.values(Frequency).map((f, i) => <option value={f} key={i}>{f}</option>)}
                 </Select>
                 <FormMessage />

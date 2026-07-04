@@ -17,6 +17,9 @@ import { env } from "~/env";
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
 import { userRoles } from "~/types/userRoles";
+import { addLog } from "../database/logDB";
+import { LogTypes } from "~/types/logTypes";
+
 
 /**
  * 1. CONTEXT
@@ -28,6 +31,7 @@ import { userRoles } from "~/types/userRoles";
 
 interface CreateContextOptions {
   session: Session | null;
+  requestIpAddress: string | undefined
 }
 
 /**
@@ -44,6 +48,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
     db,
+    requestIpAddress: opts.requestIpAddress
   };
 };
 
@@ -57,10 +62,8 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const { req, res } = opts;
 
   // Get the session from the server using the getServerSession wrapper function
-  const session = await getServerAuthSession({ req, res });
-
-  return createInnerTRPCContext({
-    session,
+  const session = await getServerAuthSession({ req, res }); return createInnerTRPCContext({
+    session, requestIpAddress: req.socket.remoteAddress
   });
 };
 
@@ -84,6 +87,7 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
       },
     };
   },
+
 });
 
 /**
@@ -114,7 +118,16 @@ export const createTRPCRouter = t.router;
  * guarantee that a user querying is authorized, but you can still access user session data if they
  * are logged in.
  */
-export const publicProcedure = t.procedure;
+export const publicProcedure = t.procedure.use(({ ctx, next, path, getRawInput }) => {
+
+  if (ctx.requestIpAddress && ctx.requestIpAddress.length > 0) {
+    getRawInput().then(async (input) => {
+      await addLog(ctx.db, null, `User Accessed ${path} with input ${JSON.stringify(input)}`, ctx.session!, LogTypes.Info, ctx.requestIpAddress!)
+    }).catch(e => { throw new TRPCError({ message: "Error with the app logs: " + e, code: "INTERNAL_SERVER_ERROR" }) })
+  }
+
+  return next()
+});
 
 /**
  * Protected (authenticated) procedure
@@ -124,7 +137,7 @@ export const publicProcedure = t.procedure;
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
+export const protectedProcedure = t.procedure.use(({ ctx, next, path, getRawInput }) => {
   if (env.TEST_ENV) {
     return next({
       ctx: {
@@ -140,6 +153,14 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user || ctx.session.user.role !== userRoles.sim.valueOf()) {
     throw new TRPCError({ code: "FORBIDDEN" });
   }
+
+
+  if (ctx.requestIpAddress && ctx.requestIpAddress.length > 0) {
+    getRawInput().then(async (input) => {
+      await addLog(ctx.db, null, `User Accessed ${path} with input ${JSON.stringify(input)}`, ctx.session!, LogTypes.Info, ctx.requestIpAddress!)
+    }).catch(e => { throw new TRPCError({ message: "Error with the app logs: " + e, code: "INTERNAL_SERVER_ERROR" }) })
+  }
+
 
   return next({
     ctx: {
