@@ -10,6 +10,15 @@ const config = {
   reactStrictMode: true,
   output: "standalone",
   basePath: env.NEXT_PUBLIC_basePath ? "/" + env.NEXT_PUBLIC_basePath : undefined,
+  images: {
+    remotePatterns: [{
+      protocol: 'https',
+      hostname: 'lh3.googleusercontent.com',
+      port: '',
+      pathname: '**',
+      search: '',
+    }],
+  },
   /**
    * If you are using `appDir` then you must comment the below `i18n` config out.
    *

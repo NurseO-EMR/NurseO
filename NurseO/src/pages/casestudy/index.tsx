@@ -34,7 +34,7 @@ export default function Index() {
                     <div className="flex justify-center mt-4">
                         <GoogleButton onClick={() => signIn('google')} />
                     </div>
-                    <Logo className="absolute bottom-0 right-4 text-sm" />
+                    <Logo className="absolute bottom-0 right-4 text-sm" homePageLink="/casestudy/" />
                 </form>
             </div>
         </div>

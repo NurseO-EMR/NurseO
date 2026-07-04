@@ -55,7 +55,7 @@ export function ReviewStage(props: Props) {
         {props.patient.immunizations.length > 0 ?
             <ReviewSection title="Immunizations">
                 {props.patient.immunizations.map((m, i) =>
-                    <ReviewItem label={"Immunization " + i} value={m} key={i} />
+                    <ReviewItem label={"Immunization " + i} value={`${m.date} - ${m.immunization}`} key={i} />
                 )}
             </ReviewSection>
 

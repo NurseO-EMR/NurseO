@@ -1,4 +1,4 @@
-import { faBook, faBuilding, faIdCard, faPills } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faBuilding, faIdCard, faPills, faGraduationCap } from "@fortawesome/free-solid-svg-icons";
 import { DashboardNavCard } from "~/components/Admin/DashboardNavCard";
 import PageView from "./_PageView";
 import Link from "next/link";
@@ -36,6 +36,11 @@ export default function DashboardPage() {
 
                     <DashboardNavCard icon={faBuilding} title="Admin">
                         <Link href={"nurseo_admin/admins/"}>View/Edit Admins</Link>
+                    </DashboardNavCard>
+
+                    <DashboardNavCard icon={faGraduationCap} title="Students">
+                        <Link href={"nurseo_admin/studentTracker/"}>Student Tracker</Link>
+                        <Link href={"nurseo_admin/liveMonitor/"}>Live Monitor</Link>
                     </DashboardNavCard>
                 </div>
 
