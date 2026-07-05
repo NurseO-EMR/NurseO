@@ -17,7 +17,9 @@ export default function EmptyCard(props: Props) {
         <DialogWrapper wrap={!!props.editable} >
         <div className={props.className}>
             <div className={`border-4 border-primary mt-4 rounded-lg mx-3 pb-2 relative`}>
-                    {props.editable && <DialogTrigger className="absolute text-white right-4 top-2 cursor-pointer text-lg"><FontAwesomeIcon icon={faPenToSquare} /></DialogTrigger>}
+                    {props.editable && <DialogTrigger aria-label={`Edit ${props.title}`} aria-roledescription='Button' className="absolute text-white right-4 top-2 cursor-pointer text-lg">
+                        <FontAwesomeIcon icon={faPenToSquare} />
+                    </DialogTrigger>}
                     <h2 className={`w-full bg-primary text-white p-4 font-bold`}>{props.title}</h2>
                 {props.children}
             </div>

@@ -9,11 +9,10 @@ export default function Logo(props: Props) {
 
     return (
         <div>
-            <Link href={props.homePageLink}>
+            <Link href={props.homePageLink} aria-label='NurseO EMR Logo'>
                 <h1 className={`flex items-center py-4 px-2 font-bold text-2xl ${props.className}`}>
-                    <span className="tracking-wider">Nurse<abbr title="Open Source">O</abbr>&#160;</span>
+                    <span className="tracking-wider">Nurse<abbr title="Open Source">O</abbr></span>
                     <span className={`text-primary`}>EMR</span>
-                    <span className={`text-sm font-normal`}>&#160;&#160;Alpha</span>
                 </h1>
             </Link>
         </div>
