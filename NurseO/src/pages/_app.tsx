@@ -47,7 +47,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session} basePath={env.NEXT_PUBLIC_basePath ? `/${env.NEXT_PUBLIC_basePath}/api/auth` : `/api/auth`}>
       <GlobalContext.Provider value={{ studentId, setStudentId, patient, setPatient, locationId, setLocationId, patientMedOrders, setPatientMedOrders, time, setTime, themeName, setThemeName }}>
         <div className={`relative ${themeName} ` + GeistSans.className}>
-          <title>NurseO EMR</title>
           <Component {...pageProps} />
           <AnnouncementViewer />
         </div>

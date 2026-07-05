@@ -6,7 +6,7 @@ import StudentViewPage from '../_StudentViewPage';
 export default function IORecordViewPage() {
 
     return (
-        <StudentViewPage >
+        <StudentViewPage title='IO Reports Viewer'>
             <ReportsViewer reportType={ReportType.studentIOReport} title={"I/O"} />
         </StudentViewPage>
     );
