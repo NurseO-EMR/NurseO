@@ -30,7 +30,7 @@ export default function Index() {
             <div className="grid justify-center h-screen w-screen content-center text-center">
                 <form className="bg-white py-28 px-60 rounded-4xl border-primary/60 border-8 relative" onSubmit={e => e.preventDefault()}>
                     <Image src={"/nurseo/logo.png"} alt="School Logo" width={90} height={90} className="mx-auto mb-10 w-auto h-auto" />
-                    <h1 className="text-3xl">Please sign in with your school account</h1>
+                    <span className="text-3xl">Please sign in with your school account</span>
                     <div className="flex justify-center mt-4">
                         <GoogleButton onClick={() => signIn('google')} />
                     </div>

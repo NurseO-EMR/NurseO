@@ -13,7 +13,7 @@ export function HoldModal(props: Props) {
         <DialogContent className='min-w-[60vw]'>
             <DialogTitle>HOLD</DialogTitle>
             <form className='text-center' onSubmit={e => e.preventDefault()}>
-                <h1 className='text-red-700 font-bold text-center text-2xl' >Indicate the reason for holding this medication</h1>
+                <span className='text-red-700 font-bold text-center text-2xl' >Indicate the reason for holding this medication</span>
                 <input id='medHold' value={holdReason} onChange={e => setHoldReason(e.currentTarget.value)}
                     className='block mx-auto border-2 border-red-700 h-12 w-7/12 rounded-full my-4 pl-10'
                     required />

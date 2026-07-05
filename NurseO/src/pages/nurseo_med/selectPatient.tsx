@@ -29,7 +29,7 @@ export default function SelectPatient() {
 
     return (
         <>
-            <title>NurseO Med Admin | A-Z Listing</title>
+            <title>NurseO Med Admin | Select Patient</title>
             <div>
                 <Background />
                 <div className="grid justify-center h-screen w-screen content-center text-center">

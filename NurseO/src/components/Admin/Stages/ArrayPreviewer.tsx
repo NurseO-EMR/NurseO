@@ -21,7 +21,7 @@ export function ArrayPreviewer(props: Props) {
                 transition={{ delay: STAGE_ANIMATION_DURATION }}
                 onHoverStart={props.onHoverStart} onHoverEnd={props.onHoverEnd}
             >
-                <h1 className="text-blue font-bold mt-4 mb-2">{props.title}</h1>
+                <h2 className="text-blue font-bold mt-4 mb-2">{props.title}</h2>
 
                 <table className="table-auto border border-darkGray w-full h-fit overflow-auto">
                     <thead>

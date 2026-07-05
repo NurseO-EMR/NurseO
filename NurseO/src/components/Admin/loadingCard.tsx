@@ -7,7 +7,7 @@ export function LoadingCard() {
     return <PageView>
         <Card className="grid justify-center items-center">
             <div>
-                <h1 className="text-center my-10 text-5xl">Loading...</h1>
+                <h2 className="text-center my-10 text-5xl">Loading...</h2>
                 <FontAwesomeIcon icon={faSpinner} spinPulse className="text-9xl mx-auto block" />
             </div>
         </Card>

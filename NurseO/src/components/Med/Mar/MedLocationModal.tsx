@@ -46,7 +46,7 @@ export function MedLocationModal(props: Props) {
                                 )}
                             </tbody>
                         </table> :
-                        <h1 className='text-center font-bold py-6'>Medication is not available, please call pharmacy</h1>
+                        <span className='text-center font-bold py-6'>Medication is not available, please call pharmacy</span>
                     }
 
                 </div>

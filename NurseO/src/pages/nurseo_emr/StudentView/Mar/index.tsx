@@ -9,7 +9,7 @@ export default function MARPage() {
     const { patient } = useContext(GlobalContext)
 
     return (
-        <StudentViewPage title='MAR Records'>
+        <StudentViewPage title="MAR Records">
             <Mar orders={patient.medicationOrders} simTime={patient.time}></Mar>
         </StudentViewPage>
     );
