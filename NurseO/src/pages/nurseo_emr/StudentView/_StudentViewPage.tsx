@@ -1,4 +1,4 @@
-import { type ReactElement, useContext, useEffect } from 'react';
+import { type ReactElement, useContext, useEffect, useRef } from 'react';
 import ArmBand from '~/components/EMR/ArmBand/ArmBand';
 import SideNav from '~/components/EMR/Nav/SideBar/SideNav';
 import SideNavHeader from '~/components/EMR/Nav/SideBar/SideNavHeader';
@@ -8,6 +8,7 @@ import TapOutService from '~/services/TapOutService';
 import { ColorThemeSelector } from '~/components/common/ColorThemeSelector';
 import { GlobalContext } from '~/services/State';
 import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 
 type Props = {
     children: ReactElement | ReactElement[]
@@ -17,6 +18,8 @@ type Props = {
 export default function StudentViewPage(props: Props) {
     const { studentId, patient } = useContext(GlobalContext)
     const router = useRouter()
+    const mainRef = useRef<HTMLElement>(null)
+    const pathname = usePathname()
 
     useEffect(() => {
         TapOutService.initialize() // not working 
@@ -24,6 +27,12 @@ export default function StudentViewPage(props: Props) {
         if (!patient) void router.push("/nurseo_emr/SelectPatient/")
 
     }, [patient, router, studentId.length])
+
+    useEffect(() => {
+        if (mainRef.current) {
+            mainRef.current.focus();
+        }
+    }, [pathname]);
 
     return (
         <>
@@ -63,14 +72,14 @@ export default function StudentViewPage(props: Props) {
                     <SideNavItem href="/nurseo_emr/StudentView/Imaging/">View Imaging Results</SideNavItem>
 
                 </SideNav>
-                <div className="grid-in-main mb-4">
+                <main className="grid-in-main mb-4" ref={mainRef} tabIndex={-1}>
                     {props.children}
                     <div className='flex justify-end mr-10 mt-4'>
                         <div className='scale-75'>
                             <ColorThemeSelector hideLabels />
                         </div>
                     </div>
-                </div>
+                </main>
             </main>
         </>
     );
