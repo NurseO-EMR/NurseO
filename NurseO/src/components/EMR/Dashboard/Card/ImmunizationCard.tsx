@@ -18,9 +18,9 @@ export default function ImmunizationCard(props: Props) {
             </thead>
             <tbody>
                 {props.immunizations?.length === 0 ?
-                    <tr><td colSpan={2} className='text-center p-2 border-trueGray-200'><h1>No immunizations record found</h1></td></tr> :
+                    <tr><td colSpan={2} className='text-center p-2 border-trueGray-200'><span>No immunizations record found</span></td></tr> :
                     props.immunizations.map((record, i) => <tr className='border border-trueGray-200' key={i}>
-                        <td className='px-4 py-2 border-trueGray-200 border'>{record.date}</td>
+                        <td className='px-4 py-2 border-trueGray-200 border'>{record.date || "-"}</td>
                         <td className='px-4 py-2 border-trueGray-200 border'>{record.immunization}</td>
                     </tr>)
                 }

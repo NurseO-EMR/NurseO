@@ -9,7 +9,7 @@ export default function StandingOrdersPage() {
     const { patient } = useContext(GlobalContext)
 
     return (
-        <StudentViewPage>
+        <StudentViewPage title='Standing Orders'>
             <Orders showEmpty orderType={OrderType.standing} orders={[...patient.customOrders, ...patient.medicationOrders]}></Orders>
         </StudentViewPage>
 

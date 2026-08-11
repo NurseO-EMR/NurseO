@@ -20,7 +20,7 @@ export function ButtonWConfirmBox(props: Props) {
                 <DialogTitle>Confirm</DialogTitle>
 
                 <div>
-                    <h1 className="text-center font-bold">{props.confirmPrompt}</h1>
+                    <h2 className="text-center font-bold">{props.confirmPrompt}</h2>
 
                     <DialogClose className="mt-5 flex gap-4 w-full">
                         <Button className="bg-darkGray">No</Button>

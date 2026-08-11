@@ -116,9 +116,8 @@ export default class MarEntry extends React.Component<Props, State> {
                         </td>
 
                         <td className='w-32'>
-                            <Link href={"/nurseo_emr/StudentView/Mar/administer"}>
-                                <Button
-                                    className='rounded-lg m-auto bg-secondary mx-2'>Administer</Button>
+                            <Link href={"/nurseo_emr/StudentView/Mar/administer"} role='button'>
+                                <Button className='rounded-lg m-auto bg-secondary mx-2'>Administer</Button>
                             </Link>
                         </td>
                     </>

@@ -8,7 +8,7 @@ export default function FlagsPage() {
 
 
     return (
-        <StudentViewPage>
+        <StudentViewPage title='Flags'>
             <FlagsCard flags={patient.flags} className="grid-in-main" />
         </StudentViewPage>
     );
