@@ -35,7 +35,7 @@ export function CourseEditorModal(props: Props) {
         <DialogTitle>Edit Courses</DialogTitle>
         <DialogContent className="min-h-[50%] min-w-[60vw]">
             <div>
-                <h1 className="font-bold my-2">Courses Available at this location: </h1>
+                <h2 className="font-bold my-2">Courses Available at this location: </h2>
                 <table className="w-full">
                     <thead>
                         <Tr>

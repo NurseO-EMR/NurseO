@@ -62,13 +62,13 @@ export function MarRecordEditor(props: Props) {
 
             <div className="grid gap-4 justify-around grid-cols-2">
                 <form onSubmit={e => e.preventDefault()} className="w-full">
-                    <h1 className="font-bold">Add Record</h1>
+                    <h2 className="font-bold">Add Record</h2>
                     <Input label="Time" type="time" onChange={e => setTime(e.currentTarget.value)} value={time} />
                     <Input label="Dose (with units)" onChange={e => setDose(e.currentTarget.value)} value={dose} />
                 </form>
 
                 <div className="w-full">
-                    <h1 className="font-bold">View/Edit Mar Records</h1>
+                    <h2 className="font-bold">View/Edit Mar Records</h2>
                     <table className="w-full mt-10">
                         <thead>
                             <Tr>

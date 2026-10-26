@@ -7,7 +7,7 @@ export default function ImagingViewerPage() {
     const { patient } = useContext(GlobalContext)
 
     return (
-        <StudentViewPage>
+        <StudentViewPage title='Imaging'>
             <LabViewer title='Imaging' docLink={patient.imagingURL}></LabViewer>
         </StudentViewPage>
 

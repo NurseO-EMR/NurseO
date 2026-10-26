@@ -7,7 +7,7 @@ import { GlobalContext } from '~/services/State';
 export default function MedicationsPage() {
     const { patient } = useContext(GlobalContext)
     return (
-        <StudentViewPage>
+        <StudentViewPage title='Medications'>
             <MedicationCard medications={patient.medicationOrders} className="grid-in-main" />
         </StudentViewPage>
     );

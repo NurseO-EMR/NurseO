@@ -39,28 +39,32 @@ export default function SelectPatient() {
         }
     }
     return (
-        <div>
-            <Background />
-            <div className="grid justify-center h-screen w-screen content-center text-center">
-                <form className="bg-white p-28 rounded-4xl border-primary/60 border-8" onSubmit={e => e.preventDefault()}>
-                    <h1 className="text-4xl font-bold">Please
-                        <span className="text-primary/80"> scan </span>
-                        the patient armband</h1>
+        <>
+            <title>NurseO EMR | Select Patient</title>
+            <div>
+                <Background />
+                <div className="grid justify-center h-screen w-screen content-center text-center">
+                    <form className="bg-white p-28 rounded-4xl border-primary/60 border-8" onSubmit={e => e.preventDefault()}>
+                        <h1 className="text-4xl font-bold">Please
+                            <span className="text-primary/80"> scan </span>
+                            the patient armband</h1>
 
-                    <label htmlFor="id" className='black'>( Or type the patient number here )</label>
-                    <input type="text"
-                        autoFocus
-                        className="my-5 border-2 rounded-full text-center p-4 border-primary w-full"
-                        id="id"
-                        onChange={e => setProvidedBarcode(e.currentTarget.value)}
-                        ref={inputRef}
-                        value={barcode}
-                        aria-describedby='error'
-                    /><br />
-                    <SignInButton onClick={onClickHandler} />
-                    <div id="error">{error}</div>
-                </form>
+                        <label htmlFor="id" className='black'>( Or type the patient number here )</label>
+                        <input type="text"
+                            autoFocus
+                            className="my-5 border-2 rounded-full text-center p-4 border-primary w-full"
+                            id="id"
+                            onChange={e => setProvidedBarcode(e.currentTarget.value)}
+                            ref={inputRef}
+                            value={barcode}
+                            aria-describedby='error'
+                        /><br />
+                        <SignInButton onClick={onClickHandler} />
+                        <div id="error">{error}</div>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
+
     );
 }

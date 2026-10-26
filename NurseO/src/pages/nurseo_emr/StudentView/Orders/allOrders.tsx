@@ -9,7 +9,7 @@ export default function AllOrders() {
     const { patient } = useContext(GlobalContext)
 
     return (
-        <StudentViewPage>
+        <StudentViewPage title='All Orders'>
             <Orders showEmpty orders={[...patient.customOrders, ...patient.medicationOrders]}></Orders>
         </StudentViewPage>
 

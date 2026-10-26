@@ -8,7 +8,7 @@ export default function AdmissionOrdersPage() {
     const { patient } = useContext(GlobalContext)
 
     return (
-        <StudentViewPage>
+        <StudentViewPage title='Orders'>
             <Orders showEmpty orderType={OrderType.admission} orders={[...patient.customOrders, ...patient.medicationOrders]}></Orders>
         </StudentViewPage>
 

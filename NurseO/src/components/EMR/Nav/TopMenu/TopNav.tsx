@@ -28,7 +28,7 @@ export default function TopNav(props: Props) {
     }
 
     return (
-        <nav className={"bg-white shadow-lg " + props.className}>
+        <nav className={"bg-white shadow-lg " + props.className} aria-label='Top Nav Bar'>
             <div className="flex justify-around">
                 <Logo homePageLink={props.homePageLink} />
                 <div className="flex items-center space-x-8">

@@ -17,6 +17,8 @@ export default function LoginPage() {
     }
 
     return (
+        <>
+            <title>NurseO Med Admin</title>
         <div>
             <Background />
             <div className="grid justify-center h-screen w-screen content-center text-center">
@@ -38,5 +40,6 @@ export default function LoginPage() {
                 </form>
             </div>
         </div>
+        </>
     );
 }

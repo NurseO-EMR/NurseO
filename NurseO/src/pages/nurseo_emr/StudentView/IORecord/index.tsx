@@ -7,7 +7,7 @@ import ReportSubmitter from "~/components/EMR/Reports/ReportsSubmitter";
 export default function IORecordSubmitPage() {
 
     return (
-        <StudentViewPage>
+        <StudentViewPage title='IO Reports'>
             <ReportSubmitter reportType={ReportType.studentIOReport} className="grid-in-main" title="Scales" viewPageURL="/nurseo_emr/StudentView/IORecord/view" />
         </StudentViewPage>
     );

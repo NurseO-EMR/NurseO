@@ -20,7 +20,7 @@ export default function AllergyCard(props: Props) {
             </TableHeader>
             <tbody>
                 {props.allergies.length === 0 ?
-                    <TableRow><TableCell colSpan={2} className='text-center p-2'><h1>No allergies found</h1></TableCell></TableRow> :
+                    <TableRow><TableCell colSpan={2} className='text-center p-2'><span>No allergies found</span></TableCell></TableRow> :
                     props.allergies.map((allergy, i) => <AllergyEntry key={i} allergy={allergy}></AllergyEntry>)
                 }
             </tbody>

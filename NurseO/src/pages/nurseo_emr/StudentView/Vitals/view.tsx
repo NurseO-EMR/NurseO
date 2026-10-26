@@ -4,7 +4,7 @@ import { ReportType } from '~/core/index';
 
 export default function VitalsViewPage() {
     return (
-        <StudentViewPage>
+        <StudentViewPage title='View Vitals'>
             <ReportsViewer reportType={ReportType.studentVitalsReport} title={"Vitals"} />
         </StudentViewPage>
 

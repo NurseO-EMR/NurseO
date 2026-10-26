@@ -55,7 +55,7 @@ function FormEle(props: Props, ref: ForwardedRef<HTMLFormElement>) {
                     <>
                         <FontAwesomeIcon icon={props.icon} className="text-5xl text-blue text-center" />
 
-                        <h1 className="text-blue font-bold mt-4">{props.title}</h1>
+                    <h2 className="text-blue font-bold mt-4">{props.title}</h2>
                     </>
                 : null}
 

@@ -20,7 +20,7 @@ export default function FlagsCard(props: Props) {
             </TableHeader>
             <tbody>
                 {props.flags?.length === 0 ?
-                    <TableRow><TableCell colSpan={2} className='text-center p-2 border-trueGray-200'><h1>No flags found</h1></TableCell></TableRow> :
+                    <TableRow><TableCell colSpan={2} className='text-center p-2 border-trueGray-200'><span>No flags found</span></TableCell></TableRow> :
                     props.flags.map((flag, i) => <FlagEntry key={i} flag={flag}></FlagEntry>)
                 }
             </tbody>

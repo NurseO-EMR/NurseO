@@ -35,41 +35,45 @@ export default function AZListing() {
         setAlphabet([...letters])
     }
 
-    return <div className="overflow-x-hidden ">
-        <TopNav />
-        <div className="w-screen px-20 bg-gray-50">
-            <div className="font-bold text-center pt-10">
-                <h1>Search the name of the medication you are looking for</h1>
-                <input type="text"
-                    className="border bg-white border-black h-10 w-[80vw] rounded-lg px-4 text-center"
-                    onChange={e => onSearchedTextChangeHandler(e.currentTarget.value)}
-                />
-                <h2>And/or select it from the list bellow:</h2>
-            </div>
-            {alphabet.map((letter, i) =>
-                <div key={i}>
-                    <h1 className="text-5xl border-b-2 border-gray-300 text-gray-400 mb-4">{letter}</h1>
-                    {meds.filter(m => (m.genericName ?? "")[0]?.toUpperCase() === letter).sort().map((med, j) =>
-                        <div key={j} onClick={() => setMedSelected(med)}
-                            className="h-16 my-1 bg-primary/20 flex items-center pl-20 justify-between
+    return <>
+        <title>NurseO Med Admin | A-Z Listing</title>
+
+        <div className="overflow-x-hidden ">
+            <TopNav />
+            <div className="w-screen px-20 bg-gray-50">
+                <div className="font-bold text-center pt-10">
+                    <h1>Search the name of the medication you are looking for</h1>
+                    <input type="text"
+                        className="border bg-white border-black h-10 w-[80vw] rounded-lg px-4 text-center"
+                        onChange={e => onSearchedTextChangeHandler(e.currentTarget.value)}
+                    />
+                    <h2>And/or select it from the list bellow:</h2>
+                </div>
+                {alphabet.map((letter, i) =>
+                    <div key={i}>
+                        <h1 className="text-5xl border-b-2 border-gray-300 text-gray-400 mb-4">{letter}</h1>
+                        {meds.filter(m => (m.genericName ?? "")[0]?.toUpperCase() === letter).sort().map((med, j) =>
+                            <div key={j} onClick={() => setMedSelected(med)}
+                                className="h-16 my-1 bg-primary/20 flex items-center pl-20 justify-between
                                     hover:bg-primary hover:text-white hover:font-bold 
                                     transition-all cursor-pointer
                          ">
-                            <div>
-                                {med.genericName} {" "}
-                                {med.brandName ? "(" + med.brandName + ")" : null}
+                                <div>
+                                    {med.genericName} {" "}
+                                    {med.brandName ? "(" + med.brandName + ")" : null}
 
-                            </div>
-                            <button className="bg-primary text-white h-full w-40 
+                                </div>
+                                <button className="bg-primary text-white h-full w-40 
                            border-l-4 border-white">Locate</button>
-                        </div>
-                    )}
-                </div>
-            )}
-        </div>
-        {medSelected ? <MedLocationModal order={medSelected} onClose={() => setMedSelected(null)} /> : null}
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+            {medSelected ? <MedLocationModal order={medSelected} onClose={() => setMedSelected(null)} /> : null}
 
-    </div>
+        </div>
+    </>
 }
 
 

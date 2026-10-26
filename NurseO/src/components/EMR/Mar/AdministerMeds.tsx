@@ -87,15 +87,14 @@ export default function AdministerMeds() {
         <>
             <EmptyCard title="Administer Medications" className="text-center">
                 <form onSubmit={e => e.preventDefault()}>
-                    <h1 className="font-bold p-10 text-4xl">
-                        Please scan the medication you wish to administer
-                    </h1>
-                    <input type="text" className="border-primary border-2 rounded-full w-1/2 h-10 block mx-auto text-center"
+                    <div className='mt-10'>
+                        <label htmlFor='medBarCode' className="font-bold px-10 mt-10 text-3xl ">Please scan the medication you wish to administer</label>
+                        <input id='medBarCode' type="text" className="border-primary border-2 rounded-full w-1/2 h-10 block mx-auto text-center mt-5"
                         placeholder="click here to scan the medication barcode" autoFocus
                         onChange={e => setMedicationBarcode(e.target.value)}
                         value={medicationBarcode} ref={ref} />
-                    <button className="text-white bg-primary px-20 py-2 rounded-full mt-5"
-                        onClick={onScanHandler}>Administer</button>
+                    </div>
+                    <button className="text-white bg-primary px-20 py-2 rounded-full mt-5" onClick={onScanHandler}>Administer</button>
                 </form>
             </EmptyCard>
 
@@ -103,7 +102,7 @@ export default function AdministerMeds() {
                 <DialogContent className="text-center w-[60vw]">
                     <DialogTitle>{`Administer ${medication?.genericName ?? medication?.brandName}`}</DialogTitle>
                 <form onSubmit={e => e.preventDefault()}>
-                    <h1 className="font-bold text-xl py-6">
+                        <span className="font-bold text-xl py-6">
                         {medication?.genericName ?? medication?.brandName}{" "}
                         {order?.concentration}{" "}
                         {order?.route}{" "}
@@ -111,7 +110,7 @@ export default function AdministerMeds() {
                         {order?.routine}  {" "}
                         {order?.PRNNote}{" "}
                         {order?.notes}{" "}
-                    </h1>
+                        </span>
                     <div>
                         <label className="block text-primary font-bold text-lg tracking-wide pb-4" htmlFor="dose">
                             Please State your dose or rate with units (ex: 100ml/hr or 20mg)
@@ -129,7 +128,7 @@ export default function AdministerMeds() {
             <Dialog open={medicationNotFound} onOpenChange={(s) => s === false ? resetState() : null}>
                 <DialogContent className="text-center w-[60vw]">
                     <DialogTitle>Medication Not Founded</DialogTitle>
-                    <h1>The medication was not found please try again or verify that you have the right medication</h1>
+                    <span>The medication was not found please try again or verify that you have the right medication</span>
                 </DialogContent>
             </Dialog>
 

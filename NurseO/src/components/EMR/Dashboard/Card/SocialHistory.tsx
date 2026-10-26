@@ -17,7 +17,7 @@ export default class SocialHistoryCard extends React.Component<Props> {
                 </TableHeader>
                 <tbody>
                     {this.props.history?.length === 0 ?
-                        <tr><td colSpan={2} className='text-center p-2'><h1>No records found</h1></td></tr> :
+                        <tr><td colSpan={2} className='text-center p-2'><span>No records found</span></td></tr> :
                         this.props.history.map((history, i) =>
                             <TableRow key={i}>
                                 <TableCell className="border-2 p-2 border-trueGray-200">{history}</TableCell>

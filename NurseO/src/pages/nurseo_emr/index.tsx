@@ -42,6 +42,7 @@ export default function Login() {
 
     return (
         <>
+            <title>NurseO EMR</title>
             <div>
                 <Background />
                 <div className="grid justify-center h-screen w-screen content-center text-center">

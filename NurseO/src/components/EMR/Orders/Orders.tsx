@@ -49,7 +49,7 @@ export default function Orders(props: Props) {
             <tbody>
                 {filteredOrders && filteredOrders.length > 0 ?
                     filteredOrders.map((order, i) => <OrderEntry showICD10Column={!!showICD10Column} key={i} order={order}></OrderEntry>) :
-                    <TableRow><TableCell colSpan={showICD10Column ? 4 : 3} className='p-2'><h1>No orders added</h1></TableCell></TableRow>
+                    <TableRow><TableCell colSpan={showICD10Column ? 4 : 3} className='p-2'><span>No orders added</span></TableCell></TableRow>
                 }
             </tbody>
         </Card>

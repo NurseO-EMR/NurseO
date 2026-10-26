@@ -59,7 +59,7 @@ export default function HistoryCard(props: Props) {
                 </TableHeader>
                 <TableBody>
                     {props.history?.length === 0 ?
-                        <TableRow><TableCell colSpan={3} className='text-center p-2'><h1>No records found</h1></TableCell></TableRow> :
+                        <TableRow><TableCell colSpan={3} className='text-center p-2'><span>No records found</span></TableCell></TableRow> :
                         getHistory().map((history, i) =>
                             <TableRow key={i} className=' '>
                                 <TableCell>{history.date}</TableCell>

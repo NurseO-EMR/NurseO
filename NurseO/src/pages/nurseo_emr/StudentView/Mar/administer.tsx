@@ -3,7 +3,7 @@ import StudentViewPage from '../_StudentViewPage';
 
 export default function AdministerMedsPage() {
     return (
-        <StudentViewPage>
+        <StudentViewPage title='Administer Medications'>
             <AdministerMeds />
         </StudentViewPage>
 
